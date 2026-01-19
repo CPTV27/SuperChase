@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperChase Voice</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --success: #10b981;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --gray: #94a3b8;
+            --light: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        h1 { font-size: 1.5rem; margin-bottom: 10px; }
+        #status { color: var(--gray); margin-bottom: 30px; font-size: 0.9rem; }
+        #status.connected { color: var(--success); }
+        #mic-btn {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+            color: white;
+            font-size: 4rem;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        #mic-btn:active { transform: scale(0.95); }
+        #mic-btn.listening {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.5);
+            animation: pulse 1s infinite;
+        }
+        #mic-btn.speaking {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.5);
+        }
+        #mic-btn.thinking {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(245, 158, 11, 0.5); }
+            50% { box-shadow: 0 10px 60px rgba(245, 158, 11, 0.7); }
+        }
+        #transcript {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            max-width: 90%;
+            min-height: 100px;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .quick-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            max-width: 90%;
+        }
+        .quick-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .quick-btn:active { background: rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+    <h1>SuperChase Voice</h1>
+    <div id="status">Initializing...</div>
+    <button id="mic-btn">🎤</button>
+    <div id="transcript">Tap the microphone and speak</div>
+    <div class="quick-btns">
+        <button class="quick-btn" data-q="What's on my task list?">Tasks</button>
+        <button class="quick-btn" data-q="Project status">Projects</button>
+        <button class="quick-btn" data-q="Any leads to follow up?">Leads</button>
+        <button class="quick-btn" data-q="Status report">Status</button>
+    </div>
+
+    <script type="module">
+        // PRE-CONFIGURED - Ready to use
+        const CONFIG = {
+            elevenLabsKey: 'sk_96f976dbf7db9272ce178cb180f4d83cd1def2f1dfbb71f2',
+            voiceId: 'JBFqnCBsd6RMkjVDRZzb', // George
+            modelId: 'eleven_turbo_v2_5'
+        };
+
+        const SYSTEM_PROMPT = `You are SuperChase, Chase Pierson's AI assistant.
+Context: 5 Asana projects (Tasks, Projects, Leads, Contracts, Expenses) sync with Google Sheets.
+Keep responses under 2 sentences for voice. Be helpful and direct.`;
+
+        // State
+        let recognition, currentAudio;
+        let isListening = false, isSpeaking = false;
+
+        // DOM
+        const micBtn = document.getElementById('mic-btn');
+        const status = document.getElementById('status');
+        const transcript = document.getElementById('transcript');
+
+        // Initialize
+        async function init() {
+            // Test ElevenLabs connection
+            try {
+                const res = await fetch('https://api.elevenlabs.io/v1/voices', {
+                    headers: { 'xi-api-key': CONFIG.elevenLabsKey }
+                });
+                if (res.ok) {
+                    status.textContent = 'Ready - tap to talk';
+                    status.classList.add('connected');
+                } else {
+                    status.textContent = 'API key error';
+                }
+            } catch (e) {
+                status.textContent = 'Connection error';
+            }
+
+            // Setup speech recognition
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SR) {
+                recognition = new SR();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = (e) => {
+                    const text = e.results[0][0].transcript;
+                    handleInput(text);
+                };
+                recognition.onend = () => {
+                    if (isListening) stopListening();
+                };
+                recognition.onerror = () => stopListening();
+            } else {
+                status.textContent = 'Speech not supported - use Chrome';
+            }
+        }
+
+        function startListening() {
+            if (isSpeaking && currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                isSpeaking = false;
+            }
+            isListening = true;
+            micBtn.className = 'listening';
+            status.textContent = 'Listening...';
+            transcript.textContent = '🎤 Listening...';
+            try { recognition.start(); } catch(e) {}
+        }
+
+        function stopListening() {
+            isListening = false;
+            micBtn.className = '';
+            status.textContent = 'Ready - tap to talk';
+            try { recognition.stop(); } catch(e) {}
+        }
+
+        async function handleInput(text) {
+            stopListening();
+            transcript.textContent = `You: "${text}"`;
+            micBtn.className = 'thinking';
+            status.textContent = 'Thinking...';
+
+            // Get response (simple for now - could add Claude API)
+            const response = getResponse(text);
+
+            transcript.textContent = response;
+            await speak(response);
+        }
+
+        function getResponse(text) {
+            const t = text.toLowerCase();
+            if (t.includes('task') || t.includes('todo'))
+                return "Your SC: Tasks project has items in To Do, In Progress, and Done sections. Want me to add a new task?";
+            if (t.includes('project'))
+                return "SC: Projects is tracking your larger initiatives. Active projects are syncing with your Sheet.";
+            if (t.includes('lead') || t.includes('sales'))
+                return "Your SC: Leads pipeline has prospects across stages - New, Contacted, Qualified, Won, and Lost.";
+            if (t.includes('contract'))
+                return "SC: Contracts tracks your contract lifecycle from Draft to Sent to Signed.";
+            if (t.includes('expense'))
+                return "SC: Expenses manages Pending, Approved, and Paid expenses.";
+            if (t.includes('status') || t.includes('report'))
+                return "All 5 SuperChase projects are active and syncing every 10 minutes. What area do you want to focus on?";
+            if (t.includes('hello') || t.includes('hi') || t.includes('hey'))
+                return "Hey Chase! SuperChase is ready. What do you need help with?";
+            return "Got it. I can help with tasks, projects, leads, contracts, or expenses. What would you like?";
+        }
+
+        async function speak(text) {
+            isSpeaking = true;
+            micBtn.className = 'speaking';
+            status.textContent = 'Speaking...';
+
+            try {
+                const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${CONFIG.voiceId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'audio/mpeg',
+                        'Content-Type': 'application/json',
+                        'xi-api-key': CONFIG.elevenLabsKey
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        model_id: CONFIG.modelId,
+                        voice_settings: { stability: 0.5, similarity_boost: 0.75 }
+                    })
+                });
+
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                currentAudio = new Audio(url);
+
+                currentAudio.onended = () => {
+                    isSpeaking = false;
+                    micBtn.className = '';
+                    status.textContent = 'Ready - tap to talk';
+                    URL.revokeObjectURL(url);
+                };
+
+                await currentAudio.play();
+            } catch (e) {
+                console.error('Speech error:', e);
+                isSpeaking = false;
+                micBtn.className = '';
+                status.textContent = 'Speech error - try again';
+            }
+        }
+
+        // Events
+        micBtn.onclick = () => {
+            if (isSpeaking) {
+                currentAudio?.pause();
+                isSpeaking = false;
+                micBtn.className = '';
+                status.textContent = 'Ready - tap to talk';
+            } else if (isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        };
+
+        document.querySelectorAll('.quick-btn').forEach(btn => {
+            btn.onclick = () => handleInput(btn.dataset.q);
+        });
+
+        init();
+    </script>
+</body>
+</html>
