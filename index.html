@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>SuperChase Voice</title>
     <style>
         :root {
             --primary: #6366f1;
             --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
             --dark: #1e293b;
             --darker: #0f172a;
             --gray: #94a3b8;
@@ -24,10 +26,23 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            -webkit-user-select: none;
+            user-select: none;
         }
         h1 { font-size: 1.5rem; margin-bottom: 10px; }
-        #status { color: var(--gray); margin-bottom: 30px; font-size: 0.9rem; }
-        #status.connected { color: var(--success); }
+
+        #status {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            text-align: center;
+            max-width: 300px;
+            min-height: 24px;
+        }
+        #status.ready { color: var(--success); }
+        #status.error { color: var(--danger); }
+        #status.warning { color: var(--warning); }
+
         #mic-btn {
             width: 150px;
             height: 150px;
@@ -39,6 +54,8 @@
             cursor: pointer;
             box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
             transition: transform 0.2s, box-shadow 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         #mic-btn:active { transform: scale(0.95); }
         #mic-btn.listening {
@@ -52,22 +69,32 @@
         }
         #mic-btn.thinking {
             background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.5);
+        }
+        #mic-btn.error {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+        }
+        #mic-btn.setup {
+            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
         }
         @keyframes pulse {
             0%, 100% { box-shadow: 0 10px 40px rgba(245, 158, 11, 0.5); }
             50% { box-shadow: 0 10px 60px rgba(245, 158, 11, 0.7); }
         }
+
         #transcript {
-            margin-top: 30px;
+            margin-top: 25px;
             padding: 20px;
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
             max-width: 90%;
-            min-height: 100px;
+            width: 350px;
+            min-height: 80px;
             text-align: center;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            font-size: 1.05rem;
+            line-height: 1.5;
         }
+
         .quick-btns {
             display: flex;
             flex-wrap: wrap;
@@ -80,19 +107,39 @@
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 25px;
             cursor: pointer;
             font-size: 0.9rem;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         .quick-btn:active { background: rgba(255,255,255,0.2); }
+
+        #debug {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: #0f0;
+            font-family: monospace;
+            font-size: 11px;
+            padding: 8px;
+            border-radius: 5px;
+            max-height: 100px;
+            overflow-y: auto;
+            display: none;
+        }
+        #debug.show { display: block; }
     </style>
 </head>
 <body>
     <h1>SuperChase Voice</h1>
-    <div id="status">Initializing...</div>
-    <button id="mic-btn">🎤</button>
-    <div id="transcript">Tap the microphone and speak</div>
+    <div id="status">Tap microphone to start</div>
+    <button id="mic-btn" class="setup">🎤</button>
+    <div id="transcript">Tap the microphone button to enable voice</div>
+
     <div class="quick-btns">
         <button class="quick-btn" data-q="What's on my task list?">Tasks</button>
         <button class="quick-btn" data-q="Project status">Projects</button>
@@ -100,176 +147,280 @@
         <button class="quick-btn" data-q="Status report">Status</button>
     </div>
 
-    <script type="module">
-        // PRE-CONFIGURED - Ready to use
+    <div id="debug"></div>
+
+    <script>
         const CONFIG = {
             elevenLabsKey: 'sk_96f976dbf7db9272ce178cb180f4d83cd1def2f1dfbb71f2',
-            voiceId: 'JBFqnCBsd6RMkjVDRZzb', // George
+            voiceId: 'JBFqnCBsd6RMkjVDRZzb',
             modelId: 'eleven_turbo_v2_5'
         };
 
-        const SYSTEM_PROMPT = `You are SuperChase, Chase Pierson's AI assistant.
-Context: 5 Asana projects (Tasks, Projects, Leads, Contracts, Expenses) sync with Google Sheets.
-Keep responses under 2 sentences for voice. Be helpful and direct.`;
+        let recognition = null;
+        let audioContext = null;
+        let currentAudio = null;
+        let micStream = null;
+        let isSetup = false;
+        let isListening = false;
+        let isSpeaking = false;
+        let debugMode = false;
 
-        // State
-        let recognition, currentAudio;
-        let isListening = false, isSpeaking = false;
-
-        // DOM
         const micBtn = document.getElementById('mic-btn');
-        const status = document.getElementById('status');
-        const transcript = document.getElementById('transcript');
+        const statusEl = document.getElementById('status');
+        const transcriptEl = document.getElementById('transcript');
+        const debugEl = document.getElementById('debug');
 
-        // Initialize
-        async function init() {
-            // Test ElevenLabs connection
-            try {
-                const res = await fetch('https://api.elevenlabs.io/v1/voices', {
-                    headers: { 'xi-api-key': CONFIG.elevenLabsKey }
-                });
-                if (res.ok) {
-                    status.textContent = 'Ready - tap to talk';
-                    status.classList.add('connected');
-                } else {
-                    status.textContent = 'API key error';
-                }
-            } catch (e) {
-                status.textContent = 'Connection error';
+        let tapCount = 0;
+        document.querySelector('h1').addEventListener('click', () => {
+            tapCount++;
+            if (tapCount >= 3) {
+                debugMode = !debugMode;
+                debugEl.classList.toggle('show', debugMode);
+                tapCount = 0;
             }
+            setTimeout(() => tapCount = 0, 500);
+        });
 
-            // Setup speech recognition
-            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (SR) {
-                recognition = new SR();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = 'en-US';
-
-                recognition.onresult = (e) => {
-                    const text = e.results[0][0].transcript;
-                    handleInput(text);
-                };
-                recognition.onend = () => {
-                    if (isListening) stopListening();
-                };
-                recognition.onerror = () => stopListening();
-            } else {
-                status.textContent = 'Speech not supported - use Chrome';
+        function log(msg) {
+            const time = new Date().toLocaleTimeString();
+            console.log(`[SC ${time}] ${msg}`);
+            if (debugMode) {
+                debugEl.innerHTML = `${time}: ${msg}<br>` + debugEl.innerHTML;
             }
         }
 
-        function startListening() {
-            if (isSpeaking && currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-                isSpeaking = false;
+        function setStatus(msg, type = '') {
+            statusEl.textContent = msg;
+            statusEl.className = type;
+        }
+
+        function setButton(state) { micBtn.className = state; }
+        function showTranscript(msg) { transcriptEl.textContent = msg; }
+
+        async function setup() {
+            log('Starting setup...');
+            setStatus('Setting up...', 'warning');
+            showTranscript('Requesting microphone access...');
+
+            try {
+                log('Requesting getUserMedia...');
+                micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                log('Microphone access granted');
+            } catch (e) {
+                log('Microphone denied: ' + e.message);
+                setStatus('Microphone blocked', 'error');
+                showTranscript('Please allow microphone access in your browser settings, then refresh the page.');
+                setButton('error');
+                return false;
             }
-            isListening = true;
-            micBtn.className = 'listening';
-            status.textContent = 'Listening...';
-            transcript.textContent = '🎤 Listening...';
-            try { recognition.start(); } catch(e) {}
+
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioContext.state === 'suspended') await audioContext.resume();
+                log('AudioContext: ' + audioContext.state);
+            } catch (e) { log('AudioContext error: ' + e.message); }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                setStatus('Speech not supported', 'error');
+                showTranscript('Please use Chrome, Edge, or Safari.');
+                return false;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => {
+                log('Listening started');
+                isListening = true;
+                setButton('listening');
+                setStatus('Listening...', '');
+            };
+
+            recognition.onresult = (event) => {
+                const result = event.results[event.results.length - 1];
+                const text = result[0].transcript;
+                if (result.isFinal) {
+                    log('Heard: ' + text);
+                    processInput(text);
+                } else {
+                    showTranscript('🎤 "' + text + '..."');
+                }
+            };
+
+            recognition.onerror = (event) => {
+                log('Error: ' + event.error);
+                isListening = false;
+                if (event.error === 'no-speech') {
+                    setStatus('No speech heard. Tap to try again.', 'warning');
+                    setButton('');
+                } else if (event.error === 'not-allowed') {
+                    setStatus('Microphone blocked', 'error');
+                    setButton('error');
+                    isSetup = false;
+                } else {
+                    setStatus('Error: ' + event.error, 'error');
+                    setButton('');
+                }
+            };
+
+            recognition.onend = () => {
+                log('Listening ended');
+                if (isListening && !isSpeaking) {
+                    isListening = false;
+                    setButton('');
+                    setStatus('Ready - tap to talk', 'ready');
+                }
+            };
+
+            try {
+                log('Testing ElevenLabs...');
+                const res = await fetch('https://api.elevenlabs.io/v1/voices', {
+                    headers: { 'xi-api-key': CONFIG.elevenLabsKey }
+                });
+                log('ElevenLabs: ' + (res.ok ? 'OK' : res.status));
+            } catch (e) { log('ElevenLabs error: ' + e.message); }
+
+            isSetup = true;
+            setStatus('Ready - tap to talk', 'ready');
+            setButton('');
+            showTranscript('Tap the microphone and speak');
+            log('Setup complete');
+            return true;
+        }
+
+        async function startListening() {
+            if (!isSetup) { if (!await setup()) return; }
+            if (isSpeaking) stopSpeaking();
+            if (audioContext?.state === 'suspended') await audioContext.resume();
+            log('Starting listening...');
+            showTranscript('🎤 Listening...');
+            try { recognition.start(); }
+            catch (e) {
+                log('Start error: ' + e.message);
+                if (e.name === 'InvalidStateError') {
+                    recognition.stop();
+                    setTimeout(() => { try { recognition.start(); } catch(e2){} }, 200);
+                }
+            }
         }
 
         function stopListening() {
             isListening = false;
-            micBtn.className = '';
-            status.textContent = 'Ready - tap to talk';
-            try { recognition.stop(); } catch(e) {}
+            try { recognition.stop(); } catch(e){}
+            setButton('');
         }
 
-        async function handleInput(text) {
-            stopListening();
-            transcript.textContent = `You: "${text}"`;
-            micBtn.className = 'thinking';
-            status.textContent = 'Thinking...';
+        function stopSpeaking() {
+            isSpeaking = false;
+            if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+            window.speechSynthesis?.cancel();
+            setButton('');
+            setStatus('Ready - tap to talk', 'ready');
+        }
 
-            // Get response (simple for now - could add Claude API)
+        async function processInput(text) {
+            isListening = false;
+            try { recognition.stop(); } catch(e){}
+            showTranscript('You: "' + text + '"');
+            setButton('thinking');
+            setStatus('Thinking...', '');
             const response = getResponse(text);
-
-            transcript.textContent = response;
+            await new Promise(r => setTimeout(r, 300));
+            showTranscript(response);
             await speak(response);
         }
 
         function getResponse(text) {
             const t = text.toLowerCase();
-            if (t.includes('task') || t.includes('todo'))
-                return "Your SC: Tasks project has items in To Do, In Progress, and Done sections. Want me to add a new task?";
-            if (t.includes('project'))
-                return "SC: Projects is tracking your larger initiatives. Active projects are syncing with your Sheet.";
-            if (t.includes('lead') || t.includes('sales'))
-                return "Your SC: Leads pipeline has prospects across stages - New, Contacted, Qualified, Won, and Lost.";
-            if (t.includes('contract'))
-                return "SC: Contracts tracks your contract lifecycle from Draft to Sent to Signed.";
-            if (t.includes('expense'))
-                return "SC: Expenses manages Pending, Approved, and Paid expenses.";
-            if (t.includes('status') || t.includes('report'))
-                return "All 5 SuperChase projects are active and syncing every 10 minutes. What area do you want to focus on?";
-            if (t.includes('hello') || t.includes('hi') || t.includes('hey'))
-                return "Hey Chase! SuperChase is ready. What do you need help with?";
+            if (t.includes('task') || t.includes('todo')) return "Your SC Tasks project has items in To Do, In Progress, and Done sections. Want me to add a new task?";
+            if (t.includes('project')) return "SC Projects is tracking your larger initiatives. Active projects are syncing with your Sheet.";
+            if (t.includes('lead') || t.includes('sales')) return "Your SC Leads pipeline has prospects across stages.";
+            if (t.includes('contract')) return "SC Contracts tracks your contract lifecycle from Draft to Signed.";
+            if (t.includes('expense')) return "SC Expenses manages Pending, Approved, and Paid expenses.";
+            if (t.includes('status') || t.includes('report')) return "All 5 SuperChase projects are active and syncing. What area do you want to focus on?";
+            if (t.includes('hello') || t.includes('hi') || t.includes('hey')) return "Hey Chase! SuperChase is ready. What do you need help with?";
             return "Got it. I can help with tasks, projects, leads, contracts, or expenses. What would you like?";
         }
 
         async function speak(text) {
             isSpeaking = true;
-            micBtn.className = 'speaking';
-            status.textContent = 'Speaking...';
+            setButton('speaking');
+            setStatus('Speaking...', '');
 
             try {
-                const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${CONFIG.voiceId}`, {
+                log('Calling ElevenLabs...');
+                const res = await fetch('https://api.elevenlabs.io/v1/text-to-speech/' + CONFIG.voiceId, {
                     method: 'POST',
                     headers: {
                         'Accept': 'audio/mpeg',
                         'Content-Type': 'application/json',
                         'xi-api-key': CONFIG.elevenLabsKey
                     },
-                    body: JSON.stringify({
-                        text: text,
-                        model_id: CONFIG.modelId,
-                        voice_settings: { stability: 0.5, similarity_boost: 0.75 }
-                    })
+                    body: JSON.stringify({ text, model_id: CONFIG.modelId, voice_settings: { stability: 0.5, similarity_boost: 0.75 } })
                 });
 
+                if (!res.ok) throw new Error('TTS error: ' + res.status);
+
                 const blob = await res.blob();
+                log('Audio: ' + blob.size + ' bytes');
                 const url = URL.createObjectURL(blob);
                 currentAudio = new Audio(url);
 
-                currentAudio.onended = () => {
-                    isSpeaking = false;
-                    micBtn.className = '';
-                    status.textContent = 'Ready - tap to talk';
-                    URL.revokeObjectURL(url);
-                };
-
-                await currentAudio.play();
+                return new Promise(resolve => {
+                    currentAudio.onended = () => {
+                        log('Audio ended');
+                        isSpeaking = false;
+                        setButton('');
+                        setStatus('Ready - tap to talk', 'ready');
+                        URL.revokeObjectURL(url);
+                        currentAudio = null;
+                        resolve();
+                    };
+                    currentAudio.onerror = () => speakFallback(text).then(resolve);
+                    currentAudio.play().catch(() => speakFallback(text).then(resolve));
+                });
             } catch (e) {
-                console.error('Speech error:', e);
-                isSpeaking = false;
-                micBtn.className = '';
-                status.textContent = 'Speech error - try again';
+                log('ElevenLabs error: ' + e.message);
+                return speakFallback(text);
             }
         }
 
-        // Events
-        micBtn.onclick = () => {
-            if (isSpeaking) {
-                currentAudio?.pause();
-                isSpeaking = false;
-                micBtn.className = '';
-                status.textContent = 'Ready - tap to talk';
-            } else if (isListening) {
-                stopListening();
-            } else {
-                startListening();
-            }
-        };
+        function speakFallback(text) {
+            return new Promise(resolve => {
+                log('Using browser TTS');
+                if (!window.speechSynthesis) {
+                    isSpeaking = false; setButton(''); setStatus('Ready - tap to talk', 'ready');
+                    resolve(); return;
+                }
+                const utt = new SpeechSynthesisUtterance(text);
+                utt.onend = utt.onerror = () => {
+                    isSpeaking = false; setButton(''); setStatus('Ready - tap to talk', 'ready');
+                    resolve();
+                };
+                window.speechSynthesis.speak(utt);
+            });
+        }
 
-        document.querySelectorAll('.quick-btn').forEach(btn => {
-            btn.onclick = () => handleInput(btn.dataset.q);
+        micBtn.addEventListener('click', async () => {
+            log('Tap. setup=' + isSetup + ' listen=' + isListening + ' speak=' + isSpeaking);
+            if (isSpeaking) stopSpeaking();
+            else if (isListening) stopListening();
+            else await startListening();
         });
 
-        init();
+        document.querySelectorAll('.quick-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (!isSetup) { if (!await setup()) return; }
+                if (isSpeaking) stopSpeaking();
+                if (isListening) stopListening();
+                processInput(btn.dataset.q);
+            });
+        });
+
+        log('Ready. Tap mic to start.');
     </script>
 </body>
 </html>
