@@ -1,0 +1,10 @@
+{
+  "label": "Retrospectives",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "title": "Retrospectives",
+    "description": "Weekly summaries and strategic reviews",
+    "keywords": ["retrospective", "review", "summary"]
+  }
+}

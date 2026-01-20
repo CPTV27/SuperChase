@@ -1,0 +1,490 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SuperChase Business Context API",
+    "description": "API for querying Chase Pierson's business context, tasks, and learnings. Used by George (ElevenLabs Agent) for conversational queries.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Chase Pierson",
+      "email": "chase@chasepierson.tv"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://superchase.chasepierson.tv/api",
+      "description": "Production server"
+    },
+    {
+      "url": "http://localhost:3849",
+      "description": "Local development"
+    }
+  ],
+  "paths": {
+    "/query": {
+      "post": {
+        "operationId": "queryBusinessContext",
+        "summary": "Ask about business context",
+        "description": "Query Chase's business state including tasks, emails, learnings, and patterns. George uses this to answer questions during conversations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryRequest"
+              },
+              "examples": {
+                "tasks": {
+                  "summary": "Ask about tasks",
+                  "value": {
+                    "query": "What are my current tasks?"
+                  }
+                },
+                "emails": {
+                  "summary": "Ask about emails",
+                  "value": {
+                    "query": "Do I have any urgent emails?"
+                  }
+                },
+                "status": {
+                  "summary": "General status",
+                  "value": {
+                    "query": "What's my status today?"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful query response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "get": {
+        "operationId": "getCurrentTasks",
+        "summary": "Get current tasks",
+        "description": "Fetch active tasks from Asana projects (SC: Tasks, SuperChase Live, etc.)",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of tasks to return",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "maximum": 50
+            }
+          },
+          {
+            "name": "project",
+            "in": "query",
+            "description": "Filter by project name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TasksResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/briefing": {
+      "get": {
+        "operationId": "getDailyBriefing",
+        "summary": "Get daily briefing",
+        "description": "Retrieve the cached daily briefing from memory/daily_summary.json",
+        "responses": {
+          "200": {
+            "description": "Daily briefing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BriefingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "healthCheck",
+        "summary": "Health check",
+        "description": "Verify the API is running and connected",
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search-x": {
+      "post": {
+        "operationId": "searchXTwitter",
+        "summary": "Search X.com (Twitter)",
+        "description": "Search X.com for tweets, research topics, get trending content, or look up a user's recent tweets. Use this for research and staying informed about relevant topics.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/XSearchRequest"
+              },
+              "examples": {
+                "search": {
+                  "summary": "Search tweets",
+                  "value": {
+                    "action": "search",
+                    "query": "AI automation"
+                  }
+                },
+                "research": {
+                  "summary": "Research a topic",
+                  "value": {
+                    "action": "research",
+                    "topic": "3D scanning industry trends"
+                  }
+                },
+                "user": {
+                  "summary": "Get user's tweets",
+                  "value": {
+                    "action": "user",
+                    "username": "elikiris"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/XSearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "QueryRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Natural language question about business context",
+            "example": "What are my urgent tasks?"
+          },
+          "options": {
+            "type": "object",
+            "properties": {
+              "includeAsana": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include Asana tasks in context"
+              },
+              "includeAudit": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include recent audit log entries"
+              },
+              "maxResults": {
+                "type": "integer",
+                "default": 5,
+                "description": "Maximum items per source"
+              }
+            }
+          }
+        }
+      },
+      "QueryResponse": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string",
+            "description": "George's conversational response",
+            "example": "You have 3 active tasks, Sir. The most urgent is 'Review Scan2Plan deployment' due tomorrow."
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Data sources used to generate answer",
+            "example": ["asana", "daily_summary"]
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence score of the answer",
+            "example": 0.85
+          }
+        }
+      },
+      "TasksResponse": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "project": {
+                  "type": "string"
+                },
+                "dueOn": {
+                  "type": "string",
+                  "format": "date",
+                  "nullable": true
+                },
+                "notes": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "count": {
+            "type": "integer"
+          }
+        }
+      },
+      "BriefingResponse": {
+        "type": "object",
+        "properties": {
+          "briefing": {
+            "type": "string",
+            "description": "The executive briefing text"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "stats": {
+            "type": "object",
+            "properties": {
+              "urgentCount": {
+                "type": "integer"
+              },
+              "taskCount": {
+                "type": "integer"
+              },
+              "overdueCount": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          }
+        }
+      },
+      "XSearchRequest": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": ["search", "research", "user", "trends"],
+            "default": "search",
+            "description": "Type of X.com operation: search tweets, research a topic, get user tweets, or get trends"
+          },
+          "query": {
+            "type": "string",
+            "description": "Search query (required for 'search' action)"
+          },
+          "topic": {
+            "type": "string",
+            "description": "Topic to research (required for 'research' action)"
+          },
+          "username": {
+            "type": "string",
+            "description": "Twitter username without @ (required for 'user' action)"
+          },
+          "maxResults": {
+            "type": "integer",
+            "default": 10,
+            "maximum": 100,
+            "description": "Maximum number of tweets to return"
+          },
+          "sortOrder": {
+            "type": "string",
+            "enum": ["relevancy", "recency"],
+            "default": "relevancy",
+            "description": "Sort order for search results"
+          }
+        }
+      },
+      "XSearchResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "query": {
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "summary": {
+            "type": "object",
+            "description": "Research summary (for 'research' action)",
+            "properties": {
+              "tweetCount": {
+                "type": "integer"
+              },
+              "totalEngagement": {
+                "type": "integer"
+              },
+              "topVoices": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sampleContent": {
+                "type": "string"
+              }
+            }
+          },
+          "tweets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "metrics": {
+                  "type": "object",
+                  "properties": {
+                    "like_count": {
+                      "type": "integer"
+                    },
+                    "retweet_count": {
+                      "type": "integer"
+                    },
+                    "reply_count": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "API key for authentication"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

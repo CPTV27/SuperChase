@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.npm-cache/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+frontend/dist/
+manual/build/
+manual/.docusaurus/
+
+# Cache
+cache/
+.cache/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Sensitive data (if any)
+*.pem
+*.key
+
+# Test artifacts
+test-results/
+playwright-report/
+
+# Temporary
+*.tmp
+*.temp

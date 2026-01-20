@@ -1,0 +1,81 @@
+{
+  "title": "Executive Assistant Log Analysis - Scan2Plan, Studio C, CPTV",
+  "date": null,
+  "participants": [
+    "Chase Pierson",
+    "Owen",
+    "Agata",
+    "Tracy",
+    "Amy",
+    "Patricia",
+    "Chris"
+  ],
+  "actionItems": [
+    {
+      "task": "Fix Scan2Plan CPQ/proposal UI: streamline 'open deal' → 'generate quote' flow; color-code primary action buttons.",
+      "assignee": null,
+      "priority": "high",
+      "dueDate": null
+    },
+    {
+      "task": "Triaging SuperChase approval gates: enumerate manual OAuth steps (clasp), implement bypass SOP, run tests.",
+      "assignee": null,
+      "priority": "high",
+      "dueDate": null
+    },
+    {
+      "task": "Establish media ingest & storage SOP: buy SSDs and Backblaze cold storage.",
+      "assignee": null,
+      "priority": "high",
+      "dueDate": null
+    },
+    {
+      "task": "Create an updated PRD envisioning using hubspot capabilities for everything we've envisioned",
+      "assignee": null,
+      "priority": "medium",
+      "dueDate": null
+    },
+    {
+      "task": "Test the Studio C connector after deployment ID change.",
+      "assignee": null,
+      "priority": "medium",
+      "dueDate": null
+    }
+  ],
+  "decisions": [
+    "Scan2Plan: Centralized database + many small focused apps",
+    "Scan2Plan: Prioritize production tab, CPQ and proposal maker as MVP workstreams",
+    "Scan2Plan: Integrate with HubSpot/GoHighLevel/Canva/TikTok/YouTube/Google (use their data, not replicate UI); prefer licensing/integration over rebuilding full external UIs",
+    "Scan2Plan: Plan/intent to acquire slam scanner for Scan2Plan when finances permit (Q2 discussion)",
+    "Studio C: Productize Studio C outputs into templated town media packages (Natchez pilot → replicate to Fayetteville et al.)",
+    "Studio C: Adopt small, repeatable capture tools (GoPro, phone rigs, Ray-Ban glasses) and vertical-first workflow for scale",
+    "CPTV Inc.: Operate local media networks (daytime tv.us / community pilots) as part of media ecosystem; owners/front-line talent featured"
+  ],
+  "ideas": [
+    "Chase & Nona - Elderly phone tutorial app",
+    "Bunny-centered content + soundscape product",
+    "Rick Beato of Comedy (channel that dissects comedians' craft)",
+    "Agent Forge (real estate AI app)",
+    "Purist full brand play / flagship campaign",
+    "Studio scheduler / booking widget (white-label)"
+  ],
+  "followUps": [
+    "Finances for slam scanner acquisition in Q2 for Scan2Plan"
+  ],
+  "summary": "This log analysis summarizes decisions, friction points, and ideas related to Scan2Plan, Studio C, and CPTV. Key areas of focus include product development, automation, client management, and media asset management, with actionable recommendations for improving workflows and addressing pain points.",
+  "tags": [
+    "Scan2Plan",
+    "Studio C",
+    "CPTV",
+    "Executive Decisions",
+    "Friction Log",
+    "Someday Projects",
+    "Client Intelligence",
+    "Automation",
+    "Media Management",
+    "Product Development"
+  ],
+  "sourceFile": "limitless_data_dump.json",
+  "ingestedAt": "2026-01-20T04:09:49.693Z",
+  "rawTextLength": 16132
+}

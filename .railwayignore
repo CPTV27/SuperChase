@@ -1,0 +1,10 @@
+# Railway ignore file
+node_modules
+.git
+.env
+cache/
+*.md
+!ROADMAP.md
+docs/
+scripts/
+smoke_test.sh

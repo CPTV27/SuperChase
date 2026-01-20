@@ -1,0 +1,33 @@
+{
+  "name": "superchase",
+  "version": "2.0.0",
+  "description": "AI Executive Assistant - Hub and Spoke Architecture",
+  "type": "module",
+  "main": "triage.js",
+  "scripts": {
+    "start": "npm run triage && npm run brief",
+    "server": "node server.js",
+    "triage": "node triage.js",
+    "triage:dry": "node triage.js --dry-run",
+    "brief": "node spokes/voice/george_bridge.js",
+    "brief:refresh": "node spokes/voice/george_bridge.js --refresh",
+    "wrap": "node core/wrap_up.js",
+    "query": "node core/query_hub.js",
+    "brainstorm": "node core/analyzer.js",
+    "ingest": "node spokes/brainstorm/ingest.js",
+    "smoke": "./smoke_test.sh",
+    "test:asana": "node -e \"import('./spokes/asana/pusher.js').then(m => m.getTasks().then(console.log))\"",
+    "test:classify": "node -e \"import('./core/hub.js').then(m => m.classify({subject:'URGENT: Need response', body:'Please respond ASAP', sender:'client@test.com'}).then(console.log))\"",
+    "test:sheets": "node -e \"import('./spokes/sheets/logger.js').then(m => m.testConnection().then(console.log))\"",
+    "dashboard": "cd frontend && npm run dev",
+    "dashboard:build": "cd frontend && npm run build"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  },
+  "author": "Chase Pierson",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

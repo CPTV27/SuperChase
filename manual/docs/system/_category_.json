@@ -1,0 +1,10 @@
+{
+  "label": "System Blueprint",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "title": "System Architecture",
+    "description": "How SuperChase works under the hood",
+    "keywords": ["architecture", "api", "system"]
+  }
+}

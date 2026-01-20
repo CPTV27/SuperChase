@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "owner": "Chase Pierson",
+    "period": "Last 30 days (2025-12-19 → 2026-01-18)",
+    "generatedAt": "2026-01-19T21:56:00-06:00",
+    "ingestedAt": "2026-01-20T03:30:00Z"
+  },
+  "highValuePeople": {
+    "Owen": { "context": "Scan2Plan team", "role": "Operations/Sales", "priority": "high" },
+    "Agata": { "context": "Scan2Plan team", "role": "Operations", "priority": "high" },
+    "Tracy": { "context": "Big Muddy Inn", "role": "Owner", "priority": "high" },
+    "Amy": { "context": "Big Muddy Inn", "role": "Owner/Singer", "priority": "high" },
+    "Patricia": { "context": "Purist", "role": "Partner", "priority": "high" },
+    "Chris": { "context": "Purist", "role": "Partner", "priority": "high" },
+    "Miles": { "context": "Studio C", "role": "Technical Director", "priority": "high" }
+  },
+  "executiveDecisions": {
+    "Scan2Plan": [
+      {
+        "decision": "Architecture approach",
+        "value": "YES",
+        "detail": "Centralized database + many small focused apps (one DB, multiple single-purpose apps & UI panels)."
+      },
+      {
+        "decision": "Immediate dev focus",
+        "value": "YES",
+        "detail": "Prioritize production tab, CPQ and proposal maker as MVP workstreams."
+      },
+      {
+        "decision": "Integrations policy",
+        "value": "YES",
+        "detail": "Integrate with HubSpot/GoHighLevel/Canva/TikTok/YouTube/Google (use their data, not replicate UI)."
+      },
+      {
+        "decision": "Scan hardware acquisition",
+        "value": "TENTATIVE YES",
+        "detail": "Plan to acquire SLAM scanner for Scan2Plan when finances permit (Q2 discussion)."
+      }
+    ],
+    "StudioC": [
+      {
+        "decision": "Studio ops & productization",
+        "value": "YES",
+        "detail": "Productize Studio C outputs into templated town media packages (Natchez pilot → replicate to Fayetteville et al.)."
+      },
+      {
+        "decision": "POV / gear adoption",
+        "value": "YES",
+        "detail": "Adopt small, repeatable capture tools (GoPro, phone rigs, Ray-Ban glasses) and vertical-first workflow for scale."
+      }
+    ],
+    "CPTV": [
+      {
+        "decision": "Positioning / network",
+        "value": "YES",
+        "detail": "Operate local media networks (daytime tv.us / community pilots) as part of media ecosystem."
+      }
+    ]
+  },
+  "frictionLog": [
+    {
+      "area": "Scan2Plan - UI / Proposal Builder",
+      "symptom": "Frustration with proposal builder UI; assembly, PandaDoc integration, and interface gaps",
+      "impact": "Blocks sales/publishing workflow; slows quoting and onboarding."
+    },
+    {
+      "area": "SuperChase / Automation approvals",
+      "symptom": "Repeated manual approval steps and environment mismatches (clasp login, cloud vs local).",
+      "impact": "Agent autonomy reduced, increases manual intervention time."
+    },
+    {
+      "area": "Connector / Chat integrations",
+      "symptom": "Connector not responding / deployment ID / webhook errors",
+      "impact": "Prevents automation, messaging and remote trigger workflows."
+    },
+    {
+      "area": "Media storage & asset management",
+      "symptom": "Phone/computer full; no clear ingest/archive SOP",
+      "impact": "Blocks capture/transfer, delays turnaround, creates risk of lost assets."
+    },
+    {
+      "area": "Context/Thread management",
+      "symptom": "Confusion from multiple threads & missing concise action lists",
+      "impact": "Wastes time, reduces execution velocity."
+    },
+    {
+      "area": "Product dev vs sales time allocation",
+      "symptom": "Need to do revenue-generating work while product needs focus",
+      "impact": "Resource/time tension slows product finish and sales momentum."
+    }
+  ],
+  "somedayProjects": [
+    {
+      "id": "ChaseAndNona",
+      "title": "Chase & Nona - Elderly phone tutorial app",
+      "status": "Brainstormed",
+      "description": "3-day vertical shoot with mom to capture phone tutorials; productize as searchable app."
+    },
+    {
+      "id": "BunnySoundscapes",
+      "title": "Bunny-centered content + soundscape product",
+      "status": "Idea",
+      "description": "Hero (bunny) vertical franchise + long-form audible soundscapes."
+    },
+    {
+      "id": "ComedyDissection",
+      "title": "Rick Beato of Comedy",
+      "status": "Idea",
+      "description": "Channel that dissects comedians' craft in an educational format."
+    },
+    {
+      "id": "AgentForgeForRE",
+      "title": "Agent Forge (real estate AI app)",
+      "status": "Concept",
+      "description": "AI app for real estate agents: auto comps, listing descriptions, virtual staging, email automation."
+    },
+    {
+      "id": "PuristFlagshipCampaign",
+      "title": "Purist full brand play / flagship campaign",
+      "status": "Concept",
+      "description": "Cross-promote Purist via town media pilots, sponsored bundles, lifestyle films."
+    },
+    {
+      "id": "StudioC_WhiteLabelBookingWidget",
+      "title": "Studio scheduler / booking widget (white-label)",
+      "status": "Product idea",
+      "description": "Booking widget + digital call sheet + auto quote generator; white-label to studios."
+    }
+  ],
+  "clientIntelligence": {
+    "BigMuddy": {
+      "contacts": ["Tracy", "Amy"],
+      "preferences": [
+        "Feature owners as stars in content",
+        "Short, local segments; local-business cross-promo",
+        "Want bookings.com + inroads PMS admin support"
+      ],
+      "tone": "Southern-Gothic luxe, authentic, community-first"
+    },
+    "Scan2Plan": {
+      "contacts": ["Owen", "Agata"],
+      "preferences": [
+        "Streamlined quoting/CPQ user flows",
+        "Strong integration with QuickBooks/Drive/Airtable",
+        "Point-cloud viewer integration and production tracking"
+      ]
+    },
+    "Purist": {
+      "contacts": ["Patricia", "Chris"],
+      "preferences": [
+        "High-quality product imagery (lifestyle + craft)",
+        "Audience-first approach before heavy commerce",
+        "Combine polished brand imagery with behind-the-scenes authenticity"
+      ]
+    }
+  },
+  "recurringTopics": [
+    { "topic": "Scan2Plan productization & CPQ", "occurrences": 18 },
+    { "topic": "Studio C / town media template", "occurrences": 12 },
+    { "topic": "Automation / SuperChase agents", "occurrences": 10 },
+    { "topic": "Media asset management & storage", "occurrences": 8 },
+    { "topic": "Monetization via content", "occurrences": 7 }
+  ],
+  "immediateActions": [
+    "Fix Scan2Plan CPQ/proposal UI: streamline 'open deal' → 'generate quote' flow",
+    "Triage SuperChase approval gates: enumerate manual OAuth steps, implement bypass SOP",
+    "Establish media ingest & storage SOP: buy 4TB SSDs + provision Backblaze",
+    "Deliver Purist pilot sell-sheet & StudioC 2-day shoot template",
+    "Create canonical 'daily action list' for owners/clients"
+  ],
+  "automationsToBuild": [
+    "Google form → spreadsheet → Scan2Plan quote builder row population",
+    "Post-shoot pipeline: ingest → tag → auto-export verticals via Canva",
+    "Connector health monitor: validate webhook endpoints"
+  ]
+}

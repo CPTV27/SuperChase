@@ -1,0 +1,82 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SuperChase Business Context",
+    "description": "Query Chase Pierson's business context - tasks, emails, schedule, and learnings",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://YOUR_NGROK_URL.ngrok-free.app"
+    }
+  ],
+  "paths": {
+    "/query": {
+      "post": {
+        "operationId": "queryBusinessContext",
+        "summary": "Ask about business context",
+        "description": "Use this tool when the user asks about their tasks, emails, schedule, urgent items, recent learnings, or any business-related question. Pass the user's question directly as the query.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["query"],
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "The user's question about their business (e.g., 'What are my tasks?', 'Any urgent emails?', 'What's on my schedule?')"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with answer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "answer": {
+                      "type": "string",
+                      "description": "The natural language answer to relay to the user"
+                    },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Data sources used"
+                    },
+                    "confidence": {
+                      "type": "number",
+                      "description": "Confidence score 0-1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  }
+}

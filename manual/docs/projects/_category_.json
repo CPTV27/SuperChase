@@ -1,0 +1,10 @@
+{
+  "label": "Projects",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "title": "Active Projects",
+    "description": "Live status and activity tracking for all business units",
+    "keywords": ["projects", "operations", "status"]
+  }
+}
