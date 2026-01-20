@@ -1,0 +1,8 @@
+# Only ignore what we truly don't need
+node_modules
+.docusaurus
+.cache-loader
+build
+.DS_Store
+.env*
+*.log
