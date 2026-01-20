@@ -1,8 +1,8 @@
 # Dependencies
 /node_modules
 
-# Production
-/build
+# Production - NOT ignored for Railway deployment
+# /build
 
 # Generated files
 .docusaurus
