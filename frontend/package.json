@@ -18,6 +18,7 @@
     "framer-motion": "^12.27.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-router-dom": "^7.1.2",
     "recharts": "^3.6.0",
     "serve": "^14.2.5"
   },
