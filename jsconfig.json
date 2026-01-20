@@ -1,0 +1,49 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "target": "ESNext",
+        "checkJs": true,
+        "strict": false,
+        "noEmit": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@lib/*": [
+                "lib/*"
+            ],
+            "@core/*": [
+                "core/*"
+            ],
+            "@spokes/*": [
+                "spokes/*"
+            ],
+            "@types/*": [
+                "types/*"
+            ]
+        }
+    },
+    "include": [
+        "*.js",
+        "core/**/*.js",
+        "lib/**/*.js",
+        "spokes/**/*.js",
+        "tests/**/*.js",
+        "types/**/*.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "frontend",
+        "cache",
+        ".npm-cache"
+    ],
+    "typeAcquisition": {
+        "enable": true,
+        "include": [
+            "node"
+        ]
+    }
+}

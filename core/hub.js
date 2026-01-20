@@ -53,6 +53,12 @@ const CATEGORIES = {
  * @returns {Promise<Object>} - { category, confidence, reasoning }
  */
 export async function classify(content) {
+  // Handle null/undefined content
+  if (!content || typeof content !== 'object') {
+    console.warn('[Hub] Invalid content provided, using fallback');
+    return fallbackClassify({});
+  }
+
   if (!GEMINI_API_KEY || GEMINI_API_KEY === 'NEEDS_VALUE') {
     console.warn('[Hub] GEMINI_API_KEY not set, using fallback classification');
     return fallbackClassify(content);

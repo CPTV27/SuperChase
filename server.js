@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * SuperChase API Server
+ * SuperChase API Server v2.1
  *
  * Exposes the Query Hub as an HTTP API for ElevenLabs Agent integration.
+ * Now with structured logging, error handling, and health monitoring.
+ * 
  * Run with: node server.js
  * Default port: 3849
  */
@@ -19,19 +21,31 @@ const __dirname = dirname(__filename);
 
 dotenv.config({ path: join(__dirname, '.env') });
 
+// Core imports
 import queryHub from './core/query_hub.js';
 import asana from './spokes/asana/pusher.js';
 import twitter from './spokes/twitter/search.js';
+import twitterPublish from './spokes/twitter/publish.js';
+import portalQueue from './spokes/portal/queue.js';
+
+// Library imports for enhanced reliability
+import { createLogger, generateRequestId } from './lib/logger.js';
+import { AppError, ValidationError, AuthenticationError, withFallback } from './lib/errors.js';
+import health, { recordRequest, getMetrics, getHealth, withCircuitBreaker } from './lib/health.js';
+
+const logger = createLogger({ module: 'server' });
 
 const PORT = process.env.PORT || process.env.API_PORT || 3849;
 const API_KEY = process.env.API_KEY || 'superchase-local-dev';
+const IS_DEV = API_KEY === 'superchase-local-dev';
 
 const PATHS = {
   dailySummary: join(__dirname, 'memory', 'daily_summary.json'),
   auditLog: join(__dirname, 'cache', 'audit.jsonl'),
   roadmap: join(__dirname, 'ROADMAP.md'),
   limitlessContext: join(__dirname, 'memory', 'limitless_context.json'),
-  patterns: join(__dirname, 'memory', 'patterns.json')
+  patterns: join(__dirname, 'memory', 'patterns.json'),
+  marketingQueue: join(__dirname, 'memory', 'marketing_queue.json')
 };
 
 /**
@@ -74,12 +88,22 @@ async function parseBody(req) {
  * Route handlers
  */
 const routes = {
-  // Health check
+  // Health check (basic)
   'GET /health': async () => ({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    version: '1.0.0'
+    version: '2.1.0'
   }),
+
+  // Detailed health with circuit breaker status
+  'GET /api/health': async () => {
+    return getHealth();
+  },
+
+  // Metrics endpoint
+  'GET /api/metrics': async () => {
+    return getMetrics();
+  },
 
   // Query business context
   'POST /query': async (req) => {
@@ -280,7 +304,7 @@ const routes = {
       if (existsSync(PATHS.limitlessContext)) {
         try {
           limitless = JSON.parse(readFileSync(PATHS.limitlessContext, 'utf8'));
-        } catch {}
+        } catch { }
       }
 
       return {
@@ -381,13 +405,140 @@ const routes = {
         error: error.message
       };
     }
+  },
+
+  // ============================================
+  // Publishing API Endpoints (Marketing Agency)
+  // ============================================
+
+  // Post to X.com / Twitter
+  'POST /api/publish/x': async (req) => {
+    const body = await parseBody(req);
+    const { text, thread } = body;
+
+    if (!twitterPublish.isConfigured()) {
+      return {
+        success: false,
+        error: 'Twitter publish not configured. Set TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET in .env'
+      };
+    }
+
+    // Thread posting
+    if (thread && Array.isArray(thread)) {
+      console.log(`[API] Publishing thread with ${thread.length} tweets`);
+      const result = await twitterPublish.postThread(thread, body.delayMs || 30000);
+      return result;
+    }
+
+    // Single tweet
+    if (text) {
+      console.log(`[API] Publishing single tweet`);
+      const result = await twitterPublish.postTweet(text, {
+        reply_to_id: body.reply_to_id
+      });
+      return result;
+    }
+
+    return {
+      success: false,
+      error: 'Either "text" (single tweet) or "thread" (array of tweets) is required'
+    };
+  },
+
+  // Check X.com publish status
+  'GET /api/publish/x/status': async () => {
+    return twitterPublish.testConnection();
+  },
+
+  // ============================================
+  // Client Portal API Endpoints
+  // ============================================
+
+  // List all portal clients
+  'GET /api/portal/clients': async () => {
+    return portalQueue.listClients();
   }
 };
 
 /**
- * Main request handler
+ * Handle dynamic portal routes
+ * Pattern: /api/portal/:clientId/:action
+ */
+async function handlePortalRoute(req, method, pathname) {
+  const portalMatch = pathname.match(/^\/api\/portal\/([^/]+)\/?(.*)?$/);
+  if (!portalMatch) return null;
+
+  const clientId = portalMatch[1];
+  const action = portalMatch[2] || 'queue';
+
+  // Skip if it's the clients list endpoint
+  if (clientId === 'clients') return null;
+
+  console.log(`[Portal API] ${method} /${clientId}/${action}`);
+
+  // GET /api/portal/:clientId/queue - Get queue state
+  if (method === 'GET' && action === 'queue') {
+    return portalQueue.parseQueue(clientId);
+  }
+
+  // POST /api/portal/:clientId/upload - Add to ingest
+  if (method === 'POST' && action === 'upload') {
+    const body = await parseBody(req);
+    return portalQueue.addToIngest(clientId, {
+      id: body.id || body.filename,
+      source: body.source || 'Client Upload',
+      notes: body.notes || '',
+      type: body.type || 'Image'
+    });
+  }
+
+  // POST /api/portal/:clientId/approve - Client approves item
+  if (method === 'POST' && action === 'approve') {
+    const body = await parseBody(req);
+    if (!body.itemId) {
+      return { success: false, error: 'itemId required' };
+    }
+    return portalQueue.approveItem(clientId, body.itemId);
+  }
+
+  // POST /api/portal/:clientId/process - Process ingest item
+  if (method === 'POST' && action === 'process') {
+    const body = await parseBody(req);
+    if (!body.itemId) {
+      return { success: false, error: 'itemId required' };
+    }
+    return portalQueue.processIngest(clientId, body.itemId, body.thread);
+  }
+
+  // POST /api/portal/:clientId/send-to-client - Send to client review
+  if (method === 'POST' && action === 'send-to-client') {
+    const body = await parseBody(req);
+    if (!body.itemId) {
+      return { success: false, error: 'itemId required' };
+    }
+    return portalQueue.sendToClient(clientId, body.itemId);
+  }
+
+  // POST /api/portal/:clientId/move - Move item between stages
+  if (method === 'POST' && action === 'move') {
+    const body = await parseBody(req);
+    if (!body.itemId || !body.from || !body.to) {
+      return { success: false, error: 'itemId, from, and to required' };
+    }
+    return portalQueue.moveItem(clientId, body.itemId, body.from, body.to);
+  }
+
+  return { success: false, error: `Unknown portal action: ${action}` };
+}
+
+/**
+ * Main request handler with logging and metrics
  */
 async function handleRequest(req, res) {
+  const startTime = Date.now();
+  const requestId = req.headers['x-request-id'] || generateRequestId();
+  const reqLogger = logger.child({ requestId });
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(204, CORS_HEADERS);
@@ -398,13 +549,19 @@ async function handleRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const routeKey = `${req.method} ${url.pathname}`;
 
-  console.log(`[API] ${routeKey}`);
+  reqLogger.info(`${routeKey}`);
 
-  // Check API key (skip for health and openapi)
-  if (!url.pathname.includes('health') && !url.pathname.includes('openapi')) {
+  // Check API key (skip for health, metrics, and openapi)
+  const skipAuth = ['health', 'openapi', 'metrics'].some(p => url.pathname.includes(p));
+  if (!skipAuth) {
     if (!verifyApiKey(req)) {
+      reqLogger.warn('Authentication failed');
+      recordRequest(routeKey, Date.now() - startTime, false);
       res.writeHead(401, CORS_HEADERS);
-      res.end(JSON.stringify({ error: 'Invalid API key' }));
+      res.end(JSON.stringify({
+        error: { code: 'AUTHENTICATION_ERROR', message: 'Invalid API key' },
+        requestId
+      }));
       return;
     }
   }
@@ -415,20 +572,85 @@ async function handleRequest(req, res) {
   if (handler) {
     try {
       const result = await handler(req);
+      const duration = Date.now() - startTime;
+
+      // Handle AppError instances
+      if (result instanceof AppError) {
+        const errorResponse = result.toJSON(!IS_DEV);
+        errorResponse.requestId = requestId;
+        recordRequest(routeKey, duration, false);
+        reqLogger.error(`Error: ${result.message}`, { statusCode: result.statusCode, duration });
+        res.writeHead(result.statusCode, CORS_HEADERS);
+        res.end(JSON.stringify(errorResponse));
+        return;
+      }
+
       const statusCode = result._httpStatus || 200;
       delete result._httpStatus;
 
+      recordRequest(routeKey, duration, statusCode < 400);
+      reqLogger.debug(`Complete`, { statusCode, duration });
+
       res.writeHead(statusCode, CORS_HEADERS);
-      res.end(JSON.stringify(result));
+      res.end(JSON.stringify({ ...result, requestId }));
     } catch (error) {
-      console.error(`[API] Error:`, error.message);
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+
+      // Handle known error types
+      if (error instanceof AppError) {
+        const errorResponse = error.toJSON(!IS_DEV);
+        errorResponse.requestId = requestId;
+        reqLogger.error(`AppError: ${error.message}`, { code: error.code, duration });
+        res.writeHead(error.statusCode, CORS_HEADERS);
+        res.end(JSON.stringify(errorResponse));
+        return;
+      }
+
+      reqLogger.error(`Unhandled error: ${error.message}`, { stack: error.stack, duration });
       res.writeHead(500, CORS_HEADERS);
-      res.end(JSON.stringify({ error: error.message }));
+      res.end(JSON.stringify({
+        error: { code: 'INTERNAL_ERROR', message: error.message },
+        requestId
+      }));
     }
-  } else {
-    res.writeHead(404, CORS_HEADERS);
-    res.end(JSON.stringify({ error: 'Not found' }));
+    return;
   }
+
+  // Try dynamic portal routes
+  if (url.pathname.startsWith('/api/portal/')) {
+    try {
+      const result = await handlePortalRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Portal route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Portal error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'PORTAL_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // 404 for unmatched routes
+  const duration = Date.now() - startTime;
+  recordRequest(routeKey, duration, false);
+  reqLogger.debug(`Not found`, { duration });
+  res.writeHead(404, CORS_HEADERS);
+  res.end(JSON.stringify({
+    error: { code: 'NOT_FOUND', message: 'Route not found' },
+    requestId
+  }));
 }
 
 /**
@@ -437,12 +659,16 @@ async function handleRequest(req, res) {
 const server = createServer(handleRequest);
 
 server.listen(PORT, '0.0.0.0', () => {
+  logger.info('SuperChase API Server v2.1 starting', { port: PORT });
+
   console.log(`\n╔════════════════════════════════════════════════════════════╗`);
-  console.log(`║           SuperChase API Server                            ║`);
+  console.log(`║           SuperChase API Server v2.1                       ║`);
   console.log(`╚════════════════════════════════════════════════════════════╝\n`);
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`\nEndpoints:`);
-  console.log(`  GET  /health              - Health check`);
+  console.log(`  GET  /health              - Health check (basic)`);
+  console.log(`  GET  /api/health          - Health check (detailed)`);
+  console.log(`  GET  /api/metrics         - Request metrics`);
   console.log(`  POST /query               - Query business context`);
   console.log(`  GET  /tasks               - Get current tasks`);
   console.log(`  GET  /briefing            - Get daily briefing`);
@@ -453,8 +679,20 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`  GET  /api/logs            - Audit log entries`);
   console.log(`  GET  /api/strategy        - Roadmap & strategy data`);
   console.log(`  GET  /api/status          - Spoke connectivity status`);
-  console.log(`  POST /api/briefing/trigger - Trigger morning briefing\n`);
-  console.log(`API Key: ${API_KEY === 'superchase-local-dev' ? '(dev mode - no auth)' : 'required'}\n`);
+  console.log(`  POST /api/briefing/trigger - Trigger morning briefing`);
+  console.log(`  --- Publishing API ---`);
+  console.log(`  POST /api/publish/x       - Post tweet or thread to X.com`);
+  console.log(`  GET  /api/publish/x/status - Check X.com publish credentials`);
+  console.log(`  --- Client Portal API ---`);
+  console.log(`  GET  /api/portal/clients           - List all portal clients`);
+  console.log(`  GET  /api/portal/:client/queue     - Get client queue state`);
+  console.log(`  POST /api/portal/:client/upload    - Add asset to ingest`);
+  console.log(`  POST /api/portal/:client/approve   - Client approves item`);
+  console.log(`  POST /api/portal/:client/process   - Process ingest to agency`);
+  console.log(`  POST /api/portal/:client/send-to-client - Send to client review`);
+  console.log(`  POST /api/portal/:client/move      - Move item between stages\n`);
+  console.log(`Mode: ${IS_DEV ? 'Development (no auth required)' : 'Production (API key required)'}`);
+  console.log(`Logging: Structured JSON in production, human-readable in dev\n`);
 });
 
 export default server;
