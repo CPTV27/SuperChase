@@ -2,7 +2,7 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.install]
-cmds = ["npm install serve"]
+cmds = ["npm install -g serve"]
 
 [start]
-cmd = "npx serve build -l $PORT"
+cmd = "serve build -l $PORT"
