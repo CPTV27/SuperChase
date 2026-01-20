@@ -31,6 +31,7 @@ import portalQueue from './spokes/portal/queue.js';
 // Agency multi-tenant support
 import tenantManager from './core/tenant-manager.js';
 import gbpClient from './spokes/gbp/client.js';
+import agencyReview from './spokes/agency/review.js';
 
 // Library imports for enhanced reliability
 import { createLogger, generateRequestId } from './lib/logger.js';
@@ -603,6 +604,99 @@ async function handleTenantRoute(req, method, pathname) {
 }
 
 /**
+ * Handle agency review API routes
+ */
+async function handleReviewRoute(req, method, pathname, url) {
+  const parts = pathname.replace('/api/review/', '').split('/');
+  const reviewId = parts[0];
+  const action = parts[1];
+
+  // GET /api/review/pulse - Get review status pulse (public, no auth needed)
+  if (method === 'GET' && (reviewId === 'pulse' || !reviewId)) {
+    return agencyReview.getReviewPulse();
+  }
+
+  // GET /api/review/:id - Get specific review item
+  if (method === 'GET' && reviewId && !action) {
+    try {
+      return { item: agencyReview.getReviewItem(reviewId) };
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
+
+  // POST /api/review - Create new review item
+  if (method === 'POST' && !reviewId) {
+    const body = await parseBody(req);
+    try {
+      const item = agencyReview.createReviewItem(body);
+      const submitted = agencyReview.submitForAgencyReview(item.id);
+      return submitted;
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // GET /api/review/:id/approve?token=xxx - Approve via secure link
+  if (method === 'GET' && action === 'approve') {
+    const token = url.searchParams.get('token');
+    try {
+      return agencyReview.agencyApprove(reviewId, token);
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // GET /api/review/:id/reject?token=xxx&feedback=xxx - Reject via secure link
+  if (method === 'GET' && action === 'reject') {
+    const token = url.searchParams.get('token');
+    const feedback = url.searchParams.get('feedback') || '';
+    try {
+      return agencyReview.agencyReject(reviewId, token, { feedback });
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // POST /api/review/:id/client-approve - Client approves
+  if (method === 'POST' && action === 'client-approve') {
+    const body = await parseBody(req);
+    try {
+      return agencyReview.clientApprove(reviewId, body.clientId);
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // POST /api/review/:id/revision - Client requests revision
+  if (method === 'POST' && action === 'revision') {
+    const body = await parseBody(req);
+    try {
+      return agencyReview.clientRequestRevision(reviewId, body.clientId, body.feedback);
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // POST /api/review/:id/publish - Mark as published
+  if (method === 'POST' && action === 'publish') {
+    const body = await parseBody(req);
+    try {
+      return agencyReview.markPublished(reviewId, body);
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // GET /api/review/list/:clientId - List reviews for a client
+  if (method === 'GET' && reviewId === 'list' && action) {
+    return { items: agencyReview.listReviewItems({ clientId: action }) };
+  }
+
+  return null;
+}
+
+/**
  * Main request handler with logging and metrics
  */
 async function handleRequest(req, res) {
@@ -732,6 +826,31 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'TENANT_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic review routes
+  if (url.pathname.startsWith('/api/review')) {
+    try {
+      const result = await handleReviewRoute(req, req.method, url.pathname, url);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Review route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Review error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'REVIEW_ERROR', message: error.message },
         requestId
       }));
       return;
