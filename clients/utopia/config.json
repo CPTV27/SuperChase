@@ -1,0 +1,116 @@
+{
+    "id": "utopia",
+    "name": "Utopia Bearsville",
+    "businessType": "recording_studio",
+    "location": {
+        "address": "Bearsville, NY",
+        "region": "Hudson Valley / Woodstock",
+        "coordinates": {
+            "lat": 42.0487,
+            "lng": -74.1318
+        }
+    },
+    "branding": {
+        "voice": "legendary_host",
+        "tone": "authoritative_inviting",
+        "archetype": "The Legendary Host",
+        "personality": [
+            "Star-powered pedigree",
+            "Creative headquarters for new masters",
+            "Where legends have walked"
+        ],
+        "colors": {
+            "primary": "#2c1810",
+            "secondary": "#d4a574",
+            "accent": "#4a7c59"
+        },
+        "fonts": {
+            "heading": "Libre Baskerville",
+            "body": "Source Sans Pro"
+        }
+    },
+    "seo": {
+        "primaryKeywords": [
+            "Woodstock recording studio",
+            "legendary recording studio",
+            "analog recording studio",
+            "API console studio"
+        ],
+        "localKeywords": [
+            "recording studio Hudson Valley",
+            "Bearsville studios",
+            "Woodstock music venue"
+        ],
+        "contentPillars": [
+            {
+                "name": "Legendary Legacy",
+                "topics": [
+                    "Woodstock history",
+                    "Famous sessions",
+                    "Industry legends"
+                ]
+            },
+            {
+                "name": "Analog Excellence",
+                "topics": [
+                    "API AXS Legacy console",
+                    "Vintage gear",
+                    "Cathedral acoustics"
+                ]
+            },
+            {
+                "name": "Creative Sanctuary",
+                "topics": [
+                    "Artist residencies",
+                    "Creative retreats",
+                    "New recordings"
+                ]
+            }
+        ],
+        "competitors": [
+            "Electric Lady Studios",
+            "Avatar Studios",
+            "Real World Studios"
+        ]
+    },
+    "integrations": {
+        "gbp": {
+            "enabled": false,
+            "locationId": null
+        },
+        "website": {
+            "platform": "custom",
+            "url": "https://utopiabearsville.com"
+        },
+        "social": {
+            "platforms": [
+                {
+                    "name": "instagram",
+                    "handle": "utopiabearsville",
+                    "enabled": true
+                },
+                {
+                    "name": "facebook",
+                    "handle": "UtopiaBearsvilleStudios",
+                    "enabled": true
+                }
+            ]
+        }
+    },
+    "workflows": {
+        "autoPublish": false,
+        "requireApproval": true,
+        "notifyOnContent": true,
+        "contentCalendar": {
+            "postsPerWeek": 2,
+            "preferredDays": [
+                "wednesday",
+                "saturday"
+            ],
+            "preferredTime": "14:00"
+        }
+    },
+    "stylePrompt": "Lush cathedral light, vintage API wood grain, Woodstock retreat vibe, legendary analog aesthetic",
+    "createdAt": "2026-01-20T09:40:00.000Z",
+    "updatedAt": "2026-01-20T09:40:00.000Z"
+}

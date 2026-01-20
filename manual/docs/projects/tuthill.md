@@ -1,73 +1,99 @@
----
-sidebar_position: 4
-title: Tuthill Design
-description: Editorial vision & design methodology
-tags: [tuthill, operations, active]
----
-
 # Tuthill Design
 
-> IP Core - editorial vision, methodology, taste
+> **Client ID**: `tuthill`  
+> **Status**: Active  
+> **Archetype**: The Visionary Artist
 
-## Status
+## Brand Philosophy
 
-| Metric | Value | Trend |
-|--------|-------|-------|
-| Active Editions | 1 | - |
-| Brand Clients | 3 | - |
-| Last Activity | - | - |
+> "Color and typography define a brand's tone before a word is spoken."
 
-## Current Focus
+Do not just describe a room—describe the *"precise, electric instant where time stops holding its breath."* Focus on the alchemical balance of color and texture.
 
-:::info Brand Elevation
-**Goal:** Consistent brand guidelines across all portfolio companies
-- Comprehensive brand style guide
-- Editorial vision documentation
-- "Editions" model for scalable design projects
-:::
+## Voice Guidelines
 
-## The "Editions" Model
+### Tone
+- Sophisticated
+- Evocative  
+- Rhythmic
+- Precise
 
-Tuthill Design operates through discrete "Editions" - focused design projects with clear scope and deliverables.
+### DO Say
+- Describe the emotional resonance of space
+- Focus on alchemical balance of color and texture
+- Reveal rather than describe
+- Use visual poetry
 
-| Edition | Client | Status | Deliverables |
-|---------|--------|--------|--------------|
-| Portfolio Brand Audit | All | Planning | Style guide, guidelines |
+### DON'T Say
+- Basic descriptors like "beautiful" or "nice"
+- Casual or conversational tone
+- Technical jargon without poetry
 
-## Recent Activity
+### Sample Phrases
+- *"In the tension between shadow and light, a room reveals its soul"*
+- *"Every angle whispers intention"*
+- *"Space sculpted with visceral precision"*
 
-<!-- AUTO-UPDATED: Appended by sc CLI -->
+## Visual Style
 
-*No recent activity logged*
+**Archetype**: Architectural Noir
+
+| Element | Style |
+|---------|-------|
+| **Contrast** | Extreme high-contrast shadows |
+| **Lines** | Razor-sharp, geometric |
+| **Composition** | Cinematic, dramatic |
+| **Color** | Monochromatic with selective accent |
+| **Lighting** | Dramatic natural light |
+
+### Image Generation Prompt
+```
+Architectural Noir, extreme high-contrast shadows, razor-sharp lines, 
+cinematic composition, monochromatic with selective color, 
+bold geometric framing, dramatic natural light, minimalist negative space, 
+sculptural shadows
+```
+
+## SEO Keywords
+
+### Primary
+- Luxury interior design
+- High-end residential design
+- Architectural interiors
+- Bespoke design studio
+
+### Authority Keywords
+- Symmetry
+- Visceral energy
+- Sculpted chaos
+- Cinematic revelation
+
+## Content Pillars
+
+### 1. Architectural Vision
+- Space as sculpture
+- Light manipulation
+- Material alchemy
+
+### 2. Color & Texture
+- Color psychology
+- Tactile experiences
+- Visual rhythm
+
+### 3. Design Philosophy
+- Intentional spaces
+- Emotional resonance
+- Timeless over trendy
+
+## Content Calendar
+
+| Day | Content Type |
+|-----|-------------|
+| Monday | Design philosophy / inspiration |
+| Wednesday | Project reveal / detail shot |
+| Friday | Behind-the-process |
 
 ---
 
-## Brand Guidelines
-
-### Portfolio Color System
-
-| Business | Primary | Accent |
-|----------|---------|--------|
-| Scan2Plan | `#3b82f6` Blue | `#60a5fa` |
-| Studio C | `#10b981` Emerald | `#34d399` |
-| CPTV | `#a855f7` Purple | `#c084fc` |
-| Tuthill | `#f97316` Orange | `#fb923c` |
-
-### Typography
-- **Headlines:** Inter Bold
-- **Body:** Inter Regular
-- **Code:** JetBrains Mono
-
-## Cross-Business Leverage
-
-### → All Portfolio
-Develop and maintain consistent brand guidelines across all companies
-
-### Immediate Actions
-1. Schedule brand audit meeting
-2. Develop comprehensive style guide
-3. Apply guidelines to SuperChase dashboard (completed)
-
----
-
-*Last synced: Auto-generated*
+*Last Updated: 2026-01-20*  
+*SuperChase Tenant: tuthill*

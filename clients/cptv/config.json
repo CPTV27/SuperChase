@@ -1,0 +1,104 @@
+{
+    "id": "cptv",
+    "name": "Chase Pierson TV",
+    "businessType": "media_production",
+    "branding": {
+        "voice": "tech_rebellion",
+        "tone": "immediate_visceral",
+        "archetype": "The Tech Rebellion",
+        "personality": [
+            "Build in public",
+            "Break conventions",
+            "Capture the edge of what's possible"
+        ],
+        "colors": {
+            "primary": "#0a0a0a",
+            "secondary": "#00ff88",
+            "accent": "#ff0066"
+        },
+        "fonts": {
+            "heading": "Clash Display",
+            "body": "Inter"
+        }
+    },
+    "seo": {
+        "primaryKeywords": [
+            "live concert production",
+            "broadcast technology",
+            "media innovation",
+            "video production tech"
+        ],
+        "localKeywords": [],
+        "contentPillars": [
+            {
+                "name": "Tech Behind the Magic",
+                "topics": [
+                    "Gear breakdowns",
+                    "Workflow reveals",
+                    "Build logs"
+                ]
+            },
+            {
+                "name": "Concert & Event",
+                "topics": [
+                    "Live production",
+                    "Multi-camera",
+                    "Broadcast systems"
+                ]
+            },
+            {
+                "name": "Build in Public",
+                "topics": [
+                    "Project updates",
+                    "Failures & lessons",
+                    "Tool comparisons"
+                ]
+            }
+        ],
+        "competitors": []
+    },
+    "integrations": {
+        "gbp": {
+            "enabled": false,
+            "locationId": null
+        },
+        "website": {
+            "platform": "custom",
+            "url": "https://chasepierson.tv"
+        },
+        "social": {
+            "platforms": [
+                {
+                    "name": "twitter",
+                    "handle": "chasepierson",
+                    "enabled": true
+                },
+                {
+                    "name": "youtube",
+                    "handle": "ChasePiersonTV",
+                    "enabled": true
+                },
+                {
+                    "name": "tiktok",
+                    "handle": "chasepiersontv",
+                    "enabled": true
+                }
+            ]
+        }
+    },
+    "workflows": {
+        "autoPublish": true,
+        "requireApproval": false,
+        "notifyOnContent": true,
+        "contentCalendar": {
+            "postsPerWeek": 7,
+            "preferredDays": [
+                "daily"
+            ],
+            "preferredTime": "variable"
+        }
+    },
+    "stylePrompt": "Electric concert energy, bold neon palettes, build-in-public urgency, tech-forward rebellion",
+    "createdAt": "2026-01-20T09:40:00.000Z",
+    "updatedAt": "2026-01-20T09:40:00.000Z"
+}

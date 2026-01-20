@@ -28,6 +28,10 @@ import twitter from './spokes/twitter/search.js';
 import twitterPublish from './spokes/twitter/publish.js';
 import portalQueue from './spokes/portal/queue.js';
 
+// Agency multi-tenant support
+import tenantManager from './core/tenant-manager.js';
+import gbpClient from './spokes/gbp/client.js';
+
 // Library imports for enhanced reliability
 import { createLogger, generateRequestId } from './lib/logger.js';
 import { AppError, ValidationError, AuthenticationError, withFallback } from './lib/errors.js';
@@ -528,7 +532,74 @@ async function handlePortalRoute(req, method, pathname) {
     return portalQueue.moveItem(clientId, body.itemId, body.from, body.to);
   }
 
+  // POST /api/portal/:clientId/gbp - Google Business Profile actions
+  if (method === 'POST' && action === 'gbp') {
+    const body = await parseBody(req);
+    if (!body.action) {
+      return { success: false, error: 'action required (post, media, qa, insights)' };
+    }
+    return tenantManager.routeToTenant(clientId, 'gbp', body.action, body);
+  }
+
   return { success: false, error: `Unknown portal action: ${action}` };
+}
+
+/**
+ * Handle tenant/agency API routes
+ */
+async function handleTenantRoute(req, method, pathname) {
+  const parts = pathname.replace('/api/tenants/', '').split('/');
+  const tenantId = parts[0];
+  const action = parts[1];
+
+  // GET /api/tenants - List all tenants
+  if (!tenantId || tenantId === '') {
+    if (method === 'GET') {
+      try {
+        const tenants = await tenantManager.listTenants();
+        return { tenants, count: tenants.length };
+      } catch (error) {
+        return { tenants: [], count: 0, error: error.message };
+      }
+    }
+
+    // POST /api/tenants - Create new tenant
+    if (method === 'POST') {
+      const body = await parseBody(req);
+      if (!body.id || !body.name) {
+        return { success: false, error: 'id and name required' };
+      }
+      try {
+        const tenant = tenantManager.createTenant(body);
+        return { success: true, tenant };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    }
+  }
+
+  // GET /api/tenants/:tenantId - Get tenant config
+  if (method === 'GET' && !action) {
+    try {
+      const tenant = tenantManager.getTenant(tenantId);
+      return { tenant };
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
+
+  // PUT /api/tenants/:tenantId - Update tenant config
+  if (method === 'PUT' && !action) {
+    const body = await parseBody(req);
+    try {
+      const tenant = tenantManager.updateTenant(tenantId, body);
+      return { success: true, tenant };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  return null;
 }
 
 /**
@@ -636,6 +707,31 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'PORTAL_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic tenant/agency routes
+  if (url.pathname.startsWith('/api/tenants')) {
+    try {
+      const result = await handleTenantRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Tenant route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Tenant error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'TENANT_ERROR', message: error.message },
         requestId
       }));
       return;

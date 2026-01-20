@@ -1,0 +1,182 @@
+{
+    "id": "bigmuddy",
+    "name": "Big Muddy Inn & Blues Room",
+    "businessType": "boutique_hotel",
+    "location": {
+        "address": "10 Silver Street",
+        "city": "Natchez",
+        "state": "MS",
+        "zip": "39120",
+        "region": "Natchez Under-the-Hill",
+        "coordinates": {
+            "lat": 31.5604,
+            "lng": -91.4032
+        }
+    },
+    "branding": {
+        "voice": "warm_southern",
+        "tone": "welcoming_storyteller",
+        "personality": [
+            "Historic charm with modern comfort",
+            "Mississippi River soul",
+            "Blues heritage keeper"
+        ],
+        "colors": {
+            "primary": "#1a365d",
+            "secondary": "#c6a66d",
+            "accent": "#8b4513"
+        },
+        "fonts": {
+            "heading": "Playfair Display",
+            "body": "Lato"
+        }
+    },
+    "seo": {
+        "primaryKeywords": [
+            "Natchez boutique hotel",
+            "Natchez Under-the-Hill lodging",
+            "Mississippi River hotel",
+            "historic Natchez inn"
+        ],
+        "localKeywords": [
+            "parking in Natchez Under-the-Hill",
+            "where to stay Natchez MS",
+            "Natchez blues music",
+            "Silver Street Natchez"
+        ],
+        "contentPillars": [
+            {
+                "name": "Southern Gothic Heritage",
+                "topics": [
+                    "Antebellum architecture",
+                    "Historic preservation",
+                    "Natchez history",
+                    "Southern storytelling"
+                ]
+            },
+            {
+                "name": "Natchez Under-the-Hill",
+                "topics": [
+                    "River district history",
+                    "Local dining guide",
+                    "Walking tours",
+                    "Parking and access"
+                ]
+            },
+            {
+                "name": "Blues History & Live Music",
+                "topics": [
+                    "Blues Room events",
+                    "Mississippi Delta blues",
+                    "Live music calendar",
+                    "Regional music heritage"
+                ]
+            }
+        ],
+        "competitors": [
+            "Monmouth Historic Inn",
+            "Dunleith Historic Inn",
+            "The Guest House"
+        ]
+    },
+    "integrations": {
+        "gbp": {
+            "enabled": false,
+            "locationId": null,
+            "autoPost": true,
+            "syncMedia": true
+        },
+        "website": {
+            "platform": "custom",
+            "url": "https://bigmuddyinn.com",
+            "apiKey": null
+        },
+        "social": {
+            "platforms": [
+                {
+                    "name": "facebook",
+                    "handle": "BigMuddyInn",
+                    "enabled": true
+                },
+                {
+                    "name": "instagram",
+                    "handle": "bigmuddyinn",
+                    "enabled": true
+                }
+            ]
+        },
+        "booking": {
+            "platform": null,
+            "directBookingUrl": "https://bigmuddyinn.com/book"
+        }
+    },
+    "workflows": {
+        "autoPublish": false,
+        "requireApproval": true,
+        "notifyOnContent": true,
+        "syncToGBP": true,
+        "contentCalendar": {
+            "postsPerWeek": 3,
+            "preferredDays": [
+                "tuesday",
+                "thursday",
+                "saturday"
+            ],
+            "preferredTime": "10:00"
+        }
+    },
+    "contacts": {
+        "primary": {
+            "name": "Amy Allen",
+            "role": "Owner",
+            "email": null
+        }
+    },
+    "localAuthority": {
+        "targetKeywords": [
+            "Natchez Under-the-Hill parking",
+            "best hotel Natchez MS",
+            "live blues Natchez",
+            "Mississippi River view hotel"
+        ],
+        "faqTopics": [
+            "Parking availability and options",
+            "Pet policy",
+            "Mississippi River views",
+            "Blues Room schedule",
+            "Wedding and event hosting"
+        ],
+        "verticalClusters": [
+            {
+                "name": "Local Travel",
+                "description": "High-authority travel directories and Natchez tourism hubs",
+                "targets": [
+                    "TripAdvisor",
+                    "Yelp",
+                    "Visit Natchez",
+                    "Mississippi Tourism"
+                ]
+            },
+            {
+                "name": "Historic Preservation",
+                "description": "Architecture and Southern history niche blogs",
+                "targets": [
+                    "Preservation societies",
+                    "Historic inns network",
+                    "Southern Living"
+                ]
+            },
+            {
+                "name": "Music & Blues",
+                "description": "Music industry sites and regional event trackers",
+                "targets": [
+                    "Blues Foundation",
+                    "Regional music blogs",
+                    "Event calendars"
+                ]
+            }
+        ]
+    },
+    "createdAt": "2026-01-20T09:31:00.000Z",
+    "updatedAt": "2026-01-20T09:31:00.000Z"
+}

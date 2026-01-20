@@ -1,0 +1,111 @@
+{
+    "id": "studioc",
+    "name": "Studio C",
+    "businessType": "production_studio",
+    "branding": {
+        "voice": "cultural_archivist",
+        "tone": "empathetic_collaborative",
+        "archetype": "The Cultural Archivist",
+        "personality": [
+            "Resistance, Resilience & Hope",
+            "Bridge for stories that need to be part of the world",
+            "Raw human narrative over polish"
+        ],
+        "colors": {
+            "primary": "#2d2d2d",
+            "secondary": "#e8e4dc",
+            "accent": "#8b0000"
+        },
+        "fonts": {
+            "heading": "Space Grotesk",
+            "body": "IBM Plex Sans"
+        }
+    },
+    "seo": {
+        "primaryKeywords": [
+            "podcast production studio",
+            "video production Nashville",
+            "documentary production",
+            "audio post production"
+        ],
+        "localKeywords": [
+            "recording studio Nashville",
+            "podcast studio near me",
+            "video production company"
+        ],
+        "contentPillars": [
+            {
+                "name": "Authentic Storytelling",
+                "topics": [
+                    "Documentary craft",
+                    "Interview techniques",
+                    "Narrative structure"
+                ]
+            },
+            {
+                "name": "Technical Excellence",
+                "topics": [
+                    "Pro Tools workflows",
+                    "Audio engineering",
+                    "Color grading"
+                ]
+            },
+            {
+                "name": "Creative Collaboration",
+                "topics": [
+                    "Client partnerships",
+                    "Behind the scenes",
+                    "Process reveals"
+                ]
+            }
+        ],
+        "competitors": []
+    },
+    "integrations": {
+        "gbp": {
+            "enabled": false,
+            "locationId": null
+        },
+        "website": {
+            "platform": "webflow",
+            "url": null
+        },
+        "social": {
+            "platforms": [
+                {
+                    "name": "instagram",
+                    "handle": "studiocnash",
+                    "enabled": true
+                },
+                {
+                    "name": "youtube",
+                    "handle": "StudioCNashville",
+                    "enabled": true
+                },
+                {
+                    "name": "linkedin",
+                    "handle": "studio-c-productions",
+                    "enabled": true
+                }
+            ]
+        }
+    },
+    "workflows": {
+        "autoPublish": false,
+        "requireApproval": true,
+        "notifyOnContent": true,
+        "contentCalendar": {
+            "postsPerWeek": 4,
+            "preferredDays": [
+                "tuesday",
+                "thursday",
+                "saturday",
+                "sunday"
+            ],
+            "preferredTime": "11:00"
+        }
+    },
+    "stylePrompt": "Documentary grit, warm analogue glow, Pro Tools carbon aesthetic, behind-the-scenes authenticity",
+    "createdAt": "2026-01-20T09:40:00.000Z",
+    "updatedAt": "2026-01-20T09:40:00.000Z"
+}
