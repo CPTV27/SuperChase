@@ -2,9 +2,16 @@
 node_modules
 .git
 .env
+.env.*
 cache/
-*.md
+test-results/
+playwright-report/
+
+# Root-level only (don't ignore in subdirectories)
+/docs/
+/scripts/
+/smoke_test.sh
+
+# Markdown files at root (allow in subdirectories)
+/*.md
 !ROADMAP.md
-docs/
-scripts/
-smoke_test.sh
