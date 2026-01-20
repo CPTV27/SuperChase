@@ -330,6 +330,14 @@ export async function processLifelogs(options = {}) {
         console.log(`\n[4/4] Logging findings to manifest...`);
 
         if (!dryRun) {
+            // Import Agency Review for HITL integration
+            let agencyReview = null;
+            try {
+                agencyReview = await import('../agency/review.js');
+            } catch (e) {
+                logger.debug('Agency Review not available, using manifest only');
+            }
+
             for (const finding of findings) {
                 const manifestEntry = {
                     timestamp: finding.timestamp,
@@ -344,6 +352,30 @@ export async function processLifelogs(options = {}) {
                 };
 
                 appendFileSync(PATHS.manifest, JSON.stringify(manifestEntry) + '\n');
+
+                // If marketing trigger and Agency Review available, create HITL item
+                if (finding.marketingTrigger && agencyReview) {
+                    try {
+                        const clientId = finding.clientMentions?.[0]?.replace('@', '') || 'cptv';
+                        const reviewItem = agencyReview.createReviewItem({
+                            clientId,
+                            type: 'social',
+                            title: finding.title,
+                            content: `${finding.summary}\n\n**Key Insights:**\n${finding.insights?.map(i => `- ${i}`).join('\n') || 'None'}\n\n**Action Items:**\n${finding.actionItems?.map(a => `- ${a}`).join('\n') || 'None'}`,
+                            metadata: {
+                                source: 'Limitless Scout',
+                                lifelogId: finding.lifelogId,
+                                category: finding.category,
+                                priority: finding.priority,
+                                traceId: finding.traceId
+                            }
+                        });
+                        agencyReview.submitForAgencyReview(reviewItem.id);
+                        console.log(`      📋 Created HITL review item: ${reviewItem.id}`);
+                    } catch (err) {
+                        logger.debug('Failed to create HITL item', { error: err.message });
+                    }
+                }
             }
             console.log(`      ✅ ${findings.length} entries written to manifest.jsonl`);
 
