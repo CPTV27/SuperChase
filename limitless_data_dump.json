@@ -1,0 +1,310 @@
+Searching your lifelogs for the last 30 days for Scan2Plan, Studio C, CPTV, decisions, friction, ideas, client notes, and recurring topics...
+
+{
+    "meta": {
+        "owner": "Chase Pierson",
+        "period": "Last 30 days (2025-12-19 → 2026-01-18)",
+        "generatedAt": "2026-01-19T21:56:00-06:00"
+    },
+    "ExecutiveDecisions": {
+        "Scan2Plan": [
+            {
+                "decision": "Architecture approach",
+                "value": "YES",
+                "detail": "Centralized database + many small focused apps (one DB, multiple single-purpose apps & UI panels).",
+                "sourceQuotes": [
+                    "what we really need is a centralized database and we want to build a bunch of very specific focused apps that do one thing",
+                    "It shouldn't be the same app. It should be different apps, one database"
+                ]
+            },
+            {
+                "decision": "Immediate dev focus",
+                "value": "YES",
+                "detail": "Prioritize production tab, CPQ and proposal maker as MVP workstreams.",
+                "sourceQuotes": [
+                    "Focus on the production tab, CPQ and proposal maker. Just own that and make it work as simply and elegantly as possible."
+                ]
+            },
+            {
+                "decision": "Integrations policy",
+                "value": "YES",
+                "detail": "Integrate with HubSpot/GoHighLevel/Canva/TikTok/YouTube/Google (use their data, not replicate UI); prefer licensing/integration over rebuilding full external UIs.",
+                "sourceQuotes": [
+                    "I just want their data but not necessarily their UI.",
+                    "Can you create an updated PRD envisioning using hubspot capabilities for everything we've envisioned"
+                ]
+            },
+            {
+                "decision": "Scan hardware acquisition",
+                "value": "TENTATIVE YES",
+                "detail": "Plan/intent to acquire slam scanner for Scan2Plan when finances permit (Q2 discussion).",
+                "sourceQuotes": [
+                    "we might get a slam scanner at scan2plan this summer once our finances catch up",
+                    "if you get one of these things for 15 grand... invest by the year"
+                ]
+            }
+        ],
+        "StudioC": [
+            {
+                "decision": "Studio ops & productization",
+                "value": "YES",
+                "detail": "Productize Studio C outputs into templated town media packages (Natchez pilot → replicate to Fayetteville et al.).",
+                "sourceQuotes": [
+                    "shoot everything in like two days... build a template for other towns",
+                    "Studio C and Tuthill design are partners... use infrastructure to drive this thing"
+                ]
+            },
+            {
+                "decision": "POV / gear adoption",
+                "value": "YES",
+                "detail": "Adopt small, repeatable capture tools (GoPro, phone rigs, Ray-Ban glasses) and vertical-first workflow for scale.",
+                "sourceQuotes": [
+                    "Just make it easy... GoPro, that's all you need, bro.",
+                    "verticalize that as its own thing."
+                ]
+            }
+        ],
+        "CPTV Inc.": [
+            {
+                "decision": "Positioning / network",
+                "value": "YES",
+                "detail": "Operate local media networks (daytime tv.us / community pilots) as part of media ecosystem; owners/front-line talent featured.",
+                "sourceQuotes": [
+                    "Ladies and gentlemen, welcome to daytime tv.us... out of the basement of my house for now",
+                    "make media with people that I care about... scale it town-by-town"
+                ]
+            }
+        ]
+    },
+    "FrictionLog": [
+        {
+            "area": "Scan2Plan - UI / Proposal Builder",
+            "symptom": "Frustration with proposal builder UI; assembly, PandaDoc integration, and interface gaps",
+            "evidence": [
+                "proposal builder UI is still messed up.",
+                "I still don't see where to assemble the proposal.",
+                "I see where we can generate language... but I want an interface that's kind of like the quote builder"
+            ],
+            "impact": "Blocks sales/publishing workflow; slows quoting and onboarding (Owen/Agata dependency)."
+        },
+        {
+            "area": "SuperChase / Automation approvals",
+            "symptom": "Repeated manual approval steps and environment mismatches (clasp login, cloud vs local).",
+            "evidence": [
+                "What still requires you one time, clasp login thirty seconds.",
+                "I had to restart it and I just got to give it approvals a bunch of times again.",
+                "Cloud agent crashed & looped; local/cloud mismatch"
+            ],
+            "impact": "Agent autonomy reduced, increases manual intervention time and cognitive load."
+        },
+        {
+            "area": "Connector / Chat integrations (Studio C connector / Google Chat webhook)",
+            "symptom": "Connector not responding / deployment ID / webhook errors",
+            "evidence": [
+                "Studio C connector not responding",
+                "I changed the deployment ID and saved it. Can you test it? ... it's not responding"
+            ],
+            "impact": "Prevents automation, messaging and remote trigger workflows; slows team coordination."
+        },
+        {
+            "area": "Media storage & asset management",
+            "symptom": "Phone/computer full; no clear ingest/archive SOP",
+            "evidence": [
+                "Phone's full, computer's full, no organization, tons of footage... probably 100 hours of footage",
+                "You can put it in my Google Drive... Backblaze as option... buy SSDs"
+            ],
+            "impact": "Blocks capture/transfer, delays turnaround, creates risk of lost assets."
+        },
+        {
+            "area": "Context/Thread management & documentation",
+            "symptom": "Confusion from multiple threads & missing concise action lists",
+            "evidence": [
+                "Somehow I got in the wrong thread, so I just did all this shit in the wrong thread.",
+                "I just want a list of things to do... step-by-step instructions"
+            ],
+            "impact": "Wastes time, reduces execution velocity; increases admin overhead to re-sync context."
+        },
+        {
+            "area": "Product dev vs sales time allocation",
+            "symptom": "Need to do revenue-generating work while product (Scan2Plan) needs focus",
+            "evidence": [
+                "scan2plan is my top priority... but I still have to shuck and jive to make money every month",
+                "I can't pay the bills with scan2plan right now"
+            ],
+            "impact": "Resource/time tension slows product finish and sales momentum."
+        }
+    ],
+    "SomedayProjects": [
+        {
+            "id": "ChaseAndNona",
+            "title": "Chase & Nona - Elderly phone tutorial app",
+            "status": "Brainstormed (not in Asana)",
+            "description": "3-day vertical shoot with mom to capture phone tutorials; productize as searchable app for helping elderly use phones; monetize to families.",
+            "sourceQuotes": [
+                "Chase is going to block off three days... film it vertically in mom's bathroom",
+                "we'll sell that app to kids who need help with their parents' phone problems"
+            ]
+        },
+        {
+            "id": "BunnySoundscapes",
+            "title": "Bunny-centered content + soundscape product",
+            "status": "Idea / backlog",
+            "description": "Hero (bunny) vertical franchise + long-form audible soundscapes, soundtrack releases, POV videos, recurring low-friction content.",
+            "sourceQuotes": [
+                "verticalize that as its own fucking thing.",
+                "release the soundtrack on SoundCloud as like a DJ mix"
+            ]
+        },
+        {
+            "id": "ComedyDissection",
+            "title": "Rick Beato of Comedy",
+            "status": "Idea",
+            "description": "Channel that dissects comedians' craft in an educational format.",
+            "sourceQuotes": [
+                "The Rick Beato of comedy. I want to apply that idea to comedians"
+            ]
+        },
+        {
+            "id": "AgentForgeForRE",
+            "title": "Agent Forge (real estate AI app)",
+            "status": "Concept",
+            "description": "AI app for real estate agents: auto comps, listing descriptions, virtual staging, email automation, social reels, client portals. Monetize via SaaS/subscription tiers.",
+            "sourceQuotes": [
+                "app called Agent Forge... scan property listings, auto pull comps... virtual staging... charge subscription tiers"
+            ]
+        },
+        {
+            "id": "PuristFlagshipCampaign",
+            "title": "Purist full brand play / flagship campaign",
+            "status": "Concept → partially scoped; not in Asana",
+            "description": "Cross-promote Purist product via town media pilots, sponsored bundles, lifestyle films, and DTC shop-the-look commerce.",
+            "sourceQuotes": [
+                "purist is a stand alone brand... you use other content under whatever wig you feel like wearing... amplify Purist via town content"
+            ]
+        },
+        {
+            "id": "StudioC_WhiteLabelBookingWidget",
+            "title": "Studio scheduler / booking widget (white-label)",
+            "status": "Product idea",
+            "description": "Booking widget + digital call sheet + automated call sheet + auto quote generator integrated with Airtable/QuickBooks; white-label to studios.",
+            "sourceQuotes": [
+                "studio session order form... booking widget... integrate DocuSign/PandaDoc"
+            ]
+        }
+    ],
+    "ClientIntelligence": {
+        "BigMuddy (Tracy & Amy)": {
+            "preferences": [
+                "Feature owners (Tracy & Amy) as stars in content",
+                "Short, local segments; local-business cross-promo",
+                "Want bookings.com + inroads PMS admin support"
+            ],
+            "specificFeedback": [
+                "Use owners as primary characters; Amy is a singer — performance-driven content",
+                "Use existing $4k–$6k production funds as seed and show phased asks"
+            ],
+            "tone": "Southern-Gothic luxe, authentic, community-first"
+        },
+        "Scan2Plan (Owen / Agata)": {
+            "preferences": [
+                "Streamlined quoting/CPQ user flows (generate quote stage should be primary)",
+                "Strong integration with QuickBooks/Drive/Airtable",
+                "Point-cloud viewer integration and production tracking"
+            ],
+            "specificFeedback": [
+                "Make open-deal jump straight to generate-quote stage",
+                "Color-code top buttons and simplify navigation",
+                "Require fields to ensure proper data entry"
+            ]
+        },
+        "Purist (Patricia & Chris context)": {
+            "preferences": [
+                "High-quality product imagery (lifestyle + craft)",
+                "Audience-first approach before heavy commerce investments",
+                "Combine polished brand imagery with behind-the-scenes authenticity"
+            ],
+            "specificFeedback": [
+                "Maintain Purist as standalone brand while using local storytelling to drive audience",
+                "Invest in visual product placements and co-branded bundles"
+            ]
+        },
+        "General High-Value Client Patterns": [
+            {
+                "preference": "Low-touch client inputs (forms / checkboxes)",
+                "evidence": "Suggested Google form that feeds quote workbook; desire for simple data capture"
+            },
+            {
+                "preference": "Autonomy for Ops",
+                "evidence": "Clients prefer we 'own' the funnel and publishing; they want turnkey operations"
+            }
+        },
+        "MetaPatterns": {
+            "RecurringTopics>3": [
+                {
+                    "topic": "Scan2Plan productization & CPQ",
+                    "occurrences": 18,
+                    "manifestation": [
+                        "architecture (central DB + focused apps)",
+                        "CPQ/proposal builder bugs and UI friction",
+                        "sales pipeline automation and HubSpot integration",
+                        "point-cloud viewer & hosting"
+                    ]
+                },
+                {
+                    "topic": "Studio C / town media template (Natchez → replicate)",
+                    "occurrences": 12,
+                    "manifestation": [
+                        "2-day shoot template (hero film + verticals + microdocs)",
+                        "local business microdocs and sponsorship model",
+                        "distribution automation (Canva → vertical exports)"
+                    ]
+                },
+                {
+                    "topic": "Automation / SuperChase agents",
+                    "occurrences": 10,
+                    "manifestation": [
+                        "agent orchestration for publishing and ops",
+                        "approval gating issues (clasp/oauth)",
+                        "desire to offload repetitive tasks and have AI run workflows"
+                    ]
+                },
+                {
+                    "topic": "Media asset management & storage",
+                    "occurrences": 8,
+                    "manifestation": [
+                        "need for SSD + Backblaze cold storage",
+                        "phone/computer full blocking production",
+                        "ingest & backup SOPs"
+                    ]
+                },
+                {
+                    "topic": "Monetization via content (bookings + product sales + sponsors)",
+                    "occurrences": 7,
+                    "manifestation": [
+                        "using content to drive bookings for inns",
+                        "Purist product placement and shop-the-look bundles",
+                        "local sponsorship packages"
+                    ]
+                }
+            ]
+        },
+        "ActionableRecommendationsForAIExec": {
+            "topPriorities": [
+                "Fix Scan2Plan CPQ/proposal UI: streamline 'open deal' → 'generate quote' flow; color-code primary action buttons.",
+                "Triaging SuperChase approval gates: enumerate manual OAuth steps (clasp), implement bypass SOP, run tests.",
+                "Establish media ingest & storage SOP: buy 4TB SSDs + provision Backblaze; run same-day ingest & 48hr vertical export rule.",
+                "Deliver Purist pilot sell-sheet & StudioC 2-day shoot template (Natchez) and an identical Fayetteville replication checklist.",
+                "Create one canonical 'daily action list' (10-step) for owners/clients (what to do at 10:00 / 14:00 etc.) to remove decision friction."
+            ],
+            "shortAutomationsToBuild": [
+                "Google form → spreadsheet → Scan2Plan quote builder row population (reduce manual input).",
+                "Post-shoot pipeline automation: ingest → tag → auto-export verticals via Canva template triggers.",
+                "Connector health monitor: script to validate webhook endpoints / deployment IDs and send status."
+            ],
+            "ticketsToOpenNow": [
+                "UI bug: proposal assembly missing (attach transcript excerpts + repro steps).",
+                "Connector: Studio C webhook failing (collect logs & run curl test).",
+                "Storage: immediate temp cloud allocation + top-20 file list for archiving."
+            ]
+        }
+    }

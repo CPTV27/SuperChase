@@ -33,7 +33,11 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/', // Docs at root
         },
-        blog: false, // Disable blog
+        blog: {
+          showReadingTime: true,
+          blogSidebarCount: 'ALL',
+          postsPerPage: 10,
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -45,7 +49,8 @@ const config: Config = {
     image: 'img/social-card.jpg',
     colorMode: {
       defaultMode: 'dark',
-      respectPrefersColorScheme: true,
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
     },
     navbar: {
       title: 'SuperChase',
@@ -65,6 +70,11 @@ const config: Config = {
           sidebarId: 'projectsSidebar',
           position: 'left',
           label: 'Projects',
+        },
+        {
+          to: '/blog',
+          label: 'Blog',
+          position: 'left',
         },
         {
           href: 'https://superchase-dashboard-production.up.railway.app',

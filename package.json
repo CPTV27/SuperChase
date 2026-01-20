@@ -28,7 +28,13 @@
     "test:classify": "node -e \"import('./core/hub.js').then(m => m.classify({subject:'URGENT: Need response', body:'Please respond ASAP', sender:'client@test.com'}).then(console.log))\"",
     "test:sheets": "node -e \"import('./spokes/sheets/logger.js').then(m => m.testConnection().then(console.log))\"",
     "dashboard": "cd frontend && npm run dev",
-    "dashboard:build": "cd frontend && npm run build"
+    "dashboard:build": "cd frontend && npm run build",
+    "brand:scrape": "node spokes/brand/scraper.js",
+    "brand:all": "node spokes/brand/scraper.js --all",
+    "brand:list": "node spokes/brand/scraper.js --list",
+    "gst": "node spokes/strategy/gst.js",
+    "gst:status": "node spokes/strategy/gst.js --all status",
+    "gst:tactics": "node spokes/strategy/gst.js"
   },
   "dependencies": {
     "dotenv": "^16.3.1"

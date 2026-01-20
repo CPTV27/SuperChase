@@ -1,0 +1,50 @@
+{
+  "clientId": "bigmuddy",
+  "name": "Big Muddy Inn & Blues Room",
+  "colors": {
+    "primary": "#1a365d",
+    "secondary": "#c6a66d",
+    "accent": "#8b4513",
+    "background": "#09090b",
+    "text": "#fafafa",
+    "palette": []
+  },
+  "fonts": {
+    "heading": "Geneva",
+    "body": "Geneva",
+    "stack": [
+      "Geneva"
+    ]
+  },
+  "voice": {
+    "archetype": "Architectural Noir",
+    "confidence": 0.05,
+    "tone": [
+      "intellectual",
+      "contemplative",
+      "bold",
+      "sophisticated"
+    ],
+    "style": "Sparse, evocative language with visual precision",
+    "vocabulary": [
+      "nbsp",
+      "muddy",
+      "home",
+      "restaurant",
+      "rooms",
+      "meeting",
+      "banquet",
+      "bengough",
+      "saskatchewan",
+      "farming",
+      "community",
+      "websitebuilder"
+    ],
+    "markers": [
+      "modern"
+    ]
+  },
+  "scrapedFrom": "https://bigmuddyinn.com",
+  "scraped": true,
+  "generatedAt": "2026-01-20T20:56:02.325Z"
+}

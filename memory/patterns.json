@@ -108,5 +108,35 @@
     ],
     "recommendation": "Prioritize the 'Reality Capture for Virtual Production' opportunity (tech-media-s2p-sc). It leverages existing Scan2Plan technology to enhance Studio C's capabilities, creating a unique selling proposition and potentially attracting higher-value clients. This also addresses the recurring topic of 'Studio C / town media template' by providing a more advanced and immersive experience.",
     "analyzedAt": "2026-01-20T04:10:04.312Z"
+  },
+  "test_pattern_1768899386081": {
+    "name": "Test Pattern",
+    "trigger": "test trigger",
+    "action": "test action",
+    "updated": "2026-01-20T08:56:26.082Z"
+  },
+  "test_pattern_1768899432023": {
+    "name": "Test Pattern",
+    "trigger": "test trigger",
+    "action": "test action",
+    "updated": "2026-01-20T08:57:12.023Z"
+  },
+  "test_pattern_1768899598166": {
+    "name": "Test Pattern",
+    "trigger": "test trigger",
+    "action": "test action",
+    "updated": "2026-01-20T08:59:58.166Z"
+  },
+  "test_pattern_1768933866231": {
+    "name": "Test Pattern",
+    "trigger": "test trigger",
+    "action": "test action",
+    "updated": "2026-01-20T18:31:06.231Z"
+  },
+  "test_pattern_1768933892333": {
+    "name": "Test Pattern",
+    "trigger": "test trigger",
+    "action": "test action",
+    "updated": "2026-01-20T18:31:32.333Z"
   }
 }

@@ -1,0 +1,192 @@
+{
+  "clientId": "bigmuddy",
+  "clientName": "Big Muddy Inn & Blues Room",
+  "version": "1.0.0",
+  "governor": {
+    "phase": 1,
+    "phaseName": "Learning",
+    "metrics": {
+      "totalApprovals": 0,
+      "totalRejections": 0,
+      "approvalRate": 0,
+      "avgEditPercentage": 100,
+      "consecutiveApprovals": 0
+    },
+    "thresholds": {
+      "copilotApprovals": 10,
+      "copilotMaxEditRate": 10,
+      "autonomousMilestone": "reviews_50"
+    },
+    "permissions": {
+      "canSelfPublish": false,
+      "canRunTests": false,
+      "canProposeStrategy": false,
+      "canAutoRespond": false
+    },
+    "lastEvaluation": null
+  },
+  "goals": [
+    {
+      "id": "goal_bigmuddy_local",
+      "title": "Dominate Natchez Local Search",
+      "description": "Become the top-ranked boutique hotel in Natchez for local search, Google Maps, and review platforms.",
+      "metric": "local_pack_position",
+      "target": 1,
+      "current": 4,
+      "status": "in_progress",
+      "priority": "high",
+      "milestones": [
+        {
+          "id": "ms_top10",
+          "title": "Top 10 in Local Pack",
+          "target": 10,
+          "status": "completed",
+          "completedAt": "2026-01-15T00:00:00.000Z"
+        },
+        {
+          "id": "ms_top5",
+          "title": "Top 5 in Local Pack",
+          "target": 5,
+          "status": "completed",
+          "completedAt": "2026-01-18T00:00:00.000Z"
+        },
+        {
+          "id": "ms_top3",
+          "title": "Top 3 in Local Pack",
+          "target": 3,
+          "triggersPhase": 2,
+          "status": "pending",
+          "completedAt": null
+        }
+      ],
+      "deadline": "2026-06-01",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    },
+    {
+      "id": "goal_bigmuddy_reviews",
+      "title": "50 Five-Star Reviews",
+      "description": "Build social proof through authentic guest reviews across Google, TripAdvisor, and Yelp.",
+      "metric": "five_star_reviews",
+      "target": 50,
+      "current": 32,
+      "status": "in_progress",
+      "priority": "high",
+      "milestones": [
+        {
+          "id": "ms_reviews_25",
+          "title": "25 Five-Star Reviews",
+          "target": 25,
+          "status": "completed",
+          "completedAt": "2026-01-10T00:00:00.000Z"
+        },
+        {
+          "id": "ms_reviews_50",
+          "title": "50 Five-Star Reviews",
+          "target": 50,
+          "triggersPhase": 3,
+          "status": "pending",
+          "completedAt": null
+        }
+      ],
+      "deadline": "2026-04-01",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "strat_bigmuddy_gothic",
+      "goalId": "goal_bigmuddy_local",
+      "title": "Content-Led Authority via Southern Gothic Narrative",
+      "description": "Establish thought leadership through unique storytelling that positions Big Muddy as the authentic heart of Natchez Under-the-Hill.",
+      "approach": "Southern Gothic Narrative",
+      "channels": ["GBP", "Blog", "Social"],
+      "status": "active",
+      "metrics": {
+        "tacticsCompleted": 12,
+        "tacticsFailed": 1,
+        "successRate": 92
+      },
+      "pivotHistory": [],
+      "blockers": [],
+      "createdAt": "2026-01-05T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    },
+    {
+      "id": "strat_bigmuddy_blues",
+      "goalId": "goal_bigmuddy_reviews",
+      "title": "Blues Heritage Content Series",
+      "description": "Leverage the Blues Room's unique position in Mississippi music history to attract music tourism and generate shareable content.",
+      "approach": "Music Heritage Storytelling",
+      "channels": ["Blog", "Social", "Email"],
+      "status": "active",
+      "metrics": {
+        "tacticsCompleted": 8,
+        "tacticsFailed": 0,
+        "successRate": 100
+      },
+      "pivotHistory": [],
+      "blockers": [],
+      "createdAt": "2026-01-08T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    }
+  ],
+  "tactics": [
+    {
+      "id": "tactic_bigmuddy_001",
+      "strategyId": "strat_bigmuddy_gothic",
+      "channel": "GBP",
+      "type": "post",
+      "title": "GBP Post: River fog morning at Big Muddy",
+      "description": "Photo post showcasing the atmospheric morning views from the inn.",
+      "status": "pending",
+      "scheduledFor": "2026-01-20",
+      "priority": "medium",
+      "estimatedMinutes": 15,
+      "createdAt": "2026-01-20T05:00:00.000Z",
+      "completedAt": null,
+      "result": null
+    },
+    {
+      "id": "tactic_bigmuddy_002",
+      "strategyId": "strat_bigmuddy_blues",
+      "channel": "Blog",
+      "type": "article",
+      "title": "Blog: The Story Behind Silver Street",
+      "description": "Deep dive into the history of Natchez Under-the-Hill and its role in blues history.",
+      "status": "pending",
+      "scheduledFor": "2026-01-20",
+      "priority": "high",
+      "estimatedMinutes": 60,
+      "createdAt": "2026-01-20T05:00:00.000Z",
+      "completedAt": null,
+      "result": null
+    }
+  ],
+  "history": [
+    {
+      "type": "goal_added",
+      "goalId": "goal_bigmuddy_local",
+      "title": "Dominate Natchez Local Search",
+      "timestamp": "2026-01-01T00:00:00.000Z",
+      "actor": "system"
+    },
+    {
+      "type": "milestone_completed",
+      "goalId": "goal_bigmuddy_local",
+      "milestoneId": "ms_top10",
+      "title": "Top 10 in Local Pack",
+      "timestamp": "2026-01-15T00:00:00.000Z"
+    },
+    {
+      "type": "milestone_completed",
+      "goalId": "goal_bigmuddy_local",
+      "milestoneId": "ms_top5",
+      "title": "Top 5 in Local Pack",
+      "timestamp": "2026-01-18T00:00:00.000Z"
+    }
+  ],
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "updatedAt": "2026-01-20T00:00:00.000Z"
+}

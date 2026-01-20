@@ -242,3 +242,36 @@ button:focus-visible, a:focus-visible {
 .alert-new {
   animation: alert-pulse 2s ease-in-out 3;
 }
+
+/* Layout with Sidebar */
+.layout-with-sidebar {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  min-height: 100vh;
+  transition: margin-left 0.2s ease;
+}
+
+/* Desktop: sidebar always visible */
+@media (min-width: 1024px) {
+  .main-content {
+    margin-left: 280px;
+  }
+}
+
+/* Sidebar navigation item active state */
+.nav-item-active {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* Sidebar section divider */
+.sidebar-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  margin: 1rem 0;
+}

@@ -56,6 +56,8 @@ const sidebars: SidebarsConfig = {
         'projects/studio-c',
         'projects/cptv',
         'projects/tuthill',
+        'projects/bigmuddy',
+        'projects/utopia',
       ],
     },
   ],

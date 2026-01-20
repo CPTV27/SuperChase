@@ -1,0 +1,55 @@
+{
+  "clientId": "utopia",
+  "name": "Utopia Bearsville",
+  "colors": {
+    "primary": "hsla(var(--black-hsl)",
+    "secondary": "hsla(var(--white-hsl)",
+    "accent": "#4a7c59",
+    "background": "hsla(var(--black-hsl)",
+    "text": "#fafafa",
+    "palette": [
+      "hsla(var(--black-hsl)",
+      "hsla(var(--white-hsl)"
+    ]
+  },
+  "fonts": {
+    "heading": "Archivo Black",
+    "body": "Archivo Black",
+    "stack": [
+      "Archivo Black"
+    ]
+  },
+  "voice": {
+    "archetype": "Production Pro",
+    "confidence": 0.65,
+    "tone": [
+      "professional",
+      "technical",
+      "reliable",
+      "experienced"
+    ],
+    "style": "Clear, capability-focused language that builds trust",
+    "vocabulary": [
+      "studio",
+      "video",
+      "accommodations",
+      "manager",
+      "menu",
+      "utopia",
+      "studios",
+      "bearsville",
+      "home",
+      "gear",
+      "about",
+      "rehearsals"
+    ],
+    "markers": [
+      "studio",
+      "video",
+      "live"
+    ]
+  },
+  "scrapedFrom": "https://utopiabearsville.com",
+  "scraped": true,
+  "generatedAt": "2026-01-20T20:56:07.731Z"
+}

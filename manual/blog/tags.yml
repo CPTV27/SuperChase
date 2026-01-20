@@ -1,19 +1,71 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+# Business Units
+s2p:
+  label: Scan2Plan
+  description: Reality capture and 3D scanning services
+  permalink: /s2p
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+studio:
+  label: Studio C
+  description: Production-as-a-service
+  permalink: /studio
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+cptv:
+  label: Chase Pierson TV
+  description: Personal brand and content
+  permalink: /cptv
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+tuthill:
+  label: Tuthill Design
+  description: Editorial and design methodology
+  permalink: /tuthill
+
+bigmuddy:
+  label: Big Muddy Inn
+  description: Boutique hotel and Blues Room
+  permalink: /bigmuddy
+
+utopia:
+  label: Utopia Bearsville
+  description: Production studio in Hudson Valley
+  permalink: /utopia
+
+# Topics
+automation:
+  label: Automation
+  description: Systems and workflow automation
+  permalink: /automation
+
+ai-operations:
+  label: AI Operations
+  description: AI-augmented business operations
+  permalink: /ai-operations
+
+build-in-public:
+  label: Build in Public
+  description: Transparent product development journey
+  permalink: /build-in-public
+
+reality-capture:
+  label: Reality Capture
+  description: 3D scanning and photogrammetry
+  permalink: /reality-capture
+
+production:
+  label: Production
+  description: Video and content production
+  permalink: /production
+
+blues-heritage:
+  label: Blues Heritage
+  description: Mississippi music history
+  permalink: /blues-heritage
+
+southern-gothic:
+  label: Southern Gothic
+  description: Atmospheric storytelling
+  permalink: /southern-gothic
+
+operations:
+  label: Operations
+  description: Business operations and systems
+  permalink: /operations

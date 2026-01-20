@@ -29,9 +29,13 @@ import {
   Building2,
   Video,
   Tv,
-  Palette
+  Palette,
+  FileCheck,
+  ExternalLink,
+  ThumbsUp,
+  ThumbsDown
 } from 'lucide-react'
-import api, { getLogs, getStrategy, getSpokeStatus, triggerBriefing } from './services/api'
+import api, { getLogs, getStrategy, getSpokeStatus, triggerBriefing, getReviewPulse } from './services/api'
 
 // Business Unit Configuration
 const BUSINESS_UNITS = {
@@ -539,6 +543,128 @@ function LeverageItem({ opportunity }) {
   )
 }
 
+// Review Pulse Widget - Agency Mode Content Workflow
+function ReviewPulseWidget({ pulse }) {
+  const { counts, agencyPending, clientPending, readyToPublish, needsRevision } = pulse
+  const totalPending = (counts.agencyReview || 0) + (counts.clientReview || 0) + (counts.needsRevision || 0)
+
+  return (
+    <div className="space-y-4">
+      {/* Status Badges */}
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex items-center gap-2 p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
+          <Clock className="w-4 h-4 text-yellow-400" />
+          <div>
+            <div className="text-lg font-bold text-yellow-400">{counts.agencyReview || 0}</div>
+            <div className="text-xs text-zinc-500">Your Review</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
+          <Users className="w-4 h-4 text-blue-400" />
+          <div>
+            <div className="text-lg font-bold text-blue-400">{counts.clientReview || 0}</div>
+            <div className="text-xs text-zinc-500">Client Review</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <div>
+            <div className="text-lg font-bold text-emerald-400">{counts.readyToPublish || 0}</div>
+            <div className="text-xs text-zinc-500">Ready to Publish</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 p-3 rounded-xl bg-orange-500/10 border border-orange-500/20">
+          <AlertCircle className="w-4 h-4 text-orange-400" />
+          <div>
+            <div className="text-lg font-bold text-orange-400">{counts.needsRevision || 0}</div>
+            <div className="text-xs text-zinc-500">Needs Revision</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Pending Items */}
+      {agencyPending && agencyPending.length > 0 && (
+        <div className="space-y-2">
+          <div className="text-xs text-zinc-500 uppercase tracking-wide">Awaiting Your Approval</div>
+          {agencyPending.slice(0, 3).map((item, i) => (
+            <motion.div
+              key={item.id || i}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="p-3 bg-zinc-900/50 rounded-xl border border-zinc-800/50"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm text-zinc-200 font-medium truncate">{item.title}</div>
+                  <div className="text-xs text-zinc-500 mt-1 flex items-center gap-2">
+                    <span className="px-1.5 py-0.5 rounded bg-zinc-800">{item.clientId}</span>
+                    <span>{item.type}</span>
+                  </div>
+                </div>
+                <div className="flex gap-1">
+                  {item.approveUrl && (
+                    <a
+                      href={item.approveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 transition-colors touch-target"
+                      title="Approve"
+                    >
+                      <ThumbsUp className="w-4 h-4 text-emerald-400" />
+                    </a>
+                  )}
+                  {item.rejectUrl && (
+                    <a
+                      href={item.rejectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 transition-colors touch-target"
+                      title="Reject"
+                    >
+                      <ThumbsDown className="w-4 h-4 text-red-400" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      {/* Ready to Publish */}
+      {readyToPublish && readyToPublish.length > 0 && (
+        <div className="space-y-2">
+          <div className="text-xs text-zinc-500 uppercase tracking-wide">Ready to Publish</div>
+          {readyToPublish.slice(0, 2).map((item, i) => (
+            <motion.div
+              key={item.id || i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center gap-3 p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20"
+            >
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="text-sm text-zinc-200 truncate">{item.title}</div>
+                <div className="text-xs text-zinc-500">{item.clientId}</div>
+              </div>
+              <ExternalLink className="w-4 h-4 text-zinc-500" />
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      {/* Empty State */}
+      {totalPending === 0 && (
+        <div className="text-center py-4 text-zinc-500 text-sm">
+          <FileCheck className="w-8 h-8 mx-auto mb-2 text-emerald-500" />
+          All content approved
+        </div>
+      )}
+    </div>
+  )
+}
+
 // Main Dashboard Component
 function App() {
   const [health, setHealth] = useState({ status: 'loading' })
@@ -564,6 +690,15 @@ function App() {
   // System Alerts
   const [alerts, setAlerts] = useState([])
   const [seenAlertIds, setSeenAlertIds] = useState(new Set())
+
+  // Review Pulse (Agency Mode)
+  const [reviewPulse, setReviewPulse] = useState({
+    counts: { agencyReview: 0, clientReview: 0, readyToPublish: 0, needsRevision: 0 },
+    agencyPending: [],
+    clientPending: [],
+    readyToPublish: [],
+    needsRevision: []
+  })
 
   // Generate alerts from spoke status changes
   useEffect(() => {
@@ -623,13 +758,14 @@ function App() {
   const fetchData = useCallback(async () => {
     setLoading(true)
     try {
-      const [healthData, tasksData, briefingData, statusData, strategyData, logsData] = await Promise.all([
+      const [healthData, tasksData, briefingData, statusData, strategyData, logsData, pulseData] = await Promise.all([
         api.getHealth(),
         api.getTasks(8),
         api.getBriefing(),
         getSpokeStatus(),
         getStrategy(),
-        getLogs(10)
+        getLogs(10),
+        getReviewPulse()
       ])
       setHealth(healthData)
       setTasks(tasksData.tasks || [])
@@ -637,6 +773,7 @@ function App() {
       setSpokeStatus(statusData)
       setStrategy(strategyData)
       setLogs(logsData.logs || [])
+      setReviewPulse(pulseData)
       setLastRefresh(new Date())
     } catch (error) {
       console.error('Fetch error:', error)
@@ -680,20 +817,18 @@ function App() {
       {/* Quick Ingest Modal */}
       <QuickIngestModal isOpen={showQuickIngest} onClose={() => setShowQuickIngest(false)} />
 
-      {/* Header */}
+      {/* Header - Simplified since branding is in sidebar */}
       <header className="mb-8">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
-              <Brain className="w-7 h-7 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white">SuperChase</h1>
-              <p className="text-sm text-zinc-500">Executive Command Center v2.3</p>
-            </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          {/* Page Title - visible on mobile, hidden on desktop where sidebar shows */}
+          <div className="flex items-center gap-3 lg:hidden">
+            <h1 className="text-xl font-bold text-white">Dashboard</h1>
+            <span className="text-sm text-zinc-500">v2.4</span>
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* Controls */}
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 sm:ml-auto">
+            {/* Business Filter */}
             <div className="flex flex-col gap-1">
               <BusinessFilter active={activeFilter} onChange={setActiveFilter} />
               {filterSuggestion.reason && activeFilter === filterSuggestion.filter && (
@@ -703,6 +838,7 @@ function App() {
               )}
             </div>
 
+            {/* Quick Ingest */}
             <button
               onClick={() => setShowQuickIngest(true)}
               className="p-3 rounded-xl bg-blue-600 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/25 touch-target"
@@ -711,6 +847,7 @@ function App() {
               <Plus className="w-5 h-5 text-white" />
             </button>
 
+            {/* Status Indicator */}
             <div className="flex items-center gap-3 px-4 py-2 glass rounded-xl">
               <StatusDot status={health.status === 'ok' ? 'online' : 'offline'} />
               <span className="text-sm text-zinc-400">
@@ -718,6 +855,7 @@ function App() {
               </span>
             </div>
 
+            {/* Refresh */}
             <button
               onClick={fetchData}
               disabled={loading}
@@ -880,6 +1018,11 @@ function App() {
             </div>
           </Card>
 
+          {/* Review Pulse - Agency Mode */}
+          <Card title="Review Pulse" icon={FileCheck} accentColor="#10b981">
+            <ReviewPulseWidget pulse={reviewPulse} />
+          </Card>
+
           {/* System Status */}
           <Card title="System Status" icon={Activity} accentColor="#06b6d4">
             <div className="space-y-4">
@@ -974,7 +1117,7 @@ function App() {
 
       {/* Footer */}
       <footer className="mt-10 text-center text-xs text-zinc-700">
-        SuperChase Executive OS v2.3 • Railway: superchase-production.up.railway.app
+        SuperChase Executive OS v2.4 • Railway: superchase-production.up.railway.app
       </footer>
     </div>
   )

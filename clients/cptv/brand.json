@@ -1,0 +1,49 @@
+{
+  "clientId": "cptv",
+  "name": "Chase Pierson TV",
+  "colors": {
+    "primary": "#0a0a0a",
+    "secondary": "#00ff88",
+    "accent": "#ff0066",
+    "background": "#09090b",
+    "text": "#fafafa",
+    "palette": []
+  },
+  "fonts": {
+    "heading": "Clash Display",
+    "body": "Inter",
+    "stack": []
+  },
+  "voice": {
+    "archetype": "Creative Artisan",
+    "confidence": 0.15,
+    "tone": [
+      "thoughtful",
+      "refined",
+      "passionate",
+      "meticulous"
+    ],
+    "style": "Elegant, considered language that values process and quality",
+    "vocabulary": [
+      "selects",
+      "festival",
+      "photo",
+      "brian",
+      "gallery",
+      "format",
+      "home",
+      "galleries",
+      "architectural",
+      "about",
+      "contact",
+      "kate"
+    ],
+    "markers": [
+      "studio",
+      "art"
+    ]
+  },
+  "scrapedFrom": "https://chasepierson.tv",
+  "scraped": true,
+  "generatedAt": "2026-01-20T20:56:04.426Z"
+}

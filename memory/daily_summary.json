@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-01-20T01:59:22.258Z",
-  "briefing": "Mr. Pierson, you have two urgent emails from client@example.com regarding a project deadline adjustment. Please review them immediately to assess the impact on our schedule. Otherwise, your evening is clear of immediate tasks.",
+  "generatedAt": "2026-01-20T08:59:56.885Z",
+  "briefing": "Mr. Pierson, you have two urgent emails from client@example.com regarding a project deadline change that requires immediate attention. There are no active tasks on your schedule currently. Please let me know if you require assistance prioritizing this new information.",
   "urgentEmails": [
     {
       "subject": "URGENT: Project deadline moved up",
@@ -19,38 +19,6 @@
     "taskCount": 0,
     "overdueCount": 0
   },
-  "lastTriage": {
-    "timestamp": "2026-01-20T02:11:13.359Z",
-    "processed": 5,
-    "tasksCreated": 0,
-    "archived": 4
-  },
-  "recentEmails": [
-    {
-      "subject": "OUR PARKING LOT SALE IS GOING ON NOW!",
-      "category": "NEWSLETTER",
-      "action": "archive"
-    },
-    {
-      "subject": "Remember, you’ve got discounts",
-      "category": "NEWSLETTER",
-      "action": "archive"
-    },
-    {
-      "subject": "Your Available Balance",
-      "category": "FYI",
-      "action": "log_only"
-    },
-    {
-      "subject": "Trending: feminine & sporty styles ✅",
-      "category": "NEWSLETTER",
-      "action": "archive"
-    },
-    {
-      "subject": "Shop Our Winter Linen & Mattress Sale With Products From Your Favorite Hotels",
-      "category": "NEWSLETTER",
-      "action": "archive"
-    }
-  ],
-  "lastUpdated": "2026-01-20T02:11:13.359Z"
+  "testField": "test_1768933892336",
+  "lastUpdated": "2026-01-20T18:31:32.336Z"
 }

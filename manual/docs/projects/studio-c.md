@@ -1,86 +1,99 @@
----
-sidebar_position: 2
-title: Studio C
-description: Production-as-a-service video & virtual production
-tags: [studio, operations, active]
----
-
 # Studio C
 
-> Production-as-a-service (video, streaming, virtual production)
+> **Client ID**: `studioc`  
+> **Status**: Active  
+> **Archetype**: The Cultural Archivist
 
-## Status
+## Brand Philosophy
 
-| Metric | Value | Trend |
-|--------|-------|-------|
-| Active Productions | 2 | - |
-| Upcoming Shoots | 1 | - |
-| Monthly Revenue | - | - |
-| Last Activity | Today | - |
+> "Resistance, Resilience & Hope—creating a bridge for stories that need to be part of the world."
 
-## Current Focus
+Empathetic but direct; outgoing and welcoming but never "robotic". Speak like a trusted creative partner: warm, positive, and engaging.
 
-:::tip Production Factory
-**Goal:** Productize Studio C into repeatable town media packages
-- 2-day shoot template: hero film + verticals + microdocs
-- Local business sponsorship model
-- **Pilot:** Natchez → replicate to Fayetteville
-:::
+## Voice Guidelines
 
-## Key Contacts
+### Tone
+- Empathetic
+- Direct
+- Collaborative
+- Authentic
 
-| Name | Role | Priority |
-|------|------|----------|
-| Miles | Technical Director | High |
-| Tracy | Big Muddy Inn - Owner | High |
-| Amy | Big Muddy Inn - Singer | High |
+### DO Say
+- Speak like a trusted creative partner
+- Prioritize raw human narrative over polish
+- Balance warmth with professional edge
+- Show the soul behind the sound
 
-## Active Productions
+### DON'T Say
+- Robotic or templated responses
+- Overproduced marketing speak
+- Disconnected corporate voice
 
-<!-- AUTO-UPDATED: Pulled from calendar/Asana -->
+### Sample Phrases
+- *"Your story deserves to be heard"*
+- *"We capture the soul, not just the sound"*
+- *"Real moments, real impact"*
 
-| Production | Client | Status | Shoot Date |
-|------------|--------|--------|------------|
-| Big Muddy Inn | Tracy & Amy | Planning | TBD |
-| Town Media Pilot | Natchez | In Progress | Q1 2026 |
+## Visual Style
 
-## Recent Activity
+**Archetype**: Documentary Grit
 
-<!-- AUTO-UPDATED: Appended by sc CLI -->
+| Element | Style |
+|---------|-------|
+| **Aesthetic** | Warm analogue glow |
+| **Texture** | Grainy, authentic |
+| **Focus** | Behind-the-scenes raw |
+| **Color** | Pro Tools carbon aesthetic |
+| **Mood** | Collaborative energy |
 
-*No recent activity logged*
+### Image Generation Prompt
+```
+Documentary grit, warm analogue glow, Pro Tools carbon aesthetic, 
+behind-the-scenes authenticity, intimate studio moments, 
+grainy texture, warm color grading, candid captures, gear in context
+```
+
+## SEO Keywords
+
+### Primary
+- Podcast production studio
+- Video production Nashville
+- Documentary production
+- Audio post production
+
+### Authority Keywords
+- Intimate vibe
+- Soul of a moment
+- High-fidelity narrative
+- Heart-led commitment
+
+## Content Pillars
+
+### 1. Authentic Storytelling
+- Documentary craft
+- Interview techniques
+- Narrative structure
+
+### 2. Technical Excellence
+- Pro Tools workflows
+- Audio engineering
+- Color grading
+
+### 3. Creative Collaboration
+- Client partnerships
+- Behind the scenes
+- Process reveals
+
+## Content Calendar
+
+| Day | Content Type |
+|-----|-------------|
+| Tuesday | Client story / testimonial |
+| Thursday | Behind-the-scenes / gear |
+| Saturday | Project reveal |
+| Sunday | Industry insight |
 
 ---
 
-## Location & Equipment
-
-**Utopia Studios** - Bearsville, NY
-
-### Equipment Inventory
-- Blackmagic 6K Cinema Camera
-- ATEM Constellation 8K Switcher
-- DJI Ronin 4D
-- Matterport Pro2 (shared with S2P)
-
-### Production Packages
-
-| Package | Price | Includes |
-|---------|-------|----------|
-| Basic | $1,500 | 1-day shoot, 2 deliverables |
-| Standard | $3,000 | 2-day shoot, hero + verticals |
-| Premium | $4,500 | Full town media package |
-
-## Cross-Business Leverage
-
-### ← Scan2Plan
-3D location captures for virtual production backgrounds
-
-### → CPTV
-Distribute Studio C content through local media networks
-
-### → Purist
-Adapt town media template for lifestyle brand content
-
----
-
-*Last synced: Auto-generated*
+*Last Updated: 2026-01-20*  
+*SuperChase Tenant: studioc*

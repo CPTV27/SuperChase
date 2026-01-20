@@ -137,6 +137,58 @@ export async function triggerBriefing() {
   }
 }
 
+// ============================================
+// Agency Mode API - Phase 3
+// ============================================
+
+/**
+ * Fetch review pulse (content approval workflow status)
+ */
+export async function getReviewPulse() {
+  try {
+    const res = await fetch(`${API_BASE}/api/review/pulse`, { headers });
+    return await res.json();
+  } catch (error) {
+    return { counts: {}, agencyPending: [], clientPending: [], readyToPublish: [], needsRevision: [] };
+  }
+}
+
+/**
+ * Fetch request metrics
+ */
+export async function getMetrics() {
+  try {
+    const res = await fetch(`${API_BASE}/api/metrics`);
+    return await res.json();
+  } catch (error) {
+    return { requests: 0, successRate: '0', avgResponseTime: 0 };
+  }
+}
+
+/**
+ * Fetch all tenants
+ */
+export async function getTenants() {
+  try {
+    const res = await fetch(`${API_BASE}/api/tenants`, { headers });
+    return await res.json();
+  } catch (error) {
+    return { tenants: [], count: 0 };
+  }
+}
+
+/**
+ * Fetch client portal queue
+ */
+export async function getClientQueue(clientId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/portal/${clientId}/queue`, { headers });
+    return await res.json();
+  } catch (error) {
+    return { success: false, queue: null };
+  }
+}
+
 export default {
   getHealth,
   getTasks,
@@ -147,5 +199,10 @@ export default {
   getLogs,
   getStrategy,
   getSpokeStatus,
-  triggerBriefing
+  triggerBriefing,
+  // Phase 3 - Agency Mode
+  getReviewPulse,
+  getMetrics,
+  getTenants,
+  getClientQueue
 };

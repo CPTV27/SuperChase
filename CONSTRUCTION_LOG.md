@@ -1,0 +1,695 @@
+# SuperChase Construction Log
+
+> Every change to this system must be documented here before implementation.
+
+---
+
+## Entry 001: Hub-and-Spoke Architecture Refactor (v2.0)
+
+**Date:** 2026-01-19
+**Author:** Claude Code
+**Status:** PLANNED (Awaiting Approval)
+
+### 1. The Problem
+
+The current SuperChase system suffers from four critical dysfunctions:
+
+| Dysfunction | Impact | Evidence |
+|-------------|--------|----------|
+| **Monolithic Code.gs** | Untestable, 199KB single file | Can't deploy spokes independently |
+| **Sheet-as-Truth** | Race conditions, stale data | Tasks read from Sheets instead of Asana |
+| **Live API on Voice** | 3-5 second latency per request | Every briefing hits full data sources |
+| **Flat Learnings** | Same errors repeat | SELF_IMPROVING_SYSTEM.md never consulted |
+
+**Root Cause:** The system grew organically without architectural constraints. Sheets became both input AND output, creating circular dependencies.
+
+### 2. The Spoke
+
+This refactor touches ALL spokes and establishes the Hub:
+
+| Component | Before | After |
+|-----------|--------|-------|
+| **Hub (core/)** | Doesn't exist | Central orchestrator, Asana client |
+| **Gmail Spoke** | Embedded in Code.gs | `/spokes/gmail/triage.gs` |
+| **Voice Spoke** | Queries live API | Reads `/memory/daily_summary.json` |
+| **Chat Spoke** | ChatBot.gs (standalone) | `/spokes/chat/ChatBot.gs` |
+| **Sheets Spoke** | Read/Write (truth) | Write-only audit log |
+| **Asana Spoke** | Partial integration | `/spokes/asana/` - SOLE source of truth |
+
+### 3. The Scalability
+
+This architecture enables future growth without rewriting:
+
+**Adding a new spoke (e.g., Slack):**
+```
+1. Create /spokes/slack/
+2. Import core/asana-client.js
+3. Call Hub methods (getTasks, addTask)
+4. Log to Sheets audit trail
+5. Done. No changes to other spokes.
+```
+
+**Adding a new data source (e.g., Calendar):**
+```
+1. Add calendar-client.js to core/
+2. Hub aggregates into daily_summary.json
+3. All spokes automatically get calendar data
+4. Zero spoke modifications required.
+```
+
+**Key enablers:**
+- Spokes never talk to each other (isolation)
+- Hub owns all state transitions (single responsibility)
+- Cache layer absorbs read load (performance)
+- patterns.json learns from failures (self-improvement)
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "The Spreadsheet Trap"
+
+When Google Sheets is used as both input and output, you create a system that:
+- Can't be tested (no mock injection point)
+- Can't be scaled (API rate limits on reads)
+- Can't be trusted (stale data, race conditions)
+- Can't be debugged (no clear data flow)
+
+**Rule Established:**
+> "Sheets are for humans. Asana is for machines. Never reverse this."
+
+---
+
+## Entry 002: First Functional Slice Implementation
+
+**Date:** 2026-01-19
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+The v2 architecture exists as empty directories with no functional code. Need to:
+- Prove the hub-and-spoke pattern works end-to-end
+- Establish code patterns for future spokes
+- Get Asana task creation working from external triggers
+
+### 2. The Spoke
+
+This entry covers three components:
+
+| Component | File | Function |
+|-----------|------|----------|
+| **Core Hub** | `core/hub.js` | Gemini 2.0 Flash classification orchestrator |
+| **Asana Spoke** | `spokes/asana/pusher.js` | Task creation with proper metadata |
+| **Gmail Spoke** | `spokes/gmail/triage.js` | Fetch unread emails for classification |
+
+### 3. The Scalability
+
+**Pattern established:** Every spoke follows the same interface:
+```javascript
+// Input: Raw data (email, voice command, etc.)
+// Output: { action: string, payload: object, confidence: number }
+// Side effect: Audit log to Sheets
+```
+
+Adding new spokes means:
+1. Create `/spokes/[name]/index.js`
+2. Import `core/hub.js` for classification
+3. Import `spokes/asana/pusher.js` for task creation
+4. Done. No changes to existing code.
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "Premature Optimization"
+
+We're implementing with stubs for missing credentials (GEMINI_API_KEY, Google OAuth) rather than blocking entirely. The architecture is proven; credentials can be filled in later.
+
+**Credentials Status:**
+- ASANA_ACCESS_TOKEN: ✓ Found
+- ASANA_PROJECT_ID: ✓ Found (1212853350834789)
+- SHEET_ID: ✓ Found
+- GEMINI_API_KEY: ✗ Needs manual input
+- GOOGLE_CLIENT_ID/SECRET/REFRESH: ✗ Needs manual input
+
+---
+
+## Entry 003: Smoke Test Infrastructure
+
+**Date:** 2026-01-19
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+Before running full triage logic, need to verify all API "handshakes" work:
+- Gemini API (classification)
+- Gmail OAuth (email fetch)
+- Asana API (task creation)
+
+Running full triage without verified connections leads to cryptic errors mid-process.
+
+### 2. The Spoke
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| **Hub** | `core/hub.js` | Added `testConnection()` and `processEvent()` functions |
+| **Gmail** | `spokes/gmail/test_connection.js` | Lists Gmail labels to verify OAuth |
+| **Asana** | `spokes/asana/test_connection.js` | Fetches SC: Tasks GID to verify token |
+| **Runner** | `smoke_test.sh` | Runs all three tests with pass/fail summary |
+
+### 3. The Scalability
+
+Smoke tests establish the pattern for new spokes:
+```bash
+# Every spoke must have test_connection.js
+spokes/[name]/test_connection.js
+
+# smoke_test.sh auto-discovers and runs all tests
+# No modification needed when adding new spokes
+```
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "Silent Failures"
+
+Without explicit connection tests, API failures surface as:
+- "undefined is not a function"
+- Empty arrays with no error
+- 401s buried in stack traces
+
+**Test Results (2026-01-19):**
+```
+TEST 1: Gemini Hub     ✓ PASS (Model: gemini-2.0-flash)
+TEST 2: Gmail OAuth    ✓ PASS (Labels fetched)
+TEST 3: Asana API      ✓ PASS (Projects found)
+
+Result: 3/3 PASSED
+```
+
+**All credentials now verified:**
+- GEMINI_API_KEY: ✓ Working
+- GOOGLE_CLIENT_ID: ✓ Working
+- GOOGLE_CLIENT_SECRET: ✓ Working
+- GOOGLE_REFRESH_TOKEN: ✓ Working
+- ASANA_ACCESS_TOKEN: ✓ Working
+- ASANA_WORKSPACE_ID: ✓ Working
+
+---
+
+## Entry 004: Voice Intelligence Spoke (George)
+
+**Date:** 2026-01-19
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+Chase needs briefings while driving. Current system requires:
+- Opening laptop
+- Checking Asana manually
+- Scanning email inbox
+- Mental synthesis of priorities
+
+This is unsafe while driving and wastes time that could be productive.
+
+### 2. The Spoke
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| **Briefing Generator** | `spokes/voice/briefing.js` | Aggregates emails + tasks, uses Gemini for synthesis |
+| **George Bridge** | `spokes/voice/george_bridge.js` | Persona layer, formats output for voice |
+| **Cache** | `memory/daily_summary.json` | Pre-computed briefing for <500ms retrieval |
+
+**Data Flow:**
+```
+Audit Log (urgent emails) ─┐
+                           ├─→ briefing.js ─→ Gemini 2.0 Flash ─→ daily_summary.json
+Asana SC: Tasks ───────────┘
+                                                                          │
+                                                                          ▼
+                                                              george_bridge.js ─→ Console/Voice
+```
+
+### 3. The Scalability
+
+**George Persona Pattern:**
+- Briefing generator is persona-agnostic (outputs raw data + AI summary)
+- george_bridge.js adds the "George" personality layer
+- Can add other personas without touching briefing logic:
+  - `jarvis_bridge.js` - More technical, robotic
+  - `friday_bridge.js` - Casual, friendly
+  - `custom_bridge.js` - User-defined personality
+
+**Voice Integration Ready:**
+- ELEVENLABS_API_KEY already in .env
+- ELEVENLABS_VOICE_ID configured (JBFqnCBsd6RMkjVDRZzb)
+- george_bridge.js has `testVoice()` stub for TTS integration
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "Raw Data Dumps"
+
+A briefing is not a list. Executives need:
+- Synthesis (what matters?)
+- Prioritization (what first?)
+- Context (why now?)
+
+Gemini transforms raw data into actionable intelligence. The 3-sentence constraint forces relevance.
+
+**Commands Added:**
+```bash
+npm run brief          # Use cached briefing (fast)
+npm run brief:refresh  # Force regeneration
+```
+
+---
+
+## Entry 005: Voice Interface - ElevenLabs TTS Integration
+
+**Date:** 2026-01-19
+**Author:** Claude Code
+**Status:** LIVE
+
+### 1. The Problem
+
+George can think but not speak. Text output requires:
+- Looking at a screen
+- Reading while driving (dangerous)
+- Breaking flow of thought
+
+Voice output enables hands-free, eyes-free briefings.
+
+### 2. The Spoke
+
+| Component | Update | Purpose |
+|-----------|--------|---------|
+| **george_bridge.js** | Full rewrite | ElevenLabs TTS integration |
+| **cache/audio/** | New directory | Stores generated MP3 files |
+
+**TTS Flow:**
+```
+Briefing Text ─→ ElevenLabs API ─→ MP3 Buffer ─→ cache/audio/ ─→ afplay
+                     │
+                     ▼ (on failure)
+              Console text fallback
+```
+
+**Voice Settings:**
+- Model: eleven_monolingual_v1
+- Stability: 0.5 (natural variation)
+- Similarity Boost: 0.75 (consistent voice)
+- Speaker Boost: enabled
+
+### 3. The Scalability
+
+**Platform Support:**
+- macOS: `afplay` (native)
+- Linux: `aplay` → `paplay` → `mpg123` (fallback chain)
+- Windows: PowerShell Media.SoundPlayer
+
+**Cache Management:**
+- Audio files saved to `cache/audio/`
+- Auto-cleanup keeps only 5 most recent
+- Prevents disk bloat from repeated briefings
+
+**Flags:**
+```bash
+npm run brief           # Voice + text
+npm run brief --text    # Text only (skip TTS)
+npm run brief --refresh # Force new briefing
+```
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "Silent Failures"
+
+If ElevenLabs fails (API down, quota exceeded, network issue):
+1. Error is logged to console
+2. Text output still displayed
+3. User is never left wondering what happened
+
+**Phase 3 Status: VOICE INTERFACE LIVE**
+
+---
+
+## Entry 006: Foundation Complete - Audit & Memory Loop
+
+**Date:** 2026-01-19
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+SuperChase v2 had working spokes but:
+- No real-time audit trail (only local jsonl)
+- No learning loop (failures not captured)
+- No single "morning routine" command
+- Human couldn't see what the system was doing
+
+### 2. The Spoke
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| **Sheets Spoke** | `spokes/sheets/logger.js` | Real-time audit to Google Sheets |
+| **Wrap-Up Script** | `core/wrap_up.js` | End-of-day learning extraction |
+| **Updated Triage** | `triage.js` | Now pushes to Sheets in real-time |
+
+**Full Data Flow (Complete):**
+```
+Gmail ─→ Hub (Gemini) ─→ Asana (tasks)
+              │               │
+              │               ▼
+              └─→ Sheets (audit) ←── Real-time logging
+                      │
+                      ▼
+              evolution/LEARNINGS.md ←── Daily wrap-up
+                      │
+                      ▼
+              memory/patterns.json ←── Automated rules
+```
+
+### 3. The Scalability
+
+**Morning Routine (npm start):**
+1. Triage all unread emails
+2. Create Asana tasks for urgent/action items
+3. Archive newsletters
+4. Log everything to Sheets
+5. Play voice briefing
+
+**Evening Routine (npm run wrap):**
+1. Scan today's audit log
+2. Analyze patterns via Gemini
+3. Generate learnings
+4. Update automation rules
+
+**Scripts Added:**
+```bash
+npm start           # Full morning routine (triage + brief)
+npm run wrap        # End-of-day learning extraction
+npm run test:sheets # Verify Sheets connection
+```
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "The Black Box"
+
+Without audit logging:
+- Can't explain why a task was created
+- Can't verify classifications are correct
+- Can't learn from mistakes
+
+With Sheets audit:
+- Every action is timestamped and categorized
+- Human can review AI decisions
+- Patterns emerge for automation
+
+**SUPERCHASE V2 FOUNDATION: COMPLETE**
+
+| Phase | Status | Components |
+|-------|--------|------------|
+| 1. Hub & Spoke | ✓ LIVE | hub.js, gmail/, asana/ |
+| 2. Triage | ✓ LIVE | triage.js, Gemini classification |
+| 3. Voice | ✓ LIVE | george_bridge.js, ElevenLabs TTS |
+| 4. Audit | ✓ LIVE | sheets/logger.js, Google Sheets |
+| 5. Learning | ✓ LIVE | wrap_up.js, patterns.json |
+
+---
+
+## Entry 007: Conversational AI - Query Hub & ElevenLabs Tool
+
+**Date:** 2026-01-20
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+George could only read briefings - a one-way monologue. Chase needs:
+- Two-way conversation while driving
+- Real-time answers to business questions
+- Voice-driven access to tasks, emails, patterns
+
+### 2. The Spoke
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| **Query Hub** | `core/query_hub.js` | Search memory, Asana, audit logs |
+| **API Server** | `server.js` | HTTP endpoint for ElevenLabs |
+| **OpenAPI Spec** | `openapi.json` | Tool definition for agent |
+| **Integration Guide** | `docs/ELEVENLABS_INTEGRATION.md` | Setup instructions |
+
+**Architecture:**
+```
+Voice Input (ElevenLabs)
+        │
+        ▼
+George Agent ──────────────────────────────┐
+        │                                   │
+        │ "What are my tasks?"              │
+        ▼                                   ▼
+Tool Call: queryBusinessContext ──→ SuperChase API (server.js)
+                                            │
+                                            ▼
+                                    Query Hub (query_hub.js)
+                                            │
+                    ┌───────────────────────┼───────────────────────┐
+                    ▼                       ▼                       ▼
+            daily_summary.json      Asana Tasks           audit.jsonl
+                    │                       │                       │
+                    └───────────────────────┼───────────────────────┘
+                                            ▼
+                                    Gemini 2.0 Flash
+                                            │
+                                            ▼
+                                    Synthesized Answer
+                                            │
+                                            ▼
+                                    George speaks response
+```
+
+### 3. The Scalability
+
+**New query types require zero code changes:**
+- Add data to daily_summary.json → Query Hub finds it
+- Add patterns to patterns.json → Query Hub includes them
+- New Asana projects → Automatically searched
+
+**Adding new tools:**
+1. Add endpoint to server.js
+2. Add path to openapi.json
+3. Configure in ElevenLabs
+4. Done.
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "The Dumb Speaker"
+
+Voice assistants that can only recite are useless. Real value comes from:
+- Understanding context
+- Answering follow-up questions
+- Accessing live data
+
+**ElevenLabs Tool Integration:**
+- Agent ID: `agent_6601kfc80k2qftha80gdxca6ym0m`
+- Tool: `queryBusinessContext`
+- Triggers: tasks, emails, status, schedule
+
+**Commands Added:**
+```bash
+npm run server  # Start API for ElevenLabs
+npm run query   # Test queries from CLI
+```
+
+---
+
+## Entry 008: X.com / Twitter Research Integration
+
+**Date:** 2026-01-19
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+George can answer questions about internal business state (tasks, emails, patterns) but has no visibility into:
+- Industry trends and conversations
+- What relevant people are saying
+- Breaking news that affects business decisions
+- Real-time market sentiment
+
+Research required manual Twitter browsing, breaking hands-free workflow.
+
+### 2. The Spoke
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| **Twitter Spoke** | `spokes/twitter/search.js` | Search, research, user lookup, trends |
+| **Server Update** | `server.js` | `/search-x` endpoint for ElevenLabs |
+| **OpenAPI Update** | `openapi.json` | Tool definition for George |
+
+**Functions:**
+- `searchTweets(query)` - Search recent tweets by keyword
+- `researchTopic(topic)` - Compile research summary with engagement metrics
+- `getUserTweets(username)` - Get user's recent posts
+- `getTrends()` - Get trending topics (requires elevated API access)
+- `testConnection()` - Verify API connectivity
+
+**Data Flow:**
+```
+Voice: "What's the buzz about AI automation?"
+        │
+        ▼
+George → Tool Call: searchXTwitter
+        │
+        ▼
+server.js /search-x
+        │
+        ▼
+spokes/twitter/search.js
+        │
+        ▼
+Twitter API v2 (Bearer Token auth)
+        │
+        ▼
+{ tweets, summary, topVoices, engagement }
+        │
+        ▼
+George synthesizes and speaks findings
+```
+
+### 3. The Scalability
+
+**Research capabilities now extend to:**
+- Any keyword or hashtag search
+- Competitor monitoring (get their tweets)
+- Industry pulse checks
+- News about partners/clients
+
+**Adding new social research:**
+1. Create `spokes/linkedin/search.js` (same pattern)
+2. Add endpoint to server.js
+3. Add to OpenAPI spec
+4. George automatically gains the capability
+
+**Actions George can now take:**
+```
+"Research 3D scanning on Twitter"
+"What's @maboroshi saying lately?"
+"What's trending in reality capture?"
+"Search tweets about Matterport vs competitors"
+```
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "The Information Silo"
+
+An executive assistant that only knows internal state is half-blind. Business decisions require:
+- Internal context (tasks, emails)
+- External context (market, competitors, trends)
+
+George now has both.
+
+**Setup Required:**
+1. Get Bearer Token from developer.x.com
+2. Add `TWITTER_BEARER_TOKEN` to .env
+3. Add `TWITTER_BEARER_TOKEN` to Railway env vars
+4. Redeploy
+
+---
+
+## Entry 009: Synthetic Marketing Agency (4-Agent Content Factory)
+
+**Date:** 2026-01-20
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+Content marketing is a time sink that breaks Chase's flow:
+- Blog posts require 2-4 hours of focused writing
+- Social posts need consistent brand voice across platforms
+- Publishing requires manual deployment to multiple systems
+- No systematic way to turn business activity into content
+
+Result: Marketing gets deprioritized despite being critical for all business units.
+
+### 2. The Spoke
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| **Twitter Publish** | `spokes/twitter/publish.js` | OAuth 1.0a POST to X.com |
+| **Marketing Queue** | `memory/marketing_queue.json` | State tracking for drafts → published |
+| **Marketing Skill** | `.claude/skills/marketing-agency/SKILL.md` | 4-agent orchestration |
+| **Blog Config** | `manual/docusaurus.config.ts` | Enable Docusaurus blog |
+| **Server Routes** | `server.js` | `/api/publish/x` endpoints |
+
+**4-Agent Architecture:**
+```
+Strategist ─→ Content Brief
+     │
+     ▼
+Copywriter ─→ Blog + X.com Drafts
+     │
+     ▼
+Editor ─→ Brand Voice Check
+     │
+     ▼
+Publisher ─→ Docusaurus + X.com
+```
+
+### 3. The Scalability
+
+**Adding new business unit:**
+1. Add brand voice guide to SKILL.md
+2. Add business tag to tags.yml
+3. Run `/marketing-brief @newbiz`
+4. Content factory works automatically
+
+**Adding new platform (e.g., LinkedIn):**
+1. Create `spokes/linkedin/publish.js`
+2. Add route to server.js
+3. Update Publisher agent in SKILL.md
+4. No changes to other agents
+
+**Productization ($499/mo):**
+- Clone skill with client brand voice
+- Configure client OAuth tokens
+- Weekly automation: Mon brief → Wed blog → Thu-Sat posts
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "The Content Bottleneck"
+
+Manual content creation doesn't scale. An executive's time spent writing blog posts is:
+- High-cost ($200-500/hr effective rate)
+- Inconsistent (quality varies with energy)
+- Interruptible (never gets prioritized)
+
+AI agents turn content creation into a review task:
+- Strategist: 30 seconds (approve brief)
+- Editor: 2 minutes (approve final)
+- Total: ~3 minutes vs 3 hours
+
+**Rule Established:**
+> "Executives review content. They don't create it."
+
+---
+
+## Entry Template
+
+```markdown
+## Entry XXX: [Title]
+
+**Date:** YYYY-MM-DD
+**Author:** [Name]
+**Status:** PLANNED | IN PROGRESS | COMPLETE
+
+### 1. The Problem
+What was breaking or missing?
+
+### 2. The Spoke
+Which module does this belong to?
+
+### 3. The Scalability
+How does this make it easier to add features later?
+
+### 4. The Lesson
+What dysfunction did we avoid?
+```

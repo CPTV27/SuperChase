@@ -1,30 +1,328 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * SuperChase Documentation Theme
+ * Aligned with Executive Dashboard design system
  */
 
-/* You can override the default Infima variables here. */
+/* ============================================
+   IMPORTS
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   ROOT VARIABLES - Light Mode (rarely used)
+   ============================================ */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  /* Primary brand color: Scan2Plan Blue */
+  --ifm-color-primary: #3b82f6;
+  --ifm-color-primary-dark: #2563eb;
+  --ifm-color-primary-darker: #1d4ed8;
+  --ifm-color-primary-darkest: #1e40af;
+  --ifm-color-primary-light: #60a5fa;
+  --ifm-color-primary-lighter: #93c5fd;
+  --ifm-color-primary-lightest: #bfdbfe;
+
+  /* Typography */
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', monospace;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* SuperChase Brand Colors */
+  --sc-blue: #3b82f6;
+  --sc-emerald: #10b981;
+  --sc-purple: #a855f7;
+  --sc-orange: #f97316;
+
+  /* Status Colors */
+  --sc-success: #22c55e;
+  --sc-warning: #eab308;
+  --sc-danger: #ef4444;
+  --sc-info: #06b6d4;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(24, 24, 27, 0.7);
+  --glass-border: rgba(63, 63, 70, 0.5);
+  --glass-blur: 16px;
+
+  --docusaurus-highlighted-code-line-bg: rgba(59, 130, 246, 0.1);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* ============================================
+   DARK MODE - Primary Theme
+   ============================================ */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* Primary brand color: Scan2Plan Blue */
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
+
+  /* Dark backgrounds matching dashboard */
+  --ifm-background-color: #09090b;
+  --ifm-background-surface-color: #18181b;
+  --ifm-navbar-background-color: rgba(24, 24, 27, 0.85);
+  --ifm-footer-background-color: #09090b;
+
+  /* Text colors */
+  --ifm-font-color-base: #fafafa;
+  --ifm-font-color-secondary: #a1a1aa;
+
+  /* Code blocks */
+  --docusaurus-highlighted-code-line-bg: rgba(59, 130, 246, 0.2);
+  --ifm-code-background: rgba(24, 24, 27, 0.8);
+
+  /* Card backgrounds */
+  --ifm-card-background-color: rgba(24, 24, 27, 0.7);
+}
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme='dark'] body {
+  background: linear-gradient(135deg, #09090b 0%, #0c0a1a 50%, #09090b 100%);
+}
+
+/* ============================================
+   NAVBAR - Glassmorphism
+   ============================================ */
+[data-theme='dark'] .navbar {
+  background: rgba(24, 24, 27, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .navbar__title {
+  color: #fafafa;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .navbar__link {
+  color: #a1a1aa;
+  transition: color 0.2s ease;
+}
+
+[data-theme='dark'] .navbar__link:hover,
+[data-theme='dark'] .navbar__link--active {
+  color: #fafafa;
+}
+
+/* ============================================
+   SIDEBAR - Glassmorphism
+   ============================================ */
+[data-theme='dark'] .theme-doc-sidebar-container {
+  background: rgba(24, 24, 27, 0.5);
+  border-right: 1px solid var(--glass-border);
+}
+
+[data-theme='dark'] .menu__link {
+  color: #a1a1aa;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+[data-theme='dark'] .menu__link:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #fafafa;
+}
+
+[data-theme='dark'] .menu__link--active {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--sc-blue);
+  font-weight: 500;
+}
+
+/* ============================================
+   CARDS & CONTAINERS - Glassmorphism
+   ============================================ */
+[data-theme='dark'] .card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='dark'] article {
+  background: transparent;
+}
+
+/* Admonitions with glass effect */
+[data-theme='dark'] .alert {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+[data-theme='dark'] .alert--info {
+  border-left: 4px solid var(--sc-info);
+}
+
+[data-theme='dark'] .alert--warning {
+  border-left: 4px solid var(--sc-warning);
+}
+
+[data-theme='dark'] .alert--danger {
+  border-left: 4px solid var(--sc-danger);
+}
+
+[data-theme='dark'] .alert--success {
+  border-left: 4px solid var(--sc-success);
+}
+
+/* ============================================
+   CODE BLOCKS
+   ============================================ */
+[data-theme='dark'] .prism-code {
+  background: rgba(24, 24, 27, 0.9) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+[data-theme='dark'] code {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 4px;
+  color: #93c5fd;
+  padding: 2px 6px;
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+[data-theme='dark'] table {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+
+[data-theme='dark'] th {
+  background: rgba(59, 130, 246, 0.1);
+  color: #fafafa;
+  font-weight: 600;
+}
+
+[data-theme='dark'] tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme='dark'] td,
+[data-theme='dark'] th {
+  border-color: var(--glass-border);
+}
+
+/* ============================================
+   FOOTER - Glassmorphism
+   ============================================ */
+[data-theme='dark'] .footer {
+  background: rgba(9, 9, 11, 0.95);
+  border-top: 1px solid var(--glass-border);
+}
+
+[data-theme='dark'] .footer__title {
+  color: #fafafa;
+}
+
+[data-theme='dark'] .footer__link-item {
+  color: #a1a1aa;
+  transition: color 0.2s ease;
+}
+
+[data-theme='dark'] .footer__link-item:hover {
+  color: var(--sc-blue);
+}
+
+/* ============================================
+   BLOG CARDS
+   ============================================ */
+[data-theme='dark'] .blog-post-item {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+[data-theme='dark'] .blog-post-item:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================
+   SEARCH
+   ============================================ */
+[data-theme='dark'] .DocSearch-Button {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+}
+
+[data-theme='dark'] .DocSearch-Button:hover {
+  border-color: var(--sc-blue);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+[data-theme='dark'] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-track {
+  background: #18181b;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 4px;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* ============================================
+   BUSINESS UNIT ACCENT COLORS
+   ============================================ */
+.badge--s2p { background: var(--sc-blue); }
+.badge--studio { background: var(--sc-emerald); }
+.badge--cptv { background: var(--sc-purple); }
+.badge--tuthill { background: var(--sc-orange); }
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--sc-blue), var(--sc-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

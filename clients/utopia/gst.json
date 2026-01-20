@@ -1,0 +1,239 @@
+{
+  "clientId": "utopia",
+  "clientName": "Utopia Bearsville",
+  "version": "1.0.0",
+  "governor": {
+    "phase": 1,
+    "phaseName": "Learning",
+    "metrics": {
+      "totalApprovals": 0,
+      "totalRejections": 0,
+      "approvalRate": 0,
+      "avgEditPercentage": 100,
+      "consecutiveApprovals": 0
+    },
+    "thresholds": {
+      "copilotApprovals": 10,
+      "copilotMaxEditRate": 10,
+      "autonomousMilestone": "bookings_monthly_20"
+    },
+    "permissions": {
+      "canSelfPublish": false,
+      "canRunTests": false,
+      "canProposeStrategy": false,
+      "canAutoRespond": false
+    },
+    "lastEvaluation": null
+  },
+  "goals": [
+    {
+      "id": "goal_utopia_bookings",
+      "title": "20 Monthly Studio Bookings",
+      "description": "Establish consistent studio utilization through repeat clients and new referrals.",
+      "metric": "monthly_bookings",
+      "target": 20,
+      "current": 8,
+      "status": "in_progress",
+      "priority": "high",
+      "milestones": [
+        {
+          "id": "ms_bookings_10",
+          "title": "10 Monthly Bookings",
+          "target": 10,
+          "triggersPhase": 2,
+          "status": "pending",
+          "completedAt": null
+        },
+        {
+          "id": "ms_bookings_20",
+          "title": "20 Monthly Bookings",
+          "target": 20,
+          "triggersPhase": 3,
+          "status": "pending",
+          "completedAt": null
+        }
+      ],
+      "deadline": "2026-06-01",
+      "createdAt": "2026-01-20T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    },
+    {
+      "id": "goal_utopia_awareness",
+      "title": "Regional Production Hub Recognition",
+      "description": "Position Utopia as the go-to production facility for Hudson Valley and NYC overflow.",
+      "metric": "inbound_inquiries",
+      "target": 50,
+      "current": 12,
+      "status": "in_progress",
+      "priority": "medium",
+      "milestones": [
+        {
+          "id": "ms_inquiries_25",
+          "title": "25 Monthly Inquiries",
+          "target": 25,
+          "status": "pending",
+          "completedAt": null
+        }
+      ],
+      "deadline": "2026-09-01",
+      "createdAt": "2026-01-20T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "strat_utopia_showcase",
+      "goalId": "goal_utopia_bookings",
+      "title": "Gear & Capability Showcase",
+      "description": "Demonstrate studio capabilities through behind-the-scenes content and equipment deep-dives.",
+      "approach": "Technical Authority",
+      "channels": [
+        "Social",
+        "Blog",
+        "LinkedIn"
+      ],
+      "status": "active",
+      "metrics": {
+        "tacticsCompleted": 0,
+        "tacticsFailed": 0,
+        "successRate": 0
+      },
+      "pivotHistory": [],
+      "blockers": [],
+      "createdAt": "2026-01-20T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    },
+    {
+      "id": "strat_utopia_network",
+      "goalId": "goal_utopia_awareness",
+      "title": "Production Network Building",
+      "description": "Connect with NYC production houses, agencies, and freelance producers for overflow work.",
+      "approach": "B2B Networking",
+      "channels": [
+        "LinkedIn",
+        "Email",
+        "Events"
+      ],
+      "status": "active",
+      "metrics": {
+        "tacticsCompleted": 0,
+        "tacticsFailed": 0,
+        "successRate": 0
+      },
+      "pivotHistory": [],
+      "blockers": [],
+      "createdAt": "2026-01-20T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    }
+  ],
+  "tactics": [
+    {
+      "id": "tactic_mkn2x0rk_dkqw",
+      "strategyId": "strat_utopia_showcase",
+      "channel": "Social",
+      "type": "post",
+      "title": "Social: Behind the scenes",
+      "description": "",
+      "status": "pending",
+      "scheduledFor": "2026-01-20",
+      "priority": "medium",
+      "estimatedMinutes": 10,
+      "createdAt": "2026-01-20T21:01:18.752Z",
+      "completedAt": null,
+      "result": null
+    },
+    {
+      "id": "tactic_mkn2x0rk_8hep",
+      "strategyId": "strat_utopia_showcase",
+      "channel": "Blog",
+      "type": "article",
+      "title": "Blog Draft: Technical Authority deep dive",
+      "description": "",
+      "status": "pending",
+      "scheduledFor": "2026-01-20",
+      "priority": "medium",
+      "estimatedMinutes": 60,
+      "createdAt": "2026-01-20T21:01:18.752Z",
+      "completedAt": null,
+      "result": null
+    },
+    {
+      "id": "tactic_mkn2x0rk_ifvn",
+      "strategyId": "strat_utopia_showcase",
+      "channel": "LinkedIn",
+      "type": "post",
+      "title": "LinkedIn: Content piece",
+      "description": "",
+      "status": "pending",
+      "scheduledFor": "2026-01-20",
+      "priority": "medium",
+      "estimatedMinutes": 15,
+      "createdAt": "2026-01-20T21:01:18.752Z",
+      "completedAt": null,
+      "result": null
+    },
+    {
+      "id": "tactic_mkn2x0rk_s54i",
+      "strategyId": "strat_utopia_network",
+      "channel": "LinkedIn",
+      "type": "post",
+      "title": "LinkedIn: Content piece",
+      "description": "",
+      "status": "pending",
+      "scheduledFor": "2026-01-20",
+      "priority": "medium",
+      "estimatedMinutes": 15,
+      "createdAt": "2026-01-20T21:01:18.752Z",
+      "completedAt": null,
+      "result": null
+    },
+    {
+      "id": "tactic_mkn2x0rk_yeuw",
+      "strategyId": "strat_utopia_network",
+      "channel": "Email",
+      "type": "newsletter",
+      "title": "Newsletter: Weekly roundup",
+      "description": "",
+      "status": "pending",
+      "scheduledFor": "2026-01-20",
+      "priority": "medium",
+      "estimatedMinutes": 45,
+      "createdAt": "2026-01-20T21:01:18.752Z",
+      "completedAt": null,
+      "result": null
+    },
+    {
+      "id": "tactic_mkn2x0rk_sd5w",
+      "strategyId": "strat_utopia_network",
+      "channel": "Events",
+      "type": "content",
+      "title": "Events: Content piece",
+      "description": "",
+      "status": "pending",
+      "scheduledFor": "2026-01-20",
+      "priority": "medium",
+      "estimatedMinutes": 20,
+      "createdAt": "2026-01-20T21:01:18.752Z",
+      "completedAt": null,
+      "result": null
+    }
+  ],
+  "history": [
+    {
+      "type": "goal_added",
+      "goalId": "goal_utopia_bookings",
+      "title": "20 Monthly Studio Bookings",
+      "timestamp": "2026-01-20T00:00:00.000Z",
+      "actor": "system"
+    },
+    {
+      "type": "strategy_added",
+      "strategyId": "strat_utopia_showcase",
+      "title": "Gear & Capability Showcase",
+      "timestamp": "2026-01-20T00:00:00.000Z",
+      "actor": "system"
+    }
+  ],
+  "createdAt": "2026-01-20T00:00:00.000Z",
+  "updatedAt": "2026-01-20T21:01:18.752Z"
+}

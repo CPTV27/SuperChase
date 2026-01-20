@@ -1,25 +1,14 @@
-yangshun:
-  name: Yangshun Tay
-  title: Ex-Meta Staff Engineer, Co-founder GreatFrontEnd
-  url: https://linkedin.com/in/yangshun
-  image_url: https://github.com/yangshun.png
-  page: true
+chase:
+  name: Chase Pierson
+  title: COO, Scan2Plan | Owner, Studio C
+  url: https://chasepierson.tv
+  image_url: https://github.com/CPTV27.png
   socials:
-    x: yangshunz
-    linkedin: yangshun
-    github: yangshun
-    newsletter: https://www.greatfrontend.com
+    x: chasepierson
+    github: CPTV27
 
-slorber:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
-  page:
-    # customize the url of the author page at /blog/authors/<permalink>
-    permalink: '/all-sebastien-lorber-articles'
-  socials:
-    x: sebastienlorber
-    linkedin: sebastienlorber
-    github: slorber
-    newsletter: https://thisweekinreact.com
+george:
+  name: George (SuperChase AI)
+  title: AI Executive Assistant
+  url: https://superchase-manual.up.railway.app
+  image_url: /img/george-avatar.png

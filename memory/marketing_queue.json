@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-01-20T21:15:00.000Z",
+  "pending": [],
+  "published": [],
+  "briefs": [
+    {
+      "id": "brief_bigmuddy_20260120",
+      "clientId": "bigmuddy",
+      "status": "pending",
+      "createdAt": "2026-01-20T21:15:00.000Z",
+      "strategist": {
+        "topic": "Silver Street Stories: Where the Blues Were Born",
+        "angle": "Historical deep-dive positioning Big Muddy as the authentic gateway to Natchez Under-the-Hill's musical legacy",
+        "goalAlignment": {
+          "goalId": "goal_bigmuddy_reviews",
+          "strategyId": "strat_bigmuddy_blues",
+          "rationale": "Blues Heritage strategy at 100% success rate - doubling down on proven approach"
+        },
+        "blogOutline": [
+          "The River's Edge: Why Silver Street Matters",
+          "From Steamboats to Speakeasies: The Birth of Delta Blues",
+          "The Blues Room: Keeping the Tradition Alive",
+          "Experience It Yourself: Planning Your Visit"
+        ],
+        "xHooks": [
+          "Silver Street in Natchez wasn't just a road—it was where the Delta Blues found its voice. Here's the story most history books forgot.",
+          "The Mississippi River brought more than cargo to Natchez Under-the-Hill. It brought the sound that would change American music forever.",
+          "Why do blues pilgrims keep coming to a tiny street in Mississippi? Because some places hold memory in their walls. Silver Street is one of them."
+        ],
+        "voiceArchetype": "Southern Storyteller",
+        "toneGuidance": "Warm, atmospheric, historically grounded. Let the river and the music speak through the prose."
+      }
+    }
+  ]
+}

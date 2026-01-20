@@ -1,9 +1,8 @@
-#!/usr/bin/env node
 /**
- * Twitter/X Spoke - Research & Search
+ * Twitter/X.com Search Spoke
  *
- * Enables searching X.com for trends, mentions, and research.
- * Uses Twitter API v2.
+ * Read-only Twitter API operations using Bearer Token authentication.
+ * Used for research, trend monitoring, and user discovery.
  */
 
 import dotenv from 'dotenv';
@@ -13,274 +12,91 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config({ path: join(__dirname, '..', '..', '.env') });
+dotenv.config({ path: join(__dirname, '../../.env') });
 
-const TWITTER_BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
-const TWITTER_API_BASE = 'https://api.twitter.com/2';
+const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
+const BASE_URL = 'https://api.twitter.com/2';
 
 /**
- * Check if Twitter is configured
+ * Check if Twitter search is configured
  */
 export function isConfigured() {
-  return !!(TWITTER_BEARER_TOKEN && TWITTER_BEARER_TOKEN !== 'NEEDS_VALUE');
+  return !!BEARER_TOKEN && BEARER_TOKEN !== 'NEEDS_VALUE';
+}
+
+/**
+ * Make authenticated request to Twitter API
+ */
+async function twitterRequest(endpoint, params = {}) {
+  if (!isConfigured()) {
+    throw new Error('Twitter Bearer Token not configured');
+  }
+
+  const url = new URL(`${BASE_URL}${endpoint}`);
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      url.searchParams.set(key, value);
+    }
+  });
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      'Authorization': `Bearer ${BEARER_TOKEN}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: response.statusText }));
+    throw new Error(`Twitter API error: ${response.status} - ${JSON.stringify(error)}`);
+  }
+
+  return response.json();
 }
 
 /**
  * Search recent tweets
- * @param {string} query - Search query
- * @param {Object} options - Search options
- * @returns {Promise<Object>} - Search results
  */
 export async function searchTweets(query, options = {}) {
-  if (!isConfigured()) {
-    return {
-      success: false,
-      error: 'Twitter API not configured. Set TWITTER_BEARER_TOKEN in .env',
-      tweets: []
-    };
-  }
-
   const {
     maxResults = 10,
-    sortOrder = 'relevancy' // or 'recency'
+    sortOrder = 'relevancy'
   } = options;
 
   try {
-    const params = new URLSearchParams({
-      query: query,
-      max_results: Math.max(10, Math.min(maxResults, 100)),
-      sort_order: sortOrder,
-      'tweet.fields': 'created_at,author_id,public_metrics,context_annotations',
-      'user.fields': 'name,username,verified',
-      expansions: 'author_id'
-    });
-
-    const response = await fetch(
-      `${TWITTER_API_BASE}/tweets/search/recent?${params}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${TWITTER_BEARER_TOKEN}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    if (!response.ok) {
-      const error = await response.json();
-      console.error('[Twitter] API error:', error);
-      return {
-        success: false,
-        error: error.detail || error.title || `API error: ${response.status}`,
-        tweets: []
-      };
-    }
-
-    const data = await response.json();
-
-    // Map users for easy lookup
-    const users = {};
-    if (data.includes?.users) {
-      data.includes.users.forEach(u => {
-        users[u.id] = u;
-      });
-    }
-
-    // Format tweets
-    const tweets = (data.data || []).map(tweet => {
-      const author = users[tweet.author_id] || {};
-      return {
-        id: tweet.id,
-        text: tweet.text,
-        author: {
-          name: author.name,
-          username: author.username,
-          verified: author.verified
-        },
-        createdAt: tweet.created_at,
-        metrics: tweet.public_metrics,
-        url: `https://x.com/${author.username}/status/${tweet.id}`
-      };
-    });
-
-    console.log(`[Twitter] Found ${tweets.length} tweets for: "${query}"`);
-
-    return {
-      success: true,
+    const result = await twitterRequest('/tweets/search/recent', {
       query,
-      count: tweets.length,
-      tweets
-    };
-
-  } catch (error) {
-    console.error('[Twitter] Search error:', error.message);
-    return {
-      success: false,
-      error: error.message,
-      tweets: []
-    };
-  }
-}
-
-/**
- * Get trending topics for a location
- * @param {string} woeid - Where On Earth ID (1 for worldwide, 23424977 for US)
- * @returns {Promise<Object>} - Trending topics
- */
-export async function getTrends(woeid = '1') {
-  if (!isConfigured()) {
-    return {
-      success: false,
-      error: 'Twitter API not configured',
-      trends: []
-    };
-  }
-
-  // Note: Trends endpoint requires Twitter API v1.1 or elevated access
-  // For v2 Basic, we'll search for popular hashtags instead
-  try {
-    // Fallback: search for recent popular tweets
-    const result = await searchTweets('filter:popular', { maxResults: 20 });
-
-    return {
-      success: result.success,
-      note: 'Trends require elevated API access. Showing popular tweets instead.',
-      data: result.tweets
-    };
-
-  } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-      trends: []
-    };
-  }
-}
-
-/**
- * Search for tweets about a specific topic with AI summary
- * @param {string} topic - Topic to research
- * @returns {Promise<Object>} - Research results with summary
- */
-export async function researchTopic(topic) {
-  const searchResult = await searchTweets(topic, { maxResults: 15, sortOrder: 'relevancy' });
-
-  if (!searchResult.success) {
-    return searchResult;
-  }
-
-  // Compile research summary
-  const tweetTexts = searchResult.tweets.map(t => t.text).join('\n---\n');
-  const topAuthors = searchResult.tweets
-    .filter(t => t.author?.username)
-    .slice(0, 5)
-    .map(t => `@${t.author.username}`);
-
-  const engagementTotal = searchResult.tweets.reduce((sum, t) => {
-    return sum + (t.metrics?.like_count || 0) + (t.metrics?.retweet_count || 0);
-  }, 0);
-
-  return {
-    success: true,
-    topic,
-    summary: {
-      tweetCount: searchResult.count,
-      totalEngagement: engagementTotal,
-      topVoices: topAuthors,
-      sampleContent: tweetTexts.substring(0, 1000)
-    },
-    tweets: searchResult.tweets
-  };
-}
-
-/**
- * Get user's recent tweets
- * @param {string} username - Twitter username (without @)
- * @returns {Promise<Object>} - User's tweets
- */
-export async function getUserTweets(username) {
-  if (!isConfigured()) {
-    return {
-      success: false,
-      error: 'Twitter API not configured',
-      tweets: []
-    };
-  }
-
-  try {
-    // First get user ID
-    const userResponse = await fetch(
-      `${TWITTER_API_BASE}/users/by/username/${username}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${TWITTER_BEARER_TOKEN}`
-        }
-      }
-    );
-
-    if (!userResponse.ok) {
-      return {
-        success: false,
-        error: `User @${username} not found`,
-        tweets: []
-      };
-    }
-
-    const userData = await userResponse.json();
-    const userId = userData.data?.id;
-
-    if (!userId) {
-      return {
-        success: false,
-        error: `Could not get ID for @${username}`,
-        tweets: []
-      };
-    }
-
-    // Get user's tweets
-    const params = new URLSearchParams({
-      max_results: 10,
-      'tweet.fields': 'created_at,public_metrics'
+      max_results: Math.min(maxResults, 100),
+      sort_order: sortOrder,
+      'tweet.fields': 'created_at,public_metrics,author_id,conversation_id',
+      expansions: 'author_id',
+      'user.fields': 'name,username,verified,public_metrics'
     });
 
-    const tweetsResponse = await fetch(
-      `${TWITTER_API_BASE}/users/${userId}/tweets?${params}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${TWITTER_BEARER_TOKEN}`
-        }
-      }
-    );
-
-    if (!tweetsResponse.ok) {
-      const error = await tweetsResponse.json();
-      return {
-        success: false,
-        error: error.detail || 'Failed to fetch tweets',
-        tweets: []
-      };
+    const users = new Map();
+    if (result.includes?.users) {
+      result.includes.users.forEach(u => users.set(u.id, u));
     }
 
-    const tweetsData = await tweetsResponse.json();
-
-    const tweets = (tweetsData.data || []).map(tweet => ({
+    const tweets = (result.data || []).map(tweet => ({
       id: tweet.id,
       text: tweet.text,
       createdAt: tweet.created_at,
       metrics: tweet.public_metrics,
-      url: `https://x.com/${username}/status/${tweet.id}`
+      author: users.get(tweet.author_id) || { id: tweet.author_id }
     }));
 
     return {
       success: true,
-      username,
+      query,
+      tweets,
       count: tweets.length,
-      tweets
+      meta: result.meta
     };
-
   } catch (error) {
-    console.error('[Twitter] User tweets error:', error.message);
     return {
       success: false,
+      query,
       error: error.message,
       tweets: []
     };
@@ -288,37 +104,148 @@ export async function getUserTweets(username) {
 }
 
 /**
- * Test Twitter API connection
+ * Get user's recent tweets
+ */
+export async function getUserTweets(username, options = {}) {
+  const { maxResults = 10 } = options;
+
+  try {
+    // First get user ID
+    const userResult = await twitterRequest(`/users/by/username/${username}`, {
+      'user.fields': 'id,name,username,verified,public_metrics,description'
+    });
+
+    if (!userResult.data) {
+      return { success: false, error: `User @${username} not found` };
+    }
+
+    const user = userResult.data;
+
+    // Then get their tweets
+    const tweetsResult = await twitterRequest(`/users/${user.id}/tweets`, {
+      max_results: Math.min(maxResults, 100),
+      'tweet.fields': 'created_at,public_metrics',
+      exclude: 'retweets,replies'
+    });
+
+    return {
+      success: true,
+      user,
+      tweets: (tweetsResult.data || []).map(t => ({
+        id: t.id,
+        text: t.text,
+        createdAt: t.created_at,
+        metrics: t.public_metrics
+      })),
+      count: tweetsResult.data?.length || 0
+    };
+  } catch (error) {
+    return {
+      success: false,
+      username,
+      error: error.message
+    };
+  }
+}
+
+/**
+ * Research a topic by searching and analyzing sentiment
+ */
+export async function researchTopic(topic, options = {}) {
+  const { maxResults = 25 } = options;
+
+  try {
+    const searchResult = await searchTweets(topic, { maxResults });
+
+    if (!searchResult.success) {
+      return searchResult;
+    }
+
+    const tweets = searchResult.tweets;
+    const totalEngagement = tweets.reduce((sum, t) => {
+      const m = t.metrics || {};
+      return sum + (m.like_count || 0) + (m.retweet_count || 0) * 2 + (m.reply_count || 0);
+    }, 0);
+
+    const avgEngagement = tweets.length > 0 ? totalEngagement / tweets.length : 0;
+
+    const topTweets = [...tweets]
+      .sort((a, b) => {
+        const aEng = (a.metrics?.like_count || 0) + (a.metrics?.retweet_count || 0);
+        const bEng = (b.metrics?.like_count || 0) + (b.metrics?.retweet_count || 0);
+        return bEng - aEng;
+      })
+      .slice(0, 5);
+
+    return {
+      success: true,
+      topic,
+      analysis: {
+        tweetCount: tweets.length,
+        avgEngagement: Math.round(avgEngagement),
+        topTweets,
+        uniqueAuthors: new Set(tweets.map(t => t.author?.username)).size
+      },
+      tweets
+    };
+  } catch (error) {
+    return {
+      success: false,
+      topic,
+      error: error.message
+    };
+  }
+}
+
+/**
+ * Get trending topics (placeholder - requires different API access)
+ */
+export async function getTrends() {
+  return {
+    success: false,
+    error: 'Trends API requires elevated access. Use searchTweets with trending hashtags instead.',
+    suggestion: 'Try searching for specific hashtags or topics of interest.'
+  };
+}
+
+/**
+ * Test API connection
  */
 export async function testConnection() {
   if (!isConfigured()) {
-    return { success: false, error: 'TWITTER_BEARER_TOKEN not set' };
+    return {
+      success: false,
+      configured: false,
+      error: 'TWITTER_BEARER_TOKEN not set in environment'
+    };
   }
 
   try {
-    // Test with a simple search
-    const result = await searchTweets('test', { maxResults: 10 });
+    const result = await twitterRequest('/tweets/search/recent', {
+      query: 'hello',
+      max_results: 1
+    });
 
-    if (result.success) {
-      return {
-        success: true,
-        message: 'Twitter API connected',
-        sampleTweet: result.tweets[0]?.text?.substring(0, 50)
-      };
-    }
-
-    return { success: false, error: result.error };
-
+    return {
+      success: true,
+      configured: true,
+      message: 'Twitter search API connected',
+      hasResults: !!result.data?.length
+    };
   } catch (error) {
-    return { success: false, error: error.message };
+    return {
+      success: false,
+      configured: true,
+      error: error.message
+    };
   }
 }
 
 export default {
   isConfigured,
   searchTweets,
-  getTrends,
-  researchTopic,
   getUserTweets,
+  researchTopic,
+  getTrends,
   testConnection
 };
