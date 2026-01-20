@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>SuperChase Manual Blog</title>
+        <link>https://superchase-manual.up.railway.app/blog</link>
+        <description>SuperChase Manual Blog</description>
+        <lastBuildDate>Tue, 20 Jan 2026 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[I Stopped Writing Blog Posts. Now AI Agents Do It For Me.]]></title>
+            <link>https://superchase-manual.up.railway.app/blog/ai-agents-write-my-posts</link>
+            <guid>https://superchase-manual.up.railway.app/blog/ai-agents-write-my-posts</guid>
+            <pubDate>Tue, 20 Jan 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[I used to spend 3 hours on each blog post. Now I spend 3 minutes reviewing what 4 AI agents wrote. The quality? Better than before.]]></description>
+            <content:encoded><![CDATA[<p>I used to spend 3 hours on each blog post. Now I spend 3 minutes reviewing what 4 AI agents wrote. The quality? Better than before.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-problem">The Problem<a href="https://superchase-manual.up.railway.app/blog/ai-agents-write-my-posts#the-problem" class="hash-link" aria-label="Direct link to The Problem" title="Direct link to The Problem" translate="no">​</a></h2>
+<p>Content marketing is critical. Everyone knows this. But when you're running multiple businesses, it's always the first thing to get deprioritized.</p>
+<p>Why? Because writing a decent blog post takes 2-4 hours of focused time. Social posts need consistent voice. Publishing requires manual deployment to multiple systems.</p>
+<p>The result: Marketing gets pushed to "someday" while revenue-generating work takes priority.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-solution-a-synthetic-marketing-agency">The Solution: A Synthetic Marketing Agency<a href="https://superchase-manual.up.railway.app/blog/ai-agents-write-my-posts#the-solution-a-synthetic-marketing-agency" class="hash-link" aria-label="Direct link to The Solution: A Synthetic Marketing Agency" title="Direct link to The Solution: A Synthetic Marketing Agency" translate="no">​</a></h2>
+<p>I built a 4-agent content factory that turns business activity into publishable content:</p>
+<table><thead><tr><th>Agent</th><th>Role</th><th>Output</th></tr></thead><tbody><tr><td><strong>Strategist</strong></td><td>Analyzes my activity, picks topics</td><td>Content brief</td></tr><tr><td><strong>Copywriter</strong></td><td>Drafts blog + social posts</td><td>Markdown drafts</td></tr><tr><td><strong>Editor</strong></td><td>Brand voice check, quality assurance</td><td>Approved content</td></tr><tr><td><strong>Publisher</strong></td><td>Deploys to Docusaurus + X.com</td><td>Published URLs</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-it-works">How It Works<a href="https://superchase-manual.up.railway.app/blog/ai-agents-write-my-posts#how-it-works" class="hash-link" aria-label="Direct link to How It Works" title="Direct link to How It Works" translate="no">​</a></h2>
+<ol>
+<li class="">I do actual work on my businesses</li>
+<li class="">The system logs significant wins to a manifest</li>
+<li class="">When I want content, Strategist reads the manifest and picks a topic</li>
+<li class="">Copywriter drafts based on my brand voice guide</li>
+<li class="">Editor reviews for quality</li>
+<li class="">Publisher posts to X.com and my blog</li>
+<li class="">I review and approve in ~3 minutes</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-stack">The Stack<a href="https://superchase-manual.up.railway.app/blog/ai-agents-write-my-posts#the-stack" class="hash-link" aria-label="Direct link to The Stack" title="Direct link to The Stack" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Manifest Protocol</strong>: JSONL file tracking all business activity</li>
+<li class=""><strong>Claude Code</strong>: Orchestrates the 4 agents</li>
+<li class=""><strong>SuperChase API</strong>: Handles X.com posting via OAuth 1.0a</li>
+<li class=""><strong>Docusaurus</strong>: Static blog generation</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-i-learned">What I Learned<a href="https://superchase-manual.up.railway.app/blog/ai-agents-write-my-posts#what-i-learned" class="hash-link" aria-label="Direct link to What I Learned" title="Direct link to What I Learned" translate="no">​</a></h2>
+<p>The insight isn't "AI can write." Everyone knows that.</p>
+<p>The insight is: <strong>AI agents with context write better than AI without context.</strong></p>
+<p>When the Strategist knows what I actually did this week, the Copywriter has real material to work with. The Editor knows my voice because it has my brand guide. The Publisher knows where to post.</p>
+<p>Context is everything.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-next">What's Next<a href="https://superchase-manual.up.railway.app/blog/ai-agents-write-my-posts#whats-next" class="hash-link" aria-label="Direct link to What's Next" title="Direct link to What's Next" translate="no">​</a></h2>
+<p>We're testing this across 4 businesses right now:</p>
+<ul>
+<li class="">Scan2Plan (reality capture)</li>
+<li class="">Studio C (production)</li>
+<li class="">Chase Pierson TV (personal brand)</li>
+<li class="">Tuthill Design (design methodology)</li>
+</ul>
+<p>If the engagement holds and the quality stays high, I'm packaging this for other founders at $499/mo.</p>
+<p><strong>Want early access?</strong> DM me "AGENCY" on X.</p>
+<hr>
+<p><em>This post was generated by the Synthetic Marketing Agency and reviewed by a human in 3 minutes.</em></p>]]></content:encoded>
+            <category>Chase Pierson TV</category>
+            <category>Automation</category>
+            <category>Operations</category>
+        </item>
+        <item>
+            <title><![CDATA[Introducing SuperChase - The AI Executive OS]]></title>
+            <link>https://superchase-manual.up.railway.app/blog/2026/01/20/introducing-superchase</link>
+            <guid>https://superchase-manual.up.railway.app/blog/2026/01/20/introducing-superchase</guid>
+            <pubDate>Tue, 20 Jan 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Building a business is hard. Building multiple businesses simultaneously is harder. What if you had an AI partner that understood your entire operation?]]></description>
+            <content:encoded><![CDATA[<p>Building a business is hard. Building multiple businesses simultaneously is harder. What if you had an AI partner that understood your entire operation?</p>
+<p>That's why I built SuperChase.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-problem">The Problem<a href="https://superchase-manual.up.railway.app/blog/2026/01/20/introducing-superchase#the-problem" class="hash-link" aria-label="Direct link to The Problem" title="Direct link to The Problem" translate="no">​</a></h2>
+<p>Running Scan2Plan, Studio C, Tuthill Design, and Chase Pierson TV means context-switching constantly. Each business has its own:</p>
+<ul>
+<li class="">Communication patterns</li>
+<li class="">Decision frameworks</li>
+<li class="">Client relationships</li>
+<li class="">Strategic priorities</li>
+</ul>
+<p>No single assistant - human or AI - could hold all of this context.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-solution-hub-and-spoke-architecture">The Solution: Hub-and-Spoke Architecture<a href="https://superchase-manual.up.railway.app/blog/2026/01/20/introducing-superchase#the-solution-hub-and-spoke-architecture" class="hash-link" aria-label="Direct link to The Solution: Hub-and-Spoke Architecture" title="Direct link to The Solution: Hub-and-Spoke Architecture" translate="no">​</a></h2>
+<p>SuperChase uses a hub-and-spoke architecture where:</p>
+<ul>
+<li class=""><strong>The Hub (George)</strong> maintains central intelligence and routing</li>
+<li class=""><strong>Spokes</strong> handle specific integrations (email, voice, tasks, social)</li>
+<li class=""><strong>Memory</strong> persists context across conversations</li>
+</ul>
+<p>This architecture means George can draft emails in my voice, prioritize tasks based on business impact, and even propose strategic pivots when metrics deviate from plan.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-next">What's Next<a href="https://superchase-manual.up.railway.app/blog/2026/01/20/introducing-superchase#whats-next" class="hash-link" aria-label="Direct link to What's Next" title="Direct link to What's Next" translate="no">​</a></h2>
+<p>Over the coming weeks, I'll be sharing:</p>
+<ul>
+<li class="">Technical deep-dives into the GST (Goal-Strategy-Tactic) framework</li>
+<li class="">How the Governor system enables progressive AI autonomy</li>
+<li class="">Integration patterns for multi-business operations</li>
+</ul>
+<p>Follow along as we build the future of AI-augmented operations.</p>
+<hr>
+<p><em>This post was co-authored by George, the AI at the heart of SuperChase.</em></p>]]></content:encoded>
+            <category>AI Operations</category>
+            <category>Automation</category>
+            <category>Build in Public</category>
+        </item>
+        <item>
+            <title><![CDATA[Introducing the Synthetic Marketing Agency]]></title>
+            <link>https://superchase-manual.up.railway.app/blog/synthetic-marketing-agency</link>
+            <guid>https://superchase-manual.up.railway.app/blog/synthetic-marketing-agency</guid>
+            <pubDate>Tue, 20 Jan 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Building a 4-agent content factory that turns business activity into publishable content.]]></description>
+            <content:encoded><![CDATA[<p>Building a 4-agent content factory that turns business activity into publishable content.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-problem">The Problem<a href="https://superchase-manual.up.railway.app/blog/synthetic-marketing-agency#the-problem" class="hash-link" aria-label="Direct link to The Problem" title="Direct link to The Problem" translate="no">​</a></h2>
+<p>Content marketing is critical for all four businesses, but it's always the first thing to get deprioritized. Writing a blog post takes 2-4 hours of focused time. Social posts need consistent voice. Publishing requires manual deployment.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-solution">The Solution<a href="https://superchase-manual.up.railway.app/blog/synthetic-marketing-agency#the-solution" class="hash-link" aria-label="Direct link to The Solution" title="Direct link to The Solution" translate="no">​</a></h2>
+<p>A synthetic marketing agency with four AI agents:</p>
+<table><thead><tr><th>Agent</th><th>Role</th><th>Output</th></tr></thead><tbody><tr><td><strong>Strategist</strong></td><td>Analyzes activity, picks topics</td><td>Content brief</td></tr><tr><td><strong>Copywriter</strong></td><td>Drafts blog + social posts</td><td>Markdown drafts</td></tr><tr><td><strong>Editor</strong></td><td>Brand voice, quality check</td><td>Approved content</td></tr><tr><td><strong>Publisher</strong></td><td>Deploys to Docusaurus + X.com</td><td>Published URLs</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-workflow">The Workflow<a href="https://superchase-manual.up.railway.app/blog/synthetic-marketing-agency#the-workflow" class="hash-link" aria-label="Direct link to The Workflow" title="Direct link to The Workflow" translate="no">​</a></h2>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">/marketing-brief @s2p</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">→ Strategist reads recent activity</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">→ Generates content brief with 3 X.com hooks</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">/publish</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">→ Blog post written to Docusaurus</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">→ Thread posted to X.com</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">→ Returns published URLs</span><br></span></code></pre></div></div>
+<p>Total time investment: ~3 minutes of review instead of 3 hours of writing.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-next">What's Next<a href="https://superchase-manual.up.railway.app/blog/synthetic-marketing-agency#whats-next" class="hash-link" aria-label="Direct link to What's Next" title="Direct link to What's Next" translate="no">​</a></h2>
+<p>Productizing this for clients at $499/month:</p>
+<ul>
+<li class="">4 blog posts/month</li>
+<li class="">12 X.com posts/month</li>
+<li class="">Monthly engagement report</li>
+</ul>
+<p>The leverage is the machine, not the output.</p>]]></content:encoded>
+            <category>Automation</category>
+            <category>Operations</category>
+        </item>
+    </channel>
+</rss>

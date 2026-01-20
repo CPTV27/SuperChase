@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkmanual=globalThis.webpackChunkmanual||[]).push([[5193],{9306(a){a.exports=JSON.parse('{"tag":{"label":"cptv","permalink":"/tags/cptv","allTagsPath":"/tags","count":1,"items":[{"id":"projects/cptv","title":"CPTV","description":"Chase Pierson TV - Personal brand & content","permalink":"/projects/cptv"}],"unlisted":false}}')}}]);
