@@ -3,6 +3,7 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 const sidebars: SidebarsConfig = {
   systemSidebar: [
     'intro',
+    'market-research',
     {
       type: 'category',
       label: 'System Blueprint',
