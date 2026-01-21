@@ -14,6 +14,7 @@ import ScoutInsights from './components/ScoutInsights.jsx'
 import TasksPage from './components/TasksPage.jsx'
 import AuditLog from './components/AuditLog.jsx'
 import SettingsPage from './components/SettingsPage.jsx'
+import OnboardingWizard from './components/onboarding/OnboardingWizard.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -61,6 +62,11 @@ createRoot(document.getElementById('root')).render(
             <Route path="/settings" element={
               <ErrorBoundary title="Settings Error">
                 <SettingsPage />
+              </ErrorBoundary>
+            } />
+            <Route path="/onboard" element={
+              <ErrorBoundary title="Onboarding Error">
+                <OnboardingWizard />
               </ErrorBoundary>
             } />
 

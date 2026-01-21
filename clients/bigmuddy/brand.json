@@ -6,45 +6,66 @@
     "secondary": "#c6a66d",
     "accent": "#8b4513",
     "background": "#09090b",
-    "text": "#fafafa",
-    "palette": []
+    "text": "#fafafa"
   },
   "fonts": {
-    "heading": "Geneva",
-    "body": "Geneva",
-    "stack": [
-      "Geneva"
-    ]
+    "heading": "Playfair Display",
+    "body": "Lato"
   },
   "voice": {
-    "archetype": "Architectural Noir",
-    "confidence": 0.05,
+    "archetype": "Southern Gothic Luxe",
+    "confidence": 0.85,
     "tone": [
-      "intellectual",
-      "contemplative",
-      "bold",
-      "sophisticated"
+      "authentic",
+      "community-first",
+      "refined",
+      "warm"
     ],
-    "style": "Sparse, evocative language with visual precision",
-    "vocabulary": [
-      "nbsp",
-      "muddy",
-      "home",
-      "restaurant",
-      "rooms",
-      "meeting",
-      "banquet",
-      "bengough",
-      "saskatchewan",
-      "farming",
-      "community",
-      "websitebuilder"
-    ],
-    "markers": [
-      "modern"
+    "style": "Southern hospitality meets blues heritage - elegant yet approachable storytelling",
+    "vocabulary": {
+      "include": [
+        "Mississippi River",
+        "blues heritage",
+        "Natchez",
+        "Southern hospitality",
+        "artist-in-residence",
+        "boutique",
+        "speakeasy",
+        "Delta blues",
+        "live music",
+        "cultural experience",
+        "Under-the-Hill"
+      ],
+      "avoid": [
+        "cheap",
+        "budget",
+        "generic",
+        "chain hotel",
+        "corporate"
+      ]
+    },
+    "personality": [
+      "The Mississippi River will fill your mind with wonder",
+      "Deep reverence for blues music heritage",
+      "Artfully curated, never pretentious",
+      "Feature owners as stars in content"
     ]
   },
-  "scrapedFrom": "https://bigmuddyinn.com",
-  "scraped": true,
-  "generatedAt": "2026-01-20T20:56:02.325Z"
+  "visualStyle": {
+    "aesthetic": "Southern Gothic meets refined elegance",
+    "imagery": [
+      "Silk-upholstered teal walls",
+      "Candlelit tables",
+      "Black grand piano",
+      "Mississippi River views",
+      "Art-filled interiors"
+    ]
+  },
+  "sources": [
+    "https://www.thebigmuddyinn.com",
+    "limitless_context.json",
+    "Visit Natchez directory"
+  ],
+  "generatedAt": "2026-01-21T20:15:00.000Z",
+  "researchNote": "Corrected from previous scrape that pulled wrong website (Saskatchewan inn)"
 }

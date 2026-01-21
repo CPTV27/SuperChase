@@ -17,7 +17,8 @@ import {
   Zap,
   ListTodo,
   History,
-  Settings
+  Settings,
+  UserPlus
 } from 'lucide-react'
 
 // Client/Portfolio Configuration
@@ -71,6 +72,13 @@ const MAIN_NAV = [
     path: '/s2p',
     description: 'Business development',
     color: '#3b82f6'
+  },
+  {
+    label: 'Onboard',
+    icon: UserPlus,
+    path: '/onboard',
+    description: 'Add new business unit',
+    color: '#8b5cf6'
   },
   {
     label: 'Audit Log',

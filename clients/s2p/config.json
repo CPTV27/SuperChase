@@ -2,6 +2,62 @@
     "id": "s2p",
     "name": "Scan2Plan",
     "businessType": "reality_capture",
+    "revenueModel": "project-based",
+    "targetMarket": "AEC professionals including architects, general contractors, facility managers, and building owners who need accurate as-built documentation",
+    "valueProposition": "Faster, more accurate as-builts than traditional surveying methods",
+    "offerings": [
+        {
+            "id": "scan-to-bim",
+            "name": "Scan-to-BIM",
+            "description": "3D laser scanning with Revit modeling deliverables",
+            "disciplines": ["architecture", "mep", "structural"],
+            "pricingSource": "CPQ Engine - see Scan2Plan_OS/client/src/features/cpq/pricing.ts",
+            "pricingNotes": "Price per sqft varies by LOD (200/300/350) and discipline"
+        },
+        {
+            "id": "matterport",
+            "name": "Matterport Virtual Tours",
+            "description": "360 virtual tours and digital twins",
+            "pricingSource": "CPQ Engine",
+            "pricingNotes": "$0.10/sqft base rate"
+        },
+        {
+            "id": "site-survey",
+            "name": "Site/Landscape Scanning",
+            "description": "Exterior site documentation and topography",
+            "pricingSource": "CPQ Engine",
+            "pricingNotes": "Priced per acre, varies by built vs natural landscape"
+        },
+        {
+            "id": "scan-to-cad",
+            "name": "Scan-to-CAD",
+            "description": "2D CAD deliverables from scan data",
+            "pricingSource": "CPQ Engine",
+            "pricingNotes": "$2.00/sqft base rate"
+        }
+    ],
+    "pricingEngine": {
+        "source": "/Users/chasethis/Scan2Plan_OS/client/src/features/cpq/pricing.ts",
+        "goldenTests": "/Users/chasethis/Scan2Plan_OS/server/lib/pricingEngine.golden.json",
+        "minimumProject": 3000,
+        "marginFloor": 0.40,
+        "baseRates": {
+            "architecture": 2.50,
+            "mep": 3.00,
+            "structural": 2.00,
+            "site": 1.50,
+            "matterport": 0.10,
+            "cad": 2.00
+        },
+        "lodMultipliers": {
+            "200": 1.0,
+            "300": 1.3,
+            "350": 1.5
+        },
+        "travelRate": 3.00,
+        "scanDayFee": 300,
+        "scanDayThreshold": 75
+    },
     "location": {
         "address": "Bearsville",
         "city": "Woodstock",

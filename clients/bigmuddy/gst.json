@@ -27,6 +27,19 @@
   },
   "goals": [
     {
+      "id": "goal_bigmuddy_bookings",
+      "title": "Increase Bookings",
+      "description": "Fill more room nights and event tickets to grow revenue",
+      "metric": "bookings",
+      "target": null,
+      "current": null,
+      "status": "in_progress",
+      "priority": "high",
+      "deadline": "2026-12-31",
+      "createdAt": "2026-01-21T20:15:00.000Z",
+      "updatedAt": "2026-01-21T20:15:00.000Z"
+    },
+    {
       "id": "goal_bigmuddy_local",
       "title": "Dominate Natchez Local Search",
       "description": "Become the top-ranked boutique hotel in Natchez for local search, Google Maps, and review platforms.",

@@ -534,6 +534,136 @@ const routes = {
   },
 
   // ============================================
+  // Competitive Intelligence API (Level 3 Council)
+  // ============================================
+
+  // Run competitive intel for a business unit
+  'POST /api/competitive-intel/run': async (req) => {
+    const body = await parseBody(req);
+    const { chainToContent = false } = body;
+    const { handleCompetitiveIntelRequest } = await import('./core/competitive_intel.js');
+    const result = await handleCompetitiveIntelRequest(body);
+
+    // Optionally chain to content council
+    if (chainToContent && result.success) {
+      (async () => {
+        try {
+          const { runContentCouncil } = await import('./core/content_council.js');
+          logger.info('Auto-chaining to Content Council', { businessId: body.businessId });
+          const contentResult = await runContentCouncil(body.businessId, { depth: 'quick' });
+          logger.info('Content Council complete', { businessId: body.businessId, traceId: contentResult.traceId });
+        } catch (e) {
+          logger.warn('Background content council failed (non-blocking)', { error: e.message });
+        }
+      })();
+      result.contentCouncil = 'generating';
+    }
+
+    return result;
+  },
+
+  // Get existing battlecard
+  'GET /api/competitive-intel/:businessId': async (req, params) => {
+    const { getBattlecard } = await import('./core/competitive_intel.js');
+    const card = getBattlecard(params.businessId);
+    if (!card) {
+      throw new NotFoundError(`No battlecard found for: ${params.businessId}`);
+    }
+    return { success: true, battlecard: card };
+  },
+
+  // List all battlecards
+  'GET /api/competitive-intel': async () => {
+    const { listBattlecards } = await import('./core/competitive_intel.js');
+    return { success: true, battlecards: listBattlecards() };
+  },
+
+  // ============================================
+  // Content Council API (AI Content Factory)
+  // ============================================
+
+  // Run content council for a business unit
+  'POST /api/content-council/run': async (req) => {
+    const body = await parseBody(req);
+    const { handleContentCouncilRequest } = await import('./core/content_council.js');
+    return handleContentCouncilRequest(body);
+  },
+
+  // Get latest content sprint
+  'GET /api/content-council/:businessId': async (req, params) => {
+    const { getContentSprint } = await import('./core/content_council.js');
+    const sprint = getContentSprint(params.businessId);
+    if (!sprint) {
+      throw new NotFoundError(`No content sprint found for: ${params.businessId}`);
+    }
+    return { success: true, contentSprint: sprint };
+  },
+
+  // Get HeyGen payload for video generation
+  'GET /api/content-council/:businessId/heygen': async (req, params) => {
+    const { getHeyGenPayload } = await import('./core/content_council.js');
+    const payload = getHeyGenPayload(params.businessId);
+    if (!payload) {
+      throw new NotFoundError(`No HeyGen payload found for: ${params.businessId}`);
+    }
+    return { success: true, heygenPayload: payload };
+  },
+
+  // Generate HeyGen video from payload
+  'POST /api/content-council/:businessId/heygen/generate': async (req, params) => {
+    const { getHeyGenPayload, generateHeyGenVideo } = await import('./core/content_council.js');
+    const payload = getHeyGenPayload(params.businessId);
+    if (!payload) {
+      throw new NotFoundError(`No HeyGen payload found for: ${params.businessId}`);
+    }
+    return generateHeyGenVideo(payload);
+  },
+
+  // List all content sprints
+  'GET /api/content-council': async () => {
+    const { listContentSprints } = await import('./core/content_council.js');
+    return { success: true, sprints: listContentSprints() };
+  },
+
+  // ============================================
+  // Citation Verification API
+  // ============================================
+
+  // Verify a citation by re-fetching source
+  'POST /api/citations/verify': async (req) => {
+    const body = await parseBody(req);
+    const { verifyCitation } = await import('./lib/citations.js');
+    if (!body.citation) {
+      throw new ValidationError('citation object is required');
+    }
+    return { success: true, result: await verifyCitation(body.citation) };
+  },
+
+  // Get citations for a battlecard
+  'GET /api/citations/battlecard/:businessId': async (req, params) => {
+    const { getBattlecard } = await import('./core/competitive_intel.js');
+    const card = getBattlecard(params.businessId);
+    if (!card) {
+      throw new NotFoundError(`No battlecard found for: ${params.businessId}`);
+    }
+    return {
+      success: true,
+      businessId: params.businessId,
+      citations: card.citations || { sources: [], quality: { score: 0, grade: 'F' } }
+    };
+  },
+
+  // Calculate citation quality for arbitrary sources
+  'POST /api/citations/quality': async (req) => {
+    const body = await parseBody(req);
+    const { calculateCitationQuality } = await import('./lib/citations.js');
+    if (!body.citations || !Array.isArray(body.citations)) {
+      throw new ValidationError('citations array is required');
+    }
+    return { success: true, quality: calculateCitationQuality(body.citations) };
+  },
+
+  // ============================================
   // Portfolio Management API (Config-Driven)
   // ============================================
 
@@ -766,6 +896,387 @@ const routes = {
   // Full observability dashboard data
   'GET /api/observability/dashboard': async () => {
     return observability.getObservabilityDashboard();
+  },
+
+  // ============================================
+  // Context Injection API Endpoints
+  // ============================================
+
+  // List all onboarded businesses
+  'GET /api/context/businesses': async () => {
+    const ctx = await import('./lib/council-context.js');
+    return {
+      businesses: ctx.getOnboardedBusinesses()
+    };
+  },
+
+  // Get context for a specific business
+  'GET /api/context/:businessId': async (req) => {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const pathParts = url.pathname.split('/');
+    const businessId = pathParts[pathParts.length - 1];
+
+    const ctx = await import('./lib/council-context.js');
+    return ctx.buildContext(businessId);
+  },
+
+  // Validate business data completeness
+  'GET /api/context/:businessId/validate': async (req) => {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const pathParts = url.pathname.split('/');
+    const businessId = pathParts[pathParts.length - 2];
+
+    const ctx = await import('./lib/council-context.js');
+    return ctx.validateBusinessData(businessId);
+  },
+
+  // Preview context injection for a query
+  'POST /api/context/preview': async (req) => {
+    const body = await parseBody(req);
+    const { query } = body;
+
+    if (!query) {
+      return { error: 'query is required', status: 400 };
+    }
+
+    const ctx = await import('./lib/council-context.js');
+    const result = await ctx.autoInjectContext(query);
+
+    return {
+      originalQuery: query,
+      injected: result.injected,
+      businessIds: result.businessIds,
+      groundedQuery: result.query,
+      contextLength: result.context?.context?.length || 0
+    };
+  },
+
+  // ============================================
+  // ONBOARDING API
+  // ============================================
+
+  // Research a business for onboarding
+  'GET /api/onboard/research': async (req) => {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const businessName = url.searchParams.get('name');
+
+    if (!businessName) {
+      return { error: 'name parameter is required', status: 400 };
+    }
+
+    const ctx = await import('./lib/council-context.js');
+    const businessId = businessName.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    // Check if already exists
+    const existing = await ctx.loadBusinessData(businessId);
+    const portfolio = ctx.getOnboardedBusinesses();
+    const portfolioEntry = portfolio.find(b => b.id === businessId);
+
+    // Build researched data from existing sources
+    const researched = [];
+    const gaps = [];
+
+    // Profile fields
+    if (existing.config?.name || portfolioEntry?.name) {
+      researched.push({
+        field: 'name',
+        label: 'Business Name',
+        value: existing.config?.name || portfolioEntry?.name || businessName,
+        confidence: existing.config?.name ? 'high' : 'medium',
+        source: 'Internal data'
+      });
+    } else {
+      researched.push({
+        field: 'name',
+        label: 'Business Name',
+        value: businessName,
+        confidence: 'medium',
+        source: 'User input'
+      });
+    }
+
+    // Business type
+    if (existing.config?.businessType || portfolioEntry?.type) {
+      researched.push({
+        field: 'businessType',
+        label: 'Business Type',
+        value: existing.config?.businessType || portfolioEntry?.type,
+        confidence: 'high',
+        source: 'Internal config'
+      });
+    } else {
+      gaps.push({
+        id: 'businessType',
+        question: 'What type of business is this?',
+        field: 'businessType',
+        required: true,
+        options: [
+          { label: 'Service Business', value: 'service' },
+          { label: 'Brand/IP', value: 'brand' },
+          { label: 'Client Project', value: 'client' },
+          { label: 'Venue/Location', value: 'venue' }
+        ]
+      });
+    }
+
+    // Revenue model
+    if (existing.config?.revenueModel) {
+      researched.push({
+        field: 'revenueModel',
+        label: 'Revenue Model',
+        value: existing.config.revenueModel,
+        confidence: 'high',
+        source: 'Internal config'
+      });
+    } else {
+      gaps.push({
+        id: 'revenueModel',
+        question: 'How does this business generate revenue?',
+        field: 'revenueModel',
+        required: true,
+        options: [
+          { label: 'Project-based', value: 'project-based' },
+          { label: 'Subscription/Retainer', value: 'subscription' },
+          { label: 'Event-based', value: 'event-based' },
+          { label: 'Product Sales', value: 'product-sales' }
+        ]
+      });
+    }
+
+    // Target market
+    if (existing.config?.targetMarket) {
+      researched.push({
+        field: 'targetMarket',
+        label: 'Target Market',
+        value: existing.config.targetMarket,
+        confidence: 'high',
+        source: 'Internal config'
+      });
+    } else {
+      gaps.push({
+        id: 'targetMarket',
+        question: 'Who is the target customer?',
+        field: 'targetMarket',
+        required: true
+      });
+    }
+
+    // Value proposition
+    if (existing.config?.valueProposition) {
+      researched.push({
+        field: 'valueProposition',
+        label: 'Value Proposition',
+        value: existing.config.valueProposition,
+        confidence: 'high',
+        source: 'Internal config'
+      });
+    }
+
+    // Location
+    if (existing.config?.location?.city) {
+      researched.push({
+        field: 'location',
+        label: 'Location',
+        value: `${existing.config.location.city}, ${existing.config.location.state}`,
+        confidence: 'high',
+        source: 'Internal config'
+      });
+    }
+
+    // Check limitless context for intelligence
+    if (existing.businessIntelligence?.clientData) {
+      const intel = existing.businessIntelligence.clientData;
+      if (intel.contacts) {
+        researched.push({
+          field: 'contacts',
+          label: 'Key Contacts',
+          value: intel.contacts.join(', '),
+          confidence: 'high',
+          source: 'Limitless intelligence'
+        });
+      }
+      if (intel.tone) {
+        researched.push({
+          field: 'tone',
+          label: 'Brand Tone',
+          value: intel.tone,
+          confidence: 'high',
+          source: 'Limitless intelligence'
+        });
+      }
+    }
+
+    // GST goals
+    if (existing.gst?.goals?.length > 0) {
+      researched.push({
+        field: 'goals',
+        label: 'Current Goals',
+        value: existing.gst.goals.map(g => g.title).join(', '),
+        confidence: 'high',
+        source: 'GST config'
+      });
+    } else {
+      gaps.push({
+        id: 'primaryGoal',
+        question: 'What is the primary business goal?',
+        field: 'primaryGoal',
+        required: true,
+        options: [
+          { label: 'Increase Revenue', value: 'revenue', description: 'Hit a specific revenue target' },
+          { label: 'Launch New Offering', value: 'launch', description: 'New product or service' },
+          { label: 'Expand Market', value: 'expand', description: 'Enter new markets' },
+          { label: 'Improve Operations', value: 'operations', description: 'Efficiency and systems' }
+        ]
+      });
+    }
+
+    return {
+      businessId,
+      businessName,
+      existingData: !!existing.config,
+      researched,
+      gaps,
+      sourcesChecked: ['portfolio.json', 'config.json', 'gst.json', 'limitless_context.json']
+    };
+  },
+
+  // Complete onboarding - write config files
+  'POST /api/onboard/complete': async (req) => {
+    const body = await parseBody(req);
+    const { businessId, businessName, researchedData, answers } = body;
+
+    if (!businessId || !businessName) {
+      return { error: 'businessId and businessName are required', status: 400 };
+    }
+
+    const clientDir = join(__dirname, 'clients', businessId);
+    const portfolioPath = join(__dirname, 'config', 'portfolio.json');
+    const filesCreated = [];
+
+    // Ensure client directory exists
+    if (!existsSync(clientDir)) {
+      fs.mkdirSync(clientDir, { recursive: true });
+    }
+
+    // Build config from researched data + answers
+    const dataMap = {};
+    for (const item of (researchedData || [])) {
+      dataMap[item.field] = item.value;
+    }
+    for (const [key, value] of Object.entries(answers || {})) {
+      dataMap[key] = value;
+    }
+
+    // Read existing config or create new
+    const configPath = join(clientDir, 'config.json');
+    let config = {};
+    if (existsSync(configPath)) {
+      config = JSON.parse(readFileSync(configPath, 'utf8'));
+    }
+
+    // Merge new data
+    config = {
+      ...config,
+      id: businessId,
+      name: dataMap.name || businessName,
+      businessType: dataMap.businessType || config.businessType || 'service',
+      revenueModel: dataMap.revenueModel || config.revenueModel,
+      targetMarket: dataMap.targetMarket || config.targetMarket,
+      valueProposition: dataMap.valueProposition || config.valueProposition,
+      createdAt: config.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    // Write config
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    filesCreated.push(`clients/${businessId}/config.json`);
+
+    // Create/update GST if goal provided
+    if (dataMap.primaryGoal) {
+      const gstPath = join(clientDir, 'gst.json');
+      let gst = { businessId, goals: [], strategies: [], tactics: [] };
+      if (existsSync(gstPath)) {
+        gst = JSON.parse(readFileSync(gstPath, 'utf8'));
+      }
+
+      // Add goal if not exists
+      const goalExists = gst.goals?.some(g =>
+        g.title?.toLowerCase().includes(dataMap.primaryGoal.toLowerCase())
+      );
+      if (!goalExists) {
+        const goalTitles = {
+          revenue: 'Increase Revenue',
+          launch: 'Launch New Offering',
+          expand: 'Expand Market',
+          operations: 'Improve Operations'
+        };
+        gst.goals = gst.goals || [];
+        gst.goals.push({
+          id: `goal_${businessId}_${Date.now()}`,
+          title: goalTitles[dataMap.primaryGoal] || dataMap.primaryGoal,
+          metric: dataMap.primaryGoal === 'revenue' ? 'revenue' : 'milestone',
+          target: null,
+          current: null,
+          status: 'in_progress',
+          deadline: '2026-12-31',
+          createdAt: new Date().toISOString()
+        });
+      }
+      gst.updatedAt = new Date().toISOString();
+
+      fs.writeFileSync(gstPath, JSON.stringify(gst, null, 2));
+      filesCreated.push(`clients/${businessId}/gst.json`);
+    }
+
+    // Update portfolio.json
+    if (existsSync(portfolioPath)) {
+      const portfolio = JSON.parse(readFileSync(portfolioPath, 'utf8'));
+      const existingIndex = portfolio.businessUnits.findIndex(u => u.id === businessId);
+
+      const entry = {
+        id: businessId,
+        name: dataMap.name || businessName,
+        shortName: businessId.toUpperCase().slice(0, 3),
+        type: dataMap.businessType || 'service',
+        description: dataMap.valueProposition || config.valueProposition || '',
+        active: true
+      };
+
+      if (existingIndex >= 0) {
+        portfolio.businessUnits[existingIndex] = {
+          ...portfolio.businessUnits[existingIndex],
+          ...entry
+        };
+      } else {
+        portfolio.businessUnits.push(entry);
+      }
+
+      fs.writeFileSync(portfolioPath, JSON.stringify(portfolio, null, 2));
+      filesCreated.push('config/portfolio.json');
+    }
+
+    logger.info('Onboarding complete', { businessId, filesCreated });
+
+    // Auto-trigger competitive intelligence in background (non-blocking)
+    (async () => {
+      try {
+        const { runCompetitiveIntel } = await import('./core/competitive_intel.js');
+        logger.info('Auto-triggering competitive intel', { businessId });
+        const result = await runCompetitiveIntel(businessId, { depth: 'quick' });
+        logger.info('Competitive intel complete', { businessId, traceId: result.traceId });
+      } catch (e) {
+        logger.warn('Background competitive intel failed (non-blocking)', { businessId, error: e.message });
+      }
+    })();
+
+    return {
+      success: true,
+      businessId,
+      businessName,
+      filesCreated,
+      competitiveIntel: 'generating', // Signal that battlecard is being generated
+      message: `${businessName} has been onboarded successfully`
+    };
   }
 };
 
@@ -1708,6 +2219,20 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`  --- LLM Council API ---`);
   console.log(`  POST /api/llm-council              - Run multi-model deliberation`);
   console.log(`  GET  /api/llm-council/models       - List available models`);
+  console.log(`  --- Competitive Intelligence API ---`);
+  console.log(`  POST /api/competitive-intel/run    - Generate battlecard`);
+  console.log(`  GET  /api/competitive-intel/:id    - Get battlecard`);
+  console.log(`  GET  /api/competitive-intel        - List all battlecards`);
+  console.log(`  --- Content Council API ---`);
+  console.log(`  POST /api/content-council/run      - Generate content sprint`);
+  console.log(`  GET  /api/content-council/:id      - Get content sprint`);
+  console.log(`  GET  /api/content-council/:id/heygen - Get HeyGen payload`);
+  console.log(`  POST /api/content-council/:id/heygen/generate - Generate video`);
+  console.log(`  GET  /api/content-council          - List all sprints`);
+  console.log(`  --- Citation Verification API ---`);
+  console.log(`  POST /api/citations/verify         - Verify a citation`);
+  console.log(`  GET  /api/citations/battlecard/:id - Get battlecard citations`);
+  console.log(`  POST /api/citations/quality        - Calculate citation quality`);
   console.log(`  --- Observability API ---`);
   console.log(`  GET  /api/observability/prometheus - Prometheus metrics (scrape)`);
   console.log(`  GET  /api/observability/metrics    - JSON metrics`);

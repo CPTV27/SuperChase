@@ -1,9 +1,38 @@
 {
     "id": "bigmuddy",
     "name": "Big Muddy Inn & Blues Room",
-    "businessType": "boutique_hotel",
+    "businessType": "venue",
+    "revenueModel": "event-based",
+    "targetMarket": "Blues tourists, music enthusiasts, cultural travelers seeking boutique hospitality experiences in historic Mississippi River towns",
+    "valueProposition": "The Mississippi River will fill your mind with wonder, your heart with splendor, and your soul with music - boutique hospitality meets live blues in historic Natchez",
+    "offerings": [
+        {
+            "id": "lodging",
+            "name": "Boutique Guest Rooms",
+            "description": "6 art-filled, elegantly designed rooms each paying homage to a blues icon or musical era",
+            "pricingNotes": "Seasonal rates, book via website"
+        },
+        {
+            "id": "blues-room",
+            "name": "Blues Room Live Music",
+            "description": "50-seat intimate speakeasy venue featuring artist-in-residence Amy Allen and rotating performers",
+            "pricingNotes": "Ticketed events"
+        },
+        {
+            "id": "events",
+            "name": "Private Events & Weddings",
+            "description": "6,000 sqft venue space for private events, weddings, and corporate gatherings",
+            "pricingNotes": "Custom quotes"
+        },
+        {
+            "id": "culinary",
+            "name": "Culinary Experiences",
+            "description": "Partnership with celebrated chef Regina Charbonneau for special dining events",
+            "pricingNotes": "Event-based pricing"
+        }
+    ],
     "location": {
-        "address": "10 Silver Street",
+        "address": "411 North Commerce St",
         "city": "Natchez",
         "state": "MS",
         "zip": "39120",
@@ -88,7 +117,7 @@
         },
         "website": {
             "platform": "custom",
-            "url": "https://bigmuddyinn.com",
+            "url": "https://www.thebigmuddyinn.com",
             "apiKey": null
         },
         "social": {
@@ -107,7 +136,7 @@
         },
         "booking": {
             "platform": null,
-            "directBookingUrl": "https://bigmuddyinn.com/book"
+            "directBookingUrl": "https://www.thebigmuddyinn.com/book"
         }
     },
     "workflows": {
@@ -127,8 +156,13 @@
     },
     "contacts": {
         "primary": {
-            "name": "Amy Allen",
+            "name": "Tracy Alderson-Allen",
             "role": "Owner",
+            "email": null
+        },
+        "secondary": {
+            "name": "Amy Allen",
+            "role": "Owner / Artist-in-Residence",
             "email": null
         }
     },

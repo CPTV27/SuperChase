@@ -22,6 +22,14 @@
       "metadata": {
         "industry": "Construction Tech",
         "stage": "Growth"
+      },
+      "constraints": {
+        "monthlyAdBudget": 2000,
+        "contentCapacity": 4,
+        "outreachCapacity": 50,
+        "serviceArea": ["Northeast US", "Mid-Atlantic", "Remote"],
+        "excludeCompetitors": [],
+        "focusKeywords": ["reality capture", "scan to BIM", "as-built documentation"]
       }
     },
     {

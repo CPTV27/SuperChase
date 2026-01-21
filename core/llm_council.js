@@ -19,6 +19,7 @@ import fs from 'fs';
 import { createLogger } from '../lib/logger.js';
 import { ExternalServiceError, ValidationError, withRetry } from '../lib/errors.js';
 import costController from '../lib/cost-controller.js';
+import councilContext from '../lib/council-context.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -545,13 +546,58 @@ async function runCouncil(query, options = {}) {
  * @returns {Promise<Object>}
  */
 async function handleLLMCouncilRequest(body) {
-  const { query, models, chairmanModel, temperature } = body;
+  const {
+    query,
+    models,
+    chairmanModel,
+    temperature,
+    autoInjectContext = true,  // Enable by default
+    businessContext = null     // Explicit business IDs to include
+  } = body;
 
   if (!query) {
     throw new ValidationError('query is required');
   }
 
-  return runCouncil(query, { models, chairmanModel, temperature });
+  let finalQuery = query;
+  let contextInfo = null;
+
+  // Auto-inject context if enabled
+  if (autoInjectContext) {
+    // If explicit business context provided, use that
+    if (businessContext && Array.isArray(businessContext)) {
+      const ctx = businessContext.length === 1
+        ? await councilContext.buildContext(businessContext[0])
+        : await councilContext.buildMultiContext(businessContext);
+      finalQuery = councilContext.injectContext(query, ctx);
+      contextInfo = {
+        injected: true,
+        businessIds: businessContext,
+        dataLoaded: ctx.dataLoaded || ctx.individual?.map(c => c.dataLoaded)
+      };
+      logger.info('Context injected (explicit)', { businessIds: businessContext });
+    } else {
+      // Auto-detect business mentions in query
+      const result = await councilContext.autoInjectContext(query);
+      if (result.injected) {
+        finalQuery = result.query;
+        contextInfo = {
+          injected: true,
+          businessIds: result.businessIds,
+          autoDetected: true
+        };
+        logger.info('Context auto-injected', { businessIds: result.businessIds });
+      }
+    }
+  }
+
+  const councilResult = await runCouncil(finalQuery, { models, chairmanModel, temperature });
+
+  // Include context info in response
+  return {
+    ...councilResult,
+    contextInjection: contextInfo
+  };
 }
 
 /**
