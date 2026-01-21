@@ -36,6 +36,27 @@ const NAV_SECTIONS = [
         description: 'Executive Command Center'
       },
       {
+        label: 'Review Queue',
+        icon: FileText,
+        path: '/review',
+        description: 'Content approval workflow',
+        color: '#f59e0b'
+      },
+      {
+        label: 'Marketing Hub',
+        icon: Workflow,
+        path: '/marketing',
+        description: 'Content creation pipeline',
+        color: '#10b981'
+      },
+      {
+        label: 'S2P Leads',
+        icon: Target,
+        path: '/s2p',
+        description: 'Business development radar',
+        color: '#3b82f6'
+      },
+      {
         label: 'Voice Sparks',
         icon: Radio,
         path: '/sparks',
@@ -204,9 +225,8 @@ function NavSection({ section, isExpanded, onToggle }) {
     <div className="space-y-1">
       <button
         onClick={onToggle}
-        className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors ${
-          hasActiveItem ? 'text-zinc-300' : 'text-zinc-500 hover:text-zinc-400'
-        }`}
+        className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors ${hasActiveItem ? 'text-zinc-300' : 'text-zinc-500 hover:text-zinc-400'
+          }`}
       >
         <span>{section.label}</span>
         <motion.div
