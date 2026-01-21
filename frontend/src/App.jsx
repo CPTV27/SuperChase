@@ -36,6 +36,7 @@ import {
   ThumbsDown
 } from 'lucide-react'
 import api, { getLogs, getStrategy, getSpokeStatus, triggerBriefing, getReviewPulse } from './services/api'
+import AgencyPulse from './components/AgencyPulse'
 
 // Business Unit Configuration
 const BUSINESS_UNITS = {
@@ -1017,6 +1018,9 @@ function App() {
               )}
             </div>
           </Card>
+
+          {/* Agency Pulse - George's Reasoning */}
+          <AgencyPulse />
 
           {/* Review Pulse - Agency Mode */}
           <Card title="Review Pulse" icon={FileCheck} accentColor="#10b981">

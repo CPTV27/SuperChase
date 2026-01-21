@@ -1,300 +1,126 @@
-import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { useState, useContext, createContext } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Brain,
   LayoutDashboard,
-  BookOpen,
-  Code2,
-  Play,
-  Users,
-  Building2,
-  Github,
-  ExternalLink,
+  FileText,
+  Megaphone,
+  Target,
+  Radio,
+  Sparkles,
   ChevronDown,
-  ChevronRight,
   Menu,
   X,
   Activity,
-  Zap,
-  FileText,
-  Workflow,
-  Target,
-  Mic,
-  Radio
+  Building2,
+  Zap
 } from 'lucide-react'
 
-// Navigation structure
-const NAV_SECTIONS = [
+// Client/Portfolio Configuration
+export const PORTFOLIOS = {
+  s2p: { id: 's2p', name: 'Scan2Plan', color: '#3b82f6', icon: '🏗️' },
+  bigmuddy: { id: 'bigmuddy', name: 'Big Muddy Inn', color: '#8b4513', icon: '🏨' },
+  studioc: { id: 'studioc', name: 'Studio C', color: '#8b0000', icon: '🎬' },
+  tuthill: { id: 'tuthill', name: 'Tuthill Design', color: '#c9a227', icon: '🎨' },
+  utopia: { id: 'utopia', name: 'Utopia Studios', color: '#4a7c59', icon: '🎵' },
+  cptv: { id: 'cptv', name: 'CPTV', color: '#ff0066', icon: '📺' }
+}
+
+// Portfolio Context for global state
+export const PortfolioContext = createContext({
+  activePortfolio: null,
+  setActivePortfolio: () => {}
+})
+
+// Main Navigation - 4 core pages
+const MAIN_NAV = [
   {
-    id: 'main',
-    items: [
-      {
-        label: 'Dashboard',
-        icon: LayoutDashboard,
-        path: '/',
-        description: 'Executive Command Center'
-      },
-      {
-        label: 'Review Queue',
-        icon: FileText,
-        path: '/review',
-        description: 'Content approval workflow',
-        color: '#f59e0b'
-      },
-      {
-        label: 'Marketing Hub',
-        icon: Workflow,
-        path: '/marketing',
-        description: 'Content creation pipeline',
-        color: '#10b981'
-      },
-      {
-        label: 'S2P Leads',
-        icon: Target,
-        path: '/s2p',
-        description: 'Business development radar',
-        color: '#3b82f6'
-      },
-      {
-        label: 'Voice Sparks',
-        icon: Radio,
-        path: '/sparks',
-        description: 'Limitless Pendant feed',
-        color: '#a855f7'
-      },
-      {
-        label: 'Agency Demo',
-        icon: Play,
-        path: '/demo',
-        description: 'Multi-tenant workflow demo'
-      }
-    ]
+    label: 'Dashboard',
+    icon: LayoutDashboard,
+    path: '/',
+    description: 'Executive Command Center'
   },
   {
-    id: 'system',
-    label: 'System',
-    items: [
-      {
-        label: 'Documentation',
-        icon: BookOpen,
-        href: 'https://superchase-manual-production.up.railway.app',
-        external: true,
-        description: 'SuperChase Manual'
-      },
-      {
-        label: 'API Reference',
-        icon: Code2,
-        href: 'https://superchase-manual-production.up.railway.app/docs/system/api',
-        external: true,
-        description: 'REST API documentation'
-      },
-      {
-        label: 'Review Workflow',
-        icon: Workflow,
-        href: 'https://superchase-manual-production.up.railway.app/docs/system/review-workflow',
-        external: true,
-        description: 'Content approval pipeline'
-      }
-    ]
+    label: 'Review Queue',
+    icon: FileText,
+    path: '/review',
+    description: 'Content approval workflow',
+    color: '#f59e0b'
   },
   {
-    id: 'strategy',
-    label: 'GST Dashboards',
-    items: [
-      {
-        label: 'Scan2Plan',
-        icon: Target,
-        path: '/gst/s2p',
-        color: '#3b82f6'
-      },
-      {
-        label: 'Big Muddy Inn',
-        icon: Target,
-        path: '/gst/bigmuddy',
-        color: '#8b4513'
-      },
-      {
-        label: 'Studio C',
-        icon: Target,
-        path: '/gst/studioc',
-        color: '#8b0000'
-      },
-      {
-        label: 'Tuthill Design',
-        icon: Target,
-        path: '/gst/tuthill',
-        color: '#c9a227'
-      },
-      {
-        label: 'Utopia Studios',
-        icon: Target,
-        path: '/gst/utopia',
-        color: '#4a7c59'
-      },
-      {
-        label: 'CPTV',
-        icon: Target,
-        path: '/gst/cptv',
-        color: '#ff0066'
-      }
-    ]
+    label: 'Marketing Hub',
+    icon: Megaphone,
+    path: '/marketing',
+    description: 'Content creation pipeline',
+    color: '#10b981'
   },
   {
-    id: 'portals',
-    label: 'Client Portals',
-    items: [
-      {
-        label: 'Big Muddy Inn',
-        icon: Building2,
-        path: '/portal/bigmuddy',
-        badge: 'bigmuddy',
-        color: '#f97316'
-      },
-      {
-        label: 'Studio C',
-        icon: Building2,
-        path: '/portal/studioc',
-        badge: 'studioc',
-        color: '#10b981'
-      },
-      {
-        label: 'CPTV',
-        icon: Building2,
-        path: '/portal/cptv',
-        badge: 'cptv',
-        color: '#a855f7'
-      },
-      {
-        label: 'Tuthill Design',
-        icon: Building2,
-        path: '/portal/tuthill',
-        badge: 'tuthill',
-        color: '#f97316'
-      },
-      {
-        label: 'Utopia Studios',
-        icon: Building2,
-        path: '/portal/utopia',
-        badge: 'utopia',
-        color: '#3b82f6'
-      }
-    ]
-  },
-  {
-    id: 'external',
-    label: 'Resources',
-    items: [
-      {
-        label: 'GitHub',
-        icon: Github,
-        href: 'https://github.com/CPTV27',
-        external: true
-      },
-      {
-        label: 'Railway',
-        icon: Zap,
-        href: 'https://railway.app/project/cc5389c6-ab33-4c79-8d52-c96f995b8d27',
-        external: true
-      }
-    ]
+    label: 'S2P Lead Radar',
+    icon: Target,
+    path: '/s2p',
+    description: 'Business development',
+    color: '#3b82f6'
   }
 ]
 
-// Collapsible Section
-function NavSection({ section, isExpanded, onToggle }) {
-  const location = useLocation()
-
-  // Check if any item in section is active
-  const hasActiveItem = section.items.some(item =>
-    item.path && location.pathname === item.path
-  )
-
-  // Main section (no header) - always show items
-  if (!section.label) {
-    return (
-      <div className="space-y-1">
-        {section.items.map((item) => (
-          <NavItem key={item.label} item={item} />
-        ))}
-      </div>
-    )
+// Intelligence section
+const INTELLIGENCE_NAV = [
+  {
+    label: 'Voice Sparks',
+    icon: Radio,
+    path: '/sparks',
+    description: 'Limitless Pendant feed',
+    color: '#a855f7'
+  },
+  {
+    label: 'Scout Insights',
+    icon: Sparkles,
+    path: '/insights',
+    description: 'AI-extracted patterns',
+    color: '#06b6d4'
   }
+]
 
+// Collapsible Section Header
+function SectionHeader({ title, icon: Icon, isExpanded, onToggle, color }) {
   return (
-    <div className="space-y-1">
-      <button
-        onClick={onToggle}
-        className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors ${hasActiveItem ? 'text-zinc-300' : 'text-zinc-500 hover:text-zinc-400'
-          }`}
+    <button
+      onClick={onToggle}
+      className="w-full flex items-center justify-between px-3 py-2.5 text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors text-zinc-500 hover:text-zinc-400 hover:bg-zinc-800/30"
+    >
+      <div className="flex items-center gap-2">
+        {Icon && <Icon className="w-4 h-4" style={color ? { color } : {}} />}
+        <span>{title}</span>
+      </div>
+      <motion.div
+        animate={{ rotate: isExpanded ? 180 : 0 }}
+        transition={{ duration: 0.2 }}
       >
-        <span>{section.label}</span>
-        <motion.div
-          animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ChevronDown className="w-4 h-4" />
-        </motion.div>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <div className="space-y-1 pl-2">
-              {section.items.map((item) => (
-                <NavItem key={item.label} item={item} />
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+        <ChevronDown className="w-4 h-4" />
+      </motion.div>
+    </button>
   )
 }
 
 // Individual Nav Item
-function NavItem({ item }) {
+function NavItem({ item, onClick }) {
   const location = useLocation()
   const isActive = item.path && location.pathname === item.path
   const Icon = item.icon
 
-  const baseClasses = `
-    flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
-    transition-all duration-200 group touch-target
-  `
-
-  const activeClasses = isActive
-    ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
-
-  // External link
-  if (item.external) {
-    return (
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`${baseClasses} ${activeClasses}`}
-        title={item.description}
-      >
-        <Icon className="w-5 h-5 flex-shrink-0" style={item.color ? { color: item.color } : {}} />
-        <span className="flex-1 truncate">{item.label}</span>
-        <ExternalLink className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100" />
-      </a>
-    )
-  }
-
-  // Internal NavLink
   return (
     <NavLink
       to={item.path}
-      className={`${baseClasses} ${activeClasses}`}
+      onClick={onClick}
+      className={`
+        flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        transition-all duration-200 group touch-target
+        ${isActive
+          ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+        }
+      `}
       title={item.description}
     >
       <Icon className="w-5 h-5 flex-shrink-0" style={item.color ? { color: item.color } : {}} />
@@ -306,6 +132,41 @@ function NavItem({ item }) {
         />
       )}
     </NavLink>
+  )
+}
+
+// Portfolio Wash Button - for client switching
+function PortfolioWash({ portfolio, isActive, onClick }) {
+  return (
+    <motion.button
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className={`
+        w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        transition-all duration-200 touch-target
+        ${isActive
+          ? 'border'
+          : 'hover:bg-zinc-800/50'
+        }
+      `}
+      style={isActive ? {
+        backgroundColor: `${portfolio.color}20`,
+        borderColor: `${portfolio.color}50`,
+        color: portfolio.color
+      } : {
+        color: '#a1a1aa'
+      }}
+    >
+      <span className="text-base">{portfolio.icon}</span>
+      <span className="flex-1 text-left truncate">{portfolio.name}</span>
+      {isActive && (
+        <div
+          className="w-2 h-2 rounded-full"
+          style={{ backgroundColor: portfolio.color }}
+        />
+      )}
+    </motion.button>
   )
 }
 
@@ -331,17 +192,33 @@ function SystemStatus({ status }) {
 // Main Sidebar Component
 export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
   const [expandedSections, setExpandedSections] = useState({
-    system: true,
-    strategy: true,
-    portals: false,
-    external: false
+    intelligence: true,
+    portfolio: true
   })
+  const [activePortfolio, setActivePortfolio] = useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const toggleSection = (sectionId) => {
     setExpandedSections(prev => ({
       ...prev,
       [sectionId]: !prev[sectionId]
     }))
+  }
+
+  const handlePortfolioSelect = (portfolioId) => {
+    setActivePortfolio(portfolioId === activePortfolio ? null : portfolioId)
+    // Navigate to GST dashboard for selected portfolio
+    if (portfolioId !== activePortfolio) {
+      navigate(`/gst/${portfolioId}`)
+    }
+  }
+
+  // Close sidebar on mobile after navigation
+  const handleNavClick = () => {
+    if (window.innerWidth < 1024) {
+      onToggle()
+    }
   }
 
   return (
@@ -360,17 +237,15 @@ export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
       </AnimatePresence>
 
       {/* Sidebar */}
-      <motion.aside
-        initial={false}
-        animate={{
-          x: isOpen ? 0 : -280,
-          opacity: isOpen ? 1 : 0
-        }}
-        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+      <aside
         className={`
           fixed top-0 left-0 h-full w-[280px] z-50
-          glass-sidebar flex flex-col
-          lg:relative lg:translate-x-0 lg:opacity-100
+          flex flex-col
+          bg-[rgba(9,9,11,0.97)] backdrop-blur-xl
+          border-r border-zinc-800/50
+          transition-transform duration-300 ease-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:translate-x-0 lg:relative
         `}
       >
         {/* Header */}
@@ -396,24 +271,91 @@ export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto p-4 space-y-6">
-          {NAV_SECTIONS.map((section) => (
-            <NavSection
-              key={section.id}
-              section={section}
-              isExpanded={section.label ? expandedSections[section.id] : true}
-              onToggle={() => toggleSection(section.id)}
+          {/* Main Navigation */}
+          <div className="space-y-1">
+            {MAIN_NAV.map((item) => (
+              <NavItem key={item.label} item={item} onClick={handleNavClick} />
+            ))}
+          </div>
+
+          {/* Intelligence Section */}
+          <div className="space-y-1">
+            <SectionHeader
+              title="Intelligence"
+              icon={Sparkles}
+              color="#a855f7"
+              isExpanded={expandedSections.intelligence}
+              onToggle={() => toggleSection('intelligence')}
             />
-          ))}
+            <AnimatePresence initial={false}>
+              {expandedSections.intelligence && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="space-y-1 pl-2 pt-1">
+                    {INTELLIGENCE_NAV.map((item) => (
+                      <NavItem key={item.label} item={item} onClick={handleNavClick} />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Portfolio Washes Section */}
+          <div className="space-y-1">
+            <SectionHeader
+              title="Portfolio Washes"
+              icon={Building2}
+              color="#f97316"
+              isExpanded={expandedSections.portfolio}
+              onToggle={() => toggleSection('portfolio')}
+            />
+            <AnimatePresence initial={false}>
+              {expandedSections.portfolio && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="space-y-1 pl-2 pt-1">
+                    {Object.values(PORTFOLIOS).map((portfolio) => (
+                      <PortfolioWash
+                        key={portfolio.id}
+                        portfolio={portfolio}
+                        isActive={activePortfolio === portfolio.id || location.pathname === `/gst/${portfolio.id}`}
+                        onClick={() => handlePortfolioSelect(portfolio.id)}
+                      />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
 
         {/* Footer - System Status */}
         <SystemStatus status={spokeStatus} />
 
         {/* Version */}
-        <div className="px-4 py-3 text-xs text-zinc-600 border-t border-zinc-800/50">
-          v2.4 • Railway Production
+        <div className="px-4 py-3 text-xs text-zinc-600 border-t border-zinc-800/50 flex items-center justify-between">
+          <span>v3.0 • Executive Cockpit</span>
+          <a
+            href="https://railway.app/project/cc5389c6-ab33-4c79-8d52-c96f995b8d27"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-zinc-400"
+          >
+            <Zap className="w-3.5 h-3.5" />
+          </a>
         </div>
-      </motion.aside>
+      </aside>
 
       {/* Mobile Toggle Button */}
       <button
