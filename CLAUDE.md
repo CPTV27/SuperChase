@@ -50,6 +50,28 @@ POST /api/emergency/resume       - Resumes operations
 GET  /api/emergency/status       - Check pause state
 ```
 
+### 5. Level 3 Council (Multi-Agent Intelligence)
+```
+Onboard → Competitive Intel → Content Council → Publish
+           (3 agents)          (4 agents)
+
+Competitive Intelligence:
+  - Librarian (GPT-4o): Market research, competitor analysis
+  - Auditor (Claude): Risk assessment, feasibility scoring
+  - Architect (Claude): Grand Slam Offer design, Blue Ocean strategy
+
+Content Council:
+  - Trend Hunter: Platform-specific content opportunities
+  - Scriptwriter: Blog posts, video scripts, X threads
+  - Web Architect: Landing pages, conversion optimization
+  - Visual Director: HeyGen video payloads, brand consistency
+
+Citation System:
+  - Every claim requires source attribution
+  - Quality grades: A (90%+), B (80%+), C (70%+), D (60%+), F (<60%)
+  - Confidence levels: HIGH (0.9), MEDIUM (0.7), LOW (0.5)
+```
+
 ## Directory Structure
 ```
 SuperChase/
@@ -58,6 +80,8 @@ SuperChase/
 │   ├── hub.js            # Classification orchestrator
 │   ├── query_hub.js      # Natural language queries
 │   ├── llm_council.js    # Multi-model deliberation
+│   ├── competitive_intel.js # Level 3 Council: Battlecard generation
+│   ├── content_council.js   # AI Content Factory: Sprint generation
 │   ├── portfolio-manager.js # Business unit CRUD
 │   └── analyzer.js       # Strategic insights
 ├── lib/                   # Shared infrastructure
@@ -65,6 +89,9 @@ SuperChase/
 │   ├── errors.js         # Custom errors + retries
 │   ├── cache.js          # TTL-based caching
 │   ├── health.js         # Circuit breakers + metrics
+│   ├── citations.js      # Citation verification + quality scoring
+│   ├── council-context.js # Business context injection
+│   ├── cost-controller.js # LLM cost tracking + rate limiting
 │   └── providers/        # Adapter implementations
 │       └── task-provider.js
 ├── config/
@@ -78,7 +105,10 @@ SuperChase/
 │   ├── limitless/        # Pendant lifelogs
 │   └── sheets/           # Audit logging
 ├── memory/               # Persistent state
-├── tests/                # Test suites (59 backend + 40 frontend)
+│   ├── battlecards/      # Competitive intel outputs
+│   └── content_sprints/  # Content council outputs
+├── clients/              # Per-business config (GST, brand, etc.)
+├── tests/                # Test suites (227 tests)
 ├── frontend/             # React dashboard
 └── CONSTRUCTION_LOG.md   # Architectural decision log
 ```
@@ -147,11 +177,42 @@ POST /search-x         - X.com market research
 POST /api/publish/x    - Publish to X.com (requires HITL approval)
 ```
 
+### Competitive Intelligence (Level 3 Council)
+```
+POST /api/competitive-intel/run      - Generate battlecard for business unit
+GET  /api/competitive-intel/:id      - Get existing battlecard
+GET  /api/competitive-intel          - List all battlecards
+```
+
+### Content Council (AI Content Factory)
+```
+POST /api/content-council/run        - Generate content sprint
+GET  /api/content-council/:id        - Get content sprint
+GET  /api/content-council/:id/heygen - Get HeyGen video payload
+POST /api/content-council/:id/heygen/generate - Trigger video generation
+GET  /api/content-council            - List all content sprints
+```
+
+### Citation Verification
+```
+POST /api/citations/verify           - Verify a citation source
+GET  /api/citations/battlecard/:id   - Get citations for battlecard
+POST /api/citations/quality          - Calculate citation quality score
+```
+
+### Context Injection & Onboarding
+```
+GET  /api/context/businesses         - List onboarded businesses
+GET  /api/context/:id                - Get context for business
+GET  /api/context/:id/validate       - Validate business data completeness
+POST /api/context/preview            - Preview context injection for query
+GET  /api/onboard/research           - Research business for onboarding
+POST /api/onboard/complete           - Complete business onboarding
+```
+
 ## Testing Commands
 ```bash
-npm test                  # Run all tests (85 tests)
-npm run test:unit         # Run unit tests only (59 tests)
-npm run test:api          # Run API tests (26 tests, requires running server)
+npm test                  # Run all tests (227 tests)
 npm run test:watch        # Watch mode for development
 npm run smoke             # Run smoke tests (spokes connectivity)
 cd frontend && npm test   # Run Playwright frontend tests
@@ -169,7 +230,7 @@ npm run limitless:test       # Test Limitless API connection
 
 ## Development Workflow
 1. Local dev: `cd frontend && npm run dev` (proxies to Railway backend)
-2. Run tests: `npm test` (all 85 tests should pass)
+2. Run tests: `npm test` (all 227 tests should pass)
 3. Build: `npm run build`
 4. Deploy frontend: `railway up frontend --path-as-root --detach`
 5. Deploy backend: `railway up --service 6328da5c-f254-4f30-97a5-395b4a4608f6 --detach`
@@ -227,11 +288,30 @@ Default theme colors by type:
 - `GET /api/metrics` for observability
 - `GET /api/health` for detailed health status
 
+### lib/citations.js
+- Citation creation with confidence levels (HIGH/MEDIUM/LOW)
+- Quality scoring and grading (A-F)
+- Source verification via re-fetch
+- Prompt requirements for LLM citation generation
+
+### lib/council-context.js
+- Business context injection for LLM queries
+- Auto-detection of business mentions in queries
+- GST (Goals, Strategies, Tactics) loading
+- Brand voice and competitive positioning injection
+
+### lib/cost-controller.js
+- Token estimation and cost calculation
+- Budget enforcement (daily/monthly/per-session limits)
+- Rate limiting (requests per minute/hour)
+- Cost tracking and reporting
+
 ## Memory Log
+- 2026-01-21: Level 3 Council deployed (Competitive Intelligence + Content Factory + Citation System)
+- 2026-01-21: 227 tests passing after enterprise refactor
 - 2026-01-21: Documentation rewritten for enterprise positioning
 - 2026-01-21: Enterprise Architecture Refactor complete (Adapter Pattern, Portfolio Manager, Kill Switch)
 - 2026-01-21: LLM Council deployed (multi-model deliberation via OpenRouter)
-- 2026-01-21: 99 tests passing (59 backend + 40 frontend)
 - 2026-01-20: Limitless Scout spoke created (Pendant API integration)
 - 2026-01-20: v2.1 Server enhancements deployed (logging, errors, caching, health)
 - 2026-01-20: v2.3 Executive Command Center deployed

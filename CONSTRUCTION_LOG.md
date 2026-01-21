@@ -904,6 +904,172 @@ node core/llm_council.js run "question" # Run deliberation
 
 ---
 
+## Entry 012: Level 3 Council - Competitive Intelligence & Content Factory
+
+**Date:** 2026-01-21
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+The LLM Council (Entry 010) enabled multi-model deliberation but lacked:
+- **Domain-specific intelligence:** Generic Q&A, not business-focused analysis
+- **Structured outputs:** Free-form responses vs actionable battlecards
+- **Content pipeline:** No path from insight to published content
+- **Citation verification:** Claims without sources aren't trustworthy
+
+Business questions like "How do we beat competitors?" or "What content should we create?" required manual research and synthesis.
+
+### 2. The Spoke
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| **Competitive Intel** | `core/competitive_intel.js` | 3-agent battlecard generation |
+| **Content Council** | `core/content_council.js` | 4-agent content sprint creation |
+| **Citations** | `lib/citations.js` | Source verification & quality scoring |
+| **Context Injection** | `lib/council-context.js` | Business context for LLM queries |
+| **Skills** | `.claude/skills/competitive-intel/`, `content-council/` | Skill definitions |
+
+**3-Agent Competitive Intelligence Architecture:**
+```
+Librarian (GPT-4o)
+    │
+    ├─→ Market research
+    ├─→ Competitor sitemap scraping
+    ├─→ Keyword analysis (Red/Yellow/Green/Blue Ocean)
+    └─→ MUST include citations for every claim
+           │
+           ▼
+Auditor (Claude 3.5)
+    │
+    ├─→ Risk assessment
+    ├─→ Feasibility scoring
+    └─→ Constraint validation (budget, capacity, geography)
+           │
+           ▼
+Architect (Claude 3.5)
+    │
+    ├─→ Hormozi "Grand Slam Offer" framework
+    ├─→ Blue Ocean positioning
+    └─→ 90-day execution roadmap
+           │
+           ▼
+Output: memory/battlecards/{businessId}.json
+```
+
+**4-Agent Content Factory Architecture:**
+```
+Trend Hunter
+    │
+    ├─→ Platform-specific opportunities
+    └─→ Viral seed identification
+           │
+           ▼
+Scriptwriter
+    │
+    ├─→ Blog posts (1000-1500 words)
+    ├─→ Video scripts
+    └─→ X.com thread hooks
+           │
+           ▼
+Web Architect
+    │
+    ├─→ Landing page structure
+    └─→ Conversion optimization
+           │
+           ▼
+Visual Director
+    │
+    ├─→ HeyGen video payloads
+    └─→ Brand consistency checks
+           │
+           ▼
+Output: memory/content_sprints/{businessId}.json
+```
+
+**Citation System:**
+```javascript
+{
+  "claim": "Scan2Plan's 24-hour turnaround is faster than industry average",
+  "source": "Industry benchmark report",
+  "sourceUrl": "https://...",
+  "confidence": 0.9,  // HIGH
+  "retrievedAt": "2026-01-21T..."
+}
+
+Quality Grades:
+  A (90%+) - All claims well-sourced
+  B (80%+) - Most claims sourced
+  C (70%+) - Adequate sourcing
+  D (60%+) - Below standard
+  F (<60%) - Insufficient citations
+```
+
+### 3. The Scalability
+
+**Adding new business unit:**
+1. Run onboarding: `GET /api/onboard/research?name=NewBiz`
+2. Fill gaps: `POST /api/onboard/complete`
+3. Generate battlecard: `POST /api/competitive-intel/run`
+4. Generate content: `POST /api/content-council/run`
+5. All outputs stored per-business in `memory/`
+
+**Chaining capabilities:**
+```bash
+# Full pipeline in one call
+POST /api/competitive-intel/run
+  { "businessId": "s2p", "chainToContent": true }
+# Competitive Intel → Content Council automatically
+```
+
+**Adding new agent role:**
+1. Add prompt template to relevant core module
+2. Add to stage orchestration
+3. Output schema automatically extends
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "The Generic AI Response"
+
+Without domain grounding:
+- AI gives generic advice that applies to any business
+- No competitive differentiation
+- No actionable specifics
+
+With Level 3 Council:
+- Every insight is business-specific (GST, brand voice, constraints)
+- Every claim has a citation
+- Every output is structured for action
+
+**Trust-by-Design:** If an agent can't cite a source, the claim gets flagged. No more "the AI said so" as justification.
+
+**API Endpoints Added:**
+```
+POST /api/competitive-intel/run    - Generate battlecard
+GET  /api/competitive-intel/:id    - Get battlecard
+GET  /api/competitive-intel        - List all battlecards
+
+POST /api/content-council/run      - Generate content sprint
+GET  /api/content-council/:id      - Get content sprint
+GET  /api/content-council          - List all sprints
+
+POST /api/citations/verify         - Verify citation
+GET  /api/citations/battlecard/:id - Get battlecard citations
+POST /api/citations/quality        - Calculate quality score
+
+GET  /api/onboard/research         - Research for onboarding
+POST /api/onboard/complete         - Complete onboarding
+```
+
+**CLI Commands:**
+```bash
+node core/competitive_intel.js run s2p quick     # Quick battlecard
+node core/competitive_intel.js run s2p standard  # Full analysis
+node core/content_council.js run s2p quick       # Quick sprint
+```
+
+---
+
 ## Entry Template
 
 ```markdown
