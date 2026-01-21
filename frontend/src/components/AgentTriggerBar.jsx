@@ -9,11 +9,34 @@ import {
   CheckCircle2,
   AlertCircle,
   X,
-  Sparkles
+  Sparkles,
+  Brain,
+  Users
 } from 'lucide-react'
+import ProjectAgentModal from './ProjectAgentModal'
 
 // Agent configurations with circular button styling
 const AGENTS = [
+  {
+    id: 'project-team',
+    name: 'Team',
+    icon: Users,
+    color: '#ec4899',
+    bgGradient: 'from-pink-500 to-purple-600',
+    command: '/project-agent',
+    description: 'Run agent team on project',
+    isModal: true // Opens modal instead of API call
+  },
+  {
+    id: 'briefing',
+    name: 'Briefing',
+    icon: Brain,
+    color: '#8b5cf6',
+    bgGradient: 'from-violet-500 to-purple-600',
+    command: '/briefing',
+    description: 'Generate daily briefing',
+    endpoint: '/api/briefing/trigger'
+  },
   {
     id: 'scout',
     name: 'Scout',
@@ -213,6 +236,7 @@ export default function AgentTriggerBar() {
   const [results, setResults] = useState([])
   const [showClientSelector, setShowClientSelector] = useState(false)
   const [pendingAgent, setPendingAgent] = useState(null)
+  const [showProjectModal, setShowProjectModal] = useState(false)
 
   async function triggerAgent(agent, clientId = null) {
     setRunningAgent(agent.id)
@@ -253,7 +277,9 @@ export default function AgentTriggerBar() {
   }
 
   function handleTrigger(agent) {
-    if (agent.requiresClient) {
+    if (agent.isModal) {
+      setShowProjectModal(true)
+    } else if (agent.requiresClient) {
       setPendingAgent(agent)
       setShowClientSelector(true)
     } else {
@@ -299,6 +325,12 @@ export default function AgentTriggerBar() {
           />
         )}
       </AnimatePresence>
+
+      {/* Project Agent modal */}
+      <ProjectAgentModal
+        isOpen={showProjectModal}
+        onClose={() => setShowProjectModal(false)}
+      />
 
       {/* Floating circular trigger bar */}
       <motion.div

@@ -9,55 +9,74 @@ import {
   AlertCircle,
   TrendingUp,
   Zap,
-  RefreshCw
+  RefreshCw,
+  Mail,
+  Archive
 } from 'lucide-react'
+import { getLogs } from '../services/api'
 
 /**
  * Agency Pulse Card
  *
  * Shows George's AI reasoning and recent decisions.
- * Part of the Gemini-inspired Executive Cockpit design.
+ * Wired to real audit log data from the backend.
  */
 
-// Reasoning type icons
+// Reasoning type icons mapped from audit categories
 const REASONING_ICONS = {
   insight: Sparkles,
   decision: CheckCircle2,
   warning: AlertCircle,
   opportunity: TrendingUp,
-  action: Zap
+  action: Zap,
+  email: Mail,
+  task: CheckCircle2,
+  newsletter: Archive
 }
 
-// Sample reasoning entries (would come from API in production)
-const SAMPLE_REASONING = [
-  {
-    id: 1,
-    type: 'insight',
-    title: 'Content pattern detected',
-    reasoning: 'Big Muddy posts about blues heritage perform 3.2x better than general hospitality content. Recommending pivot to music-focused narratives.',
-    confidence: 0.89,
-    timestamp: '2 min ago',
-    source: 'Scout'
-  },
-  {
-    id: 2,
-    type: 'decision',
-    title: 'Brief generated for S2P',
-    reasoning: 'Created technical prospectus brief based on 4 recent mentions of "existing conditions" in Limitless lifelogs. Aligned with Q1 pipeline goal.',
-    confidence: 0.94,
-    timestamp: '15 min ago',
-    source: 'Strategist'
-  },
-  {
-    id: 3,
-    type: 'opportunity',
-    title: 'Cross-sell opportunity',
-    reasoning: 'Studio C client Utopia mentioned interest in documentation. S2P scan-to-BIM could generate $8-12K project.',
-    confidence: 0.78,
-    timestamp: '1 hour ago',
-    source: 'Scout'
+// Map audit log categories to reasoning types
+function mapCategoryToType(category) {
+  const mapping = {
+    'URGENT_CLIENT': 'warning',
+    'ACTION_REQUIRED': 'action',
+    'NEWSLETTER': 'newsletter',
+    'FYI': 'insight',
+    'TASK_CREATED': 'decision',
+    'AGENT_ACTION': 'action'
   }
-]
+  return mapping[category] || 'insight'
+}
+
+// Format timestamp relative to now
+function formatTimestamp(isoDate) {
+  if (!isoDate) return 'recently'
+  const date = new Date(isoDate)
+  const now = new Date()
+  const diffMs = now - date
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMins / 60)
+  const diffDays = Math.floor(diffHours / 24)
+
+  if (diffMins < 1) return 'just now'
+  if (diffMins < 60) return `${diffMins} min ago`
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
+  if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+  return date.toLocaleDateString()
+}
+
+// Transform audit log entry to reasoning format
+function transformLogToReasoning(log, index) {
+  const type = mapCategoryToType(log.category)
+  return {
+    id: index,
+    type,
+    title: log.emailSubject || log.action || log.message || 'System activity',
+    reasoning: log.reasoning || log.message || `Processed ${log.category?.toLowerCase() || 'item'}: ${log.emailSubject || log.action || 'Activity logged'}`,
+    confidence: log.confidence || 0.85,
+    timestamp: formatTimestamp(log.timestamp),
+    source: log.source || (log.category === 'AGENT_ACTION' ? 'George' : 'System')
+  }
+}
 
 function ReasoningEntry({ entry, isExpanded, onToggle }) {
   const Icon = REASONING_ICONS[entry.type] || Sparkles
@@ -144,19 +163,31 @@ function ReasoningEntry({ entry, isExpanded, onToggle }) {
 }
 
 export default function AgencyPulse({ onRefresh }) {
-  const [reasoning, setReasoning] = useState(SAMPLE_REASONING)
+  const [reasoning, setReasoning] = useState([])
   const [expandedId, setExpandedId] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState(new Date())
 
-  // Would fetch from API in production
+  // Fetch real audit log data from API
   const fetchReasoning = async () => {
     setLoading(true)
-    // Simulated API call
-    await new Promise(r => setTimeout(r, 1000))
-    setLastUpdate(new Date())
+    try {
+      const data = await getLogs(10)
+      const logs = data.logs || []
+      // Transform audit logs to reasoning format
+      const transformed = logs.map(transformLogToReasoning)
+      setReasoning(transformed)
+      setLastUpdate(new Date())
+    } catch (error) {
+      console.error('Failed to fetch reasoning:', error)
+    }
     setLoading(false)
   }
+
+  // Fetch on mount
+  useEffect(() => {
+    fetchReasoning()
+  }, [])
 
   // Summary stats
   const stats = {

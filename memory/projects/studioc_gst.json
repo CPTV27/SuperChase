@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "projectId": "studioc",
+    "name": "Studio C",
+    "tagline": "Production-as-a-Service",
+    "website": "StudioC.video",
+    "location": "Utopia Studios, Bearsville, NY",
+    "updatedAt": "2026-01-21T00:00:00Z"
+  },
+  "goals": {
+    "primary": "Build a scalable Production-as-a-Service business that generates recurring revenue through templated production packages",
+    "q1_2026": [
+      "Launch town media template pilot with Natchez",
+      "Develop 3-tier pricing structure ($1,500 / $3,000 / $4,500)",
+      "Create white-label booking widget MVP",
+      "Establish vertical-first content workflow"
+    ],
+    "annual": [
+      "Replicate Natchez template to 5 additional towns",
+      "Generate $150K in production services revenue",
+      "Build library of 50+ reusable production templates",
+      "Partner with Miles full-time as Technical Director"
+    ]
+  },
+  "strategies": {
+    "productization": {
+      "description": "Transform one-off production work into repeatable, templated packages",
+      "tactics": [
+        "Create 'Town Media Package' as flagship offering",
+        "Develop digital call sheet and booking widget",
+        "Build asset library of b-roll, music, graphics",
+        "Standardize equipment kits for different shoot types"
+      ]
+    },
+    "scalableCapture": {
+      "description": "Use small, repeatable capture tools for scale",
+      "tactics": [
+        "Adopt GoPro, phone rigs, Ray-Ban glasses for POV content",
+        "Implement vertical-first workflow for social optimization",
+        "Train local shooters in each market",
+        "Create capture SOPs for consistency"
+      ]
+    },
+    "localNetworks": {
+      "description": "Build local media networks in target markets",
+      "tactics": [
+        "Pilot with Natchez/Big Muddy relationship",
+        "Identify 5 towns with similar characteristics",
+        "Partner with local businesses for cross-promotion",
+        "Create 'DaytimeTV.us' community content model"
+      ]
+    },
+    "technologyLeverage": {
+      "description": "Use technology to reduce production costs and increase quality",
+      "tactics": [
+        "Leverage Blackmagic 6K for high-end shoots",
+        "Use ATEM for live streaming capabilities",
+        "Integrate Matterport for virtual tours",
+        "Deploy DJI Ronin 4D for cinematic motion"
+      ]
+    }
+  },
+  "targetAudience": {
+    "primary": [
+      "Small town tourism boards",
+      "Boutique hotels and B&Bs",
+      "Local business associations",
+      "Regional event venues"
+    ],
+    "secondary": [
+      "Real estate developers",
+      "Musicians and artists",
+      "Corporate retreat planners",
+      "Wedding venues"
+    ]
+  },
+  "competitiveAdvantage": [
+    "Turnkey production packages (no coordination headaches)",
+    "Professional quality at small-town prices",
+    "Local network of trained shooters",
+    "Vertical-first optimization for social",
+    "Utopia Studios as flagship production facility"
+  ],
+  "keyMetrics": {
+    "revenue": "Monthly recurring production revenue",
+    "clients": "Number of active town/venue clients",
+    "templates": "Number of reusable production templates",
+    "efficiency": "Average production time per deliverable"
+  },
+  "team": {
+    "chase": "Creative Director, Business Development",
+    "miles": "Technical Director, Equipment & Workflow"
+  },
+  "equipment": [
+    "Blackmagic 6K Pro",
+    "ATEM Mini Extreme",
+    "Matterport Pro2",
+    "DJI Ronin 4D",
+    "GoPro Hero 12",
+    "Ray-Ban Meta Smart Glasses",
+    "Rode Wireless GO II"
+  ],
+  "packages": {
+    "starter": {
+      "name": "Local Spotlight",
+      "price": 1500,
+      "deliverables": [
+        "2-hour shoot",
+        "5 social clips (vertical)",
+        "1 hero video (90 seconds)",
+        "Basic color grade"
+      ]
+    },
+    "standard": {
+      "name": "Town Feature",
+      "price": 3000,
+      "deliverables": [
+        "Full day shoot",
+        "10 social clips (vertical)",
+        "2 hero videos",
+        "Drone footage",
+        "Professional color grade",
+        "Licensed music"
+      ]
+    },
+    "premium": {
+      "name": "Destination Campaign",
+      "price": 4500,
+      "deliverables": [
+        "2-day production",
+        "20 social clips",
+        "4 hero videos",
+        "Virtual tour (Matterport)",
+        "Live stream setup",
+        "Full post-production",
+        "30-day content calendar"
+      ]
+    }
+  }
+}

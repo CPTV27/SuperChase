@@ -672,6 +672,238 @@ AI agents turn content creation into a review task:
 
 ---
 
+## Entry 011: Enterprise Architecture Refactor - Adapter Pattern & Kill Switch
+
+**Date:** 2026-01-21
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+The critique identified critical architectural weaknesses:
+- **Dependency Nightmare:** Tight coupling to Asana/Gmail APIs
+- **Black Box Risk:** AI agents operating without oversight
+- **N=1 Problem:** Hard-coded business units (Scan2Plan, CPTV)
+- **No Kill Switch:** No emergency shutdown mechanism
+
+### 2. The Solution
+
+**Phase 1: Adapter Pattern for Task Management**
+
+```
+lib/providers/task-provider.js
+
+┌─────────────────────────────────────────────────────────────┐
+│                    TaskProvider (Abstract)                   │
+│  createTask(), getTasks(), completeTask(), addComment()     │
+└─────────────────────────────────────────────────────────────┘
+           │                              │
+           ▼                              ▼
+┌─────────────────────┐      ┌─────────────────────────┐
+│  AsanaTaskProvider  │      │  InMemoryTaskProvider   │
+│  (Production)       │      │  (Testing/Fallback)     │
+└─────────────────────┘      └─────────────────────────┘
+```
+
+**Phase 2: Human-in-the-Loop (Already Implemented)**
+- `spokes/agency/review.js` already has full HITL workflow
+- Multi-stage approval: DRAFT → AGENCY_REVIEW → CLIENT_REVIEW → PUBLISHED
+- Secure approval tokens with HMAC verification
+
+**Phase 3: Config-Driven Portfolio**
+
+```javascript
+// config/portfolio.json
+{
+  "businessUnits": [
+    { "id": "s2p", "name": "Scan2Plan", "color": "#3b82f6", ... },
+    { "id": "studio", "name": "Studio C", "color": "#10b981", ... },
+    // Add/remove units dynamically
+  ]
+}
+
+// core/portfolio-manager.js
+getBusinessUnits()     // Returns all configured units
+addBusinessUnit(unit)  // Add new unit at runtime
+updateBusinessUnit()   // Modify existing unit
+deleteBusinessUnit()   // Remove unit
+```
+
+**Phase 4: Emergency Kill Switch**
+
+```
+POST /api/emergency/kill-switch
+  { "confirm": "KILL_ALL_AUTOMATION", "reason": "..." }
+
+Actions:
+1. Sets globalThis.AUTOMATION_PAUSED = true
+2. Clears all spoke caches (revokes in-memory tokens)
+3. Logs to memory/emergency_log.jsonl
+
+POST /api/emergency/resume
+  { "confirm": "RESUME_AUTOMATION" }
+
+GET /api/emergency/status
+  { "automationPaused": true/false }
+```
+
+### 3. New API Endpoints
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/portfolio/units` | GET | List all business units |
+| `/api/portfolio/units` | POST | Add new business unit |
+| `/api/portfolio/units/:id` | PUT | Update business unit |
+| `/api/portfolio/units/:id` | DELETE | Remove business unit |
+| `/api/portfolio/summary` | GET | Portfolio summary for dashboard |
+| `/api/emergency/kill-switch` | POST | Emergency shutdown |
+| `/api/emergency/resume` | POST | Resume after shutdown |
+| `/api/emergency/status` | GET | Check automation status |
+
+### 4. The Scalability
+
+**Swap Asana for Jira:**
+```javascript
+// Just create a new provider
+class JiraTaskProvider extends TaskProvider {
+  async createTask(options) { /* Jira API */ }
+}
+
+// And switch in config
+const provider = createTaskProvider('jira', { apiKey: '...' });
+```
+
+**Add new business unit:**
+```bash
+curl -X POST /api/portfolio/units \
+  -d '{"id": "newco", "name": "New Company", "color": "#ff0000"}'
+```
+
+### 5. The Lesson
+
+**Dysfunction Avoided:** "The Uncontrollable System"
+
+Without these changes:
+- Couldn't swap task providers without rewriting code
+- No way to emergency-stop runaway automation
+- Adding a new business required code changes
+
+Now:
+- Providers are pluggable (Adapter Pattern)
+- Kill switch stops everything in 1 API call
+- Business units are config, not code
+
+---
+
+## Entry 010: LLM Council - Multi-Model Deliberation Engine
+
+**Date:** 2026-01-20
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+Single-model AI responses have inherent limitations:
+- Model-specific biases and blind spots
+- No diversity of perspectives on complex questions
+- Self-preference bias when models evaluate themselves
+- Strategic decisions benefit from "second opinions"
+
+When Chase asks complex business questions, a single model's answer may be confident but wrong. No validation mechanism exists.
+
+### 2. The Spoke
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| **LLM Council** | `core/llm_council.js` | 3-stage deliberation orchestrator |
+| **Server Routes** | `server.js` | API endpoints for council queries |
+| **Output Storage** | `memory/llm_council_outputs/` | Session records for audit |
+
+**3-Stage Architecture (based on karpathy/llm-council):**
+```
+Stage 1: Parallel Collection
+    GPT-4o, Claude, Gemini → Simultaneous responses
+
+Stage 2: Anonymous Peer Review
+    Responses labeled A/B/C (model identity hidden)
+    Each model ranks all responses
+    Borda count aggregation
+
+Stage 3: Chairman Synthesis
+    Rankings + responses → Claude synthesizes
+    Weight given to higher-ranked inputs
+```
+
+**Key Functions:**
+- `stage1ParallelCollection()` - Query all models via OpenRouter
+- `stage2AnonymousReview()` - Blind peer ranking with Borda aggregation
+- `stage3ChairmanSynthesis()` - Weighted final synthesis
+- `runCouncil()` - Main orchestrator
+- `handleLLMCouncilRequest()` - HTTP handler
+
+### 3. The Scalability
+
+**Adding new models:**
+```javascript
+// Just update the config array
+const COUNCIL_MODELS = [
+  'openai/gpt-4o',
+  'anthropic/claude-3.5-sonnet',
+  'google/gemini-2.0-flash-exp',
+  'meta-llama/llama-3.1-70b'  // New model
+];
+```
+
+**OpenRouter abstraction:**
+- Single API for 100+ models
+- No per-provider SDK management
+- Unified pricing and rate limits
+
+**Use cases:**
+- Strategic decisions ("Should we enter market X?")
+- Factual verification ("Is this claim accurate?")
+- Complex analysis ("What are the risks of this approach?")
+
+**Integration with George:**
+```
+Voice: "Run a council on whether to acquire BigMuddy"
+    │
+    ▼
+George → POST /api/llm-council
+    │
+    ▼
+3 models deliberate → Synthesis returned
+    │
+    ▼
+George speaks the synthesized answer with rankings
+```
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "The Confident Wrong Answer"
+
+Single LLMs confidently assert incorrect information. The council pattern:
+- Surfaces disagreements between models
+- Identifies consensus (higher confidence)
+- Weights higher-rated responses more heavily
+- Creates audit trail of deliberation
+
+**Anonymity matters:** Research shows models have ~19% self-preference bias when they can identify their own output. Anonymous labeling (A/B/C) eliminates this.
+
+**API Endpoints:**
+```
+POST /api/llm-council       - Run council deliberation
+GET  /api/llm-council/models - List available models
+```
+
+**CLI Commands:**
+```bash
+node core/llm_council.js test           # Test configuration
+node core/llm_council.js run "question" # Run deliberation
+```
+
+---
+
 ## Entry Template
 
 ```markdown

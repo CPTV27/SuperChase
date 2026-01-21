@@ -10,6 +10,9 @@ import S2PPortal from './components/S2PPortal.jsx'
 import LimitlessFeed from './components/LimitlessFeed.jsx'
 import GSTDashboard from './components/GSTDashboard.jsx'
 import ScoutInsights from './components/ScoutInsights.jsx'
+import TasksPage from './components/TasksPage.jsx'
+import AuditLog from './components/AuditLog.jsx'
+import SettingsPage from './components/SettingsPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -21,6 +24,11 @@ createRoot(document.getElementById('root')).render(
           <Route path="/review" element={<ReviewQueue />} />
           <Route path="/marketing" element={<MarketingHub />} />
           <Route path="/s2p" element={<S2PPortal />} />
+
+          {/* Task & System Pages */}
+          <Route path="/tasks" element={<TasksPage />} />
+          <Route path="/logs" element={<AuditLog />} />
+          <Route path="/settings" element={<SettingsPage />} />
 
           {/* Intelligence Pages */}
           <Route path="/sparks" element={<LimitlessFeed />} />

@@ -1,55 +1,86 @@
-# SuperChase Executive OS - Project Guidelines
+# SuperChase OS - Development Guidelines
 
 ## Project Memory & Context
 - This project uses the `episodic-memory` plugin. Review past session summaries before starting new features.
-- Critical architectural decisions are stored in `.claude/memory/`.
+- Critical architectural decisions are stored in `.claude/memory/` and `CONSTRUCTION_LOG.md`.
 
-## Development Workflow (Superpowers)
-- **Planning:** For any task involving >2 files, Claude MUST run `/superpowers:write-plan`.
-- **Execution:** Use `/superpowers:execute-plan` for batch edits to minimize token burn.
-- **TDD:** Enforce the `test-driven-development` skill. New features require passing tests before completion.
+## Development Workflow
+- **Planning:** For any task involving >2 files, create a plan first.
+- **TDD:** New features require passing tests before completion.
+- **Documentation:** Update CONSTRUCTION_LOG.md before implementing architectural changes.
 
 ## Deployment & Health (Railway)
-- Dashboard is live at: https://superchase-dashboard-production.up.railway.app
-- Use the `railway` skill to monitor logs if smoke tests fail on production.
-- **Verification:** Always run `npx playwright test` after a deployment sync.
+- Dashboard: https://superchase-dashboard-production.up.railway.app
+- Backend: https://superchase-production.up.railway.app
+- **Verification:** Always run `npm test` and `npx playwright test` after deployment.
 
 ---
 
 ## Project Overview
-SuperChase is an AI Executive Assistant with hub-and-spoke architecture, deployed on Railway.
+SuperChase OS is an enterprise-grade AI automation platform with provider-agnostic architecture.
 
-## Architecture
+## Key Architecture Patterns
+
+### 1. Adapter Pattern (Task Providers)
+```javascript
+// lib/providers/task-provider.js
+const provider = createTaskProvider('asana');   // Production
+const provider = createTaskProvider('memory');  // Testing
+const provider = createTaskProvider('jira');    // Future
+```
+
+### 2. Config-Driven Portfolio
+```javascript
+// config/portfolio.json - NO hard-coded business units
+// core/portfolio-manager.js - CRUD operations
+getBusinessUnits(), addBusinessUnit(), updateBusinessUnit()
+```
+
+### 3. Human-in-the-Loop (HITL)
+```
+// spokes/agency/review.js
+Draft → AGENCY_REVIEW → CLIENT_REVIEW → Published
+        (approval gate)  (approval gate)
+```
+
+### 4. Emergency Kill Switch
+```
+POST /api/emergency/kill-switch  - Halts all automation
+POST /api/emergency/resume       - Resumes operations
+GET  /api/emergency/status       - Check pause state
+```
+
+## Directory Structure
 ```
 SuperChase/
-├── server.js              # Backend API v2.1 (Node.js HTTP server)
-├── core/                  # Hub logic (query_hub.js, analyzer.js)
-├── lib/                   # Shared utilities (v2.1)
-│   ├── logger.js         # Structured logging with request tracing
-│   ├── errors.js         # Custom error classes with retries
-│   ├── cache.js          # In-memory caching with TTL
-│   └── health.js         # Circuit breakers & metrics
+├── server.js              # HTTP API server
+├── core/                  # Business logic
+│   ├── hub.js            # Classification orchestrator
+│   ├── query_hub.js      # Natural language queries
+│   ├── llm_council.js    # Multi-model deliberation
+│   ├── portfolio-manager.js # Business unit CRUD
+│   └── analyzer.js       # Strategic insights
+├── lib/                   # Shared infrastructure
+│   ├── logger.js         # Structured logging + tracing
+│   ├── errors.js         # Custom errors + retries
+│   ├── cache.js          # TTL-based caching
+│   ├── health.js         # Circuit breakers + metrics
+│   └── providers/        # Adapter implementations
+│       └── task-provider.js
+├── config/
+│   └── portfolio.json    # Business unit definitions
 ├── spokes/                # Integration modules
-│   ├── asana/            # Task management
-│   ├── brainstorm/       # Ideation ingest (v2.1)
-│   ├── limitless/        # Pendant Scout (v2.1)
-│   ├── twitter/          # X.com research & publishing
-│   ├── voice/            # ElevenLabs (George persona)
-│   ├── portal/           # Client portal queue
+│   ├── asana/            # Task provider (default)
+│   ├── gmail/            # Email processing
+│   ├── voice/            # ElevenLabs TTS
+│   ├── twitter/          # X.com integration
+│   ├── agency/           # Content factory + HITL
+│   ├── limitless/        # Pendant lifelogs
 │   └── sheets/           # Audit logging
-├── memory/               # Persistent context files
-│   ├── limitless_context.json
-│   ├── patterns.json
-│   └── daily_summary.json
-├── tests/                 # Test suites (v2.1)
-│   ├── api.test.js       # API endpoint tests (26 tests)
-│   ├── core.test.js      # Hub/analytics tests (21 tests)
-│   └── lib.test.js       # Library module tests (38 tests)
-├── types/                 # TypeScript definitions (JSDoc)
-│   └── index.d.ts        # Full type coverage
-├── frontend/             # React dashboard (Vite + Tailwind)
-│   └── src/App.jsx       # Executive Command Center v2.3
-└── ROADMAP.md           # Strategic priorities
+├── memory/               # Persistent state
+├── tests/                # Test suites (59 backend + 40 frontend)
+├── frontend/             # React dashboard
+└── CONSTRUCTION_LOG.md   # Architectural decision log
 ```
 
 ## Deployment
@@ -77,20 +108,43 @@ Frontend: ed67ad21-eef7-4b7e-adcd-0da4a581e683
 - **Types**: JSDoc + TypeScript definitions in `types/index.d.ts`
 
 ## API Endpoints
+
+### Core
 ```
-GET  /health              - Health check (basic, no auth)
-GET  /api/health          - Health check (detailed with circuit states)
-GET  /api/metrics         - Request metrics & performance data
-POST /query               - Query George (business context)
-GET  /tasks               - Get Asana tasks
-GET  /briefing            - Get daily briefing
-POST /search-x            - Search Twitter/X
-GET  /api/logs            - Audit log entries
-GET  /api/strategy        - ROADMAP.md as JSON
-GET  /api/status          - Spoke connectivity
-POST /api/briefing/trigger - Generate new briefing
-POST /api/publish/x       - Post to X.com
-GET  /api/portal/clients  - List portal clients
+GET  /health              - Basic health (no auth)
+GET  /api/health          - Detailed health with circuit states
+GET  /api/metrics         - Request metrics & latencies
+POST /query               - Natural language business query
+GET  /tasks               - Tasks from configured provider
+GET  /briefing            - Pre-computed daily briefing
+```
+
+### Multi-Model AI
+```
+POST /api/llm-council         - Run multi-model deliberation
+GET  /api/llm-council/models  - List available council models
+```
+
+### Portfolio (Config-Driven)
+```
+GET    /api/portfolio/units      - List all business units
+POST   /api/portfolio/units      - Add new business unit
+PUT    /api/portfolio/units/:id  - Update business unit
+DELETE /api/portfolio/units/:id  - Remove business unit
+GET    /api/portfolio/summary    - Dashboard summary
+```
+
+### Emergency Controls
+```
+GET  /api/emergency/status      - Check automation status
+POST /api/emergency/kill-switch - Halt all automation
+POST /api/emergency/resume      - Resume operations
+```
+
+### Research & Publishing
+```
+POST /search-x         - X.com market research
+POST /api/publish/x    - Publish to X.com (requires HITL approval)
 ```
 
 ## Testing Commands
@@ -121,11 +175,23 @@ npm run limitless:test       # Test Limitless API connection
 5. Deploy backend: `railway up --service 6328da5c-f254-4f30-97a5-395b4a4608f6 --detach`
 6. Verify: Check `/api/health` and run Playwright smoke test
 
-## Business Units (Theme Colors)
-- **Scan2Plan**: Blue (#3b82f6)
-- **Studio C**: Emerald (#10b981)
-- **CPTV**: Purple (#a855f7)
-- **Tuthill**: Orange (#f97316)
+## Business Units (Config-Driven)
+Business units are defined in `config/portfolio.json`, not hard-coded.
+
+To add/modify units:
+```bash
+# Via API
+curl -X POST /api/portfolio/units \
+  -d '{"id": "newco", "name": "New Company", "type": "service", "color": "#3b82f6"}'
+
+# Or edit config/portfolio.json directly
+```
+
+Default theme colors by type:
+- **service**: Blue (#3b82f6)
+- **brand**: Purple (#a855f7)
+- **client**: Yellow (#eab308)
+- **venue**: Cyan (#06b6d4)
 
 ## Standing Instructions
 1. After any frontend change, rebuild and verify locally before deploying
@@ -162,11 +228,11 @@ npm run limitless:test       # Test Limitless API connection
 - `GET /api/health` for detailed health status
 
 ## Memory Log
+- 2026-01-21: Documentation rewritten for enterprise positioning
+- 2026-01-21: Enterprise Architecture Refactor complete (Adapter Pattern, Portfolio Manager, Kill Switch)
+- 2026-01-21: LLM Council deployed (multi-model deliberation via OpenRouter)
+- 2026-01-21: 99 tests passing (59 backend + 40 frontend)
 - 2026-01-20: Limitless Scout spoke created (Pendant API integration)
-- 2026-01-20: Brainstorm ingest spoke aligned with SKILL.md workflow
 - 2026-01-20: v2.1 Server enhancements deployed (logging, errors, caching, health)
-- 2026-01-20: 85 tests passing (API, core, library modules)
-- 2026-01-20: TypeScript definitions added for IDE support
 - 2026-01-20: v2.3 Executive Command Center deployed
-- 2026-01-20: All Railway environment variables configured
 - 2026-01-20: Framer Motion + Recharts integration complete

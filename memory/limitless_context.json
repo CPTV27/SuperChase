@@ -152,6 +152,19 @@
         "Audience-first approach before heavy commerce",
         "Combine polished brand imagery with behind-the-scenes authenticity"
       ]
+    },
+    "StudioC": {
+      "contacts": ["Miles"],
+      "preferences": [
+        "Production-as-a-Service model with tiered packages ($1,500-$4,500/shoot)",
+        "Vertical-first workflow for social media scale",
+        "Repeatable capture tools (GoPro, phone rigs, Ray-Ban glasses)",
+        "Town media template approach (Natchez pilot → replicate to other towns)",
+        "White-label booking widget and digital call sheet products"
+      ],
+      "tone": "Professional, technical expertise, turnkey production solutions",
+      "location": "Utopia Studios, Bearsville, NY",
+      "equipment": ["Blackmagic 6K", "ATEM switcher", "Matterport", "DJI Ronin 4D"]
     }
   },
   "recurringTopics": [

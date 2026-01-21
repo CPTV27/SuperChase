@@ -217,6 +217,65 @@
           }
         }
       }
+    },
+    "/llm-council": {
+      "post": {
+        "operationId": "runLLMCouncil",
+        "summary": "Run LLM Council deliberation",
+        "description": "Query multiple AI models (GPT-4o, Claude, Gemini) in parallel for a multi-perspective answer. Models anonymously review each other's responses, then a chairman synthesizes the best answer weighted by peer rankings. Use this for important decisions, fact-checking, or when you want diverse expert opinions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LLMCouncilRequest"
+              },
+              "examples": {
+                "strategy": {
+                  "summary": "Strategic decision",
+                  "value": {
+                    "query": "What are the key factors for successfully scaling a service business?"
+                  }
+                },
+                "factCheck": {
+                  "summary": "Fact verification",
+                  "value": {
+                    "query": "Is it true that Matterport uses LiDAR technology in their Pro2 camera?"
+                  }
+                },
+                "analysis": {
+                  "summary": "Complex analysis",
+                  "value": {
+                    "query": "What are the pros and cons of vertical integration for a 3D scanning company?"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Council deliberation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LLMCouncilResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -469,6 +528,84 @@
           },
           "error": {
             "type": "string"
+          }
+        }
+      },
+      "LLMCouncilRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "The question or topic for the council to deliberate on",
+            "example": "What are the key factors for successfully scaling a service business?"
+          },
+          "models": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional list of models to query. Defaults to GPT-4o, Claude 3.5 Sonnet, and Gemini 2.0 Flash.",
+            "example": ["openai/gpt-4o", "anthropic/claude-3.5-sonnet", "google/gemini-2.0-flash-exp"]
+          },
+          "chairmanModel": {
+            "type": "string",
+            "description": "Optional model for final synthesis. Defaults to Claude 3.5 Sonnet.",
+            "example": "anthropic/claude-3.5-sonnet"
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2,
+            "default": 0.7,
+            "description": "Temperature for model responses"
+          }
+        }
+      },
+      "LLMCouncilResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the council deliberation completed successfully"
+          },
+          "traceId": {
+            "type": "string",
+            "description": "Unique identifier for this council session",
+            "example": "council-mknighn33bo8"
+          },
+          "synthesis": {
+            "type": "string",
+            "description": "The chairman's synthesized answer combining the best insights from all models, weighted by peer rankings"
+          },
+          "ranking": {
+            "type": "array",
+            "description": "Models ranked by peer review scores (Borda count)",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Anonymous label used during review (A, B, C)",
+                  "example": "A"
+                },
+                "model": {
+                  "type": "string",
+                  "description": "Model identifier",
+                  "example": "openai/gpt-4o"
+                },
+                "score": {
+                  "type": "integer",
+                  "description": "Borda count score from peer review",
+                  "example": 2
+                }
+              }
+            }
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Total deliberation time in milliseconds",
+            "example": 26389
           }
         }
       }

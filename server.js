@@ -23,6 +23,7 @@ dotenv.config({ path: join(__dirname, '.env') });
 
 // Core imports
 import queryHub from './core/query_hub.js';
+import projectAgent from './core/project_agent.js';
 import asana from './spokes/asana/pusher.js';
 import twitter from './spokes/twitter/search.js';
 import twitterPublish from './spokes/twitter/publish.js';
@@ -413,6 +414,30 @@ const routes = {
     }
   },
 
+  // Project Agent System
+  'GET /api/projects': async () => {
+    return {
+      projects: projectAgent.getProjects(),
+      agents: Object.entries(projectAgent.AGENT_PERSONAS).map(([id, p]) => ({
+        id,
+        name: p.name,
+        role: p.role
+      }))
+    };
+  },
+
+  'POST /api/project-agent': async (req) => {
+    const body = await parseBody(req);
+    console.log(`[API] Project agent request: ${body.projectId} - ${body.task?.substring(0, 50)}...`);
+    return projectAgent.handleProjectAgentRequest(body);
+  },
+
+  'POST /api/project-agent/team': async (req) => {
+    const body = await parseBody(req);
+    console.log(`[API] Full team request: ${body.projectId} - ${body.task?.substring(0, 50)}...`);
+    return projectAgent.handleProjectAgentRequest({ ...body, runFullTeam: true });
+  },
+
   // ============================================
   // Publishing API Endpoints (Marketing Agency)
   // ============================================
@@ -463,6 +488,179 @@ const routes = {
   // List all portal clients
   'GET /api/portal/clients': async () => {
     return portalQueue.listClients();
+  },
+
+  // ============================================
+  // LLM Council API Endpoints
+  // ============================================
+
+  // Run LLM Council deliberation
+  'POST /api/llm-council': async (req) => {
+    const body = await parseBody(req);
+    const { handleLLMCouncilRequest } = await import('./core/llm_council.js');
+    return handleLLMCouncilRequest(body);
+  },
+
+  // Get available LLM Council models
+  'GET /api/llm-council/models': async () => {
+    const { getAvailableModels } = await import('./core/llm_council.js');
+    return getAvailableModels();
+  },
+
+  // ============================================
+  // Portfolio Management API (Config-Driven)
+  // ============================================
+
+  // Get all business units
+  'GET /api/portfolio/units': async () => {
+    const portfolioManager = await import('./core/portfolio-manager.js');
+    return {
+      success: true,
+      units: portfolioManager.getBusinessUnits({ activeOnly: false }),
+      filterBar: portfolioManager.getFilterBarUnits()
+    };
+  },
+
+  // Get single business unit
+  'GET /api/portfolio/units/:id': async (req, params) => {
+    const portfolioManager = await import('./core/portfolio-manager.js');
+    return portfolioManager.getBusinessUnit(params.id);
+  },
+
+  // Add business unit
+  'POST /api/portfolio/units': async (req) => {
+    const body = await parseBody(req);
+    const portfolioManager = await import('./core/portfolio-manager.js');
+    return {
+      success: true,
+      unit: portfolioManager.addBusinessUnit(body)
+    };
+  },
+
+  // Update business unit
+  'PUT /api/portfolio/units/:id': async (req, params) => {
+    const body = await parseBody(req);
+    const portfolioManager = await import('./core/portfolio-manager.js');
+    return {
+      success: true,
+      unit: portfolioManager.updateBusinessUnit(params.id, body)
+    };
+  },
+
+  // Delete business unit
+  'DELETE /api/portfolio/units/:id': async (req, params) => {
+    const portfolioManager = await import('./core/portfolio-manager.js');
+    return portfolioManager.deleteBusinessUnit(params.id);
+  },
+
+  // Get portfolio summary
+  'GET /api/portfolio/summary': async () => {
+    const portfolioManager = await import('./core/portfolio-manager.js');
+    return portfolioManager.getPortfolioSummary();
+  },
+
+  // ============================================
+  // Emergency Kill Switch
+  // ============================================
+
+  // Emergency shutdown - revokes API access and pauses all automation
+  'POST /api/emergency/kill-switch': async (req) => {
+    const body = await parseBody(req);
+
+    // Require confirmation code for safety
+    if (body.confirm !== 'KILL_ALL_AUTOMATION') {
+      return {
+        success: false,
+        error: 'Safety check failed. Send confirm: "KILL_ALL_AUTOMATION"'
+      };
+    }
+
+    console.log('\n🚨 EMERGENCY KILL SWITCH ACTIVATED 🚨\n');
+
+    const actions = [];
+
+    // 1. Set global automation pause flag
+    globalThis.AUTOMATION_PAUSED = true;
+    actions.push('Automation paused globally');
+
+    // 2. Clear any cached auth tokens (in-memory)
+    const { spokeCache, appCache } = await import('./lib/cache.js');
+    // spokeCache is an object with named caches
+    if (spokeCache) {
+      for (const [name, cache] of Object.entries(spokeCache)) {
+        if (cache && typeof cache.clear === 'function') {
+          cache.clear();
+          actions.push(`Cleared ${name} cache`);
+        }
+      }
+    }
+    if (appCache && typeof appCache.clear === 'function') {
+      appCache.clear();
+      actions.push('Cleared app cache');
+    }
+
+    // 3. Log the emergency action
+    const fs = await import('fs');
+    const killLog = {
+      timestamp: new Date().toISOString(),
+      action: 'EMERGENCY_KILL_SWITCH',
+      reason: body.reason || 'Manual activation',
+      initiator: body.initiator || 'API',
+      actions
+    };
+
+    fs.appendFileSync(
+      './memory/emergency_log.jsonl',
+      JSON.stringify(killLog) + '\n'
+    );
+
+    return {
+      success: true,
+      message: '🚨 KILL SWITCH ACTIVATED - All automation paused',
+      timestamp: killLog.timestamp,
+      actions,
+      recovery: 'POST /api/emergency/resume with confirm: "RESUME_AUTOMATION"'
+    };
+  },
+
+  // Resume automation after kill switch
+  'POST /api/emergency/resume': async (req) => {
+    const body = await parseBody(req);
+
+    if (body.confirm !== 'RESUME_AUTOMATION') {
+      return {
+        success: false,
+        error: 'Safety check failed. Send confirm: "RESUME_AUTOMATION"'
+      };
+    }
+
+    globalThis.AUTOMATION_PAUSED = false;
+
+    const fs = await import('fs');
+    fs.appendFileSync(
+      './memory/emergency_log.jsonl',
+      JSON.stringify({
+        timestamp: new Date().toISOString(),
+        action: 'AUTOMATION_RESUMED',
+        initiator: body.initiator || 'API'
+      }) + '\n'
+    );
+
+    console.log('\n✅ AUTOMATION RESUMED ✅\n');
+
+    return {
+      success: true,
+      message: 'Automation resumed',
+      timestamp: new Date().toISOString()
+    };
+  },
+
+  // Check automation status
+  'GET /api/emergency/status': async () => {
+    return {
+      automationPaused: globalThis.AUTOMATION_PAUSED === true,
+      timestamp: new Date().toISOString()
+    };
   }
 };
 
@@ -1383,7 +1581,10 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`  POST /api/portal/:client/approve   - Client approves item`);
   console.log(`  POST /api/portal/:client/process   - Process ingest to agency`);
   console.log(`  POST /api/portal/:client/send-to-client - Send to client review`);
-  console.log(`  POST /api/portal/:client/move      - Move item between stages\n`);
+  console.log(`  POST /api/portal/:client/move      - Move item between stages`);
+  console.log(`  --- LLM Council API ---`);
+  console.log(`  POST /api/llm-council              - Run multi-model deliberation`);
+  console.log(`  GET  /api/llm-council/models       - List available models\n`);
   console.log(`Mode: ${IS_DEV ? 'Development (no auth required)' : 'Production (API key required)'}`);
   console.log(`Logging: Structured JSON in production, human-readable in dev\n`);
 });

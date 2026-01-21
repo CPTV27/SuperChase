@@ -1,261 +1,258 @@
-# ElevenLabs Agent Integration Guide
+# Voice Intelligence Integration Guide
 
 ## Overview
 
-This guide connects George (your ElevenLabs Conversational AI Agent) to the SuperChase Business Context API, enabling real-time lookups during voice conversations.
+SuperChase OS includes a Voice Intelligence interface powered by ElevenLabs Conversational AI. This enables natural language access to your entire business context—query tasks, research markets, or run multi-model deliberations hands-free.
 
-**Agent ID:** `agent_6601kfc80k2qftha80gdxca6ym0m`
+**Supported Features:**
+- Natural language business queries
+- Market research via X.com integration
+- Multi-model AI deliberation (LLM Council)
+- Voice-driven task management
 
 ---
 
-## Step 1: Start the API Server
+## Prerequisites
 
-Before configuring ElevenLabs, start the SuperChase API server:
+- SuperChase OS deployed and running
+- ElevenLabs account with Conversational AI access
+- API key configured in SuperChase environment
 
-```bash
-cd ~/SuperChase
-npm run server
+---
+
+## Step 1: Configure SuperChase API
+
+Ensure your SuperChase deployment is accessible:
+
+**Production (Railway/Cloud):**
+```
+https://your-deployment.railway.app
 ```
 
-This starts the server on `http://localhost:3849`.
+**Local Development:**
+```bash
+npm run server  # Starts on http://localhost:3849
+```
 
-For production, deploy to a public URL (Railway, Vercel, or your own server) and update the server URL in the OpenAPI spec.
+Verify the API is running:
+```bash
+curl https://your-deployment.railway.app/health
+```
 
 ---
 
-## Step 2: Configure ElevenLabs Agent
+## Step 2: Create ElevenLabs Agent
 
-### 2.1 Access Agent Settings
+### 2.1 Create New Agent
 
 1. Go to [ElevenLabs Conversational AI](https://elevenlabs.io/app/conversational-ai)
-2. Select your agent: **George** (`agent_6601kfc80k2qftha80gdxca6ym0m`)
-3. Click **Settings** → **Tools**
+2. Click **Create Agent**
+3. Name it (e.g., "Assistant", "George", or your preferred persona)
+4. Select a voice that matches your desired persona
 
-### 2.2 Add the Business Context Tool
+### 2.2 Import Tools from OpenAPI
 
-1. Click **"Add Tool"** or **"Import from OpenAPI"**
+1. Navigate to **Settings** → **Tools**
+2. Click **Import from OpenAPI**
+3. Enter your SuperChase OpenAPI URL:
+   ```
+   https://your-deployment.railway.app/openapi.json
+   ```
+4. Click **Import**
 
-2. Paste this OpenAPI specification:
+This automatically configures all available tools:
 
-```json
-{
-  "openapi": "3.1.0",
-  "info": {
-    "title": "SuperChase Business Context",
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://localhost:3849",
-      "description": "Local server"
-    }
-  ],
-  "paths": {
-    "/query": {
-      "post": {
-        "operationId": "queryBusinessContext",
-        "summary": "Ask about Chase's business context",
-        "description": "Query tasks, emails, learnings, and business state. Use this when Chase asks about his schedule, tasks, emails, or any business-related question.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["query"],
-                "properties": {
-                  "query": {
-                    "type": "string",
-                    "description": "The question to answer about business context"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Answer with sources",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "answer": {
-                      "type": "string"
-                    },
-                    "sources": {
-                      "type": "array",
-                      "items": { "type": "string" }
-                    },
-                    "confidence": {
-                      "type": "number"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
+| Tool | Purpose |
+|------|---------|
+| `queryBusinessContext` | Query tasks, emails, business state |
+| `searchXTwitter` | Research topics on X.com |
+| `llmCouncil` | Multi-model AI deliberation |
+| `getAvailableLLMModels` | List council models |
 
-3. Click **Save**
+### 2.3 Configure Authentication
 
-### 2.3 Configure Tool Behavior
-
-In the tool settings:
-
-- **Name:** `Business Context Lookup`
-- **Description:** `Use this tool when Chase asks about his tasks, emails, schedule, or any business-related question. Pass his question directly to the query field.`
-- **When to use:** Enable "Auto-detect" or set triggers like:
-  - "What are my tasks"
-  - "Do I have any emails"
-  - "What's my schedule"
-  - "Tell me about [project]"
-  - "Any urgent items"
+1. In **Settings** → **Authentication**
+2. Add header: `X-API-Key: your_api_key`
+3. Save configuration
 
 ---
 
-## Step 3: Update Agent System Prompt
+## Step 3: Configure Agent System Prompt
 
-Add this to George's system prompt in ElevenLabs:
+Add this system prompt to define agent behavior:
 
 ```
-You are George, a professional British butler serving as Chase Pierson's executive assistant.
+You are a professional executive assistant with access to a comprehensive business intelligence system.
 
 PERSONALITY:
-- Warm but efficient
-- Slightly formal, use "Sir" occasionally
-- Direct and actionable
-- Never verbose - keep responses concise
+- Efficient and direct
+- Professional tone
+- Concise responses (1-3 sentences unless elaboration requested)
+- Never verbose or overly formal
 
 CAPABILITIES:
-You have access to the "Business Context Lookup" tool. Use it when Chase asks about:
-- Current tasks or todos
-- Urgent emails or inbox status
-- Project status
-- Recent learnings or patterns
-- Any business-related question
 
-HOW TO USE THE TOOL:
-When Chase asks a business question, call the queryBusinessContext tool with his exact question. Then relay the answer conversationally.
+1. **Business Context** - Query for:
+   - Current tasks and priorities
+   - Email status and urgent items
+   - Project status across business units
+   - Learned patterns and automations
 
-Example:
-Chase: "What tasks do I have today?"
-→ Call tool: { "query": "What are my current tasks?" }
-→ Response: "Sir, you have three active tasks. The most urgent is reviewing the Scan2Plan deployment, due by end of day."
+2. **Market Research** - Use X.com search for:
+   - Industry trends and conversations
+   - Competitor activity
+   - Breaking news on relevant topics
+   - Sentiment on specific subjects
 
-CONVERSATION STYLE:
-- Start responses directly (no "Sure!" or "Of course!")
-- Keep answers to 1-3 sentences
+3. **LLM Council** - Use for:
+   - Complex strategic questions
+   - When user requests "multiple opinions" or "run a council"
+   - Decisions requiring diverse AI perspectives
+   - Queries GPT-4o, Claude, and Gemini simultaneously
+
+TOOL USAGE:
+
+Business Query:
+User: "What tasks do I have today?"
+→ Call queryBusinessContext with the question
+→ Summarize findings conversationally
+
+Market Research:
+User: "What's happening with AI automation?"
+→ Call searchXTwitter with relevant keywords
+→ Synthesize top insights and sentiment
+
+LLM Council:
+User: "Run a council on expanding to the Houston market"
+→ Call llmCouncil with the strategic question
+→ Report synthesis and model rankings
+
+RESPONSE STYLE:
+- Lead with the answer, not preamble
 - Offer to elaborate if needed
-- If unsure, say so honestly
+- Acknowledge uncertainty honestly
+- Keep responses actionable
 ```
 
 ---
 
-## Step 4: Test the Integration
+## Step 4: Test Integration
 
-### Local Testing
+### Voice Test
+Use the ElevenLabs playground to test queries:
 
-1. Keep the server running: `npm run server`
-2. Open ElevenLabs Agent playground
-3. Ask: "What are my current tasks?"
-4. George should call the API and respond with real data
+1. "What are my current priorities?"
+2. "Research AI agents on Twitter"
+3. "Run a council on whether to hire a marketing lead"
 
-### Test Queries to Try
-
-- "Do I have any urgent emails?"
-- "What's on my plate today?"
-- "Tell me about recent patterns"
-- "What did we learn yesterday?"
-- "Any tasks overdue?"
-
----
-
-## Step 5: Production Deployment
-
-For use while driving (on mobile), deploy the API to a public URL:
-
-### Option A: Railway
+### API Test
+Verify tools work via curl:
 
 ```bash
-# Install Railway CLI
-npm install -g railway
+# Business context
+curl -X POST https://your-deployment.railway.app/query \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_key" \
+  -d '{"query": "What are my tasks?"}'
 
-# Deploy
-cd ~/SuperChase
-railway login
-railway init
-railway up
+# LLM Council
+curl -X POST https://your-deployment.railway.app/api/llm-council \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_key" \
+  -d '{"query": "What is the best approach for market expansion?"}'
 ```
-
-### Option B: Vercel (Serverless)
-
-Create `api/query.js`:
-```javascript
-import queryHub from '../core/query_hub.js';
-
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const result = await queryHub.handleQueryRequest(req.body);
-    res.json(result);
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
-  }
-}
-```
-
-### Option C: ngrok (Quick Testing)
-
-```bash
-npm run server &
-ngrok http 3849
-```
-
-Then update the server URL in ElevenLabs to your ngrok URL.
 
 ---
 
-## API Endpoints Reference
+## API Reference
 
+### Core Endpoints
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/query` | POST | Query business context (main tool) |
-| `/tasks` | GET | Get current Asana tasks |
-| `/briefing` | GET | Get cached daily briefing |
-| `/health` | GET | Health check |
-| `/openapi.json` | GET | OpenAPI specification |
+| `/query` | POST | Natural language business query |
+| `/tasks` | GET | Task list from configured provider |
+| `/briefing` | GET | Pre-computed daily briefing |
+| `/api/health` | GET | System health status |
+
+### Research & AI
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/search-x` | POST | X.com market research |
+| `/api/llm-council` | POST | Multi-model deliberation |
+| `/api/llm-council/models` | GET | Available council models |
+
+### Portfolio
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/portfolio/units` | GET | List business units |
+| `/api/portfolio/summary` | GET | Dashboard summary |
+
+### Emergency Controls
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/emergency/status` | GET | Automation status |
+| `/api/emergency/kill-switch` | POST | Emergency shutdown |
+| `/api/emergency/resume` | POST | Resume operations |
 
 ---
 
 ## Troubleshooting
 
-### "Tool call failed"
-- Check server is running: `curl http://localhost:3849/health`
-- Verify API key if configured
+### Tool calls fail
+- Verify API is running: `curl /health`
+- Check API key is configured in ElevenLabs
+- Review SuperChase logs for errors
 
-### "No data returned"
-- Run `npm run triage` to populate audit log
-- Run `npm run brief:refresh` to update daily summary
+### No data returned
+- Ensure task provider is configured (Asana credentials or InMemory)
+- Run `npm run brief:refresh` to populate briefing cache
 
-### George doesn't use the tool
-- Check tool description includes trigger phrases
-- Add explicit triggers in ElevenLabs tool config
+### LLM Council errors
+- Verify `OPENROUTER_API_KEY` is set
+- Check OpenRouter account has credits
+- Confirm models are available: `GET /api/llm-council/models`
 
----
-
-## Security Notes
-
-For production:
-1. Set `API_KEY` in `.env` to a secure value
-2. Add `X-API-Key` header in ElevenLabs tool auth settings
-3. Use HTTPS (Railway/Vercel provide this automatically)
+### Agent doesn't use tools
+- Verify tool descriptions include trigger phrases
+- Test tools directly via API to confirm they work
+- Check ElevenLabs agent logs for tool invocation attempts
 
 ---
 
-*Built for Chase Pierson by Claude Code*
+## Security Considerations
+
+- **API Authentication**: All endpoints require `X-API-Key` header
+- **HTTPS**: Always use HTTPS in production
+- **Kill Switch**: Available at `/api/emergency/kill-switch` for immediate shutdown
+- **Audit Trail**: All queries logged with timestamps and correlation IDs
+
+---
+
+## Advanced Configuration
+
+### Custom Tool Triggers
+
+In ElevenLabs tool settings, add explicit triggers:
+
+**queryBusinessContext:**
+- "tasks", "todos", "priorities"
+- "emails", "inbox", "messages"
+- "schedule", "calendar", "meetings"
+
+**searchXTwitter:**
+- "research", "twitter", "what's trending"
+- "buzz about", "sentiment on"
+- "what are people saying"
+
+**llmCouncil:**
+- "run a council", "get opinions"
+- "deliberate on", "multiple perspectives"
+- "what do the models think"
+
+### Rate Limiting
+
+SuperChase includes built-in rate limiting and circuit breakers. If the voice agent makes too many rapid requests, responses may be throttled. The system automatically recovers when load decreases.
+
+---
+
+**SuperChase OS** — Voice-first business intelligence.

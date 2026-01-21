@@ -37,6 +37,7 @@ import {
 } from 'lucide-react'
 import api, { getLogs, getStrategy, getSpokeStatus, triggerBriefing, getReviewPulse } from './services/api'
 import AgencyPulse from './components/AgencyPulse'
+import BriefingWidget from './components/BriefingWidget'
 
 // Business Unit Configuration
 const BUSINESS_UNITS = {
@@ -867,6 +868,11 @@ function App() {
           </div>
         </div>
       </header>
+
+      {/* George's Briefing - Top of Dashboard */}
+      <div className="mb-8">
+        <BriefingWidget />
+      </div>
 
       {/* Stats with Sparklines */}
       <motion.div

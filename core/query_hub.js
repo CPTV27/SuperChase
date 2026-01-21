@@ -75,16 +75,17 @@ export async function queryBusinessContext(query, options = {}) {
   const {
     includeAsana = true,
     includeAudit = true,
-    maxResults = 5
+    maxResults = 5,
+    conversationHistory = []
   } = options;
 
-  console.log(`[QueryHub] Processing: "${query}"`);
+  console.log(`[QueryHub] Processing: "${query}" (history: ${conversationHistory.length} msgs)`);
 
   // Gather context from all sources
   const context = await gatherContext(includeAsana, includeAudit, maxResults);
 
-  // Use Gemini to synthesize an answer
-  const answer = await synthesizeAnswer(query, context);
+  // Use Gemini to synthesize an answer (with conversation history)
+  const answer = await synthesizeAnswer(query, context, conversationHistory);
 
   return answer;
 }
@@ -223,12 +224,12 @@ function getRecentAuditEntries(limit = 10) {
 /**
  * Use Gemini to synthesize an answer
  */
-async function synthesizeAnswer(query, context) {
+async function synthesizeAnswer(query, context, conversationHistory = []) {
   if (!GEMINI_API_KEY) {
     return generateFallbackAnswer(query, context);
   }
 
-  const prompt = buildQueryPrompt(query, context);
+  const prompt = buildQueryPrompt(query, context, conversationHistory);
 
   try {
     const response = await fetch(GEMINI_URL, {
@@ -273,12 +274,23 @@ async function synthesizeAnswer(query, context) {
 /**
  * Build prompt for Gemini
  */
-function buildQueryPrompt(query, context) {
-  // Check for high-value people mentioned
-  const peopleMentioned = identifyPeopleMentioned(query);
+function buildQueryPrompt(query, context, conversationHistory = []) {
+  // Check for high-value people mentioned (in query and recent history)
+  const fullText = query + ' ' + conversationHistory.map(m => m.content).join(' ');
+  const peopleMentioned = identifyPeopleMentioned(fullText);
   const peopleContext = peopleMentioned.length > 0
     ? `\nHIGH-VALUE PEOPLE MENTIONED:\n${peopleMentioned.map(p => `- ${p.name}: ${p.context} (${p.role})`).join('\n')}\n`
     : '';
+
+  // Build conversation history section
+  let conversationSection = '';
+  if (conversationHistory.length > 0) {
+    conversationSection = `\nRECENT CONVERSATION:
+${conversationHistory.map(m => `${m.role === 'user' ? 'Chase' : 'George'}: ${m.content}`).join('\n')}
+
+IMPORTANT: The above conversation provides context. The user's current question may be a follow-up. Stay on the same topic unless they clearly change subjects.
+`;
+  }
 
   // Build limitless context section
   let limitlessSection = '';
@@ -303,12 +315,24 @@ function buildQueryPrompt(query, context) {
     if (queryLower.includes('purist') || queryLower.includes('patricia') || queryLower.includes('chris')) {
       limitlessSection += `\nPURIST CONTEXT:\n- Contacts: Patricia, Chris\n- Preferences: ${(l.clientIntelligence?.Purist?.preferences || []).join('; ')}\n`;
     }
+    if (queryLower.includes('studio c') || queryLower.includes('studioc') || queryLower.includes('miles')) {
+      limitlessSection += `\nSTUDIO C CONTEXT:
+- Website: StudioC.video
+- Business: Production-as-a-Service (video, streaming, virtual production)
+- Location: Utopia Studios, Bearsville, NY
+- Key Contact: Miles (Technical Director)
+- Services: Video production, live streaming, virtual production
+- Equipment: Blackmagic 6K, ATEM, Matterport, DJI Ronin 4D
+- Packages: $1,500-$4,500/shoot
+- Note: This is a SEPARATE business from Scan2Plan
+- Preferences: ${(l.clientIntelligence?.StudioC?.preferences || []).join('; ')}\n`;
+    }
   }
 
   return `You are George, an AI executive assistant for Chase Pierson. Answer his question based on the business context below.
 
 QUESTION: "${query}"
-${peopleContext}
+${conversationSection}${peopleContext}
 BUSINESS CONTEXT:
 
 ${context.dailySummary ? `DAILY SUMMARY (${context.dailySummary.generatedAt || 'recent'}):
@@ -340,7 +364,12 @@ Respond in JSON format:
   "confidence": 0.0-1.0
 }
 
-Be conversational, warm, and direct. Use "Sir" occasionally. If you don't have enough information, say so honestly. When high-value people are mentioned, provide relevant context about them.`;
+CRITICAL INSTRUCTIONS:
+- Stay focused on the SPECIFIC business being asked about. If asked about Studio C, discuss ONLY Studio C - not Scan2Plan or other businesses.
+- Chase's businesses are SEPARATE entities: Studio C, Scan2Plan, Tuthill Design, CPTV, Big Muddy Inn are all different companies.
+- If you don't have specific information about the business being asked about, say so honestly rather than talking about a different business.
+- Be conversational, warm, and direct. Use "Sir" occasionally.
+- When high-value people are mentioned, provide relevant context about them.`;
 }
 
 /**
@@ -399,7 +428,7 @@ function generateFallbackAnswer(query, context) {
  * HTTP handler for API endpoint
  */
 export async function handleQueryRequest(req) {
-  const { query, options } = req;
+  const { query, options, conversationHistory } = req;
 
   if (!query) {
     return {
@@ -408,7 +437,13 @@ export async function handleQueryRequest(req) {
     };
   }
 
-  const result = await queryBusinessContext(query, options || {});
+  // Merge conversationHistory into options
+  const mergedOptions = {
+    ...(options || {}),
+    conversationHistory: conversationHistory || []
+  };
+
+  const result = await queryBusinessContext(query, mergedOptions);
 
   return {
     ...result,

@@ -1,0 +1,138 @@
+{
+  "version": "1.0.0",
+  "description": "Portfolio configuration for SuperChase OS. Add/remove business units dynamically.",
+
+  "businessUnits": [
+    {
+      "id": "s2p",
+      "name": "Scan2Plan",
+      "shortName": "S2P",
+      "type": "service",
+      "color": "#3b82f6",
+      "icon": "building",
+      "description": "Reality capture & 3D scanning services",
+      "priority": 1,
+      "active": true,
+      "contacts": [],
+      "integrations": {
+        "asanaProjectId": null,
+        "slackChannel": null,
+        "googleDriveFolder": null
+      },
+      "metadata": {
+        "industry": "Construction Tech",
+        "stage": "Growth"
+      }
+    },
+    {
+      "id": "studio",
+      "name": "Studio C",
+      "shortName": "Studio C",
+      "type": "service",
+      "color": "#10b981",
+      "icon": "video",
+      "description": "Production-as-a-service (video, streaming, virtual production)",
+      "priority": 2,
+      "active": true,
+      "contacts": [],
+      "integrations": {},
+      "metadata": {
+        "industry": "Media Production",
+        "stage": "Early"
+      }
+    },
+    {
+      "id": "cptv",
+      "name": "Chase Pierson TV",
+      "shortName": "CPTV",
+      "type": "brand",
+      "color": "#a855f7",
+      "icon": "user",
+      "description": "Personal brand, content, video",
+      "priority": 3,
+      "active": true,
+      "contacts": [],
+      "integrations": {},
+      "metadata": {
+        "industry": "Personal Brand",
+        "stage": "Growth"
+      }
+    },
+    {
+      "id": "tuthill",
+      "name": "Tuthill Design",
+      "shortName": "Tuthill",
+      "type": "brand",
+      "color": "#f97316",
+      "icon": "palette",
+      "description": "IP Core - editorial vision, methodology, taste",
+      "priority": 4,
+      "active": true,
+      "contacts": [],
+      "integrations": {},
+      "metadata": {
+        "industry": "Design",
+        "stage": "Concept"
+      }
+    },
+    {
+      "id": "bigmuddy",
+      "name": "Big Muddy Inn",
+      "shortName": "BMI",
+      "type": "client",
+      "color": "#eab308",
+      "icon": "home",
+      "description": "Venue/client - Blues Room partnership",
+      "priority": 5,
+      "active": true,
+      "contacts": [],
+      "integrations": {},
+      "metadata": {
+        "industry": "Hospitality",
+        "stage": "Planning"
+      }
+    },
+    {
+      "id": "utopia",
+      "name": "Utopia Studios",
+      "shortName": "Utopia",
+      "type": "venue",
+      "color": "#06b6d4",
+      "icon": "building-2",
+      "description": "Production facility in Bearsville, NY",
+      "priority": 6,
+      "active": true,
+      "contacts": [],
+      "integrations": {},
+      "metadata": {
+        "industry": "Media Production",
+        "stage": "Active"
+      }
+    }
+  ],
+
+  "defaults": {
+    "primaryUnit": "s2p",
+    "filterIncludeAll": true,
+    "showInactiveUnits": false
+  },
+
+  "types": {
+    "service": {
+      "label": "Service Business",
+      "description": "Revenue-generating service offering"
+    },
+    "brand": {
+      "label": "Brand/IP",
+      "description": "Personal brand or intellectual property"
+    },
+    "client": {
+      "label": "Client Project",
+      "description": "External client engagement"
+    },
+    "venue": {
+      "label": "Venue/Location",
+      "description": "Physical location or facility"
+    }
+  }
+}

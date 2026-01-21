@@ -14,7 +14,10 @@ import {
   X,
   Activity,
   Building2,
-  Zap
+  Zap,
+  ListTodo,
+  History,
+  Settings
 } from 'lucide-react'
 
 // Client/Portfolio Configuration
@@ -33,13 +36,20 @@ export const PortfolioContext = createContext({
   setActivePortfolio: () => {}
 })
 
-// Main Navigation - 4 core pages
+// Main Navigation - Core pages
 const MAIN_NAV = [
   {
     label: 'Dashboard',
     icon: LayoutDashboard,
     path: '/',
     description: 'Executive Command Center'
+  },
+  {
+    label: 'Tasks',
+    icon: ListTodo,
+    path: '/tasks',
+    description: 'Asana task management',
+    color: '#3b82f6'
   },
   {
     label: 'Review Queue',
@@ -61,6 +71,20 @@ const MAIN_NAV = [
     path: '/s2p',
     description: 'Business development',
     color: '#3b82f6'
+  },
+  {
+    label: 'Audit Log',
+    icon: History,
+    path: '/logs',
+    description: 'System audit trail',
+    color: '#6b7280'
+  },
+  {
+    label: 'Settings',
+    icon: Settings,
+    path: '/settings',
+    description: 'System configuration',
+    color: '#71717a'
   }
 ]
 

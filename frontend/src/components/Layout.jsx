@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import AgentTriggerBar from './AgentTriggerBar'
+import GeorgeChat from './GeorgeChat'
+import CommandPalette from './CommandPalette'
 import { getSpokeStatus } from '../services/api'
 
 /**
@@ -67,6 +69,12 @@ export default function Layout() {
 
       {/* Agent Trigger Bar - Fixed at bottom */}
       <AgentTriggerBar />
+
+      {/* George Chat - Fixed bottom right */}
+      <GeorgeChat />
+
+      {/* Command Palette - Global search (Cmd+K) */}
+      <CommandPalette />
     </div>
   )
 }
