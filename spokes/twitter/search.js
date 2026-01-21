@@ -223,7 +223,7 @@ export async function testConnection() {
   try {
     const result = await twitterRequest('/tweets/search/recent', {
       query: 'hello',
-      max_results: 1
+      max_results: 10
     });
 
     return {
