@@ -1,13 +1,15 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-01-20T18:37:00.000Z",
+  "lastUpdated": "2026-01-20T18:42:00.000Z",
   "pending": [],
-  "published": [],
+  "published": [
+    "brief_bigmuddy_20260120"
+  ],
   "briefs": [
     {
       "id": "brief_bigmuddy_20260120",
       "clientId": "bigmuddy",
-      "status": "approved",
+      "status": "published",
       "createdAt": "2026-01-20T21:15:00.000Z",
       "strategist": {
         "topic": "Silver Street Stories: Where the Blues Were Born",
@@ -32,33 +34,31 @@
         "toneGuidance": "Warm, atmospheric, historically grounded. Let the river and the music speak through the prose."
       },
       "copywriter": {
-        "blogDraft": "---\nslug: silver-street-stories\ntitle: \"Silver Street Stories: Where the Blues Were Born\"\nauthors: [chase]\ntags: [bigmuddy, blues, history, natchez, southern-gothic]\n---\n\nThere's a street in Natchez, Mississippi, that curves down to the river like a whispered secret. Silver Street. The old-timers call it \"Under-the-Hill,\" and if you know where to listen, you can still hear the echoes of the music that changed America.\n\n<!--truncate-->\n\n## The River's Edge: Why Silver Street Matters\n\nBefore the highways, before the interstates, before anyone could fly from coast to coast in five hours, there was only one way to move through the heart of America: the Mississippi River.\n\nAnd Natchez sat at one of its most strategic bends.\n\nSilver Street ran straight from the bluffs down to the water's edge, where steamboats would dock and discharge their cargo of cotton, sugarcane, and something far more valuable—people. Workers. Musicians. Dreamers looking for a better life.\n\nBy the 1880s, Under-the-Hill had earned a reputation as one of the roughest, most colorful districts in the South. Saloons lined the street. Music spilled from every doorway. And in those crowded, smoky rooms, a new sound was being born.\n\n## From Steamboats to Speakeasies: The Birth of Delta Blues\n\nThe Blues didn't come from nowhere. It came from here—from the convergence of work songs, field hollers, and the aching melodies that traveled up the river from New Orleans.\n\nMusicians like Robert Johnson, Muddy Waters, and B.B. King would later carry the sound to Chicago and beyond. But the roots? The roots were in places like Silver Street, where Black performers played for mixed crowds in an era when such things were dangerous.\n\nThe music was raw. Urgent. It spoke of heartbreak and hope, of long nights and early mornings. And it spoke in a language that transcended the barriers of its time.\n\nUnder-the-Hill was never polite. It was never proper. But it was *real*. And that authenticity is what made the music so powerful.\n\n## The Blues Room: Keeping the Tradition Alive\n\nToday, Silver Street is quieter than it was a century ago. The steamboats have been replaced by tugboats. The saloons have become restaurants and shops.\n\nBut at Big Muddy Inn, we believe the music deserves to keep playing.\n\nThe Blues Room isn't just a performance space—it's a continuation of a tradition that stretches back generations. When artists take the stage here, they're not just playing songs. They're participating in a conversation that started when the first guitarist bent a note on Silver Street and made someone feel something they couldn't name.\n\nWe host live blues performances regularly, featuring local and touring artists who understand what this music means. It's not nostalgia. It's not a museum exhibit. It's a living, breathing art form, and it sounds best when you can feel the floorboards vibrate under your feet.\n\n## Experience It Yourself: Planning Your Visit\n\nIf you're coming to Natchez for the first time, you might be tempted to stay up on the bluff, where the antebellum mansions gleam white against the Mississippi sky. And yes, those houses are beautiful.\n\nBut if you want to understand what Natchez really *is*—if you want to feel the heartbeat of a city that has survived floods, fires, and centuries of change—you need to come down to the river.\n\nBook a stay at Big Muddy Inn. Walk the cobblestones of Silver Street at dusk, when the light turns golden and the water reflects the colors of the sky. Have dinner at one of the local spots, then come back to the Blues Room for a show.\n\nAnd when the music starts, close your eyes for a moment.\n\nYou'll hear what we mean.\n\n---\n\n*Some places hold memory in their walls. Silver Street is one of them. Come find out why.*",
-        "xThread": [
-          "Silver Street in Natchez wasn't just a road—it was where the Delta Blues found its voice.\n\nHere's the story most history books forgot. 🧵",
-          "Before highways existed, the Mississippi River was America's interstate.\n\nAnd Natchez sat at one of its most strategic bends. Silver Street ran straight from the bluffs to the water—where steamboats, workers, and musicians converged.",
-          "By the 1880s, \"Under-the-Hill\" was one of the roughest districts in the South.\n\nSaloons lined the street. Music spilled from every doorway. In those smoky rooms, a new sound was being born—the Delta Blues.",
-          "Robert Johnson. Muddy Waters. B.B. King.\n\nThey carried the sound to Chicago and beyond. But the roots? The roots were in places like Silver Street, where Black performers played for mixed crowds in an era when such things were dangerous.",
-          "Today we keep that tradition alive at @BigMuddyInn.\n\nThe Blues Room isn't a museum—it's a living conversation that started when the first guitarist bent a note on Silver Street.\n\nCome experience it yourself. 🎸\n\nhttps://bigmuddyinn.com"
-        ],
         "draftedAt": "2026-01-20T18:37:00.000Z"
       },
       "editor": {
         "approved": true,
-        "edits": [
-          "Verified brand voice alignment with Southern Storyteller archetype",
-          "Confirmed X.com posts are under 280 characters",
-          "Added thread emoji for visual appeal",
-          "Ensured CTA includes booking link"
-        ],
-        "finalBlog": "---\nslug: silver-street-stories\ntitle: \"Silver Street Stories: Where the Blues Were Born\"\nauthors: [chase]\ntags: [bigmuddy, blues, history, natchez, southern-gothic]\n---\n\nThere's a street in Natchez, Mississippi, that curves down to the river like a whispered secret. Silver Street. The old-timers call it \"Under-the-Hill,\" and if you know where to listen, you can still hear the echoes of the music that changed America.\n\n<!--truncate-->\n\n## The River's Edge: Why Silver Street Matters\n\nBefore the highways, before the interstates, before anyone could fly from coast to coast in five hours, there was only one way to move through the heart of America: the Mississippi River.\n\nAnd Natchez sat at one of its most strategic bends.\n\nSilver Street ran straight from the bluffs down to the water's edge, where steamboats would dock and discharge their cargo of cotton, sugarcane, and something far more valuable—people. Workers. Musicians. Dreamers looking for a better life.\n\nBy the 1880s, Under-the-Hill had earned a reputation as one of the roughest, most colorful districts in the South. Saloons lined the street. Music spilled from every doorway. And in those crowded, smoky rooms, a new sound was being born.\n\n## From Steamboats to Speakeasies: The Birth of Delta Blues\n\nThe Blues didn't come from nowhere. It came from here—from the convergence of work songs, field hollers, and the aching melodies that traveled up the river from New Orleans.\n\nMusicians like Robert Johnson, Muddy Waters, and B.B. King would later carry the sound to Chicago and beyond. But the roots? The roots were in places like Silver Street, where Black performers played for mixed crowds in an era when such things were dangerous.\n\nThe music was raw. Urgent. It spoke of heartbreak and hope, of long nights and early mornings. And it spoke in a language that transcended the barriers of its time.\n\nUnder-the-Hill was never polite. It was never proper. But it was *real*. And that authenticity is what made the music so powerful.\n\n## The Blues Room: Keeping the Tradition Alive\n\nToday, Silver Street is quieter than it was a century ago. The steamboats have been replaced by tugboats. The saloons have become restaurants and shops.\n\nBut at Big Muddy Inn, we believe the music deserves to keep playing.\n\nThe Blues Room isn't just a performance space—it's a continuation of a tradition that stretches back generations. When artists take the stage here, they're not just playing songs. They're participating in a conversation that started when the first guitarist bent a note on Silver Street and made someone feel something they couldn't name.\n\nWe host live blues performances regularly, featuring local and touring artists who understand what this music means. It's not nostalgia. It's not a museum exhibit. It's a living, breathing art form, and it sounds best when you can feel the floorboards vibrate under your feet.\n\n## Experience It Yourself: Planning Your Visit\n\nIf you're coming to Natchez for the first time, you might be tempted to stay up on the bluff, where the antebellum mansions gleam white against the Mississippi sky. And yes, those houses are beautiful.\n\nBut if you want to understand what Natchez really *is*—if you want to feel the heartbeat of a city that has survived floods, fires, and centuries of change—you need to come down to the river.\n\nBook a stay at Big Muddy Inn. Walk the cobblestones of Silver Street at dusk, when the light turns golden and the water reflects the colors of the sky. Have dinner at one of the local spots, then come back to the Blues Room for a show.\n\nAnd when the music starts, close your eyes for a moment.\n\nYou'll hear what we mean.\n\n---\n\n*Some places hold memory in their walls. Silver Street is one of them. Come find out why.*",
-        "finalXThread": [
-          "Silver Street in Natchez wasn't just a road—it was where the Delta Blues found its voice.\n\nHere's the story most history books forgot. 🧵",
-          "Before highways existed, the Mississippi River was America's interstate.\n\nAnd Natchez sat at one of its most strategic bends. Silver Street ran straight from the bluffs to the water—where steamboats, workers, and musicians converged.",
-          "By the 1880s, \"Under-the-Hill\" was one of the roughest districts in the South.\n\nSaloons lined the street. Music spilled from every doorway. In those smoky rooms, a new sound was being born—the Delta Blues.",
-          "Robert Johnson. Muddy Waters. B.B. King.\n\nThey carried the sound to Chicago and beyond. But the roots? The roots were in places like Silver Street, where Black performers played for mixed crowds in an era when such things were dangerous.",
-          "Today we keep that tradition alive at @BigMuddyInn.\n\nThe Blues Room isn't a museum—it's a living conversation that started when the first guitarist bent a note on Silver Street.\n\nCome experience it yourself. 🎸\n\nhttps://bigmuddyinn.com"
-        ],
         "approvedAt": "2026-01-20T18:37:30.000Z"
+      },
+      "publisher": {
+        "blogPath": "manual/blog/2026-01-20-silver-street-stories.md",
+        "blogUrl": "https://superchase-manual-production.up.railway.app/blog/silver-street-stories",
+        "xPostIds": [
+          "2013773934047502709",
+          "2013773997695975621",
+          "2013774061449416829",
+          "2013774125211259084",
+          "2013774188960477427"
+        ],
+        "xUrls": [
+          "https://twitter.com/i/status/2013773934047502709",
+          "https://twitter.com/i/status/2013773997695975621",
+          "https://twitter.com/i/status/2013774061449416829",
+          "https://twitter.com/i/status/2013774125211259084",
+          "https://twitter.com/i/status/2013774188960477427"
+        ],
+        "threadUrl": "https://twitter.com/i/status/2013773934047502709",
+        "publishedAt": "2026-01-20T18:42:00.000Z"
       }
     }
   ]
