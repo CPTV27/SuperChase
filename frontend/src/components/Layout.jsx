@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from './Sidebar'
+import AgentTriggerBar from './AgentTriggerBar'
 import { getSpokeStatus } from '../services/api'
 
 /**
@@ -63,6 +64,9 @@ export default function Layout() {
       <main className="flex-1 min-h-screen lg:ml-0 transition-all duration-200">
         <Outlet context={{ spokeStatus, sidebarOpen, toggleSidebar: handleToggle }} />
       </main>
+
+      {/* Agent Trigger Bar - Fixed at bottom */}
+      <AgentTriggerBar />
     </div>
   )
 }

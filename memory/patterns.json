@@ -107,5 +107,17 @@
     "trigger": "test trigger",
     "action": "test action",
     "updated": "2026-01-21T00:54:45.025Z"
+  },
+  "test_pattern_1768957133871": {
+    "name": "Test Pattern",
+    "trigger": "test trigger",
+    "action": "test action",
+    "updated": "2026-01-21T00:58:53.871Z"
+  },
+  "test_pattern_1768957812721": {
+    "name": "Test Pattern",
+    "trigger": "test trigger",
+    "action": "test action",
+    "updated": "2026-01-21T01:10:12.721Z"
   }
 }

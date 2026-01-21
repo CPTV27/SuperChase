@@ -821,6 +821,209 @@ async function handleLimitlessRoute(req, method, pathname, url) {
 }
 
 /**
+ * Handle Marketing Agency API routes
+ * Pattern: /api/marketing/:action
+ */
+async function handleMarketingRoute(req, method, pathname) {
+  const action = pathname.replace('/api/marketing/', '').split('/')[0];
+
+  // POST /api/marketing/brief - Generate a marketing brief
+  if (method === 'POST' && action === 'brief') {
+    try {
+      const body = await parseBody(req);
+      const clientId = body.clientId;
+
+      if (!clientId) {
+        return { success: false, error: 'clientId required' };
+      }
+
+      // Load GST for the client
+      const gstPath = path.join(process.cwd(), 'clients', clientId, 'gst.json');
+      if (!fs.existsSync(gstPath)) {
+        return { success: false, error: `No GST found for client: ${clientId}` };
+      }
+
+      const gst = JSON.parse(fs.readFileSync(gstPath, 'utf-8'));
+
+      // Find an active strategy
+      const activeStrategy = gst.strategies?.find(s => s.status === 'active');
+      if (!activeStrategy) {
+        return { success: false, error: 'No active strategy found' };
+      }
+
+      // Create brief
+      const briefId = `brief_${clientId}_${Date.now().toString(36)}`;
+      const newBrief = {
+        id: briefId,
+        clientId,
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        source: 'Dashboard Trigger',
+        strategist: {
+          topic: `${activeStrategy.title} Content`,
+          angle: activeStrategy.description,
+          goalAlignment: {
+            goalId: activeStrategy.goalId,
+            strategyId: activeStrategy.id,
+            rationale: `Aligned with strategy: ${activeStrategy.approach}`
+          },
+          blogOutline: ['Introduction', 'Key Insight', 'Application', 'Call to Action'],
+          xHooks: [`Thread about ${activeStrategy.title}...`],
+          voiceArchetype: gst._brand?.archetype || 'Thought Leader',
+          toneGuidance: `Based on ${activeStrategy.approach}`
+        }
+      };
+
+      // Add to marketing queue
+      const queuePath = path.join(process.cwd(), 'memory', 'marketing_queue.json');
+      let queue = { version: '1.0', lastUpdated: new Date().toISOString(), briefs: [] };
+
+      if (fs.existsSync(queuePath)) {
+        try {
+          queue = JSON.parse(fs.readFileSync(queuePath, 'utf-8'));
+        } catch { }
+      }
+
+      queue.briefs = queue.briefs || [];
+      queue.briefs.push(newBrief);
+      queue.lastUpdated = new Date().toISOString();
+
+      fs.writeFileSync(queuePath, JSON.stringify(queue, null, 2));
+
+      return {
+        success: true,
+        briefId,
+        message: `Brief created for ${clientId}`,
+        topic: newBrief.strategist.topic
+      };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // POST /api/marketing/draft - Draft content from pending brief
+  if (method === 'POST' && action === 'draft') {
+    try {
+      const queuePath = path.join(process.cwd(), 'memory', 'marketing_queue.json');
+
+      if (!fs.existsSync(queuePath)) {
+        return { success: false, error: 'No marketing queue found' };
+      }
+
+      const queue = JSON.parse(fs.readFileSync(queuePath, 'utf-8'));
+      const pendingBrief = queue.briefs?.find(b => b.status === 'pending');
+
+      if (!pendingBrief) {
+        return { success: false, error: 'No pending briefs to draft' };
+      }
+
+      // Mark as drafted (in real implementation, this would trigger AI drafting)
+      pendingBrief.status = 'drafted';
+      pendingBrief.draftedAt = new Date().toISOString();
+      pendingBrief.draft = {
+        blog: {
+          title: pendingBrief.strategist.topic,
+          wordCount: 800,
+          status: 'ready'
+        },
+        thread: {
+          posts: 4,
+          status: 'ready'
+        }
+      };
+
+      queue.lastUpdated = new Date().toISOString();
+      fs.writeFileSync(queuePath, JSON.stringify(queue, null, 2));
+
+      return {
+        success: true,
+        briefId: pendingBrief.id,
+        message: `Drafted content for ${pendingBrief.clientId}`,
+        blog: pendingBrief.draft.blog,
+        thread: pendingBrief.draft.thread
+      };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // POST /api/marketing/publish - Publish drafted content
+  if (method === 'POST' && action === 'publish') {
+    try {
+      const queuePath = path.join(process.cwd(), 'memory', 'marketing_queue.json');
+
+      if (!fs.existsSync(queuePath)) {
+        return { success: false, error: 'No marketing queue found' };
+      }
+
+      const queue = JSON.parse(fs.readFileSync(queuePath, 'utf-8'));
+      const draftedBrief = queue.briefs?.find(b => b.status === 'drafted');
+
+      if (!draftedBrief) {
+        return { success: false, error: 'No drafted content to publish' };
+      }
+
+      // Mark as published
+      draftedBrief.status = 'published';
+      draftedBrief.publishedAt = new Date().toISOString();
+
+      queue.lastUpdated = new Date().toISOString();
+      fs.writeFileSync(queuePath, JSON.stringify(queue, null, 2));
+
+      // Log to manifest
+      const manifestPath = path.join(process.cwd(), 'manifest.jsonl');
+      const manifestEntry = {
+        timestamp: new Date().toISOString(),
+        agent: 'Publisher',
+        finding: `Published content for ${draftedBrief.clientId}: ${draftedBrief.strategist.topic}`,
+        type: 'CONTENT_PUBLISHED',
+        status: 'Complete',
+        marketing_trigger: false,
+        clientId: draftedBrief.clientId
+      };
+      fs.appendFileSync(manifestPath, JSON.stringify(manifestEntry) + '\n');
+
+      return {
+        success: true,
+        briefId: draftedBrief.id,
+        message: `Published content for ${draftedBrief.clientId}`,
+        clientId: draftedBrief.clientId
+      };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // GET /api/marketing/queue - Get marketing queue status
+  if (method === 'GET' && action === 'queue') {
+    try {
+      const queuePath = path.join(process.cwd(), 'memory', 'marketing_queue.json');
+
+      if (!fs.existsSync(queuePath)) {
+        return { briefs: [], counts: { pending: 0, drafted: 0, published: 0 } };
+      }
+
+      const queue = JSON.parse(fs.readFileSync(queuePath, 'utf-8'));
+      const briefs = queue.briefs || [];
+
+      return {
+        briefs,
+        counts: {
+          pending: briefs.filter(b => b.status === 'pending').length,
+          drafted: briefs.filter(b => b.status === 'drafted').length,
+          published: briefs.filter(b => b.status === 'published').length
+        },
+        lastUpdated: queue.lastUpdated
+      };
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
+
+  return null;
+}
+
+/**
  * Handle client API routes (GST, config, etc.)
  * Pattern: /api/clients/:clientId/:resource
  */
@@ -1100,6 +1303,31 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'LIMITLESS_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic Marketing routes
+  if (url.pathname.startsWith('/api/marketing/')) {
+    try {
+      const result = await handleMarketingRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Marketing route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Marketing error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'MARKETING_ERROR', message: error.message },
         requestId
       }));
       return;
