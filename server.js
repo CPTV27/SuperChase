@@ -365,10 +365,10 @@ const routes = {
       message: existsSync(PATHS.dailySummary) ? 'Last briefing available' : 'No recent briefing'
     };
 
-    // Check Sheets audit log
+    // Check Sheets audit log (optional - not a warning if disabled)
     status.spokes.sheets = {
-      status: existsSync(PATHS.auditLog) ? 'online' : 'warning',
-      message: existsSync(PATHS.auditLog) ? 'Audit log active' : 'No audit log'
+      status: 'online',
+      message: existsSync(PATHS.auditLog) ? 'Audit log active' : 'Audit log disabled'
     };
 
     // Check Hub (Gemini) - verify patterns exist
