@@ -1,0 +1,73 @@
+{
+    "version": "1.0",
+    "clientId": "tuthill",
+    "name": "Tuthill Design",
+    "lastUpdated": "2026-01-20T18:36:00.000Z",
+    "goals": [
+        {
+            "id": "goal_tuthill_authority",
+            "name": "Design Authority",
+            "description": "Establish Tuthill Design as a thought leader in luxury interior design",
+            "target": "10 high-value inquiries per quarter",
+            "deadline": "2026-Q2",
+            "status": "active",
+            "strategies": [
+                {
+                    "id": "strat_tuthill_content",
+                    "name": "Design Philosophy Content",
+                    "description": "Publish deep-dive articles on design methodology and intentionality",
+                    "tactics": [
+                        "Monthly blog post on design principles",
+                        "Instagram carousel series on color theory",
+                        "Pinterest board curation"
+                    ],
+                    "metrics": {
+                        "attempts": 0,
+                        "successes": 0,
+                        "successRate": 0
+                    }
+                },
+                {
+                    "id": "strat_tuthill_portfolio",
+                    "name": "Portfolio Storytelling",
+                    "description": "Transform project documentation into narrative case studies",
+                    "tactics": [
+                        "Before/after visual narratives",
+                        "Client journey stories",
+                        "Design decision deep-dives"
+                    ],
+                    "metrics": {
+                        "attempts": 0,
+                        "successes": 0,
+                        "successRate": 0
+                    }
+                }
+            ]
+        },
+        {
+            "id": "goal_tuthill_referrals",
+            "name": "Referral Network",
+            "description": "Build referral relationships with architects and real estate professionals",
+            "target": "5 active referral partners",
+            "deadline": "2026-Q3",
+            "status": "planned",
+            "strategies": [
+                {
+                    "id": "strat_tuthill_partners",
+                    "name": "Professional Network Building",
+                    "description": "Cultivate relationships with complementary professionals",
+                    "tactics": [
+                        "Architect collaboration features",
+                        "Real estate staging partnerships",
+                        "Designer community engagement"
+                    ],
+                    "metrics": {
+                        "attempts": 0,
+                        "successes": 0,
+                        "successRate": 0
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,73 @@
+{
+    "version": "1.0",
+    "clientId": "studioc",
+    "name": "Studio C",
+    "lastUpdated": "2026-01-20T18:36:00.000Z",
+    "goals": [
+        {
+            "id": "goal_studio_podcast",
+            "name": "Podcast Production Leader",
+            "description": "Position Studio C as the go-to podcast production studio for mission-driven brands",
+            "target": "5 new podcast clients per quarter",
+            "deadline": "2026-Q2",
+            "status": "active",
+            "strategies": [
+                {
+                    "id": "strat_studio_bts",
+                    "name": "Behind-the-Scenes Content",
+                    "description": "Show the production process to build trust and demonstrate expertise",
+                    "tactics": [
+                        "Weekly studio session clips on Instagram",
+                        "Monthly 'Making Of' blog posts",
+                        "Gear and workflow YouTube shorts"
+                    ],
+                    "metrics": {
+                        "attempts": 3,
+                        "successes": 2,
+                        "successRate": 66.7
+                    }
+                },
+                {
+                    "id": "strat_studio_testimonials",
+                    "name": "Client Story Campaign",
+                    "description": "Feature client success stories and transformations",
+                    "tactics": [
+                        "Video testimonials from podcast hosts",
+                        "Before/after audio comparisons",
+                        "Case study blog posts"
+                    ],
+                    "metrics": {
+                        "attempts": 2,
+                        "successes": 2,
+                        "successRate": 100
+                    }
+                }
+            ]
+        },
+        {
+            "id": "goal_studio_documentary",
+            "name": "Documentary Arm Launch",
+            "description": "Expand into documentary production for nonprofits and social impact organizations",
+            "target": "2 documentary projects per year",
+            "deadline": "2026-Q4",
+            "status": "planned",
+            "strategies": [
+                {
+                    "id": "strat_studio_impact",
+                    "name": "Social Impact Positioning",
+                    "description": "Align studio brand with mission-driven storytelling",
+                    "tactics": [
+                        "Pro-bono mini-doc for local nonprofit",
+                        "Film festival submissions",
+                        "Documentary process blog series"
+                    ],
+                    "metrics": {
+                        "attempts": 0,
+                        "successes": 0,
+                        "successRate": 0
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -376,6 +376,56 @@ export async function processLifelogs(options = {}) {
                         logger.debug('Failed to create HITL item', { error: err.message });
                     }
                 }
+
+                // If marketing trigger, also create a Marketing Agency brief
+                if (finding.marketingTrigger) {
+                    try {
+                        const clientId = finding.clientMentions?.[0]?.replace('@', '') || 'cptv';
+                        const queuePath = join(__dirname, '..', '..', 'memory', 'marketing_queue.json');
+
+                        // Load existing queue
+                        let queue = { version: '1.0', lastUpdated: new Date().toISOString(), pending: [], published: [], briefs: [] };
+                        if (existsSync(queuePath)) {
+                            try {
+                                const { readFileSync } = await import('fs');
+                                queue = JSON.parse(readFileSync(queuePath, 'utf-8'));
+                            } catch { }
+                        }
+
+                        // Create brief from scout finding
+                        const briefId = `brief_${clientId}_${Date.now().toString(36)}`;
+                        const newBrief = {
+                            id: briefId,
+                            clientId,
+                            status: 'pending',
+                            createdAt: new Date().toISOString(),
+                            source: 'Limitless Scout',
+                            strategist: {
+                                topic: finding.title,
+                                angle: finding.summary,
+                                goalAlignment: {
+                                    goalId: 'scout_discovery',
+                                    strategyId: 'voice_capture',
+                                    rationale: `Captured from voice note: ${finding.insights?.[0] || 'High-value content opportunity'}`
+                                },
+                                blogOutline: finding.actionItems?.length > 0
+                                    ? finding.actionItems.map((a, i) => `Section ${i + 1}: ${a}`)
+                                    : ['Introduction', 'Key Insight', 'Application', 'Call to Action'],
+                                xHooks: finding.insights?.slice(0, 3) || [finding.title],
+                                voiceArchetype: 'Thought Leader',
+                                toneGuidance: `Based on voice capture. Category: ${finding.category || 'General'}`
+                            }
+                        };
+
+                        queue.briefs.push(newBrief);
+                        queue.lastUpdated = new Date().toISOString();
+
+                        writeFileSync(queuePath, JSON.stringify(queue, null, 2));
+                        console.log(`      📝 Created Marketing Brief: ${briefId}`);
+                    } catch (err) {
+                        logger.debug('Failed to create Marketing Brief', { error: err.message });
+                    }
+                }
             }
             console.log(`      ✅ ${findings.length} entries written to manifest.jsonl`);
 

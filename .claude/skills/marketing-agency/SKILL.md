@@ -1,14 +1,13 @@
 ---
 name: marketing-agency
 description: |
-  4-agent content factory for blog posts and X.com threads. Use when user says
-  "/marketing-brief @{business}" to generate content briefs, "/marketing-draft" to
-  create drafts, or "/publish" to deploy content. Supports: @s2p, @studio, @cptv,
-  @tuthill, @bigmuddy, @utopia. Reads GST goals and brand profiles to align content.
+  Reference documentation for the Marketing Agency 4-agent system.
+  DO NOT invoke this skill directly. Use the individual command skills:
+  /marketing-brief, /marketing-draft, /marketing-publish, /marketing-status
 author: Claude Code
 version: 1.0.0
-invocable: true
-user-invocable: true
+invocable: false
+user-invocable: false
 allowed-tools:
   - Read
   - Write
