@@ -1070,6 +1070,71 @@ node core/content_council.js run s2p quick       # Quick sprint
 
 ---
 
+## Entry 004: Business Discovery Portal
+
+**Date:** 2026-01-21
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+Current client onboarding is manual and slow:
+- Business intelligence scattered across documents (PDFs, spreadsheets)
+- No automated extraction from uploaded files
+- Discovery questions answered one-by-one without context
+- No review/approval step before committing data to system
+
+### 2. The Spoke
+
+**New Module:** `spokes/discovery/index.js`
+
+This spoke handles document-based business discovery:
+
+| Component | Purpose |
+|-----------|---------|
+| `lib/document-parser.js` | Parse PDF/CSV/XLSX files |
+| `spokes/discovery/index.js` | Orchestrate upload → extract → questions → commit |
+| `frontend/src/pages/DiscoveryPortal.jsx` | Multi-phase wizard UI |
+| `frontend/src/hooks/useDiscovery.js` | State management |
+
+**Storage Pattern:**
+```
+clients/{businessId}/
+├── discovery/
+│   ├── uploads/           # Original files
+│   ├── extracted.json     # AI-extracted data
+│   └── answers.json       # Manual answers
+├── config.json            # Updated after commit
+├── gst.json               # Updated after commit
+└── brand.json             # Updated after commit
+```
+
+### 3. The Scalability
+
+**Document Type Extensibility:** Adding new file types (e.g., Word, PowerPoint) only requires extending `lib/document-parser.js` - no changes to the spoke.
+
+**Extraction Schema:** AI extraction uses a defined schema, so adding new fields is just schema + prompt updates.
+
+**Phase Machine:** The wizard uses a state machine (UPLOAD → EXTRACT → QUESTIONS → REVIEW → COMMIT), making it easy to add intermediate steps.
+
+### 4. The Lesson
+
+**Avoided:** Dumping raw document text into a single prompt. Instead, we parse → chunk → extract → validate → commit.
+
+**Enabled:** Human review before data commits. The "Review & Approve" phase prevents AI hallucinations from polluting business configs.
+
+**API Endpoints:**
+```
+POST /api/discover/:businessId/upload     - File upload
+POST /api/discover/:businessId/extract    - AI extraction
+GET  /api/discover/:businessId/questions  - Dynamic questions
+POST /api/discover/:businessId/answers    - Save answers
+POST /api/discover/:businessId/commit     - Apply changes
+GET  /api/discover/:businessId/status     - Progress tracking
+```
+
+---
+
 ## Entry Template
 
 ```markdown

@@ -295,6 +295,69 @@ export async function searchLimitless(query) {
 }
 
 // ============================================
+// Business Discovery API - Phase 6
+// ============================================
+
+/**
+ * Get discovery status for a business
+ */
+export async function getDiscoveryStatus(businessId) {
+  return apiRequest(`/api/discover/${businessId}/status`, {}, { phase: 'INIT', uploads: [] });
+}
+
+/**
+ * Upload files for discovery
+ * Note: This uses FormData, handled directly in useDiscovery hook
+ */
+export async function uploadDiscoveryFiles(businessId, formData) {
+  try {
+    const response = await fetchWithRetry(`${API_BASE}/api/discover/${businessId}/upload`, {
+      method: 'POST',
+      headers: { 'X-API-Key': API_KEY },
+      body: formData,
+    });
+    return response.json();
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Trigger AI extraction for uploaded documents
+ */
+export async function triggerDiscoveryExtraction(businessId) {
+  return apiRequest(`/api/discover/${businessId}/extract`, {
+    method: 'POST',
+  }, { success: false });
+}
+
+/**
+ * Get discovery questions based on extracted data and gaps
+ */
+export async function getDiscoveryQuestions(businessId) {
+  return apiRequest(`/api/discover/${businessId}/questions`, {}, { questions: {} });
+}
+
+/**
+ * Save discovery answers
+ */
+export async function saveDiscoveryAnswers(businessId, answers) {
+  return apiRequest(`/api/discover/${businessId}/answers`, {
+    method: 'POST',
+    body: JSON.stringify({ answers }),
+  }, { success: false });
+}
+
+/**
+ * Commit discovery data to business configs
+ */
+export async function commitDiscovery(businessId) {
+  return apiRequest(`/api/discover/${businessId}/commit`, {
+    method: 'POST',
+  }, { success: false });
+}
+
+// ============================================
 // Cost & Memory Management
 // ============================================
 
@@ -337,6 +400,13 @@ export default {
   getLimitlessFeed,
   triggerLimitlessScout,
   searchLimitless,
+  // Phase 6 - Business Discovery
+  getDiscoveryStatus,
+  uploadDiscoveryFiles,
+  triggerDiscoveryExtraction,
+  getDiscoveryQuestions,
+  saveDiscoveryAnswers,
+  commitDiscovery,
   // Cost & Memory
   getCostStatus,
   getMemoryStatus

@@ -34,6 +34,9 @@ import tenantManager from './core/tenant-manager.js';
 import gbpClient from './spokes/gbp/client.js';
 import agencyReview from './spokes/agency/review.js';
 
+// Discovery spoke
+import discovery from './spokes/discovery/index.js';
+
 // Library imports for enhanced reliability
 import { createLogger, generateRequestId } from './lib/logger.js';
 import { AppError, ValidationError, AuthenticationError, withFallback } from './lib/errors.js';
@@ -1976,6 +1979,92 @@ async function handleClientRoute(req, method, pathname) {
 }
 
 /**
+ * Handle Business Discovery API routes
+ * Pattern: /api/discover/:businessId/:action
+ */
+async function handleDiscoveryRoute(req, method, pathname) {
+  const match = pathname.match(/^\/api\/discover\/([^/]+)(?:\/(.*))?$/);
+  if (!match) return null;
+
+  const businessId = match[1];
+  const action = match[2] || 'status';
+
+  logger.info(`[Discovery API] ${method} /${businessId}/${action}`);
+
+  // GET /api/discover/:businessId/status - Get discovery status
+  if (method === 'GET' && action === 'status') {
+    return discovery.getDiscoveryStatus(businessId);
+  }
+
+  // GET /api/discover/:businessId/questions - Get discovery questions
+  if (method === 'GET' && action === 'questions') {
+    return discovery.getDiscoveryQuestions(businessId);
+  }
+
+  // POST /api/discover/:businessId/upload - Handle file upload
+  if (method === 'POST' && action === 'upload') {
+    try {
+      const { default: formidable } = await import('formidable');
+
+      const form = formidable({
+        maxFileSize: 50 * 1024 * 1024, // 50MB
+        allowEmptyFiles: false,
+        multiples: true,
+      });
+
+      return new Promise((resolve, reject) => {
+        form.parse(req, async (err, fields, files) => {
+          if (err) {
+            resolve({ success: false, error: `Upload error: ${err.message}` });
+            return;
+          }
+
+          // Handle both single and multiple files
+          const fileArray = Array.isArray(files.files)
+            ? files.files
+            : (files.files ? [files.files] : []);
+
+          // Also check for 'file' field name
+          const singleFile = Array.isArray(files.file)
+            ? files.file
+            : (files.file ? [files.file] : []);
+
+          const allFiles = [...fileArray, ...singleFile];
+
+          if (allFiles.length === 0) {
+            resolve({ success: false, error: 'No files uploaded' });
+            return;
+          }
+
+          const result = await discovery.handleUpload(businessId, allFiles);
+          resolve(result);
+        });
+      });
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // POST /api/discover/:businessId/extract - Trigger AI extraction
+  if (method === 'POST' && action === 'extract') {
+    return discovery.handleExtraction(businessId);
+  }
+
+  // POST /api/discover/:businessId/answers - Save user answers
+  if (method === 'POST' && action === 'answers') {
+    const body = await parseBody(req);
+    return discovery.saveAnswers(businessId, body.answers || body);
+  }
+
+  // POST /api/discover/:businessId/commit - Commit discovery to configs
+  if (method === 'POST' && action === 'commit') {
+    return discovery.commitDiscovery(businessId);
+  }
+
+  return { success: false, error: `Unknown discovery action: ${action}` };
+}
+
+/**
  * Main request handler with logging and metrics
  */
 async function handleRequest(req, res) {
@@ -2095,6 +2184,31 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'PORTAL_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic discovery routes
+  if (url.pathname.startsWith('/api/discover/')) {
+    try {
+      const result = await handleDiscoveryRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Discovery route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Discovery error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'DISCOVERY_ERROR', message: error.message },
         requestId
       }));
       return;
