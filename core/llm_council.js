@@ -18,6 +18,7 @@ import { dirname, join } from 'path';
 import fs from 'fs';
 import { createLogger } from '../lib/logger.js';
 import { ExternalServiceError, ValidationError, withRetry } from '../lib/errors.js';
+import costController from '../lib/cost-controller.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -97,10 +98,24 @@ async function queryModel(model, query, options = {}) {
   const data = await response.json();
   const timing = Date.now() - startTime;
 
+  // Extract token usage from response and record cost
+  const usage = data.usage || {};
+  const inputTokens = usage.prompt_tokens || costController.estimateTokens(query);
+  const outputTokens = usage.completion_tokens || costController.estimateTokens(data.choices?.[0]?.message?.content || '');
+
+  // Record the cost
+  costController.recordCost({
+    model,
+    inputTokens,
+    outputTokens,
+    operation: 'council'
+  });
+
   return {
     model,
     response: data.choices?.[0]?.message?.content || '',
-    timing
+    timing,
+    tokens: { input: inputTokens, output: outputTokens }
   };
 }
 
@@ -394,13 +409,36 @@ async function runCouncil(query, options = {}) {
     models = DEFAULT_COUNCIL_MODELS,
     chairmanModel = DEFAULT_CHAIRMAN_MODEL,
     temperature = DEFAULT_TEMPERATURE,
-    saveOutput: shouldSave = true
+    saveOutput: shouldSave = true,
+    skipBudgetCheck = false
   } = options;
 
   const traceId = generateTraceId();
   const startTime = Date.now();
 
-  logger.info('LLM Council session starting', { traceId, query: query.slice(0, 100) + '...' });
+  // Estimate cost and run pre-flight checks
+  const costEstimate = costController.estimateCouncilCost(query, models, chairmanModel);
+
+  if (!skipBudgetCheck) {
+    const preCheck = costController.preFlightCheck(costEstimate.estimated);
+    if (!preCheck.allowed) {
+      logger.warn('Council session blocked by cost controls', { traceId, reason: preCheck.reason });
+      throw new ValidationError(`Cost control: ${preCheck.reason}`, {
+        estimatedCost: costEstimate.estimated,
+        remaining: preCheck.remaining
+      });
+    }
+
+    if (preCheck.warnings?.length) {
+      logger.warn('Cost warnings', { traceId, warnings: preCheck.warnings });
+    }
+  }
+
+  logger.info('LLM Council session starting', {
+    traceId,
+    query: query.slice(0, 100) + '...',
+    estimatedCost: costEstimate.estimated
+  });
 
   try {
     // Stage 1: Parallel Collection
@@ -468,14 +506,31 @@ async function runCouncil(query, options = {}) {
       });
     }
 
-    logger.info('LLM Council session complete', { traceId, duration: totalDuration });
+    // Get cost summary for this session
+    const sessionCost = costController.getCostSummary();
+
+    // Record the session completion
+    costController.recordSession(traceId, sessionCost.daily.spent);
+
+    logger.info('LLM Council session complete', {
+      traceId,
+      duration: totalDuration,
+      estimatedCost: costEstimate.estimated
+    });
 
     return {
       success: true,
       traceId,
       synthesis: stage3Results.synthesis,
       ranking: stage2Results.aggregated,
-      duration: totalDuration
+      duration: totalDuration,
+      cost: {
+        estimated: costEstimate.estimated,
+        budgetRemaining: {
+          daily: sessionCost.daily.remaining,
+          monthly: sessionCost.monthly.remaining
+        }
+      }
     };
 
   } catch (error) {
@@ -497,6 +552,46 @@ async function handleLLMCouncilRequest(body) {
   }
 
   return runCouncil(query, { models, chairmanModel, temperature });
+}
+
+/**
+ * Get cost summary and budget status
+ * @returns {Object}
+ */
+function getCostStatus() {
+  return costController.getCostSummary();
+}
+
+/**
+ * Update budget limits
+ * @param {Object} newLimits
+ * @returns {Object}
+ */
+function updateBudgetLimits(newLimits) {
+  costController.updateLimits(newLimits);
+  return costController.getCostSummary();
+}
+
+/**
+ * Estimate cost for a council query without running it
+ * @param {Object} params
+ * @returns {Object}
+ */
+function estimateCost(params) {
+  const {
+    query,
+    models = DEFAULT_COUNCIL_MODELS,
+    chairmanModel = DEFAULT_CHAIRMAN_MODEL
+  } = params;
+
+  const estimate = costController.estimateCouncilCost(query || '', models, chairmanModel);
+  const preCheck = costController.preFlightCheck(estimate.estimated);
+
+  return {
+    estimate,
+    budget: preCheck,
+    pricing: costController.getModelPricingInfo()
+  };
 }
 
 /**
@@ -625,6 +720,9 @@ export default {
   stage1ParallelCollection,
   stage2AnonymousReview,
   stage3ChairmanSynthesis,
+  getCostStatus,
+  updateBudgetLimits,
+  estimateCost,
   DEFAULT_COUNCIL_MODELS,
   DEFAULT_CHAIRMAN_MODEL
 };
@@ -637,6 +735,9 @@ export {
   stage1ParallelCollection,
   stage2AnonymousReview,
   stage3ChairmanSynthesis,
+  getCostStatus,
+  updateBudgetLimits,
+  estimateCost,
   DEFAULT_COUNCIL_MODELS,
   DEFAULT_CHAIRMAN_MODEL
 };

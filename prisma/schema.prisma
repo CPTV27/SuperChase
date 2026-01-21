@@ -1,0 +1,286 @@
+// SuperChase Database Schema
+// PostgreSQL with Prisma ORM
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Users & Authentication
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      Role     @default(USER)
+  apiKeys   ApiKey[]
+  auditLogs AuditLog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model ApiKey {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  name        String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permissions String[] @default([])
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+
+  @@index([key])
+  @@map("api_keys")
+}
+
+enum Role {
+  USER
+  ADMIN
+  SERVICE
+}
+
+// ============================================
+// Business Units (Portfolio)
+// ============================================
+
+model BusinessUnit {
+  id          String   @id
+  name        String
+  shortName   String?
+  type        String   @default("service")
+  color       String   @default("#6b7280")
+  icon        String   @default("building")
+  description String?
+  priority    Int      @default(100)
+  active      Boolean  @default(true)
+  metadata    Json     @default("{}")
+  tasks       Task[]
+  content     Content[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("business_units")
+}
+
+// ============================================
+// Tasks (Adapter Pattern Storage)
+// ============================================
+
+model Task {
+  id             String       @id @default(cuid())
+  externalId     String?      // ID in external system (Asana, Jira)
+  provider       String       @default("internal") // asana, jira, internal
+  name           String
+  notes          String?
+  priority       Priority     @default(MEDIUM)
+  status         TaskStatus   @default(PENDING)
+  dueDate        DateTime?
+  completedAt    DateTime?
+  businessUnitId String?
+  businessUnit   BusinessUnit? @relation(fields: [businessUnitId], references: [id])
+  source         String?      // email, voice, manual
+  metadata       Json         @default("{}")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([provider, externalId])
+  @@index([status])
+  @@index([businessUnitId])
+  @@map("tasks")
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+// ============================================
+// Content Pipeline (HITL)
+// ============================================
+
+model Content {
+  id             String        @id @default(cuid())
+  type           ContentType
+  title          String
+  body           String
+  status         ContentStatus @default(DRAFT)
+  businessUnitId String?
+  businessUnit   BusinessUnit? @relation(fields: [businessUnitId], references: [id])
+  approvals      Approval[]
+  publishedUrl   String?
+  metadata       Json          @default("{}")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([status])
+  @@index([businessUnitId])
+  @@map("content")
+}
+
+model Approval {
+  id         String         @id @default(cuid())
+  contentId  String
+  content    Content        @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  stage      ApprovalStage
+  status     ApprovalStatus @default(PENDING)
+  reviewerId String?
+  comments   String?
+  token      String?        @unique // HMAC approval token
+  decidedAt  DateTime?
+  createdAt  DateTime       @default(now())
+
+  @@index([contentId])
+  @@index([token])
+  @@map("approvals")
+}
+
+enum ContentType {
+  BLOG_POST
+  TWEET
+  THREAD
+  EMAIL
+}
+
+enum ContentStatus {
+  DRAFT
+  AGENCY_REVIEW
+  CLIENT_REVIEW
+  APPROVED
+  PUBLISHED
+  REJECTED
+}
+
+enum ApprovalStage {
+  AGENCY
+  CLIENT
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ============================================
+// Audit Log
+// ============================================
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  action        String
+  resource      String
+  resourceId    String?
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id])
+  requestId     String?  // Correlation ID
+  ip            String?
+  userAgent     String?
+  details       Json     @default("{}")
+  success       Boolean  @default(true)
+  errorMessage  String?
+  duration      Int?     // ms
+  createdAt     DateTime @default(now())
+
+  @@index([action])
+  @@index([resource, resourceId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================
+// Patterns (Learned Automations)
+// ============================================
+
+model Pattern {
+  id         String   @id @default(cuid())
+  name       String
+  trigger    String   // Condition that activates pattern
+  action     String   // What to do when triggered
+  confidence Float    @default(0.5)
+  useCount   Int      @default(0)
+  lastUsedAt DateTime?
+  active     Boolean  @default(true)
+  metadata   Json     @default("{}")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([active])
+  @@map("patterns")
+}
+
+// ============================================
+// LLM Council Sessions
+// ============================================
+
+model CouncilSession {
+  id           String   @id @default(cuid())
+  traceId      String   @unique
+  query        String
+  models       String[] // Models used
+  chairmanModel String
+  synthesis    String?
+  rankings     Json     @default("[]")
+  duration     Int?     // ms
+  cost         Float?   // Estimated cost in USD
+  status       String   @default("pending") // pending, complete, failed
+  errorMessage String?
+  createdAt    DateTime @default(now())
+
+  @@index([traceId])
+  @@index([createdAt])
+  @@map("council_sessions")
+}
+
+// ============================================
+// Cost Tracking
+// ============================================
+
+model CostRecord {
+  id        String   @id @default(cuid())
+  service   String   // openrouter, asana, twitter
+  operation String
+  model     String?  // For LLM calls
+  tokens    Int?
+  cost      Float
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([service])
+  @@index([createdAt])
+  @@map("cost_records")
+}
+
+// ============================================
+// System State
+// ============================================
+
+model SystemState {
+  id        String   @id @default("singleton")
+  paused    Boolean  @default(false)
+  pausedAt  DateTime?
+  pausedBy  String?
+  reason    String?
+  metadata  Json     @default("{}")
+  updatedAt DateTime @updatedAt
+
+  @@map("system_state")
+}

@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 import Layout from './components/Layout.jsx'
 import App from './App.jsx'
 import ReviewQueue from './components/ReviewQueue.jsx'
@@ -16,28 +17,74 @@ import SettingsPage from './components/SettingsPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          {/* Core Pages */}
-          <Route path="/" element={<App />} />
-          <Route path="/review" element={<ReviewQueue />} />
-          <Route path="/marketing" element={<MarketingHub />} />
-          <Route path="/s2p" element={<S2PPortal />} />
+    <ErrorBoundary
+      title="Application Error"
+      message="SuperChase encountered an unexpected error. Please refresh the page to continue."
+      showHomeButton
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            {/* Core Pages */}
+            <Route path="/" element={
+              <ErrorBoundary title="Dashboard Error">
+                <App />
+              </ErrorBoundary>
+            } />
+            <Route path="/review" element={
+              <ErrorBoundary title="Review Queue Error">
+                <ReviewQueue />
+              </ErrorBoundary>
+            } />
+            <Route path="/marketing" element={
+              <ErrorBoundary title="Marketing Hub Error">
+                <MarketingHub />
+              </ErrorBoundary>
+            } />
+            <Route path="/s2p" element={
+              <ErrorBoundary title="S2P Portal Error">
+                <S2PPortal />
+              </ErrorBoundary>
+            } />
 
-          {/* Task & System Pages */}
-          <Route path="/tasks" element={<TasksPage />} />
-          <Route path="/logs" element={<AuditLog />} />
-          <Route path="/settings" element={<SettingsPage />} />
+            {/* Task & System Pages */}
+            <Route path="/tasks" element={
+              <ErrorBoundary title="Tasks Error">
+                <TasksPage />
+              </ErrorBoundary>
+            } />
+            <Route path="/logs" element={
+              <ErrorBoundary title="Audit Log Error">
+                <AuditLog />
+              </ErrorBoundary>
+            } />
+            <Route path="/settings" element={
+              <ErrorBoundary title="Settings Error">
+                <SettingsPage />
+              </ErrorBoundary>
+            } />
 
-          {/* Intelligence Pages */}
-          <Route path="/sparks" element={<LimitlessFeed />} />
-          <Route path="/insights" element={<ScoutInsights />} />
+            {/* Intelligence Pages */}
+            <Route path="/sparks" element={
+              <ErrorBoundary title="Sparks Error">
+                <LimitlessFeed />
+              </ErrorBoundary>
+            } />
+            <Route path="/insights" element={
+              <ErrorBoundary title="Insights Error">
+                <ScoutInsights />
+              </ErrorBoundary>
+            } />
 
-          {/* Portfolio GST Dashboards */}
-          <Route path="/gst/:clientId" element={<GSTDashboard />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            {/* Portfolio GST Dashboards */}
+            <Route path="/gst/:clientId" element={
+              <ErrorBoundary title="GST Dashboard Error">
+                <GSTDashboard />
+              </ErrorBoundary>
+            } />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>,
 )

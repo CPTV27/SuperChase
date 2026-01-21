@@ -38,6 +38,12 @@ import agencyReview from './spokes/agency/review.js';
 import { createLogger, generateRequestId } from './lib/logger.js';
 import { AppError, ValidationError, AuthenticationError, withFallback } from './lib/errors.js';
 import health, { recordRequest, getMetrics, getHealth, withCircuitBreaker } from './lib/health.js';
+import observability, {
+  recordHttpRequest,
+  startSpan,
+  withTrace,
+  startAlertChecker
+} from './lib/observability.js';
 
 const logger = createLogger({ module: 'server' });
 
@@ -507,6 +513,26 @@ const routes = {
     return getAvailableModels();
   },
 
+  // Get cost status and budget information
+  'GET /api/llm-council/costs': async () => {
+    const { getCostStatus } = await import('./core/llm_council.js');
+    return getCostStatus();
+  },
+
+  // Update budget limits
+  'PUT /api/llm-council/costs/limits': async (req) => {
+    const body = await parseBody(req);
+    const { updateBudgetLimits } = await import('./core/llm_council.js');
+    return updateBudgetLimits(body);
+  },
+
+  // Estimate cost for a query (without running)
+  'POST /api/llm-council/estimate': async (req) => {
+    const body = await parseBody(req);
+    const { estimateCost } = await import('./core/llm_council.js');
+    return estimateCost(body);
+  },
+
   // ============================================
   // Portfolio Management API (Config-Driven)
   // ============================================
@@ -661,6 +687,85 @@ const routes = {
       automationPaused: globalThis.AUTOMATION_PAUSED === true,
       timestamp: new Date().toISOString()
     };
+  },
+
+  // ============================================
+  // Memory Management API
+  // ============================================
+
+  // Get memory status and disk usage
+  'GET /api/memory/status': async () => {
+    const memoryManager = await import('./lib/memory-manager.js');
+    return memoryManager.getMemoryStatus();
+  },
+
+  // Run memory cleanup
+  'POST /api/memory/cleanup': async (req) => {
+    const body = await parseBody(req);
+    const memoryManager = await import('./lib/memory-manager.js');
+    return memoryManager.runCleanup({ dryRun: body.dryRun });
+  },
+
+  // Emergency cleanup (aggressive)
+  'POST /api/memory/emergency-cleanup': async () => {
+    const memoryManager = await import('./lib/memory-manager.js');
+    return memoryManager.emergencyCleanup();
+  },
+
+  // ============================================
+  // Observability API Endpoints
+  // ============================================
+
+  // Prometheus-format metrics (for Prometheus/Grafana scraping)
+  'GET /api/observability/prometheus': async () => {
+    return {
+      _httpStatus: 200,
+      _contentType: 'text/plain; charset=utf-8',
+      _rawBody: observability.getPrometheusMetrics()
+    };
+  },
+
+  // JSON metrics (for dashboard)
+  'GET /api/observability/metrics': async () => {
+    return observability.getMetricsJson();
+  },
+
+  // Distributed traces
+  'GET /api/observability/traces': async (req) => {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const limit = parseInt(url.searchParams.get('limit')) || 50;
+    const traceId = url.searchParams.get('traceId');
+
+    if (traceId) {
+      return {
+        spans: observability.getTraceById(traceId)
+      };
+    }
+
+    return {
+      traces: observability.getRecentTraces(limit),
+      activeSpans: observability.getActiveSpans()
+    };
+  },
+
+  // Alert status
+  'GET /api/observability/alerts': async (req) => {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const limit = parseInt(url.searchParams.get('limit')) || 20;
+
+    // Check alerts now and return status
+    const newAlerts = observability.checkAlerts();
+
+    return {
+      recentAlerts: observability.getRecentAlerts(limit),
+      newAlerts,
+      timestamp: new Date().toISOString()
+    };
+  },
+
+  // Full observability dashboard data
+  'GET /api/observability/dashboard': async () => {
+    return observability.getObservabilityDashboard();
   }
 };
 
@@ -1345,6 +1450,7 @@ async function handleRequest(req, res) {
         const errorResponse = result.toJSON(!IS_DEV);
         errorResponse.requestId = requestId;
         recordRequest(routeKey, duration, false);
+        recordHttpRequest(req.method, url.pathname, result.statusCode, duration);
         reqLogger.error(`Error: ${result.message}`, { statusCode: result.statusCode, duration });
         res.writeHead(result.statusCode, CORS_HEADERS);
         res.end(JSON.stringify(errorResponse));
@@ -1352,21 +1458,35 @@ async function handleRequest(req, res) {
       }
 
       const statusCode = result._httpStatus || 200;
+      const contentType = result._contentType || 'application/json';
+      const rawBody = result._rawBody;
       delete result._httpStatus;
+      delete result._contentType;
+      delete result._rawBody;
 
       recordRequest(routeKey, duration, statusCode < 400);
+      recordHttpRequest(req.method, url.pathname, statusCode, duration);
       reqLogger.debug(`Complete`, { statusCode, duration });
+
+      // Handle raw body responses (like Prometheus metrics)
+      if (rawBody !== undefined) {
+        res.writeHead(statusCode, { ...CORS_HEADERS, 'Content-Type': contentType });
+        res.end(rawBody);
+        return;
+      }
 
       res.writeHead(statusCode, CORS_HEADERS);
       res.end(JSON.stringify({ ...result, requestId }));
     } catch (error) {
       const duration = Date.now() - startTime;
       recordRequest(routeKey, duration, false);
+      recordHttpRequest(req.method, url.pathname, 500, duration);
 
       // Handle known error types
       if (error instanceof AppError) {
         const errorResponse = error.toJSON(!IS_DEV);
         errorResponse.requestId = requestId;
+        recordHttpRequest(req.method, url.pathname, error.statusCode, duration);
         reqLogger.error(`AppError: ${error.message}`, { code: error.code, duration });
         res.writeHead(error.statusCode, CORS_HEADERS);
         res.end(JSON.stringify(errorResponse));
@@ -1552,6 +1672,9 @@ const server = createServer(handleRequest);
 server.listen(PORT, '0.0.0.0', () => {
   logger.info('SuperChase API Server v2.1 starting', { port: PORT });
 
+  // Start observability alert checker (check every 60 seconds)
+  startAlertChecker(60000);
+
   console.log(`\n╔════════════════════════════════════════════════════════════╗`);
   console.log(`║           SuperChase API Server v2.1                       ║`);
   console.log(`╚════════════════════════════════════════════════════════════╝\n`);
@@ -1584,7 +1707,13 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`  POST /api/portal/:client/move      - Move item between stages`);
   console.log(`  --- LLM Council API ---`);
   console.log(`  POST /api/llm-council              - Run multi-model deliberation`);
-  console.log(`  GET  /api/llm-council/models       - List available models\n`);
+  console.log(`  GET  /api/llm-council/models       - List available models`);
+  console.log(`  --- Observability API ---`);
+  console.log(`  GET  /api/observability/prometheus - Prometheus metrics (scrape)`);
+  console.log(`  GET  /api/observability/metrics    - JSON metrics`);
+  console.log(`  GET  /api/observability/traces     - Distributed traces`);
+  console.log(`  GET  /api/observability/alerts     - Alert status`);
+  console.log(`  GET  /api/observability/dashboard  - Full dashboard data\n`);
   console.log(`Mode: ${IS_DEV ? 'Development (no auth required)' : 'Production (API key required)'}`);
   console.log(`Logging: Structured JSON in production, human-readable in dev\n`);
 });

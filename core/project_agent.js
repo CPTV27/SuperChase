@@ -6,7 +6,7 @@
  * Each project gets a dedicated agent context with:
  * - GST (Goals, Strategies, Tactics) manifest
  * - Business intelligence from Limitless
- * - Current tasks from Asana
+ * - Current tasks (via TaskProvider)
  * - Historical decisions and learnings
  *
  * Agents can:

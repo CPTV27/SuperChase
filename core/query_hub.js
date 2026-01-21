@@ -5,7 +5,7 @@
  * Enables conversational queries about business state by searching:
  * - memory/daily_summary.json (recent briefings)
  * - evolution/LEARNINGS.md (patterns and learnings)
- * - Asana tasks (current work items)
+ * - Task Provider (current work items via Adapter Pattern)
  * - cache/audit.jsonl (recent actions)
  *
  * Used by ElevenLabs Agent for voice conversations.
@@ -15,6 +15,7 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { readFileSync, existsSync } from 'fs';
+import { getTaskProvider } from '../lib/providers/task-provider.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,11 +23,8 @@ const __dirname = dirname(__filename);
 dotenv.config({ path: join(__dirname, '..', '.env') });
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const ASANA_TOKEN = process.env.ASANA_ACCESS_TOKEN;
-const ASANA_WORKSPACE = process.env.ASANA_WORKSPACE_ID;
 
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
-const ASANA_BASE_URL = 'https://app.asana.com/api/1.0';
 
 const PATHS = {
   dailySummary: join(__dirname, '..', 'memory', 'daily_summary.json'),
@@ -73,7 +71,7 @@ function identifyPeopleMentioned(text) {
  */
 export async function queryBusinessContext(query, options = {}) {
   const {
-    includeAsana = true,
+    includeTasks = true,
     includeAudit = true,
     maxResults = 5,
     conversationHistory = []
@@ -82,7 +80,7 @@ export async function queryBusinessContext(query, options = {}) {
   console.log(`[QueryHub] Processing: "${query}" (history: ${conversationHistory.length} msgs)`);
 
   // Gather context from all sources
-  const context = await gatherContext(includeAsana, includeAudit, maxResults);
+  const context = await gatherContext(includeTasks, includeAudit, maxResults);
 
   // Use Gemini to synthesize an answer (with conversation history)
   const answer = await synthesizeAnswer(query, context, conversationHistory);
@@ -93,7 +91,7 @@ export async function queryBusinessContext(query, options = {}) {
 /**
  * Gather context from all data sources
  */
-async function gatherContext(includeAsana, includeAudit, maxResults) {
+async function gatherContext(includeTasks, includeAudit, maxResults) {
   const context = {
     dailySummary: null,
     learnings: null,
@@ -132,9 +130,9 @@ async function gatherContext(includeAsana, includeAudit, maxResults) {
     }
   }
 
-  // 4. Asana Tasks
-  if (includeAsana && ASANA_TOKEN) {
-    context.tasks = await fetchAsanaTasks(maxResults);
+  // 4. Tasks (via TaskProvider - supports Asana, Prisma, InMemory)
+  if (includeTasks) {
+    context.tasks = await fetchTasks(maxResults);
   }
 
   // 5. Recent Audit Actions
@@ -155,48 +153,35 @@ async function gatherContext(includeAsana, includeAudit, maxResults) {
 }
 
 /**
- * Fetch tasks from Asana
+ * Fetch tasks via TaskProvider (supports multiple backends)
+ * Uses the Adapter Pattern - automatically selects Asana, Prisma, or InMemory
  */
-async function fetchAsanaTasks(limit = 5) {
+async function fetchTasks(limit = 5) {
   try {
-    // Get all projects
-    const projectsResponse = await fetch(
-      `${ASANA_BASE_URL}/workspaces/${ASANA_WORKSPACE}/projects`,
-      { headers: { Authorization: `Bearer ${ASANA_TOKEN}` } }
-    );
+    const provider = getTaskProvider();
 
-    if (!projectsResponse.ok) return [];
-
-    const projectsData = await projectsResponse.json();
-    const projects = projectsData.data || [];
-
-    // Focus on SC: Tasks and SuperChase Live
-    const relevantProjects = projects.filter(p =>
-      p.name.includes('SC:') || p.name.toLowerCase().includes('superchase')
-    );
-
-    const allTasks = [];
-
-    for (const project of relevantProjects.slice(0, 3)) {
-      const tasksResponse = await fetch(
-        `${ASANA_BASE_URL}/projects/${project.gid}/tasks?opt_fields=name,due_on,completed,notes&completed_since=now&limit=${limit}`,
-        { headers: { Authorization: `Bearer ${ASANA_TOKEN}` } }
-      );
-
-      if (tasksResponse.ok) {
-        const tasksData = await tasksResponse.json();
-        allTasks.push(...tasksData.data.map(t => ({
-          name: t.name,
-          project: project.name,
-          dueOn: t.due_on,
-          notes: t.notes?.substring(0, 200)
-        })));
-      }
+    // Check if provider is configured
+    if (!provider.isConfigured()) {
+      console.warn('[QueryHub] No task provider configured');
+      return [];
     }
 
-    return allTasks.slice(0, limit * 2);
+    // Fetch incomplete tasks
+    const tasks = await provider.getTasks({
+      completed: false,
+      limit: limit * 2 // Get extra to filter
+    });
+
+    // Map to consistent format
+    return tasks.map(t => ({
+      name: t.name,
+      project: t.project || 'Default',
+      dueOn: t.dueOn,
+      notes: t.notes?.substring(0, 200)
+    })).slice(0, limit * 2);
+
   } catch (error) {
-    console.warn('[QueryHub] Asana fetch failed:', error.message);
+    console.warn('[QueryHub] Task fetch failed:', error.message);
     return [];
   }
 }
@@ -383,12 +368,12 @@ function generateFallbackAnswer(query, context) {
     if (context.tasks.length > 0) {
       return {
         answer: `You have ${context.tasks.length} active tasks, Sir. The top one is "${context.tasks[0].name}" in ${context.tasks[0].project}.`,
-        sources: ['asana'],
+        sources: ['tasks'],
         confidence: 0.8
       };
     }
     return {
-      answer: "I couldn't fetch your current tasks, Sir. The Asana connection may need attention.",
+      answer: "I couldn't fetch your current tasks, Sir. The task provider may need attention.",
       sources: [],
       confidence: 0.3
     };

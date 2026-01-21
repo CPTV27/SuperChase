@@ -303,7 +303,7 @@ export async function processEvent(event) {
 function determineTarget(classification) {
   switch (classification.action) {
     case 'create_task':
-      return 'asana';
+      return 'task_provider';
     case 'archive':
       return 'gmail';
     case 'log_only':

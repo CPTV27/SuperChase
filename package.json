@@ -21,7 +21,8 @@
     "test:brainstorm": "node scripts/test-brainstorm.js",
     "smoke": "./smoke_test.sh",
     "test": "node --test tests/*.test.js",
-    "test:unit": "node --test tests/core.test.js tests/lib.test.js",
+    "test:unit": "node --test tests/core.test.js tests/lib.test.js tests/enterprise.test.js",
+    "test:enterprise": "node --test tests/enterprise.test.js",
     "test:api": "node --test tests/api.test.js",
     "test:watch": "node --test --watch tests/*.test.js",
     "test:asana": "node -e \"import('./spokes/asana/pusher.js').then(m => m.getTasks().then(console.log))\"",
@@ -34,10 +35,19 @@
     "brand:list": "node spokes/brand/scraper.js --list",
     "gst": "node spokes/strategy/gst.js",
     "gst:status": "node spokes/strategy/gst.js --all status",
-    "gst:tactics": "node spokes/strategy/gst.js"
+    "gst:tactics": "node spokes/strategy/gst.js",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "db:seed": "node prisma/seed.js",
+    "postinstall": "prisma generate || true"
   },
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "@prisma/client": "^7.3.0",
+    "dotenv": "^16.3.1",
+    "prisma": "^7.3.0"
   },
   "author": "Chase Pierson",
   "license": "MIT",
