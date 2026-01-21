@@ -1,0 +1,51 @@
+{
+    "clientId": "tuthill",
+    "name": "Tuthill Design",
+    "colors": {
+        "primary": "#1a1a1a",
+        "secondary": "#f5f5f5",
+        "accent": "#c9a227",
+        "background": "#0a0a0a",
+        "text": "#f5f5f5",
+        "palette": ["#1a1a1a", "#f5f5f5", "#c9a227", "#2d2d2d"]
+    },
+    "fonts": {
+        "heading": "Cormorant Garamond",
+        "body": "Montserrat",
+        "stack": ["Cormorant Garamond", "Montserrat", "Georgia", "serif"]
+    },
+    "voice": {
+        "archetype": "The Visionary Artist",
+        "confidence": 0.9,
+        "tone": [
+            "sophisticated",
+            "evocative",
+            "precise",
+            "contemplative"
+        ],
+        "style": "Color and typography define tone before words. Alchemical balance of color and texture with visceral precision.",
+        "vocabulary": [
+            "intentional",
+            "bespoke",
+            "curated",
+            "alchemy",
+            "texture",
+            "light",
+            "space",
+            "rhythm",
+            "palette",
+            "timeless",
+            "visceral",
+            "sculptural",
+            "resonance",
+            "craft"
+        ],
+        "markers": [
+            "architectural-noir",
+            "high-contrast",
+            "cinematic"
+        ]
+    },
+    "stylePrompt": "Architectural Noir, High-contrast, sharp lines, cinematic shadows, dramatic natural light",
+    "generatedAt": "2026-01-21T00:50:00.000Z"
+}

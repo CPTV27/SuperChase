@@ -1,25 +1,39 @@
 {
-  "archive_newsletters": {
-    "name": "Archive Newsletters",
-    "description": "Automatically archive emails identified as newsletters from specific senders.",
-    "trigger": "Email category is 'NEWSLETTER' AND sender is one of: newsletter@techdigest.com, HarborFreight@e.harborfreight.com, mail@eg.expedia.com",
-    "action": "Archive email",
-    "created": "2026-01-20T03:19:33.040Z"
-  },
-  "summarize_newsletters": {
-    "name": "Summarize Newsletters",
-    "description": "Summarize newsletters and send a daily digest.",
-    "trigger": "Email category is 'NEWSLETTER' AND sender is one of: newsletter@techdigest.com, HarborFreight@e.harborfreight.com, mail@eg.expedia.com",
-    "action": "Summarize email content and add to daily newsletter digest",
-    "created": "2026-01-20T03:19:33.040Z"
-  },
-  "client_email_task_creation": {
-    "name": "Client Email Task Creation",
-    "description": "Automatically create a task when an email from a client requires action.",
-    "trigger": "Email category is 'URGENT_CLIENT' OR 'ACTION_REQUIRED' AND sender is client@example.com",
-    "action": "Create task with email subject and body",
-    "created": "2026-01-20T03:19:33.040Z"
-  },
+  "version": "1.1",
+  "lastAudit": "2026-01-21T00:55:00.000Z",
+  "patterns": [
+    {
+      "id": "p001",
+      "name": "Archive Newsletters",
+      "trigger": "email.category == 'NEWSLETTER' AND sender IN known_newsletter_senders",
+      "action": "Archive email, skip inbox",
+      "confidence": 0.85,
+      "lastUsed": "2026-01-20",
+      "useCount": 12,
+      "created": "2026-01-20T03:19:33.040Z"
+    },
+    {
+      "id": "p002",
+      "name": "Summarize Newsletters",
+      "trigger": "email.category == 'NEWSLETTER' AND sender IN known_newsletter_senders",
+      "action": "Extract key points, add to daily digest",
+      "confidence": 0.8,
+      "lastUsed": "2026-01-20",
+      "useCount": 8,
+      "created": "2026-01-20T03:19:33.040Z"
+    },
+    {
+      "id": "p003",
+      "name": "Client Email Task Creation",
+      "trigger": "email.category IN ['URGENT_CLIENT', 'ACTION_REQUIRED'] AND sender.isClient",
+      "action": "Create Asana task with email subject, assign high priority",
+      "confidence": 0.92,
+      "lastUsed": "2026-01-20",
+      "useCount": 47,
+      "created": "2026-01-20T03:19:33.040Z"
+    }
+  ],
+  "failures": [],
   "crossBusinessLeverage": {
     "opportunities": [
       {
@@ -27,116 +41,71 @@
         "title": "Reality Capture for Virtual Production",
         "fromBusiness": "Scan2Plan",
         "toBusiness": "Studio C",
-        "mechanism": "Use Scan2Plan's reality capture services to create 3D models of locations for use in Studio C's virtual production workflows. This allows for realistic backgrounds and environments without physical location scouting or construction.",
+        "mechanism": "Use Scan2Plan's reality capture to create 3D models for Studio C virtual production workflows.",
         "effort": "medium",
         "impact": "high",
-        "actionItems": [
-          "Schedule a meeting between Scan2Plan and Studio C technical leads (Owen, Agata, Miles) to discuss integration possibilities.",
-          "Pilot a Scan2Plan capture of Utopia Studios for use in a Studio C virtual production demo."
-        ]
+        "status": "recommended"
       },
       {
         "id": "media-sales-sc-s2p",
         "title": "Studio C Content as Scan2Plan Lead Gen",
         "fromBusiness": "Studio C",
         "toBusiness": "Scan2Plan",
-        "mechanism": "Create short, engaging video content showcasing Scan2Plan's capabilities and applications (e.g., before/after transformations, virtual tours). Distribute this content through CPTV's local media networks and targeted online advertising to generate leads for Scan2Plan.",
+        "mechanism": "Create video content showcasing Scan2Plan capabilities for lead generation.",
         "effort": "medium",
         "impact": "medium",
-        "actionItems": [
-          "Develop a content strategy for Scan2Plan lead generation videos with Studio C.",
-          "Produce a pilot video showcasing Scan2Plan's services for a specific industry (e.g., real estate, construction)."
-        ]
-      },
-      {
-        "id": "templates-scale-sc-purist",
-        "title": "Productize Studio C's Town Media Template for Purist",
-        "fromBusiness": "Studio C",
-        "toBusiness": "Purist",
-        "mechanism": "Adapt Studio C's town media template (Natchez pilot) to create content showcasing Purist products and the lifestyle they represent. This provides a scalable way to produce high-quality content for Purist's brand marketing.",
-        "effort": "low",
-        "impact": "medium",
-        "actionItems": [
-          "Deliver Purist pilot sell-sheet & StudioC 2-day shoot template (as per immediate actions).",
-          "Customize the Studio C town media template with Purist's brand guidelines and product focus."
-        ]
-      },
-      {
-        "id": "network-distro-cptv-all",
-        "title": "CPTV as Distribution Hub for Portfolio Content",
-        "fromBusiness": "CPTV",
-        "toBusiness": "All",
-        "mechanism": "Leverage CPTV's local media networks (daytime tv.us, community pilots) to distribute content created by Studio C, Scan2Plan, and Tuthill Design. This provides a built-in audience and distribution channel for all portfolio companies.",
-        "effort": "low",
-        "impact": "medium",
-        "actionItems": [
-          "Develop a content calendar for CPTV that includes content from all portfolio companies.",
-          "Explore opportunities to cross-promote portfolio companies on CPTV's local media networks."
-        ]
-      },
-      {
-        "id": "design-brand-td-all",
-        "title": "Tuthill Design for Consistent Brand Elevation",
-        "fromBusiness": "Tuthill Design",
-        "toBusiness": "All",
-        "mechanism": "Engage Tuthill Design to develop and maintain consistent brand guidelines across all portfolio companies. This ensures a cohesive brand identity and elevates the overall perception of the portfolio.",
-        "effort": "medium",
-        "impact": "high",
-        "actionItems": [
-          "Schedule a brand audit with Tuthill Design to assess the current brand consistency across the portfolio.",
-          "Develop a comprehensive brand style guide for all portfolio companies, incorporating Tuthill Design's editorial vision."
-        ]
+        "status": "planned"
       },
       {
         "id": "tech-media-s2p-sc-bigmuddy",
         "title": "Scan2Plan + Studio C for Big Muddy Inn",
         "fromBusiness": "Scan2Plan & Studio C",
         "toBusiness": "Big Muddy Inn",
-        "mechanism": "Use Scan2Plan to create a detailed 3D model of the Big Muddy Inn. Then, Studio C can use this model to create immersive virtual tours and promotional content, enhancing the Inn's online presence and attracting more bookings.",
+        "mechanism": "3D model of Big Muddy Inn for virtual tours and promotional content.",
         "effort": "medium",
         "impact": "high",
-        "actionItems": [
-          "Pitch the Scan2Plan + Studio C package to Tracy and Amy at Big Muddy Inn.",
-          "Coordinate a Scan2Plan capture and Studio C shoot at the Big Muddy Inn."
-        ]
+        "status": "pitched"
+      },
+      {
+        "id": "network-distro-cptv-all",
+        "title": "CPTV as Distribution Hub",
+        "fromBusiness": "CPTV",
+        "toBusiness": "All",
+        "mechanism": "Leverage CPTV's local media networks to distribute portfolio content.",
+        "effort": "low",
+        "impact": "medium",
+        "status": "active"
+      },
+      {
+        "id": "design-brand-td-all",
+        "title": "Tuthill Design for Brand Elevation",
+        "fromBusiness": "Tuthill Design",
+        "toBusiness": "All",
+        "mechanism": "Consistent brand guidelines across all portfolio companies.",
+        "effort": "medium",
+        "impact": "high",
+        "status": "planned"
       }
     ],
     "quickWins": [
-      "Distribute existing Studio C content on CPTV's daytime tv.us network.",
-      "Include Scan2Plan's logo and website on all Studio C promotional materials.",
-      "Cross-promote Purist products in Studio C's town media pilots."
+      "Distribute existing Studio C content on CPTV's daytime tv.us network",
+      "Include Scan2Plan's logo on all Studio C promotional materials",
+      "Cross-promote Purist products in Studio C's town media pilots"
     ],
-    "recommendation": "Prioritize the 'Reality Capture for Virtual Production' opportunity (tech-media-s2p-sc). It leverages existing Scan2Plan technology to enhance Studio C's capabilities, creating a unique selling proposition and potentially attracting higher-value clients. This also addresses the recurring topic of 'Studio C / town media template' by providing a more advanced and immersive experience.",
     "analyzedAt": "2026-01-20T04:10:04.312Z"
   },
-  "test_pattern_1768899386081": {
-    "name": "Test Pattern",
-    "trigger": "test trigger",
-    "action": "test action",
-    "updated": "2026-01-20T08:56:26.082Z"
+  "knownSenders": {
+    "newsletters": [
+      "newsletter@techdigest.com",
+      "HarborFreight@e.harborfreight.com",
+      "mail@eg.expedia.com"
+    ],
+    "clients": []
   },
-  "test_pattern_1768899432023": {
+  "test_pattern_1768956885025": {
     "name": "Test Pattern",
     "trigger": "test trigger",
     "action": "test action",
-    "updated": "2026-01-20T08:57:12.023Z"
-  },
-  "test_pattern_1768899598166": {
-    "name": "Test Pattern",
-    "trigger": "test trigger",
-    "action": "test action",
-    "updated": "2026-01-20T08:59:58.166Z"
-  },
-  "test_pattern_1768933866231": {
-    "name": "Test Pattern",
-    "trigger": "test trigger",
-    "action": "test action",
-    "updated": "2026-01-20T18:31:06.231Z"
-  },
-  "test_pattern_1768933892333": {
-    "name": "Test Pattern",
-    "trigger": "test trigger",
-    "action": "test action",
-    "updated": "2026-01-20T18:31:32.333Z"
+    "updated": "2026-01-21T00:54:45.025Z"
   }
 }

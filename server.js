@@ -697,6 +697,205 @@ async function handleReviewRoute(req, method, pathname, url) {
 }
 
 /**
+ * Handle Limitless Scout API routes
+ * Pattern: /api/limitless/:action
+ */
+async function handleLimitlessRoute(req, method, pathname, url) {
+  const action = pathname.replace('/api/limitless/', '').split('/')[0];
+
+  // GET /api/limitless/feed - Get combined feed data
+  if (method === 'GET' && action === 'feed') {
+    try {
+      const contextPath = path.join(process.cwd(), 'memory', 'limitless_context.json');
+      const manifestPath = path.join(process.cwd(), 'manifest.jsonl');
+
+      // Load context
+      let context = null;
+      if (fs.existsSync(contextPath)) {
+        context = JSON.parse(fs.readFileSync(contextPath, 'utf-8'));
+      }
+
+      // Load recent manifest entries (last 50)
+      let manifest = [];
+      if (fs.existsSync(manifestPath)) {
+        const lines = fs.readFileSync(manifestPath, 'utf-8').trim().split('\n');
+        manifest = lines.slice(-50).reverse().map(line => {
+          try {
+            return JSON.parse(line);
+          } catch {
+            return null;
+          }
+        }).filter(Boolean);
+      }
+
+      // Check scout configuration
+      let scoutStatus = { configured: false, connected: false };
+      try {
+        const limitlessScout = await import('./spokes/limitless/scout.js');
+        scoutStatus.configured = limitlessScout.isConfigured();
+        if (scoutStatus.configured) {
+          const connection = await limitlessScout.testConnection();
+          scoutStatus = { ...scoutStatus, ...connection };
+        }
+      } catch (err) {
+        scoutStatus.error = err.message;
+      }
+
+      return {
+        context,
+        manifest,
+        scoutStatus,
+        lastUpdated: new Date().toISOString()
+      };
+    } catch (error) {
+      return { error: `Failed to load Limitless feed: ${error.message}` };
+    }
+  }
+
+  // POST /api/limitless/scout - Trigger scout processing
+  if (method === 'POST' && action === 'scout') {
+    try {
+      const body = await parseBody(req);
+      const limitlessScout = await import('./spokes/limitless/scout.js');
+
+      if (!limitlessScout.isConfigured()) {
+        return { success: false, error: 'Limitless API not configured' };
+      }
+
+      // Run scout with options from body
+      const result = await limitlessScout.processLifelogs({
+        date: body.date,
+        dryRun: body.dryRun || false
+      });
+
+      return {
+        success: true,
+        processed: result.processed,
+        relevant: result.relevant,
+        findings: result.findings?.length || 0,
+        traceId: result.traceId
+      };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // GET /api/limitless/search - Search lifelogs
+  if (method === 'GET' && action === 'search') {
+    try {
+      const query = url.searchParams.get('q');
+      if (!query) {
+        return { results: [], error: 'Query parameter required' };
+      }
+
+      const limitlessScout = await import('./spokes/limitless/scout.js');
+      if (!limitlessScout.isConfigured()) {
+        return { results: [], error: 'Limitless API not configured' };
+      }
+
+      const results = await limitlessScout.searchLifelogs(query);
+      return { results: results.data || [], query };
+    } catch (error) {
+      return { results: [], error: error.message };
+    }
+  }
+
+  // GET /api/limitless/status - Get scout status
+  if (method === 'GET' && action === 'status') {
+    try {
+      const limitlessScout = await import('./spokes/limitless/scout.js');
+      const isConfigured = limitlessScout.isConfigured();
+
+      if (!isConfigured) {
+        return { configured: false, connected: false, error: 'API key not set' };
+      }
+
+      const connection = await limitlessScout.testConnection();
+      return { configured: true, ...connection };
+    } catch (error) {
+      return { configured: false, connected: false, error: error.message };
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Handle client API routes (GST, config, etc.)
+ * Pattern: /api/clients/:clientId/:resource
+ */
+async function handleClientRoute(req, method, pathname) {
+  const match = pathname.match(/^\/api\/clients\/([^/]+)\/(.+)$/);
+  if (!match) return null;
+
+  const clientId = match[1];
+  const resource = match[2];
+
+  // GET /api/clients/:clientId/gst - Get GST manifest
+  if (method === 'GET' && resource === 'gst') {
+    try {
+      const gstPath = path.join(process.cwd(), 'clients', clientId, 'gst.json');
+      const configPath = path.join(process.cwd(), 'clients', clientId, 'config.json');
+      const brandPath = path.join(process.cwd(), 'clients', clientId, 'brand.json');
+
+      // Check if client exists
+      if (!fs.existsSync(gstPath)) {
+        return { error: `GST not found for client: ${clientId}` };
+      }
+
+      const gst = JSON.parse(fs.readFileSync(gstPath, 'utf-8'));
+
+      // Optionally include config and brand info
+      let config = null;
+      let brand = null;
+
+      if (fs.existsSync(configPath)) {
+        config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+      }
+      if (fs.existsSync(brandPath)) {
+        brand = JSON.parse(fs.readFileSync(brandPath, 'utf-8'));
+      }
+
+      return {
+        ...gst,
+        _config: config ? { name: config.name, businessType: config.businessType } : null,
+        _brand: brand ? { archetype: brand.voice?.archetype, colors: brand.colors } : null
+      };
+    } catch (error) {
+      return { error: `Failed to load GST: ${error.message}` };
+    }
+  }
+
+  // GET /api/clients/:clientId/config - Get client config
+  if (method === 'GET' && resource === 'config') {
+    try {
+      const configPath = path.join(process.cwd(), 'clients', clientId, 'config.json');
+      if (!fs.existsSync(configPath)) {
+        return { error: `Config not found for client: ${clientId}` };
+      }
+      return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    } catch (error) {
+      return { error: `Failed to load config: ${error.message}` };
+    }
+  }
+
+  // GET /api/clients/:clientId/brand - Get brand config
+  if (method === 'GET' && resource === 'brand') {
+    try {
+      const brandPath = path.join(process.cwd(), 'clients', clientId, 'brand.json');
+      if (!fs.existsSync(brandPath)) {
+        return { error: `Brand not found for client: ${clientId}` };
+      }
+      return JSON.parse(fs.readFileSync(brandPath, 'utf-8'));
+    } catch (error) {
+      return { error: `Failed to load brand: ${error.message}` };
+    }
+  }
+
+  return null;
+}
+
+/**
  * Main request handler with logging and metrics
  */
 async function handleRequest(req, res) {
@@ -851,6 +1050,56 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'REVIEW_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic client routes (GST, config, brand)
+  if (url.pathname.startsWith('/api/clients/')) {
+    try {
+      const result = await handleClientRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Client route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Client error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'CLIENT_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic Limitless routes
+  if (url.pathname.startsWith('/api/limitless/')) {
+    try {
+      const result = await handleLimitlessRoute(req, req.method, url.pathname, url);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Limitless route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Limitless error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'LIMITLESS_ERROR', message: error.message },
         requestId
       }));
       return;

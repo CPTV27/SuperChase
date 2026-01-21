@@ -1,0 +1,184 @@
+{
+    "clientId": "s2p",
+    "clientName": "Scan2Plan",
+    "version": "1.0.0",
+    "governor": {
+        "phase": 1,
+        "phaseName": "Learning",
+        "metrics": {
+            "totalApprovals": 0,
+            "totalRejections": 0,
+            "approvalRate": 0,
+            "avgEditPercentage": 100,
+            "consecutiveApprovals": 0
+        },
+        "thresholds": {
+            "copilotApprovals": 10,
+            "copilotMaxEditRate": 10,
+            "autonomousMilestone": "reviews_50"
+        },
+        "permissions": {
+            "canSelfPublish": false,
+            "canRunTests": false,
+            "canProposeStrategy": false,
+            "canAutoRespond": false
+        },
+        "lastEvaluation": null
+    },
+    "goals": [
+        {
+            "id": "goal_s2p_pipeline",
+            "title": "Fill Q1 Project Pipeline",
+            "description": "Convert open quotes to signed projects, targeting $100K in booked revenue for Q1 2026.",
+            "metric": "booked_revenue",
+            "target": 100000,
+            "current": 45000,
+            "status": "in_progress",
+            "priority": "high",
+            "milestones": [
+                {
+                    "id": "ms_pipeline_25k",
+                    "title": "$25K Booked",
+                    "target": 25000,
+                    "status": "completed",
+                    "completedAt": "2026-01-05T00:00:00.000Z"
+                },
+                {
+                    "id": "ms_pipeline_50k",
+                    "title": "$50K Booked",
+                    "target": 50000,
+                    "status": "pending",
+                    "completedAt": null
+                },
+                {
+                    "id": "ms_pipeline_100k",
+                    "title": "$100K Booked",
+                    "target": 100000,
+                    "triggersPhase": 2,
+                    "status": "pending",
+                    "completedAt": null
+                }
+            ],
+            "deadline": "2026-03-31",
+            "createdAt": "2026-01-01T00:00:00.000Z",
+            "updatedAt": "2026-01-21T00:00:00.000Z"
+        },
+        {
+            "id": "goal_s2p_authority",
+            "title": "Establish Technical Authority",
+            "description": "Position Scan2Plan as the thought leader in reality capture for AEC professionals through educational content.",
+            "metric": "content_engagement",
+            "target": 1000,
+            "current": 150,
+            "status": "in_progress",
+            "priority": "medium",
+            "milestones": [
+                {
+                    "id": "ms_authority_blog",
+                    "title": "10 Technical Blog Posts",
+                    "target": 10,
+                    "status": "pending",
+                    "completedAt": null
+                },
+                {
+                    "id": "ms_authority_linkedin",
+                    "title": "500 LinkedIn Followers",
+                    "target": 500,
+                    "status": "pending",
+                    "completedAt": null
+                }
+            ],
+            "deadline": "2026-06-30",
+            "createdAt": "2026-01-01T00:00:00.000Z",
+            "updatedAt": "2026-01-21T00:00:00.000Z"
+        }
+    ],
+    "strategies": [
+        {
+            "id": "strat_s2p_casestudies",
+            "goalId": "goal_s2p_pipeline",
+            "title": "Case Study Lead Magnets",
+            "description": "Create detailed case studies showing ROI and process improvements to convert prospects.",
+            "approach": "ROI-Focused Proof Points",
+            "channels": ["Blog", "LinkedIn", "Email"],
+            "status": "active",
+            "metrics": {
+                "tacticsCompleted": 0,
+                "tacticsFailed": 0,
+                "successRate": 0
+            },
+            "pivotHistory": [],
+            "blockers": [],
+            "createdAt": "2026-01-15T00:00:00.000Z",
+            "updatedAt": "2026-01-21T00:00:00.000Z"
+        },
+        {
+            "id": "strat_s2p_technical",
+            "goalId": "goal_s2p_authority",
+            "title": "Technical Deep-Dive Series",
+            "description": "Publish educational content on point cloud processing, scan-to-BIM workflows, and equipment comparisons.",
+            "approach": "Expert Knowledge Sharing",
+            "channels": ["Blog", "LinkedIn", "YouTube"],
+            "status": "active",
+            "metrics": {
+                "tacticsCompleted": 0,
+                "tacticsFailed": 0,
+                "successRate": 0
+            },
+            "pivotHistory": [],
+            "blockers": [],
+            "createdAt": "2026-01-15T00:00:00.000Z",
+            "updatedAt": "2026-01-21T00:00:00.000Z"
+        }
+    ],
+    "tactics": [
+        {
+            "id": "tactic_s2p_001",
+            "strategyId": "strat_s2p_casestudies",
+            "channel": "Blog",
+            "type": "article",
+            "title": "Case Study: Historic Building Documentation",
+            "description": "Showcase a recent historic preservation project with before/after deliverables and time savings.",
+            "status": "pending",
+            "scheduledFor": "2026-01-25",
+            "priority": "high",
+            "estimatedMinutes": 60,
+            "createdAt": "2026-01-21T00:00:00.000Z",
+            "completedAt": null,
+            "result": null
+        },
+        {
+            "id": "tactic_s2p_002",
+            "strategyId": "strat_s2p_technical",
+            "channel": "Blog",
+            "type": "article",
+            "title": "Point Cloud Processing: From Raw Scan to Deliverable",
+            "description": "Technical walkthrough of the post-processing pipeline for architects and engineers.",
+            "status": "pending",
+            "scheduledFor": "2026-01-28",
+            "priority": "medium",
+            "estimatedMinutes": 90,
+            "createdAt": "2026-01-21T00:00:00.000Z",
+            "completedAt": null,
+            "result": null
+        }
+    ],
+    "history": [
+        {
+            "type": "goal_added",
+            "goalId": "goal_s2p_pipeline",
+            "title": "Fill Q1 Project Pipeline",
+            "timestamp": "2026-01-01T00:00:00.000Z",
+            "actor": "system"
+        },
+        {
+            "type": "milestone_completed",
+            "goalId": "goal_s2p_pipeline",
+            "milestoneId": "ms_pipeline_25k",
+            "title": "$25K Booked",
+            "timestamp": "2026-01-05T00:00:00.000Z"
+        }
+    ],
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-21T00:00:00.000Z"
+}

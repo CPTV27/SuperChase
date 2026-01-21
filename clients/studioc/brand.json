@@ -1,0 +1,51 @@
+{
+    "clientId": "studioc",
+    "name": "Studio C",
+    "colors": {
+        "primary": "#2d2d2d",
+        "secondary": "#e8e4dc",
+        "accent": "#8b0000",
+        "background": "#1a1a1a",
+        "text": "#e8e4dc",
+        "palette": ["#2d2d2d", "#e8e4dc", "#8b0000", "#4a4a4a"]
+    },
+    "fonts": {
+        "heading": "Space Grotesk",
+        "body": "IBM Plex Sans",
+        "stack": ["Space Grotesk", "IBM Plex Sans", "system-ui", "sans-serif"]
+    },
+    "voice": {
+        "archetype": "The Cultural Archivist",
+        "confidence": 0.85,
+        "tone": [
+            "empathetic",
+            "collaborative",
+            "passionate",
+            "authentic"
+        ],
+        "style": "Raw human narrative over polish. Documentary grit with warm analogue warmth.",
+        "vocabulary": [
+            "story",
+            "narrative",
+            "authentic",
+            "craft",
+            "production",
+            "documentary",
+            "podcast",
+            "collaboration",
+            "bridge",
+            "resistance",
+            "resilience",
+            "hope",
+            "voice",
+            "perspective"
+        ],
+        "markers": [
+            "behind-the-scenes",
+            "human-first",
+            "mission-driven"
+        ]
+    },
+    "stylePrompt": "Documentary grit, warm analogue glow, Pro Tools carbon aesthetic, behind-the-scenes authenticity",
+    "generatedAt": "2026-01-21T00:50:00.000Z"
+}

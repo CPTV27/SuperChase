@@ -189,6 +189,62 @@ export async function getClientQueue(clientId) {
   }
 }
 
+/**
+ * Fetch client GST (Goals, Strategies, Tactics) manifest
+ */
+export async function getClientGST(clientId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/clients/${clientId}/gst`, { headers });
+    return await res.json();
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+// ============================================
+// Limitless Scout API - Phase 5
+// ============================================
+
+/**
+ * Fetch Limitless feed (context + manifest entries)
+ */
+export async function getLimitlessFeed() {
+  try {
+    const res = await fetch(`${API_BASE}/api/limitless/feed`, { headers });
+    return await res.json();
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+/**
+ * Trigger Limitless Scout to process lifelogs
+ */
+export async function triggerLimitlessScout(options = {}) {
+  try {
+    const res = await fetch(`${API_BASE}/api/limitless/scout`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(options)
+    });
+    return await res.json();
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Search Limitless lifelogs
+ */
+export async function searchLimitless(query) {
+  try {
+    const res = await fetch(`${API_BASE}/api/limitless/search?q=${encodeURIComponent(query)}`, { headers });
+    return await res.json();
+  } catch (error) {
+    return { results: [], error: error.message };
+  }
+}
+
 export default {
   getHealth,
   getTasks,
@@ -204,5 +260,11 @@ export default {
   getReviewPulse,
   getMetrics,
   getTenants,
-  getClientQueue
+  getClientQueue,
+  // Phase 4 - GST Dashboard
+  getClientGST,
+  // Phase 5 - Limitless Scout
+  getLimitlessFeed,
+  triggerLimitlessScout,
+  searchLimitless
 };

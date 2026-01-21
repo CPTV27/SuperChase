@@ -1,0 +1,50 @@
+{
+    "clientId": "s2p",
+    "name": "Scan2Plan",
+    "colors": {
+        "primary": "#3b82f6",
+        "secondary": "#1e40af",
+        "accent": "#60a5fa",
+        "background": "#0f172a",
+        "text": "#f8fafc",
+        "palette": ["#3b82f6", "#1e40af", "#60a5fa", "#0f172a"]
+    },
+    "fonts": {
+        "heading": "Inter",
+        "body": "Inter",
+        "stack": ["Inter", "system-ui", "sans-serif"]
+    },
+    "voice": {
+        "archetype": "Technical Expert",
+        "confidence": 0.9,
+        "tone": [
+            "professional",
+            "precise",
+            "confident",
+            "solutions-oriented"
+        ],
+        "style": "Clear, jargon-appropriate language that demonstrates deep AEC industry knowledge",
+        "vocabulary": [
+            "reality capture",
+            "point cloud",
+            "BIM",
+            "as-built",
+            "scan-to-BIM",
+            "deliverables",
+            "accuracy",
+            "registration",
+            "Matterport",
+            "Leica",
+            "FARO",
+            "LOD",
+            "clash detection",
+            "field verification"
+        ],
+        "markers": [
+            "ROI-focused",
+            "process-driven",
+            "tech-forward"
+        ]
+    },
+    "generatedAt": "2026-01-21T00:45:00.000Z"
+}

@@ -18,7 +18,10 @@ import {
   Activity,
   Zap,
   FileText,
-  Workflow
+  Workflow,
+  Target,
+  Mic,
+  Radio
 } from 'lucide-react'
 
 // Navigation structure
@@ -31,6 +34,13 @@ const NAV_SECTIONS = [
         icon: LayoutDashboard,
         path: '/',
         description: 'Executive Command Center'
+      },
+      {
+        label: 'Voice Sparks',
+        icon: Radio,
+        path: '/sparks',
+        description: 'Limitless Pendant feed',
+        color: '#a855f7'
       },
       {
         label: 'Agency Demo',
@@ -64,6 +74,48 @@ const NAV_SECTIONS = [
         href: 'https://superchase-manual-production.up.railway.app/docs/system/review-workflow',
         external: true,
         description: 'Content approval pipeline'
+      }
+    ]
+  },
+  {
+    id: 'strategy',
+    label: 'GST Dashboards',
+    items: [
+      {
+        label: 'Scan2Plan',
+        icon: Target,
+        path: '/gst/s2p',
+        color: '#3b82f6'
+      },
+      {
+        label: 'Big Muddy Inn',
+        icon: Target,
+        path: '/gst/bigmuddy',
+        color: '#8b4513'
+      },
+      {
+        label: 'Studio C',
+        icon: Target,
+        path: '/gst/studioc',
+        color: '#8b0000'
+      },
+      {
+        label: 'Tuthill Design',
+        icon: Target,
+        path: '/gst/tuthill',
+        color: '#c9a227'
+      },
+      {
+        label: 'Utopia Studios',
+        icon: Target,
+        path: '/gst/utopia',
+        color: '#4a7c59'
+      },
+      {
+        label: 'CPTV',
+        icon: Target,
+        path: '/gst/cptv',
+        color: '#ff0066'
       }
     ]
   },
@@ -260,6 +312,7 @@ function SystemStatus({ status }) {
 export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
   const [expandedSections, setExpandedSections] = useState({
     system: true,
+    strategy: true,
     portals: false,
     external: false
   })

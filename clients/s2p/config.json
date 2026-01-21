@@ -1,0 +1,126 @@
+{
+    "id": "s2p",
+    "name": "Scan2Plan",
+    "businessType": "reality_capture",
+    "location": {
+        "address": "Bearsville",
+        "city": "Woodstock",
+        "state": "NY",
+        "region": "Hudson Valley",
+        "serviceArea": ["Northeast US", "Remote"]
+    },
+    "branding": {
+        "voice": "technical_expert",
+        "tone": "confident_professional",
+        "personality": [
+            "Precision meets efficiency",
+            "Technology-forward problem solving",
+            "AEC industry insider"
+        ],
+        "colors": {
+            "primary": "#3b82f6",
+            "secondary": "#1e40af",
+            "accent": "#60a5fa"
+        },
+        "fonts": {
+            "heading": "Inter",
+            "body": "Inter"
+        }
+    },
+    "seo": {
+        "primaryKeywords": [
+            "reality capture services",
+            "3D scanning services",
+            "as-built documentation",
+            "point cloud scanning"
+        ],
+        "localKeywords": [
+            "3D scanning New York",
+            "Matterport services Northeast",
+            "BIM scanning services",
+            "construction documentation"
+        ],
+        "contentPillars": [
+            {
+                "name": "Technical Excellence",
+                "topics": [
+                    "Point cloud processing",
+                    "Scan-to-BIM workflows",
+                    "Equipment deep-dives",
+                    "Accuracy standards"
+                ]
+            },
+            {
+                "name": "AEC Industry",
+                "topics": [
+                    "Renovation projects",
+                    "Historical preservation",
+                    "Construction verification",
+                    "Facility management"
+                ]
+            },
+            {
+                "name": "ROI & Efficiency",
+                "topics": [
+                    "Time savings case studies",
+                    "Error reduction metrics",
+                    "Cost comparison guides",
+                    "Workflow optimization"
+                ]
+            }
+        ],
+        "competitors": [
+            "OpenSpace",
+            "Matterport direct",
+            "Local survey firms"
+        ]
+    },
+    "integrations": {
+        "crm": {
+            "platform": "Scan2Plan OS",
+            "repo": "/Users/chasethis/Scan2Plan_OS"
+        },
+        "website": {
+            "platform": "custom",
+            "url": "https://scan2plan.dev",
+            "apiKey": null
+        },
+        "social": {
+            "platforms": [
+                {
+                    "name": "linkedin",
+                    "handle": "scan2plan",
+                    "enabled": true
+                },
+                {
+                    "name": "instagram",
+                    "handle": "scan2plan",
+                    "enabled": true
+                }
+            ]
+        }
+    },
+    "workflows": {
+        "autoPublish": false,
+        "requireApproval": true,
+        "notifyOnContent": true,
+        "contentCalendar": {
+            "postsPerWeek": 2,
+            "preferredDays": ["tuesday", "thursday"],
+            "preferredTime": "09:00"
+        }
+    },
+    "contacts": {
+        "primary": {
+            "name": "Chase Pierson",
+            "role": "COO"
+        },
+        "operations": [
+            {"name": "Owen", "role": "Operations/Sales"},
+            {"name": "Agata", "role": "Operations"},
+            {"name": "Jake", "role": "Field Technician"}
+        ]
+    },
+    "createdAt": "2026-01-20T00:00:00.000Z",
+    "updatedAt": "2026-01-21T00:45:00.000Z"
+}
