@@ -562,16 +562,6 @@ const routes = {
     return result;
   },
 
-  // Get existing battlecard
-  'GET /api/competitive-intel/:businessId': async (req, params) => {
-    const { getBattlecard } = await import('./core/competitive_intel.js');
-    const card = getBattlecard(params.businessId);
-    if (!card) {
-      throw new NotFoundError(`No battlecard found for: ${params.businessId}`);
-    }
-    return { success: true, battlecard: card };
-  },
-
   // List all battlecards
   'GET /api/competitive-intel': async () => {
     const { listBattlecards } = await import('./core/competitive_intel.js');
@@ -587,36 +577,6 @@ const routes = {
     const body = await parseBody(req);
     const { handleContentCouncilRequest } = await import('./core/content_council.js');
     return handleContentCouncilRequest(body);
-  },
-
-  // Get latest content sprint
-  'GET /api/content-council/:businessId': async (req, params) => {
-    const { getContentSprint } = await import('./core/content_council.js');
-    const sprint = getContentSprint(params.businessId);
-    if (!sprint) {
-      throw new NotFoundError(`No content sprint found for: ${params.businessId}`);
-    }
-    return { success: true, contentSprint: sprint };
-  },
-
-  // Get HeyGen payload for video generation
-  'GET /api/content-council/:businessId/heygen': async (req, params) => {
-    const { getHeyGenPayload } = await import('./core/content_council.js');
-    const payload = getHeyGenPayload(params.businessId);
-    if (!payload) {
-      throw new NotFoundError(`No HeyGen payload found for: ${params.businessId}`);
-    }
-    return { success: true, heygenPayload: payload };
-  },
-
-  // Generate HeyGen video from payload
-  'POST /api/content-council/:businessId/heygen/generate': async (req, params) => {
-    const { getHeyGenPayload, generateHeyGenVideo } = await import('./core/content_council.js');
-    const payload = getHeyGenPayload(params.businessId);
-    if (!payload) {
-      throw new NotFoundError(`No HeyGen payload found for: ${params.businessId}`);
-    }
-    return generateHeyGenVideo(payload);
   },
 
   // List all content sprints
@@ -637,20 +597,6 @@ const routes = {
       throw new ValidationError('citation object is required');
     }
     return { success: true, result: await verifyCitation(body.citation) };
-  },
-
-  // Get citations for a battlecard
-  'GET /api/citations/battlecard/:businessId': async (req, params) => {
-    const { getBattlecard } = await import('./core/competitive_intel.js');
-    const card = getBattlecard(params.businessId);
-    if (!card) {
-      throw new NotFoundError(`No battlecard found for: ${params.businessId}`);
-    }
-    return {
-      success: true,
-      businessId: params.businessId,
-      citations: card.citations || { sources: [], quality: { score: 0, grade: 'F' } }
-    };
   },
 
   // Calculate citation quality for arbitrary sources
@@ -908,26 +854,6 @@ const routes = {
     return {
       businesses: ctx.getOnboardedBusinesses()
     };
-  },
-
-  // Get context for a specific business
-  'GET /api/context/:businessId': async (req) => {
-    const url = new URL(req.url, `http://${req.headers.host}`);
-    const pathParts = url.pathname.split('/');
-    const businessId = pathParts[pathParts.length - 1];
-
-    const ctx = await import('./lib/council-context.js');
-    return ctx.buildContext(businessId);
-  },
-
-  // Validate business data completeness
-  'GET /api/context/:businessId/validate': async (req) => {
-    const url = new URL(req.url, `http://${req.headers.host}`);
-    const pathParts = url.pathname.split('/');
-    const businessId = pathParts[pathParts.length - 2];
-
-    const ctx = await import('./lib/council-context.js');
-    return ctx.validateBusinessData(businessId);
   },
 
   // Preview context injection for a query
@@ -1839,6 +1765,142 @@ async function handleMarketingRoute(req, method, pathname) {
 }
 
 /**
+ * Handle Competitive Intelligence API routes (dynamic)
+ * Pattern: /api/competitive-intel/:businessId
+ */
+async function handleCompetitiveIntelRoute(req, method, pathname) {
+  // Skip if it's the list endpoint or run endpoint
+  if (pathname === '/api/competitive-intel' || pathname === '/api/competitive-intel/run') {
+    return null;
+  }
+
+  const match = pathname.match(/^\/api\/competitive-intel\/([^/]+)$/);
+  if (!match) return null;
+
+  const businessId = match[1];
+
+  if (method === 'GET') {
+    const { getBattlecard } = await import('./core/competitive_intel.js');
+    const card = getBattlecard(businessId);
+    if (!card) {
+      return { error: `No battlecard found for: ${businessId}`, _status: 404 };
+    }
+    return { success: true, battlecard: card };
+  }
+
+  return null;
+}
+
+/**
+ * Handle Content Council API routes (dynamic)
+ * Pattern: /api/content-council/:businessId[/heygen[/generate]]
+ */
+async function handleContentCouncilRoute(req, method, pathname) {
+  // Skip if it's the list endpoint or run endpoint
+  if (pathname === '/api/content-council' || pathname === '/api/content-council/run') {
+    return null;
+  }
+
+  // Match /api/content-council/:businessId/heygen/generate
+  const generateMatch = pathname.match(/^\/api\/content-council\/([^/]+)\/heygen\/generate$/);
+  if (generateMatch && method === 'POST') {
+    const businessId = generateMatch[1];
+    const { getHeyGenPayload, generateHeyGenVideo } = await import('./core/content_council.js');
+    const payload = getHeyGenPayload(businessId);
+    if (!payload) {
+      return { error: `No HeyGen payload found for: ${businessId}`, _status: 404 };
+    }
+    return generateHeyGenVideo(payload);
+  }
+
+  // Match /api/content-council/:businessId/heygen
+  const heygenMatch = pathname.match(/^\/api\/content-council\/([^/]+)\/heygen$/);
+  if (heygenMatch && method === 'GET') {
+    const businessId = heygenMatch[1];
+    const { getHeyGenPayload } = await import('./core/content_council.js');
+    const payload = getHeyGenPayload(businessId);
+    if (!payload) {
+      return { error: `No HeyGen payload found for: ${businessId}`, _status: 404 };
+    }
+    return { success: true, heygenPayload: payload };
+  }
+
+  // Match /api/content-council/:businessId
+  const match = pathname.match(/^\/api\/content-council\/([^/]+)$/);
+  if (match && method === 'GET') {
+    const businessId = match[1];
+    const { getContentSprint } = await import('./core/content_council.js');
+    const sprint = getContentSprint(businessId);
+    if (!sprint) {
+      return { error: `No content sprint found for: ${businessId}`, _status: 404 };
+    }
+    return { success: true, contentSprint: sprint };
+  }
+
+  return null;
+}
+
+/**
+ * Handle Citation API routes (dynamic)
+ * Pattern: /api/citations/battlecard/:businessId
+ */
+async function handleCitationRoute(req, method, pathname) {
+  // Skip if it's the verify or quality endpoint
+  if (pathname === '/api/citations/verify' || pathname === '/api/citations/quality') {
+    return null;
+  }
+
+  const match = pathname.match(/^\/api\/citations\/battlecard\/([^/]+)$/);
+  if (!match) return null;
+
+  const businessId = match[1];
+
+  if (method === 'GET') {
+    const { getBattlecard } = await import('./core/competitive_intel.js');
+    const card = getBattlecard(businessId);
+    if (!card) {
+      return { error: `No battlecard found for: ${businessId}`, _status: 404 };
+    }
+    return {
+      success: true,
+      businessId,
+      citations: card.citations || { sources: [], quality: { score: 0, grade: 'F' } }
+    };
+  }
+
+  return null;
+}
+
+/**
+ * Handle Context API routes (dynamic)
+ * Pattern: /api/context/:businessId[/validate]
+ */
+async function handleContextRoute(req, method, pathname) {
+  // Skip if it's the businesses list endpoint or preview endpoint
+  if (pathname === '/api/context/businesses' || pathname === '/api/context/preview') {
+    return null;
+  }
+
+  // Match /api/context/:businessId/validate
+  const validateMatch = pathname.match(/^\/api\/context\/([^/]+)\/validate$/);
+  if (validateMatch && method === 'GET') {
+    const businessId = validateMatch[1];
+    const ctx = await import('./lib/council-context.js');
+    return ctx.validateBusinessData(businessId);
+  }
+
+  // Match /api/context/:businessId
+  const match = pathname.match(/^\/api\/context\/([^/]+)$/);
+  if (match && method === 'GET') {
+    const businessId = match[1];
+    const ctx = await import('./lib/council-context.js');
+    return ctx.buildContext(businessId);
+  }
+
+  return null;
+}
+
+/**
  * Handle client API routes (GST, config, etc.)
  * Pattern: /api/clients/:clientId/:resource
  */
@@ -2158,6 +2220,114 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'MARKETING_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic Competitive Intelligence routes
+  if (url.pathname.startsWith('/api/competitive-intel/')) {
+    try {
+      const result = await handleCompetitiveIntelRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        const statusCode = result._status || 200;
+        delete result._status;
+        recordRequest(routeKey, duration, statusCode < 400);
+        reqLogger.debug(`Competitive Intel route complete`, { duration });
+        res.writeHead(statusCode, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Competitive Intel error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'COMPETITIVE_INTEL_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic Content Council routes
+  if (url.pathname.startsWith('/api/content-council/')) {
+    try {
+      const result = await handleContentCouncilRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        const statusCode = result._status || 200;
+        delete result._status;
+        recordRequest(routeKey, duration, statusCode < 400);
+        reqLogger.debug(`Content Council route complete`, { duration });
+        res.writeHead(statusCode, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Content Council error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'CONTENT_COUNCIL_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic Citation routes
+  if (url.pathname.startsWith('/api/citations/')) {
+    try {
+      const result = await handleCitationRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        const statusCode = result._status || 200;
+        delete result._status;
+        recordRequest(routeKey, duration, statusCode < 400);
+        reqLogger.debug(`Citation route complete`, { duration });
+        res.writeHead(statusCode, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Citation error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'CITATION_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic Context routes
+  if (url.pathname.startsWith('/api/context/')) {
+    try {
+      const result = await handleContextRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        const statusCode = result._status || 200;
+        delete result._status;
+        recordRequest(routeKey, duration, statusCode < 400);
+        reqLogger.debug(`Context route complete`, { duration });
+        res.writeHead(statusCode, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Context error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'CONTEXT_ERROR', message: error.message },
         requestId
       }));
       return;
