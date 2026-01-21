@@ -348,12 +348,13 @@ const routes = {
       status.spokes.asana = { status: 'offline', message: error.message };
     }
 
-    // Check Twitter
+    // Check Twitter (silenced - spend cap issues are billing, not system)
     try {
       const twitterStatus = await twitter.testConnection();
+      const isSpendCap = twitterStatus.error?.includes('SpendCap');
       status.spokes.twitter = {
-        status: twitterStatus.success ? 'online' : 'offline',
-        message: twitterStatus.message || twitterStatus.error
+        status: twitterStatus.success ? 'online' : (isSpendCap ? 'online' : 'offline'),
+        message: isSpendCap ? 'Spend cap reached (resets Feb 20)' : (twitterStatus.message || twitterStatus.error)
       };
     } catch (error) {
       status.spokes.twitter = { status: 'offline', message: error.message };
