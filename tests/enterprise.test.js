@@ -786,8 +786,8 @@ describe('Cost Controller', () => {
 
   beforeEach(async () => {
     costController = await import('../lib/cost-controller.js');
-    // Reset daily costs for clean test state
-    costController.resetDaily();
+    // Reset all state for clean test (including rate tracking)
+    costController.resetForTesting();
   });
 
   describe('Token Estimation', () => {

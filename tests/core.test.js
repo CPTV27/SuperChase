@@ -227,9 +227,9 @@ describe('Hub Event Processing', () => {
                 }
             });
 
-            // Urgent items should route to asana
+            // Urgent items should route to task_provider (adapter pattern)
             if (urgentResult.classification.action === 'create_task') {
-                assert.equal(urgentResult.target, 'asana');
+                assert.equal(urgentResult.target, 'task_provider');
             }
         });
 
