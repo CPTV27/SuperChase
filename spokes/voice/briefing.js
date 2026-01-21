@@ -106,36 +106,25 @@ function getUrgentEmailsFromAudit() {
 }
 
 /**
- * Fetch top tasks from Asana SC: Tasks project
+ * Fetch top tasks from Asana project
  */
 async function getTopTasks(limit = 5) {
+  const ASANA_PROJECT = process.env.ASANA_PROJECT_ID;
+
   if (!ASANA_TOKEN) {
     console.warn('[Briefing] ASANA_ACCESS_TOKEN not set');
     return [];
   }
 
+  if (!ASANA_PROJECT) {
+    console.warn('[Briefing] ASANA_PROJECT_ID not set');
+    return [];
+  }
+
   try {
-    // First find SC: Tasks project
-    const projectsResponse = await fetch(
-      `${ASANA_BASE_URL}/workspaces/${ASANA_WORKSPACE}/projects`,
-      { headers: { Authorization: `Bearer ${ASANA_TOKEN}` } }
-    );
-
-    if (!projectsResponse.ok) {
-      throw new Error('Failed to fetch projects');
-    }
-
-    const projectsData = await projectsResponse.json();
-    const scTasks = projectsData.data.find(p => p.name === 'SC: Tasks');
-
-    if (!scTasks) {
-      console.warn('[Briefing] SC: Tasks project not found');
-      return [];
-    }
-
-    // Fetch incomplete tasks
+    // Fetch incomplete tasks directly from project
     const tasksResponse = await fetch(
-      `${ASANA_BASE_URL}/projects/${scTasks.gid}/tasks?opt_fields=name,due_on,completed,notes&completed_since=now&limit=${limit}`,
+      `${ASANA_BASE_URL}/projects/${ASANA_PROJECT}/tasks?opt_fields=name,due_on,completed,notes&completed_since=now&limit=${limit}`,
       { headers: { Authorization: `Bearer ${ASANA_TOKEN}` } }
     );
 
