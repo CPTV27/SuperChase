@@ -13,8 +13,8 @@ import { createServer } from 'http';
 import { URL } from 'url';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import { readFileSync, existsSync } from 'fs';
+import path, { dirname, join } from 'path';
+import fs, { readFileSync, existsSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
