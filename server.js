@@ -2347,6 +2347,166 @@ async function handleGovernanceRoute(req, method, pathname) {
 }
 
 /**
+ * Handle S2P Lead Radar API routes
+ * Pattern: /api/s2p/:action
+ */
+async function handleS2PRoute(req, method, pathname) {
+  const match = pathname.match(/^\/api\/s2p(?:\/(.*))?$/);
+  if (!match) return null;
+
+  const action = match[1] || 'signals';
+  const vaultPath = path.join(process.cwd(), 'memory', 's2p_prospect_vault.jsonl');
+
+  logger.info(`[S2P API] ${method} /${action}`);
+
+  // Load prospects from vault
+  function loadProspects() {
+    if (!fs.existsSync(vaultPath)) {
+      return [];
+    }
+    return fs.readFileSync(vaultPath, 'utf-8')
+      .trim()
+      .split('\n')
+      .filter(line => line.trim())
+      .map(line => {
+        try { return JSON.parse(line); }
+        catch { return null; }
+      })
+      .filter(Boolean);
+  }
+
+  // GET /api/s2p/signals - Get all lead signals
+  if (method === 'GET' && action === 'signals') {
+    const prospects = loadProspects();
+    const signals = prospects.map(p => ({
+      id: p.id,
+      source: p.source,
+      firmName: p.firmName,
+      signalType: p.signalType,
+      location: p.location,
+      projectType: p.projectType,
+      urgencyLevel: p.urgencyLevel,
+      distanceToMeeting: p.distanceToMeeting,
+      timestamp: p.timestamp,
+      status: p.status || 'new'
+    }));
+
+    // Sort by distanceToMeeting (highest first = hottest leads)
+    signals.sort((a, b) => (b.distanceToMeeting || 0) - (a.distanceToMeeting || 0));
+
+    return {
+      signals,
+      count: signals.length,
+      hotLeads: signals.filter(s => (s.distanceToMeeting || 0) >= 80).length
+    };
+  }
+
+  // GET /api/s2p/prospects - Get full prospect details
+  if (method === 'GET' && action === 'prospects') {
+    const prospects = loadProspects();
+
+    // Sort by distanceToMeeting
+    prospects.sort((a, b) => (b.distanceToMeeting || 0) - (a.distanceToMeeting || 0));
+
+    return {
+      prospects,
+      count: prospects.length,
+      summary: {
+        total: prospects.length,
+        hot: prospects.filter(p => (p.distanceToMeeting || 0) >= 80).length,
+        warm: prospects.filter(p => (p.distanceToMeeting || 0) >= 50 && (p.distanceToMeeting || 0) < 80).length,
+        cold: prospects.filter(p => (p.distanceToMeeting || 0) < 50).length,
+        byStatus: {
+          new: prospects.filter(p => p.status === 'new').length,
+          contacted: prospects.filter(p => p.status === 'contacted').length,
+          meeting: prospects.filter(p => p.status === 'meeting').length,
+          proposal: prospects.filter(p => p.status === 'proposal').length,
+          won: prospects.filter(p => p.status === 'won').length,
+          lost: prospects.filter(p => p.status === 'lost').length
+        }
+      }
+    };
+  }
+
+  // GET /api/s2p/prospects/:id - Get specific prospect
+  if (method === 'GET' && action.startsWith('prospects/')) {
+    const prospectId = action.replace('prospects/', '');
+    const prospects = loadProspects();
+    const prospect = prospects.find(p => p.id === prospectId);
+
+    if (!prospect) {
+      return { error: `Prospect not found: ${prospectId}` };
+    }
+
+    return { prospect };
+  }
+
+  // POST /api/s2p/prospects/:id/outreach - Record outreach activity
+  if (method === 'POST' && action.match(/^prospects\/[^/]+\/outreach$/)) {
+    const prospectId = action.split('/')[1];
+    const body = await parseBody(req);
+
+    const prospects = loadProspects();
+    const prospectIndex = prospects.findIndex(p => p.id === prospectId);
+
+    if (prospectIndex === -1) {
+      return { error: `Prospect not found: ${prospectId}` };
+    }
+
+    // Update prospect with outreach
+    const prospect = prospects[prospectIndex];
+    prospect.outreachHistory = prospect.outreachHistory || [];
+    prospect.outreachHistory.push({
+      timestamp: new Date().toISOString(),
+      type: body.type || 'email',
+      note: body.note,
+      outcome: body.outcome
+    });
+    prospect.status = body.newStatus || prospect.status;
+
+    // Rewrite vault file
+    const lines = prospects.map(p => JSON.stringify(p));
+    fs.writeFileSync(vaultPath, lines.join('\n') + '\n');
+
+    return { success: true, prospect };
+  }
+
+  // GET /api/s2p/dashboard - Get dashboard summary
+  if (method === 'GET' && action === 'dashboard') {
+    const prospects = loadProspects();
+    const whalesDir = path.join(process.cwd(), 'memory', 'whale_leads');
+    let whales = [];
+
+    if (fs.existsSync(whalesDir)) {
+      const files = fs.readdirSync(whalesDir).filter(f => f.endsWith('.json'));
+      whales = files.map(f => JSON.parse(fs.readFileSync(path.join(whalesDir, f), 'utf-8')));
+    }
+
+    return {
+      prospects: {
+        total: prospects.length,
+        hot: prospects.filter(p => (p.distanceToMeeting || 0) >= 80).length,
+        new: prospects.filter(p => p.status === 'new').length
+      },
+      whales: {
+        total: whales.length,
+        tierA: whales.filter(w => w.whaleScore?.tier === 'A').length,
+        totalValue: whales.reduce((sum, w) => sum + (w.scanOpportunity?.estimatedValue?.mid || 0), 0)
+      },
+      recentActivity: prospects
+        .filter(p => p.outreachHistory?.length > 0)
+        .slice(0, 5)
+        .map(p => ({
+          firmName: p.firmName,
+          lastOutreach: p.outreachHistory[p.outreachHistory.length - 1]
+        }))
+    };
+  }
+
+  return { error: `Unknown S2P action: ${action}` };
+}
+
+/**
  * Handle Business Discovery API routes
  * Pattern: /api/discover/:businessId/:action
  */
@@ -2608,6 +2768,56 @@ async function handleRequest(req, res) {
     }
   }
 
+  // Try dynamic S2P routes
+  if (url.pathname.startsWith('/api/s2p')) {
+    try {
+      const result = await handleS2PRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`S2P route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`S2P error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'S2P_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic Marketing routes
+  if (url.pathname.startsWith('/api/marketing')) {
+    try {
+      const result = await handleMarketingRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Marketing route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Marketing error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'MARKETING_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
   // Try dynamic tenant/agency routes
   if (url.pathname.startsWith('/api/tenants')) {
     try {
@@ -2702,31 +2912,6 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'LIMITLESS_ERROR', message: error.message },
-        requestId
-      }));
-      return;
-    }
-  }
-
-  // Try dynamic Marketing routes
-  if (url.pathname.startsWith('/api/marketing/')) {
-    try {
-      const result = await handleMarketingRoute(req, req.method, url.pathname);
-      if (result) {
-        const duration = Date.now() - startTime;
-        recordRequest(routeKey, duration, true);
-        reqLogger.debug(`Marketing route complete`, { duration });
-        res.writeHead(200, CORS_HEADERS);
-        res.end(JSON.stringify({ ...result, requestId }));
-        return;
-      }
-    } catch (error) {
-      const duration = Date.now() - startTime;
-      recordRequest(routeKey, duration, false);
-      reqLogger.error(`Marketing error: ${error.message}`, { duration });
-      res.writeHead(500, CORS_HEADERS);
-      res.end(JSON.stringify({
-        error: { code: 'MARKETING_ERROR', message: error.message },
         requestId
       }));
       return;
