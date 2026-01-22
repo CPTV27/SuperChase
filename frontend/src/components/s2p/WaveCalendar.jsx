@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Calendar, Users, Target, CheckCircle, XCircle,
@@ -16,31 +16,43 @@ const STATUS_CONFIG = {
     label: 'Meeting',
     color: 'text-green-400',
     bgColor: 'bg-green-500/20',
-    icon: Calendar
+    icon: Calendar,
+    priority: 1
   },
   engaged: {
     label: 'Engaged',
     color: 'text-amber-400',
     bgColor: 'bg-amber-500/20',
-    icon: MessageSquare
+    icon: MessageSquare,
+    priority: 2
   },
   touched: {
     label: 'Touched',
     color: 'text-blue-400',
     bgColor: 'bg-blue-500/20',
-    icon: Zap
+    icon: Zap,
+    priority: 3
+  },
+  cold: {
+    label: 'Cold',
+    color: 'text-zinc-400',
+    bgColor: 'bg-zinc-500/20',
+    icon: Clock,
+    priority: 4
   },
   pending: {
     label: 'Pending',
     color: 'text-zinc-400',
     bgColor: 'bg-zinc-500/20',
-    icon: Clock
+    icon: Clock,
+    priority: 5
   },
   killed: {
     label: 'Killed',
     color: 'text-red-400',
     bgColor: 'bg-red-500/20',
-    icon: XCircle
+    icon: XCircle,
+    priority: 6
   }
 }
 
@@ -181,68 +193,125 @@ function PersonaBeatTimeline({ beats, currentWeek }) {
   )
 }
 
-function TargetRow({ target, onKill, onKeep }) {
+function TargetRow({ target, onKill, onKeep, onSelect }) {
+  const [expanded, setExpanded] = useState(false)
   const status = STATUS_CONFIG[target.status] || STATUS_CONFIG.pending
   const Icon = status.icon
+
+  const touchHistory = target.touchHistory || []
 
   return (
     <motion.div
       layout
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
-      className={`flex items-center gap-3 p-3 rounded-lg ${
+      className={`rounded-lg overflow-hidden ${
         target.status === 'killed' ? 'bg-red-500/5 opacity-60' : 'bg-zinc-800/50'
       }`}
     >
-      {/* Status indicator */}
-      <div className={`p-2 rounded-lg ${status.bgColor}`}>
-        <Icon className={`w-4 h-4 ${status.color}`} />
+      <div
+        className="flex items-center gap-3 p-3 cursor-pointer hover:bg-zinc-800/70 transition-colors"
+        onClick={() => setExpanded(!expanded)}
+      >
+        {/* Status indicator */}
+        <div className={`p-2 rounded-lg ${status.bgColor}`}>
+          <Icon className={`w-4 h-4 ${status.color}`} />
+        </div>
+
+        {/* Company info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-white text-sm truncate">
+              {target.company}
+            </span>
+            {target.firmName && target.firmName !== target.company && (
+              <span className="text-xs text-zinc-500">({target.firmName})</span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 text-xs text-zinc-500">
+            <span>{target.touches || 0} touches</span>
+            {target.last_touch && (
+              <span>Last: {new Date(target.last_touch).toLocaleDateString()}</span>
+            )}
+            {target.notes && (
+              <span className="text-zinc-600 truncate max-w-[200px]">{target.notes}</span>
+            )}
+          </div>
+        </div>
+
+        {/* Status badge */}
+        <span className={`px-2 py-1 rounded text-xs font-medium ${status.bgColor} ${status.color}`}>
+          {status.label}
+        </span>
+
+        {/* Meeting date if scheduled */}
+        {target.meeting_date && (
+          <div className="text-xs text-green-400 whitespace-nowrap">
+            📅 {new Date(target.meeting_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+          </div>
+        )}
+
+        {/* Actions */}
+        {target.status !== 'killed' && target.status !== 'meeting_scheduled' && (
+          <div className="flex items-center gap-1" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => onKeep?.(target)}
+              className="p-1.5 hover:bg-green-500/20 rounded text-green-400 transition-colors"
+              title="Keep"
+            >
+              <CheckCircle className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => onKill?.(target)}
+              className="p-1.5 hover:bg-red-500/20 rounded text-red-400 transition-colors"
+              title="Kill"
+            >
+              <XCircle className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        {/* Expand indicator */}
+        {touchHistory.length > 0 && (
+          <ChevronRight className={`w-4 h-4 text-zinc-500 transition-transform ${expanded ? 'rotate-90' : ''}`} />
+        )}
       </div>
 
-      {/* Company info */}
-      <div className="flex-1 min-w-0">
-        <div className="font-medium text-white text-sm truncate">
-          {target.company}
-        </div>
-        <div className="flex items-center gap-2 text-xs text-zinc-500">
-          <span>{target.touches || 0} touches</span>
-          {target.last_touch && (
-            <span>Last: {new Date(target.last_touch).toLocaleDateString()}</span>
-          )}
-        </div>
-      </div>
-
-      {/* Status badge */}
-      <span className={`px-2 py-1 rounded text-xs font-medium ${status.bgColor} ${status.color}`}>
-        {status.label}
-      </span>
-
-      {/* Meeting date if scheduled */}
-      {target.meeting_date && (
-        <div className="text-xs text-green-400">
-          {new Date(target.meeting_date).toLocaleDateString()}
-        </div>
-      )}
-
-      {/* Actions */}
-      {target.status !== 'killed' && target.status !== 'meeting_scheduled' && (
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => onKeep?.(target)}
-            className="p-1.5 hover:bg-green-500/20 rounded text-green-400 transition-colors"
-            title="Keep"
+      {/* Expanded touch history */}
+      <AnimatePresence>
+        {expanded && touchHistory.length > 0 && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="border-t border-zinc-700/50 bg-zinc-900/30"
           >
-            <CheckCircle className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => onKill?.(target)}
-            className="p-1.5 hover:bg-red-500/20 rounded text-red-400 transition-colors"
-            title="Kill"
-          >
-            <XCircle className="w-4 h-4" />
-          </button>
-        </div>
-      )}
+            <div className="p-3 pl-12 space-y-2">
+              <div className="text-xs text-zinc-500 mb-2">Touch History</div>
+              {touchHistory.map((touch, i) => (
+                <div key={i} className="flex items-center gap-3 text-xs">
+                  <span className={`px-1.5 py-0.5 rounded capitalize ${
+                    touch.type === 'call' ? 'bg-green-500/20 text-green-400' :
+                    touch.type === 'email' ? 'bg-blue-500/20 text-blue-400' :
+                    'bg-purple-500/20 text-purple-400'
+                  }`}>
+                    {touch.type}
+                  </span>
+                  <span className="text-zinc-400">{touch.date}</span>
+                  {touch.beat && <span className="text-zinc-500">Beat {touch.beat}</span>}
+                  {touch.note && <span className="text-zinc-400 italic">{touch.note}</span>}
+                </div>
+              ))}
+
+              {target.kill_reason && (
+                <div className="mt-2 text-xs text-red-400/80 border-l-2 border-red-500/30 pl-2">
+                  Kill reason: {target.kill_reason}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
@@ -313,11 +382,19 @@ export default function WaveCalendar({ waves: propWaves, onTargetAction }) {
   const activeWave = waves[activeWaveIndex]
   const currentWeek = parseInt(activeWave?.phase?.replace(/\D/g, '')) || 1
 
-  // Filter targets
+  // Filter and sort targets
   const filteredTargets = useMemo(() => {
     if (!activeWave?.targets) return []
-    if (statusFilter === 'all') return activeWave.targets
-    return activeWave.targets.filter(t => t.status === statusFilter)
+    let targets = statusFilter === 'all'
+      ? activeWave.targets
+      : activeWave.targets.filter(t => t.status === statusFilter)
+
+    // Sort by status priority (meetings first, killed last)
+    return targets.sort((a, b) => {
+      const priorityA = STATUS_CONFIG[a.status]?.priority || 5
+      const priorityB = STATUS_CONFIG[b.status]?.priority || 5
+      return priorityA - priorityB
+    })
   }, [activeWave, statusFilter])
 
   const handleKill = (target) => {
@@ -357,7 +434,7 @@ export default function WaveCalendar({ waves: propWaves, onTargetAction }) {
 
           {/* Status filter */}
           <div className="flex items-center gap-1">
-            {['all', 'pending', 'touched', 'engaged', 'meeting_scheduled', 'killed'].map(status => (
+            {['all', 'meeting_scheduled', 'engaged', 'touched', 'cold', 'killed'].map(status => (
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
@@ -396,9 +473,47 @@ export default function WaveCalendar({ waves: propWaves, onTargetAction }) {
         </div>
       </div>
 
+      {/* Kill/Keep Log */}
+      {activeWave?.kill_keep_log && activeWave.kill_keep_log.length > 0 && (
+        <div className="glass rounded-lg p-4">
+          <h4 className="text-sm font-medium text-zinc-300 mb-3 flex items-center gap-2">
+            <Target className="w-4 h-4 text-zinc-400" />
+            Kill/Keep Ritual Log
+          </h4>
+          <div className="space-y-2 max-h-[150px] overflow-y-auto">
+            {activeWave.kill_keep_log.slice().reverse().map((log, i) => (
+              <div key={i} className="text-xs border-l-2 border-zinc-700 pl-3 py-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-zinc-400 font-medium">{log.date}</span>
+                  {log.kills?.length > 0 && (
+                    <span className="px-1.5 py-0.5 bg-red-500/20 text-red-400 rounded">
+                      {log.kills.length} killed
+                    </span>
+                  )}
+                  {log.keeps?.length > 0 && (
+                    <span className="px-1.5 py-0.5 bg-green-500/20 text-green-400 rounded">
+                      {log.keeps.length} kept
+                    </span>
+                  )}
+                </div>
+                {log.notes && (
+                  <div className="text-zinc-500 mt-1">{log.notes}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Wave KPIs */}
       <div className="glass rounded-lg p-3 flex items-center justify-between text-xs">
         <div className="flex items-center gap-4">
+          <div>
+            <span className="text-zinc-500">Reply Rate:</span>
+            <span className="ml-1 text-blue-400 font-medium">
+              {((activeWave?.stats?.reply_rate || 0) * 100).toFixed(0)}%
+            </span>
+          </div>
           <div>
             <span className="text-zinc-500">Reply→Meeting:</span>
             <span className="ml-1 text-green-400 font-medium">
@@ -415,7 +530,8 @@ export default function WaveCalendar({ waves: propWaves, onTargetAction }) {
           </div>
         </div>
 
-        <div className="text-zinc-500">
+        <div className="text-zinc-500 flex items-center gap-1">
+          <Calendar className="w-3 h-3" />
           Kill/Keep: Fridays
         </div>
       </div>

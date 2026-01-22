@@ -3,18 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   X, Building2, Users, MapPin, Mail, Phone, ExternalLink,
   Calendar, Clock, Send, FileText, Image, ChevronRight,
-  Thermometer, Target, Zap, MessageSquare
+  Thermometer, Target, Zap, MessageSquare, Award, Copy
 } from 'lucide-react'
+
+// Import API for proof matching
+import { getS2PProofMatch } from '../../services/api'
 
 /**
  * Lead Detail Drawer
  * Shows full lead profile with proof matching and actions
+ * Demo-ready version with 12-Point narratives
  */
 
 const HEAT_COLORS = {
-  hot: { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500/30' },
-  warm: { bg: 'bg-amber-500/20', text: 'text-amber-400', border: 'border-amber-500/30' },
-  cold: { bg: 'bg-zinc-500/20', text: 'text-zinc-400', border: 'border-zinc-500/30' }
+  hot: { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500/30', label: 'Hot' },
+  warm: { bg: 'bg-amber-500/20', text: 'text-amber-400', border: 'border-amber-500/30', label: 'Warm' },
+  cold: { bg: 'bg-zinc-500/20', text: 'text-zinc-400', border: 'border-zinc-500/30', label: 'Cold' }
 }
 
 const TIER_COLORS = {
@@ -38,38 +42,85 @@ function Section({ title, icon: Icon, children, action }) {
   )
 }
 
-function ProofMatchCard({ proof, onSelect }) {
+function ProofMatchCard({ proof, onSelect, onCopy, expanded = false }) {
+  const narrative = proof.twelvePointNarrative || {}
+
   return (
-    <motion.button
-      onClick={() => onSelect?.(proof)}
-      className="w-full flex items-start gap-3 p-3 bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700 rounded-lg text-left transition-colors"
-      whileHover={{ scale: 1.01 }}
+    <motion.div
+      className="w-full bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700 rounded-lg text-left transition-colors overflow-hidden"
+      whileHover={{ scale: 1.005 }}
     >
-      <div className="w-12 h-12 bg-zinc-700 rounded-lg flex items-center justify-center flex-shrink-0">
-        <Image className="w-6 h-6 text-zinc-500" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="font-medium text-white text-sm truncate">
-          {proof.title}
+      <button
+        onClick={() => onSelect?.(proof)}
+        className="w-full flex items-start gap-3 p-3"
+      >
+        <div className="w-12 h-12 bg-zinc-700 rounded-lg flex items-center justify-center flex-shrink-0">
+          <Image className="w-6 h-6 text-zinc-500" />
         </div>
-        <div className="text-xs text-zinc-400 mt-0.5">
-          {proof.type === 'case_study' ? 'Case Study' : `LOD ${proof.lod_level} Sample`}
+        <div className="flex-1 min-w-0">
+          <div className="font-medium text-white text-sm truncate">
+            {proof.title}
+          </div>
+          <div className="text-xs text-zinc-400 mt-0.5">
+            {proof.type === 'case_study' ? 'Case Study' : `LOD ${proof.lod_level} Sample`}
+            {narrative.squareFootage && ` • ${(narrative.squareFootage / 1000).toFixed(0)}K sqft`}
+          </div>
+          <div className="flex items-center gap-2 mt-2">
+            <span className={`px-1.5 py-0.5 rounded text-xs ${
+              proof.matchType === 'exact'
+                ? 'bg-green-500/20 text-green-400'
+                : 'bg-amber-500/20 text-amber-400'
+            }`}>
+              {proof.matchType === 'exact' ? 'Exact Match' : 'Adjacent'}
+            </span>
+            <span className="text-xs text-zinc-500">
+              {(proof.confidence * 100).toFixed(0)}% match
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-2 mt-2">
-          <span className={`px-1.5 py-0.5 rounded text-xs ${
-            proof.matchType === 'exact'
-              ? 'bg-green-500/20 text-green-400'
-              : 'bg-amber-500/20 text-amber-400'
-          }`}>
-            {proof.matchType === 'exact' ? 'Exact Match' : 'Adjacent'}
-          </span>
-          <span className="text-xs text-zinc-500">
-            {(proof.confidence * 100).toFixed(0)}% match
-          </span>
+        <ChevronRight className="w-4 h-4 text-zinc-500 flex-shrink-0" />
+      </button>
+
+      {/* 12-Point Narrative Preview */}
+      {(narrative.outcome || narrative.quote) && (
+        <div className="px-3 pb-3 border-t border-zinc-700/50 mt-1 pt-2">
+          {narrative.outcome && (
+            <div className="text-xs text-zinc-300 mb-2">
+              <span className="text-zinc-500">Outcome:</span> {narrative.outcome}
+            </div>
+          )}
+          {narrative.keyMetrics && narrative.keyMetrics.length > 0 && (
+            <div className="flex flex-wrap gap-1 mb-2">
+              {narrative.keyMetrics.slice(0, 3).map((metric, i) => (
+                <span key={i} className="px-1.5 py-0.5 bg-blue-500/10 text-blue-400 rounded text-xs">
+                  {metric}
+                </span>
+              ))}
+            </div>
+          )}
+          {narrative.quote && (
+            <div className="text-xs italic text-zinc-400 border-l-2 border-zinc-600 pl-2">
+              "{narrative.quote}"
+              {narrative.quoteAttribution && (
+                <span className="text-zinc-500 not-italic"> — {narrative.quoteAttribution}</span>
+              )}
+            </div>
+          )}
+          {proof.snippet && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                onCopy?.(proof.snippet)
+              }}
+              className="mt-2 flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+            >
+              <Copy className="w-3 h-3" />
+              Copy Snippet
+            </button>
+          )}
         </div>
-      </div>
-      <ChevronRight className="w-4 h-4 text-zinc-500 flex-shrink-0" />
-    </motion.button>
+      )}
+    </motion.div>
   )
 }
 
@@ -94,9 +145,34 @@ function ActivityItem({ activity }) {
 
 export default function LeadDrawer({ lead, proofMatches, isOpen, onClose, onAction }) {
   const [activeTab, setActiveTab] = useState('profile')
+  const [apiMatches, setApiMatches] = useState(null)
+  const [loadingProofs, setLoadingProofs] = useState(false)
+  const [copiedSnippet, setCopiedSnippet] = useState(false)
+
+  // Fetch proof matches when drawer opens
+  useEffect(() => {
+    if (isOpen && lead?.id && !proofMatches) {
+      setLoadingProofs(true)
+      getS2PProofMatch(lead.id)
+        .then(data => {
+          if (data.matches) {
+            setApiMatches(data.matches)
+          }
+        })
+        .catch(err => console.error('Proof match error:', err))
+        .finally(() => setLoadingProofs(false))
+    }
+  }, [isOpen, lead?.id, proofMatches])
+
+  // Copy snippet to clipboard
+  const copySnippet = (snippet) => {
+    navigator.clipboard.writeText(snippet)
+    setCopiedSnippet(true)
+    setTimeout(() => setCopiedSnippet(false), 2000)
+  }
 
   // Demo proof matches if not provided
-  const matches = proofMatches || [
+  const matches = apiMatches || proofMatches || [
     {
       id: 'proof_001',
       title: 'The Castle - LOD 350 Historic Renovation',
@@ -283,19 +359,41 @@ export default function LeadDrawer({ lead, proofMatches, isOpen, onClose, onActi
                 icon={Image}
                 action={
                   <span className="text-xs text-zinc-500">
-                    Auto-matched from P4 Vault
+                    {loadingProofs ? 'Loading...' : 'Auto-matched from P4 Vault'}
                   </span>
                 }
               >
-                <div className="space-y-2">
-                  {matches.map(proof => (
-                    <ProofMatchCard
-                      key={proof.id}
-                      proof={proof}
-                      onSelect={() => onAction?.('viewProof', proof)}
-                    />
-                  ))}
-                </div>
+                {loadingProofs ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="w-6 h-6 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {matches.map(proof => (
+                      <ProofMatchCard
+                        key={proof.id}
+                        proof={proof}
+                        onSelect={() => onAction?.('viewProof', proof)}
+                        onCopy={copySnippet}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Copy confirmation toast */}
+                <AnimatePresence>
+                  {copiedSnippet && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="fixed bottom-24 left-1/2 -translate-x-1/2 px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-sm flex items-center gap-2"
+                    >
+                      <Award className="w-4 h-4" />
+                      Snippet copied to clipboard
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <div className="mt-4 p-3 bg-zinc-800/30 rounded-lg border border-zinc-700">
                   <div className="text-xs text-zinc-400 mb-2">

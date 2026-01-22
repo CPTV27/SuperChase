@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-01-21T00:00:00Z",
-  "source": "FY2026 Strategy Manual + Clutch.co CSV",
+  "version": "2.0.0",
+  "lastUpdated": "2026-01-22T10:00:00Z",
+  "source": "FY2026 Strategy Manual + Clutch.co CSV + Demo Curation",
   "tierRules": {
     "A": { "sqft": ">=50000", "employees": ">=250", "label": "Whale" },
     "B": { "sqft": "20000-49999", "employees": "50-249", "label": "Target" },
@@ -15,135 +15,661 @@
   "leads": [
     {
       "id": "lead_001",
-      "company": "Gensler NYC",
-      "employees": "250-999",
+      "firmName": "Gensler New York",
+      "company": "Gensler",
+      "employees": "1000+",
+      "employeeCount": 6000,
       "tier": "A",
-      "heat": "warm",
-      "sqft_estimate": 150000,
-      "service_focus": "Architectural Design",
+      "heat": "hot",
+      "sqft_estimate": 250000,
+      "service_focus": "Workplace Strategy, Architecture, Interior Design",
       "location": "New York, NY",
       "market": "NYC",
       "contacts": [
-        { "name": "Sarah Mitchell", "title": "Director of Operations", "email": "s.mitchell@gensler.com" }
+        { "name": "Sarah Chen", "title": "Director of Design Technology", "email": "sarah_chen@gensler.com", "phone": "(212) 555-0101" }
       ],
       "source": "clutch_csv",
-      "source_url": "https://clutch.co/profile/gensler",
-      "wave_id": null,
-      "signals": ["megafirm", "renovation_focus", "multi_office"],
-      "distance_to_meeting": 0.72,
-      "last_touch": null,
-      "created_at": "2026-01-21T00:00:00Z"
+      "wave_id": "wave_q1_tier_a",
+      "signals": ["megafirm", "NYC_HQ", "high_volume_potential", "tech_forward"],
+      "scoring": {
+        "tier": "A",
+        "score": 95,
+        "sqftEstimate": 250000,
+        "whaleProbability": 0.92,
+        "waveAssignment": "Q1 Tier-A Wave"
+      },
+      "distance_to_meeting": 0.95,
+      "last_touch": "2026-01-20T14:30:00Z",
+      "meeting_scheduled": "2026-01-24T10:00:00Z",
+      "projectHint": "Financial District tower renovation - 785,000 sqft",
+      "created_at": "2026-01-10T00:00:00Z"
     },
     {
       "id": "lead_002",
-      "company": "HKS Architects",
+      "firmName": "Perkins&Will New York",
+      "company": "Perkins&Will",
       "employees": "500-999",
+      "employeeCount": 2400,
       "tier": "A",
-      "heat": "cold",
-      "sqft_estimate": 200000,
-      "service_focus": "Healthcare, Sports",
-      "location": "Dallas, TX",
-      "market": "DAL",
+      "heat": "warm",
+      "sqft_estimate": 175000,
+      "service_focus": "Architecture, Interior Design, Urban Design, Sustainability",
+      "location": "New York, NY",
+      "market": "NYC",
       "contacts": [
-        { "name": "Mark Rodriguez", "title": "VP Technology", "email": "m.rodriguez@hks.com" }
+        { "name": "Michael Torres", "title": "BIM Manager", "email": "michael.torres@perkinswill.com" }
       ],
       "source": "clutch_csv",
-      "source_url": "https://clutch.co/profile/hks",
-      "wave_id": null,
-      "signals": ["megafirm", "healthcare_specialty", "national_presence"],
-      "distance_to_meeting": 0.35,
-      "last_touch": null,
-      "created_at": "2026-01-21T00:00:00Z"
+      "wave_id": "wave_q1_tier_a",
+      "signals": ["megafirm", "sustainability_leader", "multi_office", "healthcare_division"],
+      "scoring": {
+        "tier": "A",
+        "score": 92,
+        "sqftEstimate": 175000,
+        "whaleProbability": 0.88
+      },
+      "distance_to_meeting": 0.72,
+      "last_touch": "2026-01-18T11:00:00Z",
+      "created_at": "2026-01-08T00:00:00Z"
     },
     {
       "id": "lead_003",
-      "company": "Perkins Eastman",
-      "employees": "250-499",
+      "firmName": "Skidmore, Owings & Merrill",
+      "company": "SOM",
+      "employees": "1000+",
+      "employeeCount": 1500,
       "tier": "A",
       "heat": "hot",
+      "sqft_estimate": 500000,
+      "service_focus": "Architecture, Engineering, Urban Planning",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "James Liu", "title": "Director of Digital Practice", "email": "james.liu@som.com" }
+      ],
+      "source": "linkedin",
+      "wave_id": "wave_q1_tier_a",
+      "signals": ["megafirm", "supertall_expertise", "global_projects", "structural_engineering"],
+      "scoring": {
+        "tier": "A",
+        "score": 98,
+        "sqftEstimate": 500000,
+        "whaleProbability": 0.95
+      },
+      "distance_to_meeting": 0.92,
+      "last_touch": "2026-01-19T10:00:00Z",
+      "meeting_scheduled": "2026-01-25T14:00:00Z",
+      "projectHint": "Hudson Yards Phase 2 - existing conditions survey",
+      "created_at": "2026-01-07T00:00:00Z"
+    },
+    {
+      "id": "lead_004",
+      "firmName": "HOK New York",
+      "company": "HOK",
+      "employees": "1000+",
+      "employeeCount": 1700,
+      "tier": "A",
+      "heat": "warm",
+      "sqft_estimate": 200000,
+      "service_focus": "Architecture, Interior Design, Planning, Sports Venues",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "David Park", "title": "Senior Project Manager", "email": "david.park@hok.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["megafirm", "healthcare_focus", "sports_venues", "global_presence"],
+      "scoring": {
+        "tier": "A",
+        "score": 90,
+        "sqftEstimate": 200000,
+        "whaleProbability": 0.85
+      },
+      "distance_to_meeting": 0.58,
+      "created_at": "2026-01-12T00:00:00Z"
+    },
+    {
+      "id": "lead_005",
+      "firmName": "AECOM New York",
+      "company": "AECOM",
+      "employees": "1000+",
+      "employeeCount": 50000,
+      "tier": "A",
+      "heat": "cold",
+      "sqft_estimate": 350000,
+      "service_focus": "Infrastructure, Architecture, Environmental",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Jennifer Walsh", "title": "Regional BIM Lead", "email": "jennifer.walsh@aecom.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["megafirm", "infrastructure_focus", "government_contracts"],
+      "scoring": {
+        "tier": "A",
+        "score": 88,
+        "sqftEstimate": 350000,
+        "whaleProbability": 0.82
+      },
+      "distance_to_meeting": 0.35,
+      "created_at": "2026-01-11T00:00:00Z"
+    },
+    {
+      "id": "lead_006",
+      "firmName": "Kohn Pedersen Fox",
+      "company": "KPF",
+      "employees": "500-999",
+      "employeeCount": 700,
+      "tier": "A",
+      "heat": "hot",
+      "sqft_estimate": 400000,
+      "service_focus": "Architecture, Master Planning, Interior Design",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "William Zhang", "title": "Associate Director", "email": "wzhang@kpf.com" }
+      ],
+      "source": "permit_signal",
+      "wave_id": "wave_q1_tier_a",
+      "signals": ["supertall_expertise", "NYC_HQ", "international_projects"],
+      "scoring": {
+        "tier": "A",
+        "score": 94,
+        "sqftEstimate": 400000,
+        "whaleProbability": 0.91
+      },
+      "distance_to_meeting": 0.88,
+      "last_touch": "2026-01-20T09:15:00Z",
+      "projectHint": "One Vanderbilt renovation scope - facade restoration",
+      "created_at": "2026-01-09T00:00:00Z"
+    },
+    {
+      "id": "lead_007",
+      "firmName": "Foster + Partners",
+      "company": "Foster + Partners",
+      "employees": "500-999",
+      "employeeCount": 1400,
+      "tier": "A",
+      "heat": "warm",
+      "sqft_estimate": 300000,
+      "service_focus": "Architecture, Urbanism, Design",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Emma Richardson", "title": "Head of US Projects", "email": "e.richardson@fosterandpartners.com" }
+      ],
+      "source": "referral",
+      "signals": ["international_firm", "landmark_projects", "tech_forward", "sustainable_design"],
+      "scoring": {
+        "tier": "A",
+        "score": 91,
+        "sqftEstimate": 300000,
+        "whaleProbability": 0.87
+      },
+      "distance_to_meeting": 0.65,
+      "created_at": "2026-01-14T00:00:00Z"
+    },
+    {
+      "id": "lead_008",
+      "firmName": "FXCollaborative",
+      "company": "FXCollaborative",
+      "employees": "250-499",
+      "employeeCount": 300,
+      "tier": "A",
+      "heat": "warm",
+      "sqft_estimate": 120000,
+      "service_focus": "Architecture, Interior Design, Planning",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Rachel Kim", "title": "Project Director", "email": "rkim@fxcollaborative.com" }
+      ],
+      "source": "permit_signal",
+      "wave_id": "wave_q1_tier_a",
+      "signals": ["NYC_specialist", "affordable_housing", "civic_projects"],
+      "scoring": {
+        "tier": "A",
+        "score": 86,
+        "sqftEstimate": 120000,
+        "whaleProbability": 0.78
+      },
+      "distance_to_meeting": 0.72,
+      "last_touch": "2026-01-19T16:00:00Z",
+      "projectHint": "Brooklyn affordable housing complex - 450 units",
+      "created_at": "2026-01-06T00:00:00Z"
+    },
+    {
+      "id": "lead_009",
+      "firmName": "COOKFOX Architects",
+      "company": "COOKFOX",
+      "employees": "100-249",
+      "employeeCount": 120,
+      "tier": "A",
+      "heat": "warm",
       "sqft_estimate": 85000,
-      "service_focus": "Education, Senior Living",
+      "service_focus": "Sustainable Architecture, Biophilic Design",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Amanda Foster", "title": "Senior Associate", "email": "afoster@cookfox.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["sustainability_leader", "NYC_focus", "premium_projects", "biophilic_pioneer"],
+      "scoring": {
+        "tier": "A",
+        "score": 82,
+        "sqftEstimate": 85000,
+        "whaleProbability": 0.72
+      },
+      "distance_to_meeting": 0.55,
+      "created_at": "2026-01-13T00:00:00Z"
+    },
+    {
+      "id": "lead_010",
+      "firmName": "Snohetta New York",
+      "company": "Snohetta",
+      "employees": "250-499",
+      "employeeCount": 280,
+      "tier": "A",
+      "heat": "cold",
+      "sqft_estimate": 150000,
+      "service_focus": "Architecture, Landscape, Interior",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Erik Olsen", "title": "Managing Director", "email": "erik.olsen@snohetta.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["design_excellence", "cultural_projects", "international_studio"],
+      "scoring": {
+        "tier": "A",
+        "score": 89,
+        "sqftEstimate": 150000,
+        "whaleProbability": 0.83
+      },
+      "distance_to_meeting": 0.28,
+      "created_at": "2026-01-15T00:00:00Z"
+    },
+    {
+      "id": "lead_011",
+      "firmName": "Jaros, Baum & Bolles",
+      "company": "JB&B",
+      "employees": "250-499",
+      "employeeCount": 350,
+      "tier": "B",
+      "heat": "hot",
+      "sqft_estimate": 75000,
+      "service_focus": "MEP Engineering, Building Systems",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Robert Martinez", "title": "Principal", "email": "rmartinez@jbb.com" }
+      ],
+      "source": "referral",
+      "wave_id": "wave_q1_tier_b",
+      "signals": ["mep_specialist", "existing_relationship", "high_rise_focus"],
+      "scoring": {
+        "tier": "B",
+        "score": 78,
+        "sqftEstimate": 75000,
+        "whaleProbability": 0.45
+      },
+      "distance_to_meeting": 0.85,
+      "last_touch": "2026-01-17T11:30:00Z",
+      "meeting_scheduled": "2026-01-23T15:00:00Z",
+      "created_at": "2026-01-05T00:00:00Z"
+    },
+    {
+      "id": "lead_012",
+      "firmName": "CTA Architects Engineers",
+      "company": "CTA",
+      "employees": "100-249",
+      "employeeCount": 180,
+      "tier": "B",
+      "heat": "warm",
+      "sqft_estimate": 45000,
+      "service_focus": "Architecture, Engineering, Education Facilities",
+      "location": "Albany, NY",
+      "market": "ALB",
+      "contacts": [
+        { "name": "Lisa Thompson", "title": "Project Manager", "email": "lthompson@cta-ae.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["upstate_NY", "education_focus", "repeat_potential"],
+      "scoring": {
+        "tier": "B",
+        "score": 72,
+        "sqftEstimate": 45000,
+        "whaleProbability": 0.35
+      },
+      "distance_to_meeting": 0.52,
+      "created_at": "2026-01-11T00:00:00Z"
+    },
+    {
+      "id": "lead_013",
+      "firmName": "SLCE Architects",
+      "company": "SLCE",
+      "employees": "100-249",
+      "employeeCount": 200,
+      "tier": "B",
+      "heat": "warm",
+      "sqft_estimate": 55000,
+      "service_focus": "Residential, Mixed-Use, Commercial",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Carlos Mendez", "title": "Director of Technical Services", "email": "cmendez@slcearch.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["residential_specialist", "NYC_presence", "renovation_focus"],
+      "scoring": {
+        "tier": "B",
+        "score": 75,
+        "sqftEstimate": 55000,
+        "whaleProbability": 0.42
+      },
+      "distance_to_meeting": 0.62,
+      "created_at": "2026-01-10T00:00:00Z"
+    },
+    {
+      "id": "lead_014",
+      "firmName": "HDR Architecture",
+      "company": "HDR",
+      "employees": "1000+",
+      "employeeCount": 10000,
+      "tier": "B",
+      "heat": "cold",
+      "sqft_estimate": 65000,
+      "service_focus": "Healthcare, Science, Education",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Patricia Lee", "title": "Healthcare Studio Lead", "email": "patricia.lee@hdrinc.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["healthcare_specialist", "complex_projects", "in_house_scanning"],
+      "scoring": {
+        "tier": "B",
+        "score": 70,
+        "sqftEstimate": 65000,
+        "whaleProbability": 0.38
+      },
+      "distance_to_meeting": 0.32,
+      "created_at": "2026-01-12T00:00:00Z"
+    },
+    {
+      "id": "lead_015",
+      "firmName": "Beyer Blinder Belle",
+      "company": "Beyer Blinder Belle",
+      "employees": "100-249",
+      "employeeCount": 150,
+      "tier": "B",
+      "heat": "hot",
+      "sqft_estimate": 80000,
+      "service_focus": "Historic Preservation, Architecture",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Richard Blinder", "title": "Partner", "email": "rblinder@bbbarch.com" }
+      ],
+      "source": "permit_signal",
+      "wave_id": "wave_q1_tier_b",
+      "signals": ["historic_specialist", "landmark_expertise", "documentation_heavy"],
+      "scoring": {
+        "tier": "B",
+        "score": 79,
+        "sqftEstimate": 80000,
+        "whaleProbability": 0.52
+      },
+      "distance_to_meeting": 0.88,
+      "last_touch": "2026-01-16T14:00:00Z",
+      "projectHint": "Grand Central Terminal restoration phase",
+      "created_at": "2026-01-04T00:00:00Z"
+    },
+    {
+      "id": "lead_016",
+      "firmName": "Stantec Architecture",
+      "company": "Stantec",
+      "employees": "1000+",
+      "employeeCount": 25000,
+      "tier": "B",
+      "heat": "warm",
+      "sqft_estimate": 70000,
+      "service_focus": "Architecture, Engineering, Environmental",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Andrew Chen", "title": "NYC Office Director", "email": "andrew.chen@stantec.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["large_firm", "infrastructure_projects", "procurement_qualified"],
+      "scoring": {
+        "tier": "B",
+        "score": 71,
+        "sqftEstimate": 70000,
+        "whaleProbability": 0.40
+      },
+      "distance_to_meeting": 0.48,
+      "created_at": "2026-01-13T00:00:00Z"
+    },
+    {
+      "id": "lead_017",
+      "firmName": "Studios Architecture",
+      "company": "Studios",
+      "employees": "100-249",
+      "employeeCount": 150,
+      "tier": "B",
+      "heat": "warm",
+      "sqft_estimate": 42000,
+      "service_focus": "Workplace, Architecture, Interior",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Michelle Park", "title": "Senior Associate", "email": "mpark@studiosarchitecture.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["workplace_specialist", "tech_clients", "renovation_focus"],
+      "scoring": {
+        "tier": "B",
+        "score": 68,
+        "sqftEstimate": 42000,
+        "whaleProbability": 0.32
+      },
+      "distance_to_meeting": 0.55,
+      "created_at": "2026-01-14T00:00:00Z"
+    },
+    {
+      "id": "lead_018",
+      "firmName": "LMN Architects",
+      "company": "LMN",
+      "employees": "100-249",
+      "employeeCount": 125,
+      "tier": "B",
+      "heat": "cold",
+      "sqft_estimate": 38000,
+      "service_focus": "Civic, Cultural, Public Space",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Daniel Kim", "title": "Project Architect", "email": "dkim@lmnarchitects.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["cultural_projects", "public_sector", "documentation_needs"],
+      "scoring": {
+        "tier": "B",
+        "score": 65,
+        "sqftEstimate": 38000,
+        "whaleProbability": 0.28
+      },
+      "distance_to_meeting": 0.25,
+      "created_at": "2026-01-15T00:00:00Z"
+    },
+    {
+      "id": "lead_019",
+      "firmName": "Vocon",
+      "company": "Vocon",
+      "employees": "100-249",
+      "employeeCount": 130,
+      "tier": "B",
+      "heat": "warm",
+      "sqft_estimate": 48000,
+      "service_focus": "Workplace, Architecture, Strategy",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Jessica Brown", "title": "Design Director", "email": "jbrown@vocon.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["workplace_specialist", "renovation_projects", "fast_turnaround"],
+      "scoring": {
+        "tier": "B",
+        "score": 69,
+        "sqftEstimate": 48000,
+        "whaleProbability": 0.34
+      },
+      "distance_to_meeting": 0.58,
+      "created_at": "2026-01-16T00:00:00Z"
+    },
+    {
+      "id": "lead_020",
+      "firmName": "Perkins Eastman",
+      "company": "Perkins Eastman",
+      "employees": "250-499",
+      "employeeCount": 380,
+      "tier": "B",
+      "heat": "hot",
+      "sqft_estimate": 85000,
+      "service_focus": "Education, Senior Living, Healthcare",
       "location": "New York, NY",
       "market": "NYC",
       "contacts": [
         { "name": "Jennifer Walsh", "title": "Principal", "email": "j.walsh@perkinseastman.com" }
       ],
       "source": "permit_signal",
-      "source_url": null,
-      "wave_id": "wave_q1_01",
-      "signals": ["permit_filed", "education_project", "nyc_dob"],
+      "wave_id": "wave_q1_tier_b",
+      "signals": ["education_specialist", "permit_filed", "nyc_dob"],
+      "scoring": {
+        "tier": "B",
+        "score": 77,
+        "sqftEstimate": 85000,
+        "whaleProbability": 0.48
+      },
       "distance_to_meeting": 0.92,
       "last_touch": "2026-01-20T14:30:00Z",
       "meeting_scheduled": "2026-01-24T10:00:00Z",
-      "created_at": "2026-01-15T00:00:00Z"
+      "projectHint": "CUNY campus renovation",
+      "created_at": "2026-01-03T00:00:00Z"
     },
     {
-      "id": "lead_004",
-      "company": "STUDIOS Architecture",
-      "employees": "100-249",
-      "tier": "B",
-      "heat": "warm",
-      "sqft_estimate": 45000,
-      "service_focus": "Commercial Office",
-      "location": "Washington, DC",
-      "market": "DC",
-      "contacts": [
-        { "name": "David Chen", "title": "Project Director", "email": "d.chen@studiosarchitecture.com" }
-      ],
-      "source": "clutch_csv",
-      "source_url": "https://clutch.co/profile/studios",
-      "wave_id": "wave_q1_01",
-      "signals": ["dc_market", "office_renovation", "federal_adjacent"],
-      "distance_to_meeting": 0.65,
-      "last_touch": "2026-01-18T09:00:00Z",
-      "created_at": "2026-01-10T00:00:00Z"
-    },
-    {
-      "id": "lead_005",
-      "company": "Bohlin Cywinski Jackson",
-      "employees": "100-249",
-      "tier": "B",
+      "id": "lead_021",
+      "firmName": "Dattner Architects",
+      "company": "Dattner",
+      "employees": "50-99",
+      "employeeCount": 85,
+      "tier": "C",
       "heat": "cold",
-      "sqft_estimate": 35000,
-      "service_focus": "Cultural, Higher Ed",
-      "location": "Pittsburgh, PA",
-      "market": "PHL",
+      "sqft_estimate": 25000,
+      "service_focus": "Civic, Residential, Sustainable",
+      "location": "New York, NY",
+      "market": "NYC",
       "contacts": [
-        { "name": "Amy Foster", "title": "Associate", "email": "a.foster@bcj.com" }
+        { "name": "Steven Ng", "title": "Associate", "email": "sng@dattner.com" }
       ],
       "source": "clutch_csv",
-      "source_url": "https://clutch.co/profile/bcj",
-      "wave_id": null,
-      "signals": ["cultural_specialty", "historic_preservation"],
-      "distance_to_meeting": 0.28,
-      "last_touch": null,
-      "created_at": "2026-01-21T00:00:00Z"
+      "signals": ["small_firm", "civic_focus", "budget_conscious"],
+      "scoring": {
+        "tier": "C",
+        "score": 55,
+        "sqftEstimate": 25000,
+        "whaleProbability": 0.15
+      },
+      "distance_to_meeting": 0.22,
+      "created_at": "2026-01-17T00:00:00Z"
     },
     {
-      "id": "lead_006",
-      "company": "Smith Group",
-      "employees": "500-999",
-      "tier": "A",
-      "heat": "warm",
-      "sqft_estimate": 120000,
-      "service_focus": "Healthcare, Science",
-      "location": "Detroit, MI",
-      "market": "DET",
+      "id": "lead_022",
+      "firmName": "Frog Design Studio",
+      "company": "Frog",
+      "employees": "50-99",
+      "employeeCount": 75,
+      "tier": "C",
+      "heat": "cold",
+      "sqft_estimate": 18000,
+      "service_focus": "Design Strategy, Interiors",
+      "location": "Brooklyn, NY",
+      "market": "NYC",
       "contacts": [
-        { "name": "Robert Kim", "title": "Healthcare Practice Leader", "email": "r.kim@smithgroup.com" }
+        { "name": "Maya Johnson", "title": "Studio Manager", "email": "mjohnson@frogdesign.com" }
       ],
-      "source": "compliance_signal",
-      "source_url": null,
-      "wave_id": "wave_q1_01",
-      "signals": ["healthcare_specialty", "ll87_filing", "energy_compliance"],
-      "distance_to_meeting": 0.58,
-      "last_touch": "2026-01-19T11:00:00Z",
-      "created_at": "2026-01-12T00:00:00Z"
+      "source": "clutch_csv",
+      "signals": ["small_firm", "interior_only", "limited_budget"],
+      "scoring": {
+        "tier": "C",
+        "score": 48,
+        "sqftEstimate": 18000,
+        "whaleProbability": 0.10
+      },
+      "distance_to_meeting": 0.18,
+      "created_at": "2026-01-18T00:00:00Z"
     },
     {
-      "id": "lead_007",
+      "id": "lead_023",
+      "firmName": "UrbanTech Architecture",
+      "company": "UrbanTech",
+      "employees": "10-49",
+      "employeeCount": 35,
+      "tier": "C",
+      "heat": "cold",
+      "sqft_estimate": 12000,
+      "service_focus": "Residential, Small Commercial",
+      "location": "Queens, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Kevin Wu", "title": "Principal", "email": "kwu@urbantech-arch.com" }
+      ],
+      "source": "clutch_csv",
+      "signals": ["small_firm", "residential_focus", "price_sensitive"],
+      "scoring": {
+        "tier": "C",
+        "score": 42,
+        "sqftEstimate": 12000,
+        "whaleProbability": 0.08
+      },
+      "distance_to_meeting": 0.15,
+      "created_at": "2026-01-19T00:00:00Z"
+    },
+    {
+      "id": "lead_024",
+      "firmName": "Metro Design Group",
+      "company": "Metro Design",
+      "employees": "10-49",
+      "employeeCount": 28,
+      "tier": "C",
+      "heat": "warm",
+      "sqft_estimate": 15000,
+      "service_focus": "Retail, Restaurant, Commercial",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Tony Russo", "title": "Owner", "email": "trusso@metrodesignnyc.com" }
+      ],
+      "source": "referral",
+      "signals": ["small_firm", "retail_specialist", "quick_projects"],
+      "scoring": {
+        "tier": "C",
+        "score": 52,
+        "sqftEstimate": 15000,
+        "whaleProbability": 0.12
+      },
+      "distance_to_meeting": 0.45,
+      "created_at": "2026-01-20T00:00:00Z"
+    },
+    {
+      "id": "lead_025",
+      "firmName": "Voith & Mactavish",
       "company": "Voith & Mactavish",
       "employees": "10-49",
+      "employeeCount": 22,
       "tier": "C",
       "heat": "hot",
       "sqft_estimate": 15000,
@@ -154,44 +680,28 @@
         { "name": "Catherine Voith", "title": "Principal", "email": "c.voith@voithmactavish.com" }
       ],
       "source": "referral",
-      "source_url": null,
-      "wave_id": null,
       "signals": ["historic_specialist", "philly_market", "repeat_potential"],
+      "scoring": {
+        "tier": "C",
+        "score": 58,
+        "sqftEstimate": 15000,
+        "whaleProbability": 0.18
+      },
       "distance_to_meeting": 0.88,
       "last_touch": "2026-01-20T16:00:00Z",
       "meeting_scheduled": "2026-01-23T14:00:00Z",
-      "created_at": "2026-01-17T00:00:00Z"
-    },
-    {
-      "id": "lead_008",
-      "company": "FXCollaborative",
-      "employees": "250-499",
-      "tier": "A",
-      "heat": "cold",
-      "sqft_estimate": 175000,
-      "service_focus": "Mixed-Use, Residential",
-      "location": "New York, NY",
-      "market": "NYC",
-      "contacts": [
-        { "name": "Lisa Park", "title": "Managing Principal", "email": "l.park@fxcollaborative.com" }
-      ],
-      "source": "clutch_csv",
-      "source_url": "https://clutch.co/profile/fxcollaborative",
-      "wave_id": null,
-      "signals": ["megafirm", "mixed_use", "sustainability_focus"],
-      "distance_to_meeting": 0.22,
-      "last_touch": null,
-      "created_at": "2026-01-21T00:00:00Z"
+      "created_at": "2026-01-02T00:00:00Z"
     }
   ],
   "stats": {
-    "total": 8,
-    "by_tier": { "A": 5, "B": 2, "C": 1 },
-    "by_heat": { "hot": 2, "warm": 3, "cold": 3 },
-    "pipeline_value": {
-      "hot": 100000,
-      "warm": 315000,
-      "cold": 425000
+    "total": 25,
+    "by_tier": { "A": 10, "B": 10, "C": 5 },
+    "by_heat": { "hot": 6, "warm": 10, "cold": 9 },
+    "meetings_scheduled": 5,
+    "pipeline_value_estimate": {
+      "tierA": 2530000,
+      "tierB": 603000,
+      "tierC": 85000
     }
   }
 }

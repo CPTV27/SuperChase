@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-01-21T00:00:00Z",
-  "source": "P6 ABM Wave - FY2026 Strategy Manual",
+  "version": "2.0.0",
+  "lastUpdated": "2026-01-22T10:00:00Z",
+  "source": "P6 ABM Wave - FY2026 Strategy Manual + Demo Enhancement",
   "waveConfig": {
     "sprint_weeks": 6,
     "cohort_size": 25,
@@ -14,139 +14,311 @@
     "time_to_meeting_days": 12,
     "attribution_completeness": 1.0
   },
-  "activeWave": "wave_q1_01",
+  "activeWave": "wave_q1_tier_a",
   "waves": [
     {
-      "id": "wave_q1_01",
-      "name": "Q1 2026 - Northeast Whales",
+      "id": "wave_q1_tier_a",
+      "name": "Q1 2026 - Tier-A Whales",
       "status": "ACTIVE",
       "phase": "Week 3",
       "start_date": "2026-01-06",
       "end_date": "2026-02-16",
-      "cohort_size": 25,
+      "cohort_size": 10,
       "tier_focus": "A",
-      "markets": ["NYC", "BOS", "DC", "PHL"],
+      "markets": ["NYC", "BOS", "DC"],
       "persona_beats": [
         {
           "beat": 1,
           "topic": "Variance Control ROI",
           "week": 1,
-          "asset": "proof_005"
+          "asset": "proof_005",
+          "status": "completed"
         },
         {
           "beat": 2,
           "topic": "Case Study: The Castle",
           "week": 3,
-          "asset": "proof_001"
+          "asset": "proof_001",
+          "status": "active"
         },
         {
           "beat": 3,
           "topic": "LOD Selection Guide",
           "week": 5,
-          "asset": null
+          "asset": null,
+          "status": "upcoming"
         }
       ],
       "targets": [
         {
-          "lead_id": "lead_003",
-          "company": "Perkins Eastman",
+          "lead_id": "lead_001",
+          "company": "Gensler New York",
+          "firmName": "Gensler",
+          "tier": "A",
           "status": "meeting_scheduled",
-          "touches": 3,
+          "touches": 4,
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-08", "beat": 1 },
+            { "type": "linkedin", "date": "2026-01-12", "beat": 1 },
+            { "type": "email", "date": "2026-01-15", "beat": 2 },
+            { "type": "call", "date": "2026-01-20", "note": "Intro call - scheduled discovery" }
+          ],
           "last_touch": "2026-01-20T14:30:00Z",
-          "meeting_date": "2026-01-24T10:00:00Z"
+          "meeting_date": "2026-01-24T10:00:00Z",
+          "notes": "Very engaged. Financial District tower project, 785k sqft."
         },
         {
-          "lead_id": "lead_004",
-          "company": "STUDIOS Architecture",
+          "lead_id": "lead_003",
+          "company": "Skidmore, Owings & Merrill",
+          "firmName": "SOM",
+          "tier": "A",
+          "status": "meeting_scheduled",
+          "touches": 3,
+          "touchHistory": [
+            { "type": "linkedin", "date": "2026-01-10", "beat": 1 },
+            { "type": "email", "date": "2026-01-14", "beat": 2 },
+            { "type": "call", "date": "2026-01-19", "note": "Intro call - scheduled discovery" }
+          ],
+          "last_touch": "2026-01-19T10:00:00Z",
+          "meeting_date": "2026-01-25T14:00:00Z",
+          "notes": "Hudson Yards Phase 2 opportunity. 500k sqft."
+        },
+        {
+          "lead_id": "lead_002",
+          "company": "Perkins&Will New York",
+          "firmName": "Perkins&Will",
+          "tier": "A",
           "status": "engaged",
-          "touches": 2,
-          "last_touch": "2026-01-18T09:00:00Z",
-          "meeting_date": null
+          "touches": 3,
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-09", "beat": 1 },
+            { "type": "email", "date": "2026-01-16", "beat": 2 },
+            { "type": "linkedin", "date": "2026-01-18", "beat": 2 }
+          ],
+          "last_touch": "2026-01-18T11:00:00Z",
+          "meeting_date": null,
+          "notes": "Replied to beat 2 email, interested in sustainability angle."
         },
         {
           "lead_id": "lead_006",
-          "company": "Smith Group",
+          "company": "Kohn Pedersen Fox",
+          "firmName": "KPF",
+          "tier": "A",
           "status": "engaged",
           "touches": 2,
-          "last_touch": "2026-01-19T11:00:00Z",
-          "meeting_date": null
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-10", "beat": 1 },
+            { "type": "linkedin", "date": "2026-01-20", "beat": 2 }
+          ],
+          "last_touch": "2026-01-20T09:15:00Z",
+          "meeting_date": null,
+          "notes": "Permit signal triggered outreach. One Vanderbilt renovation."
+        },
+        {
+          "lead_id": "lead_008",
+          "company": "FXCollaborative",
+          "firmName": "FXCollaborative",
+          "tier": "A",
+          "status": "engaged",
+          "touches": 2,
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-11", "beat": 1 },
+            { "type": "email", "date": "2026-01-19", "beat": 2 }
+          ],
+          "last_touch": "2026-01-19T16:00:00Z",
+          "meeting_date": null,
+          "notes": "Brooklyn housing project. Opened beat 2 email."
+        },
+        {
+          "lead_id": "lead_004",
+          "company": "HOK New York",
+          "firmName": "HOK",
+          "tier": "A",
+          "status": "touched",
+          "touches": 2,
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-12", "beat": 1 },
+            { "type": "email", "date": "2026-01-17", "beat": 2 }
+          ],
+          "last_touch": "2026-01-17T10:00:00Z",
+          "meeting_date": null,
+          "notes": "No response yet. Healthcare focus - try proof_003."
+        },
+        {
+          "lead_id": "lead_007",
+          "company": "Foster + Partners",
+          "firmName": "Foster + Partners",
+          "tier": "A",
+          "status": "touched",
+          "touches": 2,
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-13", "beat": 1 },
+            { "type": "linkedin", "date": "2026-01-18", "beat": 2 }
+          ],
+          "last_touch": "2026-01-18T14:00:00Z",
+          "meeting_date": null,
+          "notes": "International firm, may have existing vendors."
+        },
+        {
+          "lead_id": "lead_005",
+          "company": "AECOM New York",
+          "firmName": "AECOM",
+          "tier": "A",
+          "status": "cold",
+          "touches": 1,
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-14", "beat": 1 }
+          ],
+          "last_touch": "2026-01-14T09:00:00Z",
+          "meeting_date": null,
+          "notes": "Large firm, likely has preferred vendors. Monitor for kill."
+        },
+        {
+          "lead_id": "lead_009",
+          "company": "COOKFOX Architects",
+          "firmName": "COOKFOX",
+          "tier": "A",
+          "status": "killed",
+          "touches": 2,
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-09", "beat": 1 },
+            { "type": "email", "date": "2026-01-16", "beat": 2 }
+          ],
+          "last_touch": "2026-01-16T10:00:00Z",
+          "meeting_date": null,
+          "kill_reason": "Unsubscribed after beat 2",
+          "kill_date": "2026-01-17"
+        },
+        {
+          "lead_id": "lead_010",
+          "company": "Snohetta New York",
+          "firmName": "Snohetta",
+          "tier": "A",
+          "status": "cold",
+          "touches": 1,
+          "touchHistory": [
+            { "type": "email", "date": "2026-01-15", "beat": 1 }
+          ],
+          "last_touch": "2026-01-15T11:00:00Z",
+          "meeting_date": null,
+          "notes": "No response. Will try beat 3 before kill decision."
         }
       ],
       "stats": {
-        "total_targets": 25,
-        "touched": 18,
-        "engaged": 8,
-        "meetings_scheduled": 3,
-        "meetings_held": 1,
-        "killed": 4,
-        "reply_rate": 0.44,
-        "reply_to_meeting": 0.38
+        "total_targets": 10,
+        "touched": 10,
+        "engaged": 4,
+        "meetings_scheduled": 2,
+        "meetings_held": 0,
+        "killed": 1,
+        "cold": 2,
+        "reply_rate": 0.50,
+        "reply_to_meeting": 0.40
       },
       "kill_keep_log": [
         {
           "date": "2026-01-10",
-          "kills": ["lead_x1", "lead_x2"],
-          "keeps": ["lead_003", "lead_004", "lead_006"],
-          "notes": "Removed leads with no response after beat 1"
+          "kills": [],
+          "keeps": ["lead_001", "lead_002", "lead_003"],
+          "notes": "Initial wave launch. All targets touched with beat 1."
         },
         {
           "date": "2026-01-17",
-          "kills": ["lead_x3", "lead_x4"],
-          "keeps": ["lead_003", "lead_004"],
-          "notes": "Focus on engaged leads"
+          "kills": ["lead_009"],
+          "keeps": ["lead_001", "lead_003", "lead_002", "lead_006", "lead_008"],
+          "notes": "COOKFOX unsubscribed. Focus on 5 engaged leads."
         }
       ]
     },
     {
-      "id": "wave_q1_02",
-      "name": "Q1 2026 - Healthcare Specialty",
-      "status": "PLANNED",
-      "phase": "Pre-Launch",
-      "start_date": "2026-02-17",
-      "end_date": "2026-03-30",
-      "cohort_size": 25,
-      "tier_focus": "A",
-      "markets": ["NYC", "BOS", "PHL"],
+      "id": "wave_q1_tier_b",
+      "name": "Q1 2026 - Tier-B Targets",
+      "status": "ACTIVE",
+      "phase": "Week 2",
+      "start_date": "2026-01-13",
+      "end_date": "2026-02-23",
+      "cohort_size": 10,
+      "tier_focus": "B",
+      "markets": ["NYC", "ALB", "DC", "PHL"],
       "persona_beats": [
         {
           "beat": 1,
-          "topic": "Healthcare MEP Coordination",
+          "topic": "CUNY Campus Case Study",
           "week": 1,
-          "asset": "proof_003"
+          "asset": "proof_002",
+          "status": "completed"
         },
         {
           "beat": 2,
-          "topic": "Compliance Documentation",
+          "topic": "Historic Preservation Focus",
           "week": 3,
-          "asset": null
+          "asset": "proof_001",
+          "status": "upcoming"
         },
         {
           "beat": 3,
-          "topic": "The Castle (Renovation Focus)",
+          "topic": "ROI Calculator",
           "week": 5,
-          "asset": "proof_001"
+          "asset": "proof_005",
+          "status": "upcoming"
         }
       ],
-      "targets": [],
+      "targets": [
+        {
+          "lead_id": "lead_011",
+          "company": "Jaros, Baum & Bolles",
+          "firmName": "JB&B",
+          "tier": "B",
+          "status": "meeting_scheduled",
+          "touches": 2,
+          "last_touch": "2026-01-17T11:30:00Z",
+          "meeting_date": "2026-01-23T15:00:00Z",
+          "notes": "MEP specialist. Referral from existing client."
+        },
+        {
+          "lead_id": "lead_015",
+          "company": "Beyer Blinder Belle",
+          "firmName": "BBB",
+          "tier": "B",
+          "status": "engaged",
+          "touches": 2,
+          "last_touch": "2026-01-16T14:00:00Z",
+          "meeting_date": null,
+          "notes": "Grand Central project. Historic preservation expert."
+        },
+        {
+          "lead_id": "lead_020",
+          "company": "Perkins Eastman",
+          "firmName": "Perkins Eastman",
+          "tier": "B",
+          "status": "meeting_scheduled",
+          "touches": 3,
+          "last_touch": "2026-01-20T14:30:00Z",
+          "meeting_date": "2026-01-24T10:00:00Z",
+          "notes": "CUNY campus project. Permit signal triggered."
+        }
+      ],
       "stats": {
-        "total_targets": 0,
-        "touched": 0,
-        "engaged": 0,
-        "meetings_scheduled": 0,
+        "total_targets": 10,
+        "touched": 8,
+        "engaged": 3,
+        "meetings_scheduled": 2,
         "meetings_held": 0,
-        "killed": 0,
-        "reply_rate": 0,
-        "reply_to_meeting": 0
+        "killed": 1,
+        "cold": 3,
+        "reply_rate": 0.38,
+        "reply_to_meeting": 0.25
       },
       "kill_keep_log": []
     }
   ],
   "globalStats": {
     "waves_completed": 0,
-    "waves_active": 1,
+    "waves_active": 2,
     "total_meetings_ytd": 4,
     "total_meetings_target": 60,
-    "avg_reply_to_meeting": 0.38,
-    "avg_time_to_meeting_days": 10
+    "ytd_progress": 0.067,
+    "avg_reply_to_meeting": 0.33,
+    "avg_time_to_meeting_days": 11
   }
 }

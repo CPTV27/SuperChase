@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-01-21T00:00:00Z",
-  "source": "P4 Proof Vault - FY2026 Strategy Manual",
+  "version": "2.0.0",
+  "lastUpdated": "2026-01-22T10:00:00Z",
+  "source": "P4 Proof Vault - FY2026 Strategy Manual + Demo Enhancement",
   "selectionRules": {
     "priority": ["exact_match", "adjacent_match", "generic"],
     "rule": "1 Link + 1 Proof per outreach"
@@ -19,14 +19,34 @@
       "type": "case_study",
       "status": "PRIMARY",
       "building_types": ["Historic", "Residential", "Adaptive Reuse"],
-      "buildingTypes": ["Historic", "Residential", "Adaptive Reuse"],
       "sqft": 45000,
-      "projectSF": 45000,
       "lod_level": 350,
-      "lodLevel": 350,
       "disciplines": ["architecture", "structural", "mep"],
       "thumbnail_url": "/proof/castle_thumb.jpg",
       "pdf_url": "/proof/castle_case_study.pdf",
+      "location": "Hudson Valley, NY",
+      "twelvePointNarrative": {
+        "projectName": "The Castle at Highlands",
+        "clientType": "Private Developer",
+        "buildingType": "Historic Castle (1890s) - Adaptive Reuse to Luxury Condos",
+        "squareFootage": "45,000 sqft across 4 floors + 2 towers",
+        "lodLevel": "LOD 350 - High Detail for Structural Retrofit",
+        "deliverables": ["Revit Model (Architecture + Structure + MEP)", "Point Cloud (E57)", "As-Built Floor Plans", "Structural Deviation Report"],
+        "timeline": "3 weeks capture, 2 weeks modeling",
+        "challenge": "Original blueprints from 1892 were incomplete and inaccurate. Multiple unpermitted additions over 130 years created unknown structural conditions. Traditional survey would have taken 3 months.",
+        "solution": "Deployed Leica RTC360 with 147 scan positions. Achieved ±3mm variance control throughout. Registered point cloud revealed 14 structural modifications not in any drawings, including a hidden basement room.",
+        "outcome": "Architect redesigned retrofit around actual conditions, avoiding $180K in potential change orders. Project timeline saved 6 weeks versus traditional survey approach.",
+        "keyMetrics": {
+          "sqft": 45000,
+          "scanPositions": 147,
+          "accuracy": "±3mm",
+          "savings": "$180,000",
+          "timelineSaved": "6 weeks",
+          "hiddenConditions": 14
+        },
+        "quote": "The scan revealed structural conditions we never would have found until demolition. This saved us from a catastrophic budget overrun.",
+        "quoteAttribution": "Principal Architect, BBB Architects"
+      },
       "snippet": "45,000 sqft historic castle renovation in the Hudson Valley. ±3mm variance control enabled structural retrofit without demolition. Saved $180K in change orders through accurate existing conditions.",
       "key_stats": {
         "sqft": 45000,
@@ -34,12 +54,17 @@
         "timeline": "3 weeks",
         "accuracy": "±3mm"
       },
+      "matchCriteria": {
+        "buildingTypes": ["historic", "residential", "adaptive_reuse", "renovation"],
+        "sqftRange": [20000, 100000],
+        "lodMatch": [300, 350],
+        "keywords": ["historic", "preservation", "castle", "mansion", "landmark", "structural"]
+      },
       "buyerPersonaFit": ["Risk-Averse Principal", "Tech-Forward BIM Director"],
-      "awards": [],
-      "location": "Hudson Valley, NY",
       "personas": ["BP1_Engineer", "BP5_Architect"],
       "uses": 47,
       "vault_to_meeting": 0.23,
+      "conversions": 11,
       "last_used": "2026-01-20T00:00:00Z",
       "created_at": "2025-09-15T00:00:00Z"
     },
@@ -50,15 +75,35 @@
       "pod": "P4",
       "type": "lod_sample",
       "status": "ACTIVE",
-      "building_types": ["Education", "Commercial", "Institutional"],
-      "buildingTypes": ["Education", "Commercial", "Institutional"],
+      "building_types": ["Education", "Commercial", "Institutional", "High-Rise"],
       "sqft": 785000,
-      "projectSF": 785000,
       "lod_level": 200,
-      "lodLevel": 200,
       "disciplines": ["architecture"],
       "thumbnail_url": "/proof/cuny_thumb.jpg",
       "pdf_url": "/proof/cuny_lod200_sample.pdf",
+      "location": "New York, NY",
+      "twelvePointNarrative": {
+        "projectName": "CUNY Baruch College Campus Documentation",
+        "clientType": "Public University / Facilities Management",
+        "buildingType": "Multi-Building Campus - 17-Story Tower + 3 Adjacent Buildings",
+        "squareFootage": "785,000 sqft total across 4 buildings",
+        "lodLevel": "LOD 200 - Space Planning & Facilities Management",
+        "deliverables": ["Revit Model (Architecture)", "Point Cloud Archive", "Floor Plans (All Levels)", "Ceiling Height Analysis"],
+        "timeline": "4 weeks capture, 3 weeks modeling",
+        "challenge": "Facilities team had no reliable as-built documentation. Decades of renovations created floor plan chaos. Needed comprehensive model for 10-year capital planning.",
+        "solution": "Coordinated scanning across 4 buildings over 8 weekend sessions to minimize disruption. Processed 2.1 billion points into unified coordinate system.",
+        "outcome": "Facilities team now has single source of truth for space planning. Model supports ongoing renovation projects and ADA compliance verification.",
+        "keyMetrics": {
+          "sqft": 785000,
+          "buildings": 4,
+          "floors": 38,
+          "points": "2.1B",
+          "timeline": "4 weeks",
+          "deliverable": "Revit + Point Cloud"
+        },
+        "quote": "For the first time in 30 years, we know exactly what we have. This model will drive our capital planning for the next decade.",
+        "quoteAttribution": "Director of Facilities, CUNY Baruch"
+      },
       "snippet": "785,000 sqft campus-wide documentation for facilities management. Delivered 17-story vertical building plus 3 adjacent structures in 4 weeks.",
       "key_stats": {
         "sqft": 785000,
@@ -66,12 +111,17 @@
         "timeline": "4 weeks",
         "deliverable": "Revit + Point Cloud"
       },
+      "matchCriteria": {
+        "buildingTypes": ["education", "institutional", "campus", "university", "commercial"],
+        "sqftRange": [100000, 1000000],
+        "lodMatch": [200],
+        "keywords": ["campus", "education", "facilities", "university", "college", "multi-building"]
+      },
       "buyerPersonaFit": ["Risk-Averse Principal", "Budget-Conscious PM"],
-      "awards": [],
-      "location": "New York, NY",
       "personas": ["BP2_Executive", "BP1_Engineer"],
       "uses": 32,
       "vault_to_meeting": 0.19,
+      "conversions": 6,
       "last_used": "2026-01-18T00:00:00Z",
       "created_at": "2025-06-01T00:00:00Z"
     },
@@ -83,14 +133,34 @@
       "type": "lod_sample",
       "status": "ACTIVE",
       "building_types": ["Healthcare", "Commercial", "Adaptive Reuse"],
-      "buildingTypes": ["Healthcare", "Commercial", "Adaptive Reuse"],
       "sqft": 150000,
-      "projectSF": 150000,
       "lod_level": 350,
-      "lodLevel": 350,
       "disciplines": ["architecture", "mep"],
       "thumbnail_url": "/proof/healthcare_thumb.jpg",
       "pdf_url": "/proof/healthcare_lod300.pdf",
+      "location": "New York, NY",
+      "twelvePointNarrative": {
+        "projectName": "Mount Sinai Hospital Wing MEP Coordination",
+        "clientType": "Healthcare System",
+        "buildingType": "Hospital - Active Patient Care Facility",
+        "squareFootage": "150,000 sqft (5 floors of surgical suites)",
+        "lodLevel": "LOD 350 - MEP Coordination & Clash Detection",
+        "deliverables": ["Revit Model (Architecture + MEP)", "Point Cloud", "MEP Routing Analysis", "Clash Detection Report"],
+        "timeline": "2 weeks capture (night shifts), 3 weeks modeling",
+        "challenge": "Live hospital environment required zero disruption to patient care. Ceiling plenum conditions were unknown - original drawings showed generic space. Previous contractor had 47 RFIs from bad as-builts.",
+        "solution": "Executed night scanning between 11pm-5am over 14 sessions. Focused on ceiling plenum capture with specialized mounting. Achieved LOD 350 for all MEP elements.",
+        "outcome": "Mechanical contractor installed new HVAC routing with zero RFIs. Project completed on schedule despite complex existing conditions.",
+        "keyMetrics": {
+          "sqft": 150000,
+          "rfiReduction": "100%",
+          "timeline": "2 weeks",
+          "scanSessions": 14,
+          "focus": "MEP Coordination",
+          "nightShifts": true
+        },
+        "quote": "Zero RFIs on a healthcare MEP project is unheard of. The scan model paid for itself ten times over.",
+        "quoteAttribution": "Project Manager, Turner Construction"
+      },
       "snippet": "150,000 sqft hospital wing MEP coordination. Captured complex ceiling plenum conditions for mechanical retrofit. Zero RFIs from scan-derived model.",
       "key_stats": {
         "sqft": 150000,
@@ -98,43 +168,82 @@
         "timeline": "2 weeks",
         "focus": "MEP Coordination"
       },
+      "matchCriteria": {
+        "buildingTypes": ["healthcare", "hospital", "medical", "clinical"],
+        "sqftRange": [50000, 500000],
+        "lodMatch": [300, 350],
+        "keywords": ["healthcare", "hospital", "medical", "mep", "retrofit", "surgical"]
+      },
       "buyerPersonaFit": ["Risk-Averse Principal", "Tech-Forward BIM Director"],
       "awards": ["2024 AIA Healthcare Design Award"],
-      "location": "New York, NY",
       "personas": ["BP1_Engineer"],
       "uses": 28,
       "vault_to_meeting": 0.21,
+      "conversions": 6,
       "last_used": "2026-01-15T00:00:00Z",
       "created_at": "2025-08-20T00:00:00Z"
     },
     {
       "id": "proof_004",
       "title": "Mixed-Use Tower - LOD 350 Facade Documentation",
+      "name": "Hudson Yards Tower Facade Assessment",
       "pod": "P4",
       "type": "lod_sample",
       "status": "ACTIVE",
-      "building_types": ["mixed_use", "high_rise", "commercial"],
+      "building_types": ["Mixed-Use", "High-Rise", "Commercial", "Residential"],
       "sqft": 320000,
       "lod_level": 350,
       "disciplines": ["architecture", "structural"],
       "thumbnail_url": "/proof/tower_thumb.jpg",
       "pdf_url": "/proof/tower_lod350.pdf",
-      "snippet": "320,000 sqft mixed-use tower facade assessment. High-detail exterior scanning for LL11 compliance and facade repair planning.",
+      "location": "New York, NY",
+      "twelvePointNarrative": {
+        "projectName": "Hudson Yards Tower - LL11 Facade Assessment",
+        "clientType": "Property Management / Owner's Rep",
+        "buildingType": "42-Story Mixed-Use Tower (Office + Residential)",
+        "squareFootage": "320,000 sqft facade surface area",
+        "lodLevel": "LOD 350 - High Detail Facade Documentation",
+        "deliverables": ["Facade Model", "Deviation Analysis", "LL11 Compliance Report", "Repair Prioritization Map"],
+        "timeline": "1 week exterior scanning, 2 weeks analysis",
+        "challenge": "NYC Local Law 11 requires facade inspection every 5 years. Traditional rope-access inspection would take 3 months and $400K. Building owner needed faster, safer approach.",
+        "solution": "Combined drone photogrammetry (DJI Matrice) with ground-level Leica scanning. Achieved full coverage of all 42 floors from 4 vantage points plus 2 aerial sessions.",
+        "outcome": "Delivered comprehensive facade model with 47 defect locations mapped and prioritized. Owner saved $280K versus traditional inspection approach.",
+        "keyMetrics": {
+          "sqft": 320000,
+          "floors": 42,
+          "defectsFound": 47,
+          "compliance": "LL11",
+          "savings": "$280,000",
+          "deliverable": "Facade Model + Report"
+        },
+        "quote": "We went from dreading our LL11 cycle to actually understanding our building envelope for the first time.",
+        "quoteAttribution": "Building Manager, Related Companies"
+      },
+      "snippet": "320,000 sqft mixed-use tower facade assessment. High-detail exterior scanning for LL11 compliance and facade repair planning. Saved $280K vs traditional inspection.",
       "key_stats": {
         "sqft": 320000,
         "floors": 42,
         "compliance": "LL11",
+        "savings": "$280,000",
         "deliverable": "Facade Model + Report"
+      },
+      "matchCriteria": {
+        "buildingTypes": ["high-rise", "tower", "commercial", "mixed-use", "residential"],
+        "sqftRange": [100000, 500000],
+        "lodMatch": [300, 350],
+        "keywords": ["facade", "tower", "high-rise", "LL11", "compliance", "exterior"]
       },
       "personas": ["BP2_Executive", "BP5_Architect"],
       "uses": 15,
       "vault_to_meeting": 0.27,
+      "conversions": 4,
       "last_used": "2026-01-10T00:00:00Z",
       "created_at": "2025-11-01T00:00:00Z"
     },
     {
       "id": "proof_005",
       "title": "Variance Control Whitepaper",
+      "name": "The ±3mm Advantage Whitepaper",
       "pod": "P4",
       "type": "whitepaper",
       "status": "ACTIVE",
@@ -144,30 +253,84 @@
       "disciplines": ["general"],
       "thumbnail_url": "/proof/whitepaper_thumb.jpg",
       "pdf_url": "/proof/variance_control_whitepaper.pdf",
+      "location": "N/A",
+      "twelvePointNarrative": {
+        "projectName": "The ±3mm Advantage: How Variance Control Prevents Change Orders",
+        "clientType": "All (Educational Resource)",
+        "buildingType": "N/A - Technical Whitepaper",
+        "squareFootage": "N/A",
+        "lodLevel": "All LOD levels covered",
+        "deliverables": ["12-Page Technical Whitepaper", "ROI Calculator Spreadsheet", "Case Study Summaries"],
+        "timeline": "Self-serve download",
+        "challenge": "Industry average shows 35% of renovation projects experience major change orders due to inaccurate existing conditions. Most firms don't quantify the cost of bad as-builts.",
+        "solution": "Comprehensive analysis of 47 S2P projects showing correlation between scan accuracy and change order reduction. Includes ROI calculator for prospect self-assessment.",
+        "outcome": "Educates prospects on the true cost of 'good enough' documentation. Positions S2P as the quality-focused choice. 23% of whitepaper downloads request a meeting.",
+        "keyMetrics": {
+          "pages": 12,
+          "casesAnalyzed": 47,
+          "avgChangeOrderReduction": "78%",
+          "downloadToMeeting": "23%",
+          "roi_calculator": true,
+          "target_persona": "Executive"
+        },
+        "quote": "This whitepaper changed how I evaluate scan proposals. Now I ask about variance control first.",
+        "quoteAttribution": "CFO, Development Company"
+      },
       "snippet": "Technical whitepaper: Why ±3mm variance control prevents $50K+ change orders. Includes ROI calculator and case study data.",
       "key_stats": {
         "pages": 12,
         "roi_calculator": true,
         "target_persona": "Executive"
       },
+      "matchCriteria": {
+        "buildingTypes": ["all"],
+        "sqftRange": [0, 10000000],
+        "lodMatch": [200, 300, 350],
+        "keywords": ["roi", "budget", "change order", "executive", "cost", "savings"]
+      },
       "personas": ["BP2_Executive"],
       "uses": 89,
-      "vault_to_meeting": 0.15,
+      "vault_to_meeting": 0.23,
+      "conversions": 20,
       "last_used": "2026-01-21T00:00:00Z",
       "created_at": "2025-04-01T00:00:00Z"
     },
     {
       "id": "proof_006",
       "title": "Industrial Facility - Site Topo + Building",
+      "name": "Amazon Fulfillment Center Survey",
       "pod": "P4",
       "type": "lod_sample",
       "status": "ACTIVE",
-      "building_types": ["industrial", "warehouse", "site"],
+      "building_types": ["Industrial", "Warehouse", "Site", "Logistics"],
       "sqft": 250000,
       "lod_level": 200,
       "disciplines": ["architecture", "site"],
       "thumbnail_url": "/proof/industrial_thumb.jpg",
       "pdf_url": "/proof/industrial_site.pdf",
+      "location": "New Jersey",
+      "twelvePointNarrative": {
+        "projectName": "Amazon Regional Fulfillment Center Survey",
+        "clientType": "National Logistics / E-Commerce",
+        "buildingType": "Industrial Warehouse + 15-Acre Site",
+        "squareFootage": "250,000 sqft building + 15 acres",
+        "lodLevel": "LOD 200 - Space Planning & Site Coordination",
+        "deliverables": ["Building Revit Model", "Site Topography Model", "Drone Orthomosaic", "Clear Height Analysis"],
+        "timeline": "1 week total (3 days drone, 4 days interior)",
+        "challenge": "Tenant improvement project required complete understanding of 40-foot clear heights and 15-acre site for new racking and loading dock expansion. Site had no accurate survey.",
+        "solution": "Combined DJI Matrice 300 aerial survey with Leica RTC360 interior scanning. Processed into unified coordinate system with NAD83 georeferencing.",
+        "outcome": "Racking contractor maximized clear height utilization. Site engineer designed dock expansion with precise grade data. Project approved 2 weeks ahead of schedule.",
+        "keyMetrics": {
+          "sqft": 250000,
+          "acres": 15,
+          "clearHeight": "40 ft",
+          "method": "Drone + Terrestrial",
+          "deliverable": "Site Model + Building",
+          "georeferencing": "NAD83"
+        },
+        "quote": "The combined aerial and interior approach gave us everything in one week. Our previous surveyor quoted 6 weeks.",
+        "quoteAttribution": "Project Director, CBRE"
+      },
       "snippet": "250,000 sqft industrial complex with 15-acre site survey. Combined aerial drone capture with interior scanning for complete property documentation.",
       "key_stats": {
         "sqft": 250000,
@@ -175,9 +338,16 @@
         "method": "Drone + Terrestrial",
         "deliverable": "Site Model + Building"
       },
+      "matchCriteria": {
+        "buildingTypes": ["industrial", "warehouse", "logistics", "fulfillment", "site"],
+        "sqftRange": [100000, 500000],
+        "lodMatch": [200],
+        "keywords": ["industrial", "warehouse", "site", "drone", "logistics", "fulfillment"]
+      },
       "personas": ["BP1_Engineer", "BP2_Executive"],
       "uses": 12,
       "vault_to_meeting": 0.17,
+      "conversions": 2,
       "last_used": "2026-01-08T00:00:00Z",
       "created_at": "2025-10-15T00:00:00Z"
     }
@@ -190,6 +360,7 @@
       "whitepaper": 1
     },
     "total_uses": 223,
-    "avg_vault_to_meeting": 0.20
+    "total_conversions": 49,
+    "avg_vault_to_meeting": 0.22
   }
 }
