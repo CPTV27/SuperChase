@@ -62,8 +62,8 @@ export default function Layout() {
         spokeStatus={spokeStatus}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 min-h-screen lg:ml-0 transition-all duration-200">
+      {/* Main Content Area - offset by sidebar width on desktop */}
+      <main className="flex-1 min-h-screen lg:ml-[280px] transition-all duration-200">
         <Outlet context={{ spokeStatus, sidebarOpen, toggleSidebar: handleToggle }} />
       </main>
 

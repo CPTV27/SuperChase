@@ -268,7 +268,7 @@ export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
+      {/* Sidebar - fixed on all screens, visible on lg+ */}
       <aside
         className={`
           fixed top-0 left-0 h-full w-[280px] z-50
@@ -276,8 +276,7 @@ export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
           bg-[rgba(9,9,11,0.97)] backdrop-blur-xl
           border-r border-zinc-800/50
           transition-transform duration-300 ease-out
-          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          lg:translate-x-0 lg:relative
+          ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
         {/* Header */}
