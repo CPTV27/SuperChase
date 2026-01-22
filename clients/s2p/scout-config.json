@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0",
+  "mode": "PHASE_1_WHALE",
+  "lastUpdated": "2026-01-22T00:00:00Z",
+
+  "phase1Config": {
+    "name": "Build & Readiness",
+    "period": "Jan-Mar 2026",
+    "focus": "Tier-A Whale Lead Identification",
+    "scoutBehavior": "WHALE_ONLY"
+  },
+
+  "whaleDefinition": {
+    "minSqft": 50000,
+    "minEstimatedValue": 50000,
+    "requiredSignals": ["permit_filed", "design_phase", "institutional_owner"],
+    "preferredVerticals": [
+      "Higher Education",
+      "Healthcare",
+      "Government",
+      "Historic Preservation",
+      "Data Centers"
+    ],
+    "tierAThreshold": {
+      "sqft": 100000,
+      "value": 150000,
+      "complexity": "HIGH"
+    }
+  },
+
+  "dataSources": {
+    "P9_Permit": {
+      "enabled": true,
+      "priority": 1,
+      "scanFrequency": "DAILY",
+      "filters": {
+        "permitType": ["NB", "ALT1", "ALT2"],
+        "minValue": 10000000,
+        "jurisdiction": ["NYC", "Westchester", "Long Island", "NJ Metro"]
+      }
+    },
+    "P16_Compliance": {
+      "enabled": true,
+      "priority": 2,
+      "scanFrequency": "WEEKLY",
+      "filters": {
+        "violationType": ["Structural", "Fire Safety", "ADA"],
+        "urgency": ["HIGH", "CRITICAL"]
+      }
+    }
+  },
+
+  "outputFormat": {
+    "cardType": "WHALE_RESEARCH",
+    "requiredFields": [
+      "project.name",
+      "project.sqft",
+      "whaleScore.total",
+      "intelligence.source",
+      "scanOpportunity.estimatedValue",
+      "outreachStrategy.persona",
+      "governanceCheck.marginCompliant"
+    ],
+    "outputDir": "/memory/whale_leads/"
+  },
+
+  "exclusions": {
+    "skipIfBelow50kSqft": true,
+    "skipResidential": true,
+    "skipRetail": true,
+    "skipMatterportRFP": true,
+    "reasonLogging": true
+  },
+
+  "alerts": {
+    "tierAWhaleDetected": {
+      "channels": ["dashboard", "email"],
+      "priority": "HIGH"
+    },
+    "dasnyProjectDetected": {
+      "channels": ["dashboard", "email", "slack"],
+      "priority": "CRITICAL",
+      "note": "DASNY = institutional repeat business opportunity"
+    }
+  }
+}

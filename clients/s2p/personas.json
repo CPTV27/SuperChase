@@ -1,0 +1,112 @@
+{
+  "version": "1.0.0",
+  "source": "FY2026 Manual - Section 4: Cognitive Blueprints",
+
+  "buyerPersonas": {
+    "BP1": {
+      "id": "BP1",
+      "name": "The Engineer",
+      "title": "Project Engineer / BIM Manager",
+      "company": "AEC Firm / GC",
+      "cognitiveProfile": {
+        "primaryDrivers": ["Accuracy", "Buildability", "Risk Mitigation"],
+        "decisionStyle": "Data-driven, specification-focused",
+        "trustSignals": ["Technical credentials", "LOD certifications", "Equipment specs"],
+        "painPoints": ["Field conflicts", "RFI delays", "Coordination failures"]
+      },
+      "messaging": {
+        "leadWith": "±3mm Variance Control & LOD 300/350 Deliverables",
+        "avoid": ["Marketing speak", "Vague timelines", "Price-first positioning"],
+        "proofAssets": ["Technical spec sheets", "LOD comparison charts", "Equipment certifications"],
+        "tone": "Technical peer, precise language, specification-heavy"
+      },
+      "triggers": {
+        "keywords": ["accuracy", "tolerance", "specification", "LOD", "BIM", "coordination"],
+        "scenarios": ["RFI mentions", "clash detection needs", "as-built requirements"]
+      }
+    },
+
+    "BP2": {
+      "id": "BP2",
+      "name": "The Executive",
+      "title": "VP Operations / CFO / Owner's Rep",
+      "company": "Developer / Asset Owner",
+      "cognitiveProfile": {
+        "primaryDrivers": ["ROI", "Risk Reduction", "Timeline Certainty"],
+        "decisionStyle": "Outcome-focused, bottom-line driven",
+        "trustSignals": ["Case studies with ROI", "Timeline guarantees", "Reference clients"],
+        "painPoints": ["Budget overruns", "Schedule delays", "Change orders"]
+      },
+      "messaging": {
+        "leadWith": "Variance Control Prevents $50K+ Change Orders",
+        "avoid": ["Technical jargon", "Feature lists", "Equipment specs"],
+        "proofAssets": ["The Castle ROI breakdown", "Cost avoidance calculator", "Executive summary"],
+        "tone": "Business peer, ROI-focused, outcome-driven"
+      },
+      "triggers": {
+        "keywords": ["budget", "ROI", "cost", "timeline", "risk", "change order"],
+        "scenarios": ["Budget discussions", "Executive briefings", "Investment decisions"]
+      }
+    },
+
+    "BP5": {
+      "id": "BP5",
+      "name": "The Architect",
+      "title": "Principal / Design Director",
+      "company": "Architecture Firm",
+      "cognitiveProfile": {
+        "primaryDrivers": ["Design Freedom", "Documentation Quality", "Client Impression"],
+        "decisionStyle": "Aesthetic + functional balance",
+        "trustSignals": ["Portfolio quality", "Historic preservation work", "Design flexibility"],
+        "painPoints": ["Incomplete existing conditions", "Design iteration delays", "Client presentations"]
+      },
+      "messaging": {
+        "leadWith": "LOD 300/350 Enables Design Freedom with Accurate Constraints",
+        "avoid": ["Commodity comparisons", "Price-first", "Generic scanning talk"],
+        "proofAssets": ["The Castle visualization", "Before/after renderings", "LOD progression examples"],
+        "tone": "Design collaborator, visual-first, quality-focused"
+      },
+      "triggers": {
+        "keywords": ["design", "historic", "renovation", "adaptive reuse", "visualization", "rendering"],
+        "scenarios": ["Historic projects", "Renovation scope", "Design development phase"]
+      }
+    }
+  },
+
+  "personaSwitchboard": {
+    "enabled": true,
+    "defaultPersona": "BP1",
+    "autoDetection": true,
+    "detectionRules": [
+      {
+        "condition": "title contains 'Engineer' OR 'BIM' OR 'Technical'",
+        "persona": "BP1"
+      },
+      {
+        "condition": "title contains 'VP' OR 'Director' OR 'CFO' OR 'Owner'",
+        "persona": "BP2"
+      },
+      {
+        "condition": "title contains 'Architect' OR 'Principal' OR 'Design'",
+        "persona": "BP5"
+      }
+    ]
+  },
+
+  "depositioning": {
+    "matterport": {
+      "theirCategory": "Marketing-Grade Visuals",
+      "ourCategory": "Engineering-Grade Variance Control",
+      "keyDifferentiators": [
+        "±3mm accuracy vs ±30mm Matterport tolerance",
+        "LOD 300/350 BIM deliverables vs visual-only output",
+        "Construction-grade documentation vs marketing tours"
+      ]
+    },
+    "commodityScanning": {
+      "theirCategory": "Visual Documentation",
+      "ourCategory": "Precision Reality Capture",
+      "response": "We don't compete on price for visual tours. We deliver engineering-grade accuracy that prevents construction conflicts."
+    }
+  }
+}

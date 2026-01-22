@@ -792,6 +792,123 @@ const routes = {
   },
 
   // ============================================
+  // Governance & Hard Gate API Endpoints
+  // ============================================
+
+  // Get governance config for a business unit
+  'GET /api/governance/:businessId': async (req, params) => {
+    const businessId = params.businessId;
+    const govPath = path.join(process.cwd(), 'clients', businessId, 'governance.json');
+    const configPath = path.join(process.cwd(), 'clients', businessId, 'config.json');
+
+    if (!fs.existsSync(configPath)) {
+      return { error: `Business unit not found: ${businessId}` };
+    }
+
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    const governance = fs.existsSync(govPath)
+      ? JSON.parse(fs.readFileSync(govPath, 'utf-8'))
+      : null;
+
+    return {
+      businessId,
+      marginFloor: config.pricingEngine?.marginFloor || 0.40,
+      hardGateEnabled: config.governance?.hardGateEnabled || false,
+      governance,
+      phase: config.phase || null
+    };
+  },
+
+  // Verify a proposal against Hard Gates
+  'POST /api/governance/:businessId/verify': async (req, params) => {
+    const businessId = params.businessId;
+    const body = await parseBody(req);
+    const { proposedMargin, serviceType, customPricing } = body;
+
+    const govPath = path.join(process.cwd(), 'clients', businessId, 'governance.json');
+    const configPath = path.join(process.cwd(), 'clients', businessId, 'config.json');
+
+    if (!fs.existsSync(configPath)) {
+      return { error: `Business unit not found: ${businessId}` };
+    }
+
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    const governance = fs.existsSync(govPath)
+      ? JSON.parse(fs.readFileSync(govPath, 'utf-8'))
+      : null;
+
+    const marginFloor = config.pricingEngine?.marginFloor || 0.40;
+    const violations = [];
+    let approved = true;
+
+    // Check margin floor
+    if (proposedMargin !== undefined && proposedMargin < marginFloor) {
+      violations.push({
+        rule: 'MARGIN_FLOOR',
+        message: `Proposed margin ${(proposedMargin * 100).toFixed(1)}% is below ${(marginFloor * 100).toFixed(0)}% Hard Gate`,
+        severity: 'VETO',
+        action: 'REJECTED'
+      });
+      approved = false;
+    }
+
+    // Check freelancing/custom pricing
+    if (customPricing === true && governance?.hardGates?.noFreelancing?.enabled) {
+      violations.push({
+        rule: 'NO_FREELANCING',
+        message: governance.hardGates.noFreelancing.violationMessage,
+        severity: 'VETO',
+        action: 'REJECTED'
+      });
+      approved = false;
+    }
+
+    // Check service type against P1-P22 portfolio
+    if (serviceType && governance?.hardGates?.noBespokePricing?.enabled) {
+      const validPods = governance.pods ? Object.keys(governance.pods) : [];
+      // This would check against actual service catalog - simplified for demo
+    }
+
+    return {
+      businessId,
+      approved,
+      marginFloor,
+      proposedMargin,
+      violations,
+      auditorStatus: approved ? 'APPROVED' : 'VETOED',
+      timestamp: new Date().toISOString()
+    };
+  },
+
+  // Get whale leads
+  'GET /api/governance/:businessId/whales': async (req, params) => {
+    const whalesDir = path.join(process.cwd(), 'memory', 'whale_leads');
+    if (!fs.existsSync(whalesDir)) {
+      return { whales: [], count: 0 };
+    }
+
+    const files = fs.readdirSync(whalesDir).filter(f => f.endsWith('.json'));
+    const whales = files.map(f => {
+      const data = JSON.parse(fs.readFileSync(path.join(whalesDir, f), 'utf-8'));
+      return {
+        id: data.id,
+        project: data.project?.name,
+        sqft: data.project?.sqft,
+        tier: data.whaleScore?.tier,
+        score: data.whaleScore?.total,
+        status: data.status,
+        estimatedValue: data.scanOpportunity?.estimatedValue
+      };
+    });
+
+    return {
+      whales,
+      count: whales.length,
+      scoutMode: 'PHASE_1_WHALE'
+    };
+  },
+
+  // ============================================
   // Observability API Endpoints
   // ============================================
 
@@ -1979,6 +2096,134 @@ async function handleClientRoute(req, method, pathname) {
 }
 
 /**
+ * Handle Governance API routes
+ * Pattern: /api/governance/:businessId/:action?
+ */
+async function handleGovernanceRoute(req, method, pathname) {
+  const match = pathname.match(/^\/api\/governance\/([^/]+)(?:\/(.*))?$/);
+  if (!match) return null;
+
+  const businessId = match[1];
+  const action = match[2] || 'config';
+
+  logger.info(`[Governance API] ${method} /${businessId}/${action}`);
+
+  const govPath = path.join(process.cwd(), 'clients', businessId, 'governance.json');
+  const configPath = path.join(process.cwd(), 'clients', businessId, 'config.json');
+
+  // GET /api/governance/:businessId - Get governance config
+  if (method === 'GET' && (!action || action === 'config')) {
+    if (!fs.existsSync(configPath)) {
+      return { error: `Business unit not found: ${businessId}` };
+    }
+
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    const governance = fs.existsSync(govPath)
+      ? JSON.parse(fs.readFileSync(govPath, 'utf-8'))
+      : null;
+
+    return {
+      businessId,
+      marginFloor: config.pricingEngine?.marginFloor || 0.40,
+      hardGateEnabled: config.governance?.hardGateEnabled || (governance?.hardGates ? true : false),
+      governance,
+      phase: config.phase || null
+    };
+  }
+
+  // POST /api/governance/:businessId/verify - Verify proposal against Hard Gates
+  if (method === 'POST' && action === 'verify') {
+    if (!fs.existsSync(configPath)) {
+      return { error: `Business unit not found: ${businessId}` };
+    }
+
+    const body = await parseBody(req);
+    const { proposedMargin, serviceType, customPricing } = body;
+
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    const governance = fs.existsSync(govPath)
+      ? JSON.parse(fs.readFileSync(govPath, 'utf-8'))
+      : null;
+
+    const marginFloor = config.pricingEngine?.marginFloor || 0.40;
+    const violations = [];
+    let approved = true;
+
+    // Check margin floor
+    if (proposedMargin !== undefined && proposedMargin < marginFloor) {
+      violations.push({
+        rule: 'MARGIN_FLOOR',
+        message: `HARD GATE VIOLATION: Proposed margin ${(proposedMargin * 100).toFixed(1)}% is below ${(marginFloor * 100).toFixed(0)}% minimum`,
+        severity: 'VETO',
+        action: 'REJECTED'
+      });
+      approved = false;
+    }
+
+    // Check freelancing/custom pricing
+    if (customPricing === true && governance?.hardGates?.noFreelancing?.enabled) {
+      violations.push({
+        rule: 'NO_FREELANCING',
+        message: governance.hardGates.noFreelancing.violationMessage || 'FREELANCING DETECTED: Custom pricing outside P1-P22 portfolio is not allowed',
+        severity: 'VETO',
+        action: 'REJECTED'
+      });
+      approved = false;
+    }
+
+    return {
+      businessId,
+      approved,
+      marginFloor,
+      proposedMargin,
+      violations,
+      auditorStatus: approved ? 'APPROVED' : 'VETOED',
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  // GET /api/governance/:businessId/whales - Get whale leads
+  if (method === 'GET' && action === 'whales') {
+    const whalesDir = path.join(process.cwd(), 'memory', 'whale_leads');
+    if (!fs.existsSync(whalesDir)) {
+      fs.mkdirSync(whalesDir, { recursive: true });
+      return { whales: [], count: 0, scoutMode: 'PHASE_1_WHALE' };
+    }
+
+    const files = fs.readdirSync(whalesDir).filter(f => f.endsWith('.json'));
+    const whales = files.map(f => {
+      const data = JSON.parse(fs.readFileSync(path.join(whalesDir, f), 'utf-8'));
+      return {
+        id: data.id,
+        project: data.project?.name,
+        sqft: data.project?.sqft,
+        tier: data.whaleScore?.tier,
+        score: data.whaleScore?.total,
+        status: data.status,
+        estimatedValue: data.scanOpportunity?.estimatedValue
+      };
+    });
+
+    return {
+      whales,
+      count: whales.length,
+      scoutMode: 'PHASE_1_WHALE'
+    };
+  }
+
+  // GET /api/governance/:businessId/personas - Get persona configs
+  if (method === 'GET' && action === 'personas') {
+    const personasPath = path.join(process.cwd(), 'clients', businessId, 'personas.json');
+    if (!fs.existsSync(personasPath)) {
+      return { error: `Personas not configured for: ${businessId}` };
+    }
+    return JSON.parse(fs.readFileSync(personasPath, 'utf-8'));
+  }
+
+  return { error: `Unknown governance action: ${action}` };
+}
+
+/**
  * Handle Business Discovery API routes
  * Pattern: /api/discover/:businessId/:action
  */
@@ -2209,6 +2454,31 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'DISCOVERY_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic governance routes
+  if (url.pathname.startsWith('/api/governance/')) {
+    try {
+      const result = await handleGovernanceRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        recordRequest(routeKey, duration, true);
+        reqLogger.debug(`Governance route complete`, { duration });
+        res.writeHead(200, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Governance error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'GOVERNANCE_ERROR', message: error.message },
         requestId
       }));
       return;

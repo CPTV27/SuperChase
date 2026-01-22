@@ -1,0 +1,104 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-22T00:00:00Z",
+  "source": "FY2026 Sales and Marketing Strategy Manual",
+  "notebookLmSync": {
+    "enabled": true,
+    "notebookId": null,
+    "lastSync": null,
+    "syncField": "PASTE_CEO_NOTEBOOK_URL_HERE"
+  },
+
+  "hardGates": {
+    "marginFloor": {
+      "value": 0.40,
+      "description": "40% Gross Margin Hard Gate - No exceptions",
+      "enforcement": "VETO",
+      "source": "P1 Pricing SSOT"
+    },
+    "noFreelancing": {
+      "enabled": true,
+      "description": "No bespoke pricing outside P1-P22 portfolio",
+      "enforcement": "VETO",
+      "violationMessage": "FREELANCING DETECTED: This request falls outside the standardized P1-P22 portfolio. Route to COO for strategic review."
+    },
+    "noBespokePricing": {
+      "enabled": true,
+      "description": "All pricing must reference P1 Pricing SSOT",
+      "enforcement": "VETO"
+    }
+  },
+
+  "assumptionsToKill": [
+    {
+      "id": "AK1",
+      "assumption": "Clients understand our value proposition",
+      "reality": "They compare us to Matterport visual tours",
+      "response": "Lead with ±3mm variance control, not 'scanning'"
+    },
+    {
+      "id": "AK2",
+      "assumption": "Lower prices win more deals",
+      "reality": "Racing to bottom destroys margin and positioning",
+      "response": "Enforce 40% GM floor, compete on accuracy not price"
+    },
+    {
+      "id": "AK3",
+      "assumption": "Every RFP is worth pursuing",
+      "reality": "Commodity RFPs waste capacity on low-margin work",
+      "response": "Filter via Whale criteria (>50k sqft, complexity score)"
+    },
+    {
+      "id": "AK4",
+      "assumption": "Custom solutions show flexibility",
+      "reality": "Freelancing creates scope creep and margin decay",
+      "response": "Standardize via P1-P22 pods, no exceptions"
+    }
+  ],
+
+  "pods": {
+    "P1": { "name": "Pricing SSOT", "status": "ACTIVE", "type": "engine" },
+    "P4": { "name": "Proof Vault", "status": "ACTIVE", "type": "asset" },
+    "P9": { "name": "Permit Intelligence", "status": "ACTIVE", "type": "intel" },
+    "P11": { "name": "Standards Hub", "status": "BUILDING", "type": "engine" },
+    "P16": { "name": "Compliance Monitor", "status": "ACTIVE", "type": "intel" },
+    "P20": { "name": "The Castle Case Study", "status": "ACTIVE", "type": "proof", "priority": "PRIMARY" },
+    "P22": { "name": "Enterprise Packages", "status": "ACTIVE", "type": "offering" }
+  },
+
+  "proofVault": {
+    "primaryAsset": "P20",
+    "rule": "1 Link + 1 Proof",
+    "architectLeads": {
+      "default": "The Castle (P20)",
+      "fallback": "LOD 300/350 Portfolio"
+    },
+    "executiveLeads": {
+      "default": "ROI Calculator + Castle",
+      "fallback": "Variance Control Whitepaper"
+    }
+  },
+
+  "auditorDirectives": [
+    "VETO any proposal with gross margin below 40%",
+    "VETO any pricing not derived from P1 Pricing SSOT",
+    "VETO any service offering outside P1-P22 portfolio",
+    "FLAG any 'custom' or 'bespoke' language in proposals",
+    "REQUIRE proof asset attachment for all architect/executive leads",
+    "ENFORCE 3-5 week delivery timeline communication"
+  ],
+
+  "phase": {
+    "current": 1,
+    "name": "Build & Readiness",
+    "period": "Jan-Mar 2026",
+    "focus": [
+      "P1 Pricing SSOT completion",
+      "P11 Standards Hub build",
+      "Whale lead identification",
+      "Case study pipeline"
+    ],
+    "activeEngines": ["P1", "P11"],
+    "scoutMode": "WHALE_ONLY"
+  }
+}

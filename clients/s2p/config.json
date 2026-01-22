@@ -178,5 +178,28 @@
         ]
     },
     "createdAt": "2026-01-20T00:00:00.000Z",
-    "updatedAt": "2026-01-21T00:45:00.000Z"
+    "updatedAt": "2026-01-22T00:00:00.000Z",
+
+    "governance": {
+        "configFile": "governance.json",
+        "hardGateEnabled": true,
+        "marginFloorEnforced": true,
+        "noFreelancingEnforced": true,
+        "auditorVetoActive": true
+    },
+
+    "phase": {
+        "current": 1,
+        "name": "Build & Readiness",
+        "period": "Jan-Mar 2026",
+        "scoutMode": "WHALE_ONLY",
+        "activeEngines": ["P1", "P11"],
+        "dashboardState": "PHASE_1"
+    },
+
+    "depositioning": {
+        "matterport": "Marketing-Grade Visuals",
+        "scanToplan": "Engineering-Grade Variance Control (±3mm)",
+        "keyMessage": "We prevent $50K+ change orders through precision - not visual tours"
+    }
 }

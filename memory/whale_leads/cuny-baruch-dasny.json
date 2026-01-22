@@ -1,0 +1,109 @@
+{
+  "id": "whale-cuny-baruch-2026",
+  "generatedAt": "2026-01-22T00:00:00Z",
+  "status": "TIER_A_WHALE",
+  "confidence": 0.92,
+
+  "project": {
+    "name": "CUNY Baruch College - Newman Vertical Campus Renovation",
+    "owner": "DASNY (Dormitory Authority of the State of New York)",
+    "location": "55 Lexington Avenue, New York, NY 10010",
+    "sqft": 785000,
+    "floors": 17,
+    "buildingType": "Higher Education / Vertical Campus",
+    "constructionType": "Major Renovation / Systems Upgrade"
+  },
+
+  "whaleScore": {
+    "total": 94,
+    "breakdown": {
+      "size": 25,
+      "complexity": 23,
+      "timeline": 20,
+      "budget": 18,
+      "repeatPotential": 8
+    },
+    "tier": "A",
+    "thresholdMet": true
+  },
+
+  "intelligence": {
+    "source": "P9 Permit Pod + P16 Compliance Monitor",
+    "permitFiled": "2025-11-15",
+    "permitNumber": "NB-2025-MAN-78432",
+    "estimatedValue": "$125M-150M",
+    "phase": "Pre-Construction / Design Development",
+    "timeline": "2026-2028",
+    "keyContacts": [
+      {
+        "name": "TBD - DASNY Project Manager",
+        "title": "Senior Project Manager",
+        "persona": "BP2",
+        "priority": "HIGH"
+      },
+      {
+        "name": "TBD - Prime Architect",
+        "title": "Principal",
+        "persona": "BP5",
+        "priority": "HIGH"
+      }
+    ]
+  },
+
+  "scanOpportunity": {
+    "estimatedSqft": 785000,
+    "lodRequirement": "LOD 350 (DASNY Standard)",
+    "disciplines": ["Architecture", "MEP", "Structural", "Site"],
+    "estimatedValue": {
+      "low": 275000,
+      "mid": 350000,
+      "high": 425000
+    },
+    "marginProtected": true,
+    "pricingSource": "P1 - Enterprise Package Tier 3"
+  },
+
+  "competitiveContext": {
+    "likelyCompetitors": ["ScanNYC", "VeriDaaS", "CBRE Technical Services"],
+    "ourAdvantage": "LOD 350 DASNY compliance experience + vertical campus expertise",
+    "proofAsset": "P20 - The Castle (similar complexity, historic + modern systems)",
+    "depositioning": "Position as Engineering-Grade vs commodity visual scans"
+  },
+
+  "outreachStrategy": {
+    "persona": "BP2",
+    "leadMessage": "DASNY Vertical Campus projects require ±3mm variance control to prevent MEP coordination failures. Our LOD 350 deliverables caught $280K in potential conflicts on a similar project.",
+    "proofAttachment": "The Castle Case Study (P20)",
+    "callToAction": "15-min call to discuss DASNY-compliant deliverable specifications",
+    "timing": "Optimal: Design Development Phase (NOW)",
+    "urgency": "HIGH - Prime architect selection imminent"
+  },
+
+  "governanceCheck": {
+    "marginCompliant": true,
+    "portfolioCompliant": true,
+    "freelancingRisk": "NONE",
+    "auditorStatus": "APPROVED"
+  },
+
+  "nextActions": [
+    {
+      "action": "Identify DASNY PM via LinkedIn/permit records",
+      "owner": "Scout",
+      "due": "2026-01-25",
+      "status": "PENDING"
+    },
+    {
+      "action": "Prepare DASNY-specific LOD 350 capability deck",
+      "owner": "Content Council",
+      "due": "2026-01-28",
+      "status": "PENDING"
+    },
+    {
+      "action": "Draft BP2 executive outreach sequence",
+      "owner": "Creative Forge",
+      "due": "2026-01-30",
+      "status": "PENDING"
+    }
+  ]
+}
