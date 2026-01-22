@@ -1,172 +1,193 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  CircleDot, Users, Target, FileText, CheckCircle,
-  AlertTriangle, ChevronRight, DollarSign, Building2,
-  Shield, XCircle
+  Users, FileText, CheckCircle, AlertTriangle,
+  DollarSign, Shield, XCircle, ChevronRight,
+  Phone, Mail, Send
 } from 'lucide-react'
 
 /**
- * Pipeline View with Stage Dictionary + GM Gate
- * Enforces governance rules from FY2026 Strategy
+ * Pipeline View - Simplified 3-Stage Kanban
+ * Stages: QUALIFIED MEETING → PROPOSAL ISSUED → CLOSED-WON
+ * GM% prominent on every card
  */
 
-const STAGE_CONFIG = {
-  lead: {
-    label: 'Lead',
-    icon: CircleDot,
-    color: 'text-zinc-400',
-    bgColor: 'bg-zinc-500/20',
-    weight: 0.1
-  },
-  meeting: {
-    label: 'Meeting',
+const STAGES = [
+  {
+    id: 'Meeting',
+    label: 'QUALIFIED MEETING',
     icon: Users,
     color: 'text-blue-400',
-    bgColor: 'bg-blue-500/20',
-    weight: 0.25
+    bgColor: 'bg-blue-500/10',
+    borderColor: 'border-blue-500/30'
   },
-  opportunity: {
-    label: 'Opportunity',
-    icon: Target,
-    color: 'text-purple-400',
-    bgColor: 'bg-purple-500/20',
-    weight: 0.5
-  },
-  proposal: {
-    label: 'Proposal',
+  {
+    id: 'Proposal Issued',
+    label: 'PROPOSAL ISSUED',
     icon: FileText,
     color: 'text-amber-400',
-    bgColor: 'bg-amber-500/20',
-    weight: 0.75,
+    bgColor: 'bg-amber-500/10',
+    borderColor: 'border-amber-500/30',
     gmGate: true
   },
-  close: {
-    label: 'Close',
+  {
+    id: 'Closed Won',
+    label: 'CLOSED-WON',
     icon: CheckCircle,
     color: 'text-green-400',
-    bgColor: 'bg-green-500/20',
-    weight: 1.0
+    bgColor: 'bg-green-500/10',
+    borderColor: 'border-green-500/30'
   }
+]
+
+// Also include Opportunity stage in the Meeting column
+const STAGE_MAPPING = {
+  'Lead': 'Meeting',
+  'Meeting': 'Meeting',
+  'Opportunity': 'Meeting',
+  'Proposal Issued': 'Proposal Issued',
+  'Closed Won': 'Closed Won'
 }
 
-const STAGES = ['lead', 'meeting', 'opportunity', 'proposal', 'close']
+function DealCard({ deal, onAction }) {
+  const isVetoed = deal.gm_status === 'VETO'
+  const gmPercent = deal.gm_percent ? (deal.gm_percent * 100).toFixed(0) : null
 
-function DealCard({ deal, onSelect, onAdvance }) {
-  const gmColor = deal.gm_status === 'PASS' ? 'text-green-400' :
-                  deal.gm_status === 'VETO' ? 'text-red-400' :
-                  'text-zinc-400'
-
-  const tierColor = deal.tier === 'A' ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' :
-                    deal.tier === 'B' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' :
-                    'bg-zinc-500/20 text-zinc-400 border-zinc-500/30'
+  // Calculate days in stage
+  const daysInStage = deal.updated_at
+    ? Math.floor((new Date() - new Date(deal.updated_at)) / (1000 * 60 * 60 * 24))
+    : null
 
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className={`glass rounded-lg p-3 cursor-pointer hover:bg-zinc-800/50 transition-colors ${
-        deal.gm_status === 'VETO' ? 'border border-red-500/30' : ''
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      className={`bg-zinc-800/70 rounded-xl p-4 border transition-all hover:border-zinc-600 ${
+        isVetoed ? 'border-red-500/50' : 'border-zinc-700/50'
       }`}
-      onClick={() => onSelect?.(deal)}
     >
-      {/* Header */}
+      {/* Company + Value */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="min-w-0">
-          <div className="font-medium text-white text-sm truncate">
-            {deal.company}
+          <div className="font-semibold text-white truncate">
+            {deal.firmName || deal.company}
           </div>
-          <div className="text-xs text-zinc-500 truncate">
-            {deal.project_name}
-          </div>
-        </div>
-        <span className={`px-1.5 py-0.5 text-xs rounded border flex-shrink-0 ${tierColor}`}>
-          Tier {deal.tier}
-        </span>
-      </div>
-
-      {/* Value + GM */}
-      <div className="flex items-center justify-between text-xs mb-2">
-        <div className="flex items-center gap-1 text-zinc-300">
-          <DollarSign className="w-3 h-3" />
-          ${(deal.value / 1000).toFixed(0)}K
-        </div>
-        <div className={`flex items-center gap-1 ${gmColor}`}>
-          {deal.gm_status === 'VETO' ? (
-            <>
-              <XCircle className="w-3 h-3" />
-              {(deal.gm_percent * 100).toFixed(0)}% GM
-            </>
-          ) : deal.gm_status === 'PASS' ? (
-            <>
-              <Shield className="w-3 h-3" />
-              {(deal.gm_percent * 100).toFixed(0)}% GM
-            </>
-          ) : (
-            <span>GM pending</span>
+          {deal.project_name && (
+            <div className="text-xs text-zinc-500 truncate">{deal.project_name}</div>
           )}
+        </div>
+        <div className="text-right flex-shrink-0">
+          <div className="font-bold text-white">
+            ${(deal.value / 1000).toFixed(0)}K
+          </div>
+          <div className={`text-sm font-semibold ${
+            isVetoed ? 'text-red-400' :
+            gmPercent >= 45 ? 'text-green-400' :
+            gmPercent >= 40 ? 'text-amber-400' :
+            'text-zinc-400'
+          }`}>
+            {gmPercent}% GM
+          </div>
         </div>
       </div>
 
       {/* VETO Badge */}
-      {deal.gm_status === 'VETO' && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded px-2 py-1 mb-2">
-          <div className="flex items-center gap-1 text-red-400 text-xs">
-            <AlertTriangle className="w-3 h-3" />
-            <span className="font-medium">BLOCKED</span>
+      {isVetoed && (
+        <div className="bg-red-500/20 border border-red-500/30 rounded-lg px-3 py-2 mb-3">
+          <div className="flex items-center gap-2 text-red-400 text-sm font-medium">
+            <XCircle className="w-4 h-4" />
+            BELOW GM FLOOR
           </div>
-          <div className="text-xs text-red-400/80 mt-0.5">
-            {deal.veto_reason || 'GM below 40% floor'}
-          </div>
+          {deal.repriceOptions && (
+            <div className="text-xs text-red-300/80 mt-1">
+              Reprice to ${(deal.repriceOptions.option1?.value / 1000).toFixed(0)}K for 40% GM
+            </div>
+          )}
         </div>
       )}
 
-      {/* Next Action */}
-      <div className="text-xs text-zinc-500 truncate">
-        {deal.next_action}
-      </div>
+      {/* Status info */}
+      {!isVetoed && daysInStage !== null && daysInStage > 0 && (
+        <div className="text-xs text-zinc-500 mb-3">
+          {deal.stage === 'Closed Won' ? `Won ${daysInStage} days ago` : `Pending ${daysInStage} days`}
+        </div>
+      )}
 
-      {/* Scope Audit indicator */}
-      {deal.stage === 'opportunity' && !deal.scope_audit_complete && (
-        <div className="flex items-center gap-1 mt-2 text-xs text-amber-400">
-          <FileText className="w-3 h-3" />
-          Scope audit required
+      {/* Vendor status if applicable */}
+      {deal.scopeAudit && !deal.scope_audit_complete && (
+        <div className="text-xs text-amber-400 mb-3 flex items-center gap-1">
+          <AlertTriangle className="w-3 h-3" />
+          Scope audit incomplete
+        </div>
+      )}
+
+      {/* Quick Action Button */}
+      {deal.stage !== 'Closed Won' && (
+        <button
+          onClick={() => onAction?.(isVetoed ? 'reprice' : 'followUp', deal)}
+          className={`w-full py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
+            isVetoed
+              ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30'
+              : 'bg-zinc-700/50 hover:bg-zinc-700 text-zinc-300'
+          }`}
+        >
+          {isVetoed ? (
+            <>Reprice</>
+          ) : deal.stage === 'Proposal Issued' ? (
+            <>
+              <Phone className="w-4 h-4" />
+              Follow Up
+            </>
+          ) : (
+            <>
+              <ChevronRight className="w-4 h-4" />
+              View
+            </>
+          )}
+        </button>
+      )}
+
+      {/* Won date */}
+      {deal.stage === 'Closed Won' && deal.closed_date && (
+        <div className="text-xs text-green-400 text-center">
+          {new Date(deal.closed_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
         </div>
       )}
     </motion.div>
   )
 }
 
-function StageColumn({ stage, deals, onSelectDeal, onAdvanceDeal }) {
-  const config = STAGE_CONFIG[stage]
-  const Icon = config.icon
-  const stageDeals = deals.filter(d => d.stage === stage)
-  const stageValue = stageDeals.reduce((sum, d) => sum + d.value, 0)
+function StageColumn({ stage, deals, onAction }) {
+  const Icon = stage.icon
+  const stageDeals = deals.filter(d => STAGE_MAPPING[d.stage] === stage.id)
+  const stageValue = stageDeals.reduce((sum, d) => sum + (d.value || 0), 0)
   const vetoedCount = stageDeals.filter(d => d.gm_status === 'VETO').length
 
   return (
-    <div className="flex-1 min-w-[200px]">
+    <div className="flex-1 min-w-[280px]">
       {/* Stage Header */}
-      <div className={`${config.bgColor} rounded-t-lg p-3 border-b border-zinc-700`}>
-        <div className="flex items-center gap-2">
-          <Icon className={`w-4 h-4 ${config.color}`} />
-          <span className="font-medium text-white text-sm">{config.label}</span>
-          <span className="ml-auto text-xs text-zinc-400">
-            {stageDeals.length}
-          </span>
-        </div>
-        <div className="flex items-center justify-between mt-1">
-          <span className="text-xs text-zinc-400">
-            ${(stageValue / 1000).toFixed(0)}K
-          </span>
-          {config.gmGate && (
+      <div className={`${stage.bgColor} rounded-t-xl p-4 border-b ${stage.borderColor}`}>
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-2">
+            <Icon className={`w-5 h-5 ${stage.color}`} />
+            <span className="font-bold text-white">{stage.label}</span>
+          </div>
+          {stage.gmGate && (
             <span className="text-xs text-amber-400 flex items-center gap-1">
               <Shield className="w-3 h-3" />
-              GM Gate
+              40% GM
             </span>
           )}
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-bold text-white">
+            ${(stageValue / 1000).toFixed(0)}K
+          </span>
+          <span className="text-sm text-zinc-400">
+            {stageDeals.length} deal{stageDeals.length !== 1 ? 's' : ''}
+          </span>
         </div>
         {vetoedCount > 0 && (
           <div className="flex items-center gap-1 mt-1 text-xs text-red-400">
@@ -177,21 +198,20 @@ function StageColumn({ stage, deals, onSelectDeal, onAdvanceDeal }) {
       </div>
 
       {/* Deals */}
-      <div className="bg-zinc-900/30 rounded-b-lg p-2 min-h-[200px] space-y-2">
+      <div className="bg-zinc-900/50 rounded-b-xl p-3 min-h-[300px] space-y-3">
         <AnimatePresence>
           {stageDeals.map(deal => (
             <DealCard
               key={deal.id}
               deal={deal}
-              onSelect={onSelectDeal}
-              onAdvance={onAdvanceDeal}
+              onAction={onAction}
             />
           ))}
         </AnimatePresence>
 
         {stageDeals.length === 0 && (
-          <div className="text-center py-8 text-zinc-600 text-sm">
-            No deals
+          <div className="text-center py-12 text-zinc-600 text-sm">
+            No deals in this stage
           </div>
         )}
       </div>
@@ -200,160 +220,107 @@ function StageColumn({ stage, deals, onSelectDeal, onAdvanceDeal }) {
 }
 
 export default function PipelineView({ deals: propDeals, onSelectDeal, onAdvanceDeal }) {
-  // Default demo data if not provided
-  const deals = propDeals || [
-    {
-      id: 'deal_001',
-      company: 'Perkins Eastman',
-      project_name: 'Education Building Retrofit',
-      stage: 'meeting',
-      tier: 'A',
-      value: 75000,
-      gm_percent: 0.44,
-      gm_status: 'PASS',
-      scope_audit_complete: false,
-      next_action: 'Discovery call - Jan 24'
-    },
-    {
-      id: 'deal_002',
-      company: 'Voith & Mactavish',
-      project_name: 'Historic Row House',
-      stage: 'opportunity',
-      tier: 'C',
-      value: 18000,
-      gm_percent: 0.42,
-      gm_status: 'PASS',
-      scope_audit_complete: true,
-      next_action: 'Send proposal'
-    },
-    {
-      id: 'deal_003',
-      company: 'STUDIOS Architecture',
-      project_name: 'DC Office Renovation',
-      stage: 'lead',
-      tier: 'B',
-      value: 35000,
-      gm_percent: null,
-      gm_status: 'PENDING',
-      scope_audit_complete: false,
-      next_action: 'Schedule intro call'
-    },
-    {
-      id: 'deal_004',
-      company: 'NYC DOE',
-      project_name: 'School Facility Assessment',
-      stage: 'proposal',
-      tier: 'A',
-      value: 95000,
-      gm_percent: 0.38,
-      gm_status: 'VETO',
-      veto_reason: 'GM below 40% floor',
-      scope_audit_complete: true,
-      next_action: 'BLOCKED - Reprice or decline'
-    },
-    {
-      id: 'deal_005',
-      company: 'Smith Group',
-      project_name: 'Healthcare Wing Scan',
-      stage: 'meeting',
-      tier: 'A',
-      value: 88000,
-      gm_percent: 0.46,
-      gm_status: 'PASS',
-      scope_audit_complete: false,
-      next_action: 'Follow up from intro call'
-    }
-  ]
+  // Use provided deals or empty array
+  const deals = propDeals || []
+
+  // Filter out "Lost" deals - they don't show in main view
+  const activeDeals = deals.filter(d => d.stage !== 'Lost' && d.stage !== 'Closed Lost')
 
   // Calculate summary stats
   const stats = useMemo(() => {
-    const total = deals.reduce((sum, d) => sum + d.value, 0)
-    const weighted = deals.reduce((sum, d) => {
-      const weight = STAGE_CONFIG[d.stage]?.weight || 0
-      return sum + (d.value * weight)
-    }, 0)
-    const vetoed = deals.filter(d => d.gm_status === 'VETO')
-      .reduce((sum, d) => sum + d.value, 0)
-    const passCount = deals.filter(d => d.gm_status === 'PASS').length
-    const vetoCount = deals.filter(d => d.gm_status === 'VETO').length
+    const total = activeDeals.reduce((sum, d) => sum + (d.value || 0), 0)
+    const proposalDeals = activeDeals.filter(d =>
+      STAGE_MAPPING[d.stage] === 'Proposal Issued'
+    )
+    const proposalValue = proposalDeals.reduce((sum, d) => sum + (d.value || 0), 0)
+    const wonDeals = activeDeals.filter(d => STAGE_MAPPING[d.stage] === 'Closed Won')
+    const wonValue = wonDeals.reduce((sum, d) => sum + (d.value || 0), 0)
+    const vetoCount = activeDeals.filter(d => d.gm_status === 'VETO').length
+    const avgGm = activeDeals.length > 0
+      ? activeDeals.reduce((sum, d) => sum + (d.gm_percent || 0), 0) / activeDeals.length
+      : 0
 
-    return { total, weighted, vetoed, passCount, vetoCount }
-  }, [deals])
+    return { total, proposalValue, wonValue, vetoCount, avgGm }
+  }, [activeDeals])
+
+  const handleAction = (action, deal) => {
+    console.log('Pipeline action:', action, deal)
+    if (action === 'reprice') {
+      // Open reprice modal
+    } else if (action === 'followUp') {
+      // Open follow-up flow
+    }
+  }
 
   return (
-    <div className="space-y-4">
-      {/* Summary Bar */}
+    <div className="space-y-6">
+      {/* Summary Header */}
       <div className="glass rounded-xl p-4">
-        <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="flex items-center justify-between flex-wrap gap-6">
           <div>
-            <div className="text-xs text-zinc-500">Total Pipeline</div>
-            <div className="text-xl font-bold text-white">
+            <div className="text-xs text-zinc-500 uppercase tracking-wider">Total Pipeline</div>
+            <div className="text-3xl font-bold text-white">
               ${(stats.total / 1000).toFixed(0)}K
             </div>
           </div>
 
-          <div>
-            <div className="text-xs text-zinc-500">Weighted Value</div>
-            <div className="text-xl font-bold text-blue-400">
-              ${(stats.weighted / 1000).toFixed(0)}K
+          <div className="flex items-center gap-8">
+            <div className="text-center">
+              <div className="text-xl font-bold text-amber-400">
+                ${(stats.proposalValue / 1000).toFixed(0)}K
+              </div>
+              <div className="text-xs text-zinc-500">In Proposal</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xl font-bold text-green-400">
+                ${(stats.wonValue / 1000).toFixed(0)}K
+              </div>
+              <div className="text-xs text-zinc-500">Won</div>
+            </div>
+            <div className="text-center">
+              <div className={`text-xl font-bold ${
+                stats.avgGm >= 0.45 ? 'text-green-400' :
+                stats.avgGm >= 0.40 ? 'text-amber-400' :
+                'text-red-400'
+              }`}>
+                {(stats.avgGm * 100).toFixed(0)}%
+              </div>
+              <div className="text-xs text-zinc-500">Avg GM</div>
             </div>
           </div>
 
-          <div>
-            <div className="text-xs text-zinc-500">GM Gate Status</div>
-            <div className="flex items-center gap-2">
-              <span className="text-green-400 flex items-center gap-1">
-                <Shield className="w-4 h-4" />
-                {stats.passCount} pass
-              </span>
-              {stats.vetoCount > 0 && (
-                <span className="text-red-400 flex items-center gap-1">
-                  <XCircle className="w-4 h-4" />
-                  {stats.vetoCount} veto
-                </span>
-              )}
-            </div>
-          </div>
-
-          {stats.vetoed > 0 && (
-            <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
-              <div className="text-xs text-red-400">Blocked Value</div>
-              <div className="text-lg font-bold text-red-400">
-                ${(stats.vetoed / 1000).toFixed(0)}K
+          {stats.vetoCount > 0 && (
+            <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-2">
+              <div className="flex items-center gap-2 text-red-400">
+                <XCircle className="w-5 h-5" />
+                <span className="font-bold">{stats.vetoCount}</span>
+                <span className="text-sm">blocked by GM gate</span>
               </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Stage Columns */}
-      <div className="flex gap-3 overflow-x-auto pb-4">
+      {/* 3-Stage Kanban */}
+      <div className="flex gap-4 overflow-x-auto pb-4">
         {STAGES.map(stage => (
           <StageColumn
-            key={stage}
+            key={stage.id}
             stage={stage}
-            deals={deals}
-            onSelectDeal={onSelectDeal}
-            onAdvanceDeal={onAdvanceDeal}
+            deals={activeDeals}
+            onAction={handleAction}
           />
         ))}
       </div>
 
-      {/* Governance Rules */}
-      <div className="glass rounded-lg p-3 flex items-center gap-4 text-xs text-zinc-400">
-        <div className="flex items-center gap-1">
-          <Shield className="w-3 h-3 text-amber-400" />
-          <span>40% GM Floor</span>
+      {/* Empty State */}
+      {activeDeals.length === 0 && (
+        <div className="glass rounded-xl p-8 text-center">
+          <DollarSign className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-white mb-2">No Active Deals</h3>
+          <p className="text-zinc-400">Deals will appear here as leads progress through the pipeline.</p>
         </div>
-        <div className="flex items-center gap-1">
-          <FileText className="w-3 h-3 text-blue-400" />
-          <span>Scope Audit at Proposal</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <Target className="w-3 h-3 text-green-400" />
-          <span>95% Stage Compliance</span>
-        </div>
-      </div>
+      )}
     </div>
   )
 }

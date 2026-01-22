@@ -1135,6 +1135,119 @@ GET  /api/discover/:businessId/status     - Progress tracking
 
 ---
 
+## Entry 013: S2P Command Center - Strategic Dashboard Redesign
+
+**Date:** 2026-01-21
+**Author:** Claude Code
+**Status:** COMPLETE
+
+### 1. The Problem
+
+The S2P portal is a demo dashboard with sample data. The FY2026 Strategy Manual defines:
+- $2.2M Revenue target | 40%+ GM | 12+ Wins ≥50k sqft
+- Locked P1-P22 portfolio with hard gates
+- Stage dictionary governance (Lead → Meeting → Opportunity → Proposal → Close)
+- GM Gate: No proposal advances without 40% margin
+- Tier classification: A (≥50k sqft) | B (20k-49k sqft) | C (<20k sqft)
+
+**Current gaps:**
+- No real KPI tracking (hockey stick metrics)
+- No pipeline governance (GM gate, scope audit)
+- No lead ingestion (752 leads sitting in CSV)
+- No proof vault (assets disconnected from workflow)
+- No ABM wave management (manual outreach)
+- No signal detection (permit/compliance triggers ignored)
+
+### 2. The Spoke
+
+This redesign creates a **Three-Zone Command Interface**:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  HEADER: Hockey Stick KPIs (Revenue, GM%, Meetings/Week, Pipeline 3×)      │
+├───────────────────────────┬─────────────────────────────────────────────────┤
+│    LEFT COLUMN (30%)      │           MAIN STAGE (70%)                      │
+│  • Today's Focus          │  • Pipeline (Stage Dictionary + GM Gate)        │
+│  • Capacity Gauge         │  • Tier-A Radar (whale visualization)           │
+│  • ABM Wave Status        │  • Proof Vault (1 record = 1 tile)              │
+│  • George Chat            │  • Lead Ingestion (Clutch.co + signals)         │
+├───────────────────────────┴─────────────────────────────────────────────────┤
+│  ACTION BAR: [Ingest Lead] [New Proposal] [Run Scout] [Generate Brief]     │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Components created:**
+
+| Frontend | Purpose |
+|----------|---------|
+| `KPIHeader.jsx` | Hockey stick metrics bar |
+| `PipelineView.jsx` | Stage dictionary + GM gate |
+| `ScopeAuditModal.jsx` | Pre-proposal checklist |
+| `TierARadar.jsx` | D3 polar whale visualization |
+| `LeadDrawer.jsx` | Detail panel with proof match |
+| `LeadIngestion.jsx` | CSV upload + tier classification |
+| `ProofVault.jsx` + `ProofTile.jsx` | Tile grid interface |
+| `WaveCalendar.jsx` | ABM sprint management |
+| `SignalQueue.jsx` | Trigger pod unified view |
+
+| Backend | Purpose |
+|---------|---------|
+| `lib/lead-scorer.js` | Tier classification logic |
+| `lib/proof-matcher.js` | Auto-match proof to leads |
+| `core/operations_council.js` | 4-agent sequential pipeline |
+
+**Operations Council Architecture:**
+
+```
+Lead Scorer (GPT-4o) → Proof Matcher (Claude) → Price Auditor (Claude) → Signal Scout (GPT-4o)
+     │                      │                        │                        │
+     ▼                      ▼                        ▼                        ▼
+  Tier/Score           Proof Match              GM Verdict              Hot Signals
+```
+
+### 3. The Scalability
+
+**Adding new KPI:**
+1. Add to `memory/kpi-targets.json`
+2. KPIHeader auto-renders with threshold coloring
+3. No component changes needed
+
+**Adding new pipeline stage:**
+1. Edit stage dictionary in governance.json
+2. PipelineView reads config dynamically
+3. GM gate rules apply automatically
+
+**Adding new trigger pod (e.g., P18 Procurement):**
+1. Add pod config to governance.json
+2. Signal Scout auto-includes in scan
+3. SignalQueue renders with SLA indicator
+
+**Adding new proof type:**
+1. Add record to memory/proof-catalog.json
+2. ProofMatcher includes in matching algorithm
+3. ProofVault tile appears automatically
+
+### 4. The Lesson
+
+**Dysfunction Avoided:** "The Decoration Dashboard"
+
+Demo dashboards that show sample data are decoration. They:
+- Don't enforce governance rules
+- Don't block bad decisions
+- Don't track real performance
+- Don't connect to actual workflow
+
+Command Center dashboards:
+- **Block** proposals under 40% GM (GM Gate VETO)
+- **Enforce** stage dictionary compliance
+- **Track** real KPIs against FY2026 targets
+- **Connect** leads → proof → proposals → deals
+
+**Rule Established:**
+> "A dashboard without gates is a wallpaper. A dashboard with gates is governance."
+
+---
+
 ## Entry Template
 
 ```markdown
