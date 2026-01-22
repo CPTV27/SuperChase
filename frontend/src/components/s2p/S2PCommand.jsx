@@ -280,7 +280,7 @@ export default function S2PCommand() {
     }
   }, [])
 
-  const handleAction = useCallback((actionId) => {
+  const handleAction = useCallback(async (actionId) => {
     if (actionId === 'ingestLead') {
       setActiveView('ingest')
     } else if (actionId === 'newProposal') {
