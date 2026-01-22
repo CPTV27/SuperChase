@@ -2519,6 +2519,88 @@ async function handleS2PRoute(req, method, pathname) {
       .filter(Boolean);
   }
 
+  // Helper to load S2P client data files
+  const s2pDataPath = path.join(process.cwd(), 'clients', 's2p', 'memory');
+
+  function loadS2PData(filename) {
+    const filePath = path.join(s2pDataPath, filename);
+    if (!fs.existsSync(filePath)) {
+      logger.warn(`S2P data file not found: ${filename}`);
+      return [];
+    }
+    try {
+      return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    } catch (err) {
+      logger.error(`Failed to load S2P data: ${filename}`, err);
+      return [];
+    }
+  }
+
+  // GET /api/s2p/leads - Get all leads for demo
+  if (method === 'GET' && action === 'leads') {
+    const data = loadS2PData('leads.json');
+    const leads = data.leads || data || [];
+    return { leads, count: leads.length };
+  }
+
+  // GET /api/s2p/pipeline/deals - Get pipeline deals for demo
+  if (method === 'GET' && action === 'pipeline/deals') {
+    const data = loadS2PData('pipeline.json');
+    const deals = data.deals || data || [];
+    return { deals, count: deals.length };
+  }
+
+  // GET /api/s2p/proof - Get proof catalog for demo
+  if (method === 'GET' && action === 'proof') {
+    const data = loadS2PData('proof-catalog.json');
+    const proofs = data.proofs || data || [];
+    return { proofs, count: proofs.length };
+  }
+
+  // GET /api/s2p/waves - Get wave data for demo
+  if (method === 'GET' && action === 'waves') {
+    const data = loadS2PData('waves.json');
+    const waves = data.waves || (Array.isArray(data) ? data : [data]);
+    return { waves, count: waves.length };
+  }
+
+  // GET /api/s2p/proof/match/:leadId - Match proofs to a lead
+  if (method === 'GET' && action.startsWith('proof/match/')) {
+    const leadId = action.replace('proof/match/', '');
+    const leadsData = loadS2PData('leads.json');
+    const proofsData = loadS2PData('proof-catalog.json');
+    const leads = leadsData.leads || leadsData || [];
+    const proofs = proofsData.proofs || proofsData || [];
+
+    const lead = leads.find(l => l.id === leadId);
+    if (!lead) {
+      return { error: 'Lead not found', matches: [] };
+    }
+
+    // Simple matching based on service focus
+    const leadType = (lead.service_focus || '').toLowerCase();
+    const matches = proofs.map(proof => {
+      const narrative = proof.twelvePointNarrative || {};
+      const buildingType = (narrative.buildingType || '').toLowerCase();
+      const proofTypes = proof.matchCriteria?.buildingTypes || [];
+
+      let confidence = 0.5;
+      let matchType = 'generic';
+
+      if (proofTypes.some(t => leadType.includes(t.toLowerCase()))) {
+        confidence = 0.85;
+        matchType = 'exact';
+      } else if (buildingType && leadType.includes(buildingType)) {
+        confidence = 0.8;
+        matchType = 'exact';
+      }
+
+      return { ...proof, matchType, confidence };
+    }).sort((a, b) => b.confidence - a.confidence).slice(0, 3);
+
+    return { leadId, matches };
+  }
+
   // GET /api/s2p/signals - Get all lead signals
   if (method === 'GET' && action === 'signals') {
     const prospects = loadProspects();
