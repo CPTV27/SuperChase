@@ -1,0 +1,135 @@
+[
+  {
+    "id": "review-demo-001",
+    "clientId": "s2p",
+    "type": "blog",
+    "title": "Why LOD 350 Matters for Renovation Projects",
+    "content": "When it comes to renovation projects, the level of detail in your BIM model can mean the difference between a smooth construction phase and costly change orders...\n\nLOD 350 provides the precision needed for MEP coordination, clash detection, and accurate quantity takeoffs. Our recent project at The Castle demonstrated how ±3mm variance control prevented $280K in potential conflicts.\n\n## Key Benefits\n- Precise MEP routing\n- Accurate clash detection\n- Reliable quantity takeoffs\n- Reduced RFIs during construction",
+    "status": "AGENCY_REVIEW",
+    "createdAt": "2026-01-21T14:00:00.000Z",
+    "updatedAt": "2026-01-21T16:30:00.000Z",
+    "history": [
+      { "status": "DRAFT", "timestamp": "2026-01-21T14:00:00.000Z", "actor": "content-council" },
+      { "status": "AGENCY_REVIEW", "timestamp": "2026-01-21T16:30:00.000Z", "actor": "system" }
+    ],
+    "approveToken": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
+    "rejectToken": "z9y8x7w6v5u4t3s2r1q0p9o8n7m6l5k4",
+    "metadata": {
+      "source": "Content Council",
+      "targetPersona": "BP1",
+      "wordCount": 850,
+      "seoKeywords": ["LOD 350", "BIM modeling", "renovation scanning"]
+    }
+  },
+  {
+    "id": "review-demo-002",
+    "clientId": "s2p",
+    "type": "social",
+    "title": "X Thread: Point Cloud Processing Speed",
+    "content": "Thread: How we cut point cloud processing time by 60%\n\n1/ Most scanning firms treat processing as an afterthought. We treat it as a competitive advantage.\n\n2/ The secret? Parallel processing pipelines and automated QC checks that catch issues before they become expensive problems.\n\n3/ Result: 3-5 week delivery instead of 8-12 weeks. Your design team isn't waiting on data.\n\n4/ DM for our processing workflow whitepaper.",
+    "status": "AGENCY_REVIEW",
+    "createdAt": "2026-01-21T10:00:00.000Z",
+    "updatedAt": "2026-01-21T11:00:00.000Z",
+    "history": [
+      { "status": "DRAFT", "timestamp": "2026-01-21T10:00:00.000Z", "actor": "content-council" },
+      { "status": "AGENCY_REVIEW", "timestamp": "2026-01-21T11:00:00.000Z", "actor": "system" }
+    ],
+    "approveToken": "b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7",
+    "rejectToken": "y8x7w6v5u4t3s2r1q0p9o8n7m6l5k4j3",
+    "metadata": {
+      "source": "Content Council",
+      "targetPersona": "BP1",
+      "threadLength": 4,
+      "platform": "x.com"
+    }
+  },
+  {
+    "id": "review-demo-003",
+    "clientId": "bigmuddy",
+    "type": "blog",
+    "title": "Silver Street Stories: The Blues Legacy of Clarksdale",
+    "content": "Long before the crossroads became a tourist destination, Silver Street was where the real magic happened...\n\nThe Big Muddy Inn sits at the heart of this history, where legends like Muddy Waters and John Lee Hooker once played for crowds of cotton workers and travelers passing through the Delta.\n\n## The Golden Era\nIn the 1940s and 50s, Clarksdale was the epicenter of Delta blues...",
+    "status": "CLIENT_REVIEW",
+    "createdAt": "2026-01-20T09:00:00.000Z",
+    "updatedAt": "2026-01-21T08:00:00.000Z",
+    "history": [
+      { "status": "DRAFT", "timestamp": "2026-01-20T09:00:00.000Z", "actor": "content-council" },
+      { "status": "AGENCY_REVIEW", "timestamp": "2026-01-20T14:00:00.000Z", "actor": "system" },
+      { "status": "CLIENT_REVIEW", "timestamp": "2026-01-21T08:00:00.000Z", "actor": "agency", "note": "Approved - great storytelling" }
+    ],
+    "approveToken": "c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8",
+    "rejectToken": "x7w6v5u4t3s2r1q0p9o8n7m6l5k4j3i2",
+    "metadata": {
+      "source": "Content Council",
+      "wordCount": 1200,
+      "seoKeywords": ["Clarksdale blues", "Delta music history", "Big Muddy Inn"]
+    }
+  },
+  {
+    "id": "review-demo-004",
+    "clientId": "studioc",
+    "type": "blog",
+    "title": "Behind the Scenes: Virtual Production at Utopia Studios",
+    "content": "Virtual production isn't just for Hollywood anymore. At Utopia Studios, we're bringing LED wall technology to independent creators...\n\nOur recent production for a Hudson Valley tourism campaign demonstrated how virtual backgrounds can transport viewers without the travel budget.\n\n## The Setup\n- 20ft curved LED wall\n- Unreal Engine real-time rendering\n- Motion capture integration",
+    "status": "CLIENT_APPROVED",
+    "createdAt": "2026-01-19T11:00:00.000Z",
+    "updatedAt": "2026-01-21T09:00:00.000Z",
+    "history": [
+      { "status": "DRAFT", "timestamp": "2026-01-19T11:00:00.000Z", "actor": "content-council" },
+      { "status": "AGENCY_REVIEW", "timestamp": "2026-01-19T16:00:00.000Z", "actor": "system" },
+      { "status": "CLIENT_REVIEW", "timestamp": "2026-01-20T10:00:00.000Z", "actor": "agency" },
+      { "status": "CLIENT_APPROVED", "timestamp": "2026-01-21T09:00:00.000Z", "actor": "client:studioc", "note": "Approved - ready to publish!" }
+    ],
+    "approveToken": "d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9",
+    "rejectToken": "w6v5u4t3s2r1q0p9o8n7m6l5k4j3i2h1",
+    "metadata": {
+      "source": "Content Council",
+      "wordCount": 950,
+      "seoKeywords": ["virtual production", "LED wall", "Utopia Studios"]
+    }
+  },
+  {
+    "id": "review-demo-005",
+    "clientId": "s2p",
+    "type": "blog",
+    "title": "Matterport vs Engineering-Grade Scanning: Know the Difference",
+    "content": "Not all 3D scanning is created equal. While Matterport excels at virtual tours, it wasn't designed for construction documentation...\n\n## The Accuracy Gap\nMatterport: ±30mm tolerance\nEngineering-grade: ±3mm tolerance\n\nThat 10x difference matters when you're coordinating MEP systems or verifying structural dimensions.",
+    "status": "REVISION",
+    "createdAt": "2026-01-18T13:00:00.000Z",
+    "updatedAt": "2026-01-20T15:00:00.000Z",
+    "history": [
+      { "status": "DRAFT", "timestamp": "2026-01-18T13:00:00.000Z", "actor": "content-council" },
+      { "status": "AGENCY_REVIEW", "timestamp": "2026-01-19T09:00:00.000Z", "actor": "system" },
+      { "status": "REVISION", "timestamp": "2026-01-20T15:00:00.000Z", "actor": "agency", "feedback": "Tone is too aggressive toward Matterport. Reframe as 'right tool for the job' rather than competitor bashing." }
+    ],
+    "approveToken": "e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+    "rejectToken": "v5u4t3s2r1q0p9o8n7m6l5k4j3i2h1g0",
+    "metadata": {
+      "source": "Content Council",
+      "wordCount": 750,
+      "lastFeedback": "Tone is too aggressive toward Matterport. Reframe as 'right tool for the job' rather than competitor bashing."
+    }
+  },
+  {
+    "id": "review-demo-006",
+    "clientId": "cptv",
+    "type": "social",
+    "title": "X Thread: Building in Public - Week 3",
+    "content": "Thread: Building SuperChase OS in public - Week 3 update\n\n1/ This week we shipped: Today's Focus dashboard widget, S2P Lead Radar API, and fixed the sidebar (finally).\n\n2/ The whale lead system is now live. Already identified a $350K opportunity at CUNY Baruch.\n\n3/ Next up: Review queue integration and mobile quick actions.\n\n4/ Follow along as we build the AI-powered business operating system.",
+    "status": "AGENCY_REVIEW",
+    "createdAt": "2026-01-22T00:30:00.000Z",
+    "updatedAt": "2026-01-22T00:45:00.000Z",
+    "history": [
+      { "status": "DRAFT", "timestamp": "2026-01-22T00:30:00.000Z", "actor": "content-council" },
+      { "status": "AGENCY_REVIEW", "timestamp": "2026-01-22T00:45:00.000Z", "actor": "system" }
+    ],
+    "approveToken": "f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1",
+    "rejectToken": "u4t3s2r1q0p9o8n7m6l5k4j3i2h1g0f9",
+    "metadata": {
+      "source": "Content Council",
+      "threadLength": 4,
+      "platform": "x.com",
+      "targetPersona": "Builders"
+    }
+  }
+]
