@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   X, Building2, Users, MapPin, Mail, Phone, ExternalLink,
@@ -143,7 +143,7 @@ function ActivityItem({ activity }) {
   )
 }
 
-export default function LeadDrawer({ lead, proofMatches, isOpen, onClose, onAction }) {
+export default function LeadDrawer({ lead, proofs, proofMatches, isOpen, onClose, onAction }) {
   const [activeTab, setActiveTab] = useState('profile')
   const [apiMatches, setApiMatches] = useState(null)
   const [loadingProofs, setLoadingProofs] = useState(false)
@@ -164,22 +164,70 @@ export default function LeadDrawer({ lead, proofMatches, isOpen, onClose, onActi
     }
   }, [isOpen, lead?.id, proofMatches])
 
-  // Copy snippet to clipboard
-  const copySnippet = (snippet) => {
-    navigator.clipboard.writeText(snippet)
-    setCopiedSnippet(true)
-    setTimeout(() => setCopiedSnippet(false), 2000)
+  // Copy to clipboard with callback for toast
+  const copyToClipboard = (text, type = 'text') => {
+    navigator.clipboard.writeText(text)
+    if (type === 'email') {
+      onAction?.('copyEmail', lead)
+    } else if (type === 'phone') {
+      onAction?.('copyPhone', lead)
+    } else if (type === 'proof') {
+      onAction?.('copyProof', lead)
+      setCopiedSnippet(true)
+      setTimeout(() => setCopiedSnippet(false), 2000)
+    }
   }
 
-  // Demo proof matches if not provided
-  const matches = apiMatches || proofMatches || [
+  // Match proofs to this lead locally if no API matches
+  const localMatches = useMemo(() => {
+    if (!proofs || !lead) return []
+
+    const leadType = (lead.service_focus || '').toLowerCase()
+    const leadFocus = (lead.market || '').toLowerCase()
+
+    return proofs.map(proof => {
+      const narrative = proof.twelvePointNarrative || {}
+      const buildingType = (narrative.buildingType || '').toLowerCase()
+      const proofTypes = proof.matchCriteria?.buildingTypes || []
+
+      // Calculate match score
+      let confidence = 0.5 // Base
+      let matchType = 'generic'
+
+      // Check building type match
+      if (proofTypes.some(t => leadType.includes(t.toLowerCase()))) {
+        confidence = 0.85
+        matchType = 'exact'
+      } else if (buildingType && leadType.includes(buildingType)) {
+        confidence = 0.8
+        matchType = 'exact'
+      } else if (proofTypes.some(t => leadFocus.includes(t.toLowerCase()))) {
+        confidence = 0.7
+        matchType = 'adjacent'
+      }
+
+      return {
+        ...proof,
+        matchType,
+        confidence
+      }
+    }).sort((a, b) => b.confidence - a.confidence).slice(0, 3)
+  }, [proofs, lead])
+
+  // Use API matches, passed matches, local matches, or demo data
+  const matches = apiMatches || proofMatches || (localMatches.length > 0 ? localMatches : [
     {
       id: 'proof_001',
       title: 'The Castle - LOD 350 Historic Renovation',
       type: 'case_study',
       lod_level: 350,
       matchType: 'exact',
-      confidence: 0.95
+      confidence: 0.95,
+      twelvePointNarrative: {
+        outcome: 'Delivered LoD 350 model for 45,000 sqft historic renovation with ±2mm accuracy.',
+        quote: 'First time we received models that matched reality.',
+        quoteAttribution: 'Project Manager, HDR'
+      }
     },
     {
       id: 'proof_002',
@@ -187,9 +235,13 @@ export default function LeadDrawer({ lead, proofMatches, isOpen, onClose, onActi
       type: 'lod_sample',
       lod_level: 200,
       matchType: 'adjacent',
-      confidence: 0.72
+      confidence: 0.72,
+      twelvePointNarrative: {
+        outcome: '785,000 sqft campus documentation in 3 weeks.',
+        keyMetrics: ['785K sqft', '±3mm accuracy', '3 week delivery']
+      }
     }
-  ]
+  ])
 
   // Demo activity if not on lead
   const activities = lead?.activities || [
@@ -337,15 +389,28 @@ export default function LeadDrawer({ lead, proofMatches, isOpen, onClose, onActi
                       <div key={i} className="p-3 bg-zinc-800/50 rounded-lg">
                         <div className="font-medium text-white">{contact.name}</div>
                         <div className="text-xs text-zinc-400 mt-0.5">{contact.title}</div>
-                        {contact.email && (
-                          <a
-                            href={`mailto:${contact.email}`}
-                            className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 mt-2"
-                          >
-                            <Mail className="w-3 h-3" />
-                            {contact.email}
-                          </a>
-                        )}
+                        <div className="flex flex-col gap-2 mt-3">
+                          {contact.email && (
+                            <button
+                              onClick={() => copyToClipboard(contact.email, 'email')}
+                              className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 px-2 py-1.5 rounded-lg transition-colors w-full text-left"
+                            >
+                              <Mail className="w-4 h-4" />
+                              <span className="flex-1 truncate">{contact.email}</span>
+                              <Copy className="w-3 h-3 opacity-50" />
+                            </button>
+                          )}
+                          {contact.phone && (
+                            <button
+                              onClick={() => copyToClipboard(contact.phone, 'phone')}
+                              className="flex items-center gap-2 text-sm text-green-400 hover:text-green-300 hover:bg-green-500/10 px-2 py-1.5 rounded-lg transition-colors w-full text-left"
+                            >
+                              <Phone className="w-4 h-4" />
+                              <span className="flex-1">{contact.phone}</span>
+                              <Copy className="w-3 h-3 opacity-50" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </Section>
@@ -374,7 +439,7 @@ export default function LeadDrawer({ lead, proofMatches, isOpen, onClose, onActi
                         key={proof.id}
                         proof={proof}
                         onSelect={() => onAction?.('viewProof', proof)}
-                        onCopy={copySnippet}
+                        onCopy={(text) => copyToClipboard(text, 'proof')}
                       />
                     ))}
                   </div>
