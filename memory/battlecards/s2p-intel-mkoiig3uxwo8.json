@@ -1,0 +1,305 @@
+{
+  "businessId": "s2p",
+  "businessName": "Scan2Plan",
+  "generatedAt": "2026-01-21T21:06:35.606Z",
+  "traceId": "intel-mkoiig3uxwo8",
+  "depth": "quick",
+  "duration": 56780,
+  "competitors": [
+    {
+      "name": "OpenSpace",
+      "website": "openspace.ai",
+      "position": "market leader",
+      "strengths": [
+        "real-time site capture",
+        "AI-driven analytics"
+      ],
+      "weaknesses": [
+        "higher cost",
+        "limited customization"
+      ],
+      "estimatedSize": "enterprise",
+      "pricingModel": "subscription",
+      "targetAudience": "general contractors, project managers",
+      "sitemap": {
+        "found": true,
+        "totalPages": 0,
+        "categories": {
+          "blog": 0,
+          "products": 0,
+          "services": 0,
+          "caseStudies": 0,
+          "about": 0,
+          "other": 0
+        },
+        "sampleUrls": []
+      }
+    },
+    {
+      "name": "Matterport direct",
+      "website": "matterport.com",
+      "position": "market leader",
+      "strengths": [
+        "high-quality 3D models",
+        "user-friendly interface"
+      ],
+      "weaknesses": [
+        "limited to Matterport ecosystem",
+        "higher initial setup cost"
+      ],
+      "estimatedSize": "enterprise",
+      "pricingModel": "subscription/project",
+      "targetAudience": "real estate professionals, architects",
+      "sitemap": {
+        "found": true,
+        "totalPages": 14024,
+        "categories": {
+          "blog": 6208,
+          "products": 280,
+          "services": 0,
+          "caseStudies": 1144,
+          "about": 8,
+          "other": 6384
+        },
+        "sampleUrls": [
+          "https://matterport.com/learn/real-estate-marketing",
+          "https://matterport.com/en-gb/learn/real-estate-marketing",
+          "https://matterport.com/fr/learn/real-estate-marketing",
+          "https://matterport.com/de/learn/real-estate-marketing",
+          "https://matterport.com/es/learn/real-estate-marketing",
+          "https://matterport.com/it/learn/real-estate-marketing",
+          "https://matterport.com/ja/learn/real-estate-marketing",
+          "https://matterport.com/ko/learn/real-estate-marketing",
+          "https://matterport.com/diversity-and-inclusion",
+          "https://matterport.com/en-gb/diversity-and-inclusion"
+        ]
+      }
+    },
+    {
+      "name": "Local Survey Firms",
+      "website": "localsurveyfirms.com",
+      "position": "niche",
+      "strengths": [
+        "local expertise",
+        "personalized service"
+      ],
+      "weaknesses": [
+        "limited scalability",
+        "less technology integration"
+      ],
+      "estimatedSize": "smb",
+      "pricingModel": "project",
+      "targetAudience": "small to medium construction projects",
+      "sitemap": {
+        "found": false,
+        "totalPages": 0,
+        "categories": {},
+        "error": "fetch failed"
+      }
+    }
+  ],
+  "keywords": {
+    "red": [
+      {
+        "keyword": "BIM modeling services",
+        "reason": "highly saturated, requires enterprise-level resources",
+        "competitorSpend": "$5000+/month"
+      },
+      {
+        "keyword": "construction site scanning",
+        "reason": "dominated by enterprise players with superior technology",
+        "competitorSpend": "$3000+/month"
+      }
+    ],
+    "yellow": [
+      {
+        "keyword": "3D laser scanning for architecture",
+        "reason": "medium competition but requires significant expertise",
+        "risk": "technology investment costs"
+      }
+    ],
+    "green": [
+      {
+        "keyword": "as-built documentation services",
+        "reason": "good volume with partial competitor coverage",
+        "action": "create targeted content for small-medium projects"
+      }
+    ],
+    "blueOcean": [
+      {
+        "keyword": "virtual tour creation for construction",
+        "reason": "low competition, matches service area and capacity",
+        "approach": "focus on small-medium construction firms in Northeast"
+      },
+      {
+        "keyword": "sustainable construction documentation",
+        "reason": "untapped environmental angle",
+        "approach": "develop green certification partnerships"
+      }
+    ]
+  },
+  "grandSlamOffer": {
+    "headline": "Get Construction-Ready As-Builts in 48 Hours or It's Free - With 0.1mm Accuracy Guaranteed",
+    "targetPainPoint": "Slow turnaround and inaccurate measurements from traditional surveyors costing you project delays",
+    "dreamOutcome": "Construction-ready 3D models and drawings that perfectly match reality",
+    "timeframe": "48-hour delivery for spaces up to 10,000 sqft",
+    "effort": "15-minute site visit, no prep needed",
+    "riskReversal": "0.1mm accuracy guaranteed or we rescan for free + $500 credit",
+    "bonuses": [
+      "Free Matterport virtual tour ($1,000 value)",
+      "Unlimited team seats for 90 days ($2,997 value)",
+      "Emergency 24-hour rush service included ($5,000 value)"
+    ],
+    "priceAnchor": "Traditional surveyors charge $3.50/sqft and take 2 weeks. Get more accuracy in 48 hours at $2.00/sqft"
+  },
+  "outreachTargets": {
+    "criteria": [
+      "AEC firms with $5M-50M annual revenue",
+      "Active renovation/retrofit projects",
+      "Northeast US location",
+      "Tech-forward leadership",
+      "Sustainability focus"
+    ],
+    "topTier": [],
+    "scripts": {
+      "email": "Subject: {{firstName}}, eliminate rework on {{projectName}}\n\nHi {{firstName}},\n\nSaw you're leading the {{projectName}} renovation. Quick question: How much would eliminating measurement errors and rework be worth to your team?\n\nWe deliver construction-ready as-builts in 48 hours with 0.1mm accuracy guaranteed.\n\n{{competitorName}} clients like {{referenceName}} have switched to us for faster turnaround. Would you be open to a 15-minute demo?\n\nBest,\n[Name]",
+      "linkedin": "Hi {{firstName}}, noticed you're working on {{projectName}}. We're helping AEC firms eliminate rework with 48-hour as-builts (0.1mm accuracy guaranteed). Would you be open to a 15-min demo to see if we could help streamline your documentation process?",
+      "coldCall": "1. Intro + project reference\n2. Pain point: Rework costs\n3. Solution: 48hr turnaround\n4. Proof: Case study numbers\n5. Ask: 15-min demo"
+    }
+  },
+  "contentPlan": {
+    "pillarTopic": "Modern As-Built Documentation for Sustainable Construction",
+    "weeks": []
+  },
+  "actionItems": [
+    {
+      "task": "Create case study PDF template with before/after ROI calculator for top 3 completed projects",
+      "priority": "high",
+      "category": "content",
+      "dueInDays": 3,
+      "asanaReady": true
+    },
+    {
+      "task": "Set up automated email sequence in ActiveCampaign with 3 case studies and demo booking link",
+      "priority": "high",
+      "category": "outreach",
+      "dueInDays": 2,
+      "asanaReady": true
+    },
+    {
+      "task": "Create LinkedIn lead form campaign targeting facility managers and architects in Northeast, budget $2000",
+      "priority": "high",
+      "category": "ads",
+      "dueInDays": 5,
+      "asanaReady": true
+    },
+    {
+      "task": "Film 2-minute demo video showing scan-to-BIM workflow with accuracy verification",
+      "priority": "medium",
+      "category": "content",
+      "dueInDays": 7,
+      "asanaReady": true
+    },
+    {
+      "task": "Build calculator tool for website showing cost savings vs. traditional surveying methods",
+      "priority": "medium",
+      "category": "product",
+      "dueInDays": 14,
+      "asanaReady": true
+    }
+  ],
+  "analysis": {
+    "librarian": {
+      "model": "openai/gpt-4o",
+      "timing": 15596,
+      "keywordCount": 5,
+      "contentGaps": [
+        {
+          "topic": "integration of scan-to-BIM with project management software",
+          "reason": "competitors focus on standalone solutions",
+          "opportunity": "develop content and tools that show seamless integration with popular project management platforms"
+        },
+        {
+          "topic": "cost benefits of scan-to-CAD in small projects",
+          "reason": "competitors target larger projects",
+          "opportunity": "create case studies and ROI calculators for small to medium projects"
+        },
+        {
+          "topic": "environmental impact of digital construction documentation",
+          "reason": "lack of focus on sustainability",
+          "opportunity": "publish whitepapers and blogs highlighting environmental benefits"
+        }
+      ],
+      "leadSources": [
+        {
+          "source": "LinkedIn",
+          "type": "linkedin",
+          "quality": "high",
+          "accessMethod": "targeted ads and networking groups"
+        },
+        {
+          "source": "AEC Next Technology Expo",
+          "type": "conference",
+          "quality": "high",
+          "accessMethod": "attend and exhibit"
+        },
+        {
+          "source": "ConstructConnect",
+          "type": "directory",
+          "quality": "medium",
+          "accessMethod": "subscription to access leads"
+        },
+        {
+          "source": "Building Design + Construction Network",
+          "type": "directory",
+          "quality": "medium",
+          "accessMethod": "membership and directory listing"
+        },
+        {
+          "source": "Industry Webinars",
+          "type": "other",
+          "quality": "medium",
+          "accessMethod": "host and participate in webinars"
+        }
+      ],
+      "peopleAlsoAsk": [
+        "What is scan-to-BIM technology?",
+        "How do virtual tours benefit construction projects?",
+        "What are the advantages of using Matterport for construction?",
+        "How accurate is 3D laser scanning for construction?",
+        "What is the cost of as-built documentation?"
+      ]
+    },
+    "auditor": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "timing": 19779,
+      "warnings": [
+        "Current ad budget insufficient for competing in saturated keywords",
+        "Team size limits ability to pursue multiple market segments",
+        "Content capacity may limit ability to maintain consistent presence"
+      ],
+      "opportunities": [
+        "Focus on environmental sustainability angle - low competition",
+        "Target small-medium construction firms in Northeast with customized solutions",
+        "Develop integration partnerships with project management software",
+        "Create ROI calculators for small projects",
+        "Leverage webinars within content capacity"
+      ],
+      "budgetRecommendation": {
+        "adSpend": {
+          "recommended": 1500,
+          "allocation": {
+            "search": 1000,
+            "social": 500
+          }
+        },
+        "contentInvestment": "high priority",
+        "outreachPriority": "medium"
+      }
+    },
+    "architect": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "timing": 21403
+    }
+  }
+}

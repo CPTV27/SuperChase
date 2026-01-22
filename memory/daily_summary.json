@@ -1,24 +1,39 @@
 {
-  "generatedAt": "2026-01-20T08:59:56.885Z",
-  "briefing": "Mr. Pierson, you have two urgent emails from client@example.com regarding a project deadline change that requires immediate attention. There are no active tasks on your schedule currently. Please let me know if you require assistance prioritizing this new information.",
-  "urgentEmails": [
+  "generatedAt": "2026-01-21T23:09:44.555Z",
+  "briefing": "You have five top tasks for today, the most pressing being the SuperChase approval gates triaging and fixing the Scan2Plan CPQ/proposal UI. Remember to test the Studio C connector after the deployment ID change, and please don't forget to create an updated PRD and establish the media ingest & storage SOP. I'll ensure refreshments are available as you work.",
+  "urgentEmails": [],
+  "topTasks": [
     {
-      "subject": "URGENT: Project deadline moved up",
-      "sender": "client@example.com",
-      "timestamp": "2026-01-20T00:38:46.655Z"
+      "name": "Test the Studio C connector after deployment ID change.",
+      "dueOn": null,
+      "id": "1212873948845131"
     },
     {
-      "subject": "URGENT: Project deadline moved up",
-      "sender": "client@example.com",
-      "timestamp": "2026-01-20T00:38:56.061Z"
+      "name": "Create an updated PRD envisioning using hubspot capabilities for everything we've envisioned",
+      "dueOn": null,
+      "id": "1212873948843934"
+    },
+    {
+      "name": "Establish media ingest & storage SOP: buy SSDs and Backblaze cold storage.",
+      "dueOn": null,
+      "id": "1212870965920644"
+    },
+    {
+      "name": "Triaging SuperChase approval gates: enumerate manual OAuth steps (clasp), implement bypass SOP, run tests.",
+      "dueOn": null,
+      "id": "1212873948097619"
+    },
+    {
+      "name": "Fix Scan2Plan CPQ/proposal UI: streamline 'open deal' → 'generate quote' flow; color-code primary action buttons.",
+      "dueOn": null,
+      "id": "1212873942207785"
     }
   ],
-  "topTasks": [],
   "stats": {
-    "urgentCount": 2,
-    "taskCount": 0,
+    "urgentCount": 0,
+    "taskCount": 5,
     "overdueCount": 0
   },
-  "testField": "test_1768973919360",
-  "lastUpdated": "2026-01-21T05:38:39.360Z"
+  "testField": "test_1769036985198",
+  "lastUpdated": "2026-01-21T23:09:45.198Z"
 }

@@ -398,6 +398,129 @@ const routes = {
     return status;
   },
 
+  // GET /api/today-focus - Unified action items for dashboard
+  'GET /api/today-focus': async () => {
+    const focus = {
+      timestamp: new Date().toISOString(),
+      reviews: { count: 0, items: [] },
+      sparks: { count: 0, items: [] },
+      tasks: { count: 0, items: [] },
+      whales: { count: 0, items: [] },
+      totalActions: 0
+    };
+
+    // 1. Get pending reviews from agency review
+    try {
+      const pulse = agencyReview.getReviewPulse();
+      const pendingReviews = pulse.agencyPending || [];
+      focus.reviews = {
+        count: pendingReviews.length,
+        items: pendingReviews.slice(0, 5).map(r => ({
+          id: r.id,
+          title: r.title,
+          type: r.type,
+          client: r.clientId,
+          action: 'approve',
+          actionUrl: `/review?id=${r.id}`
+        }))
+      };
+    } catch (error) {
+      logger.error('Today focus: reviews error', { error: error.message });
+    }
+
+    // 2. Get voice sparks from limitless
+    try {
+      const manifestPath = path.join(process.cwd(), 'manifest.jsonl');
+      if (fs.existsSync(manifestPath)) {
+        const lines = fs.readFileSync(manifestPath, 'utf-8').trim().split('\n');
+        const recentSparks = lines
+          .slice(-20)
+          .reverse()
+          .map(line => {
+            try { return JSON.parse(line); } catch { return null; }
+          })
+          .filter(entry => entry && entry.type === 'voice_spark' && !entry.processed)
+          .slice(0, 5);
+
+        focus.sparks = {
+          count: recentSparks.length,
+          items: recentSparks.map(s => ({
+            id: s.id || `spark-${Date.now()}`,
+            title: s.topic || s.summary?.slice(0, 50) || 'Voice capture',
+            source: 'limitless',
+            timestamp: s.timestamp,
+            action: 'process',
+            actionUrl: '/sparks'
+          }))
+        };
+      }
+    } catch (error) {
+      logger.error('Today focus: sparks error', { error: error.message });
+    }
+
+    // 3. Get tasks due today/overdue
+    try {
+      const allTasks = await asana.getTasks({ limit: 50 });
+      const today = new Date().toISOString().split('T')[0];
+      const urgentTasks = allTasks.filter(task => {
+        if (!task.dueOn) return false;
+        return task.dueOn <= today;
+      }).slice(0, 5);
+
+      focus.tasks = {
+        count: urgentTasks.length,
+        items: urgentTasks.map(t => ({
+          id: t.gid,
+          title: t.name,
+          project: t.project,
+          dueOn: t.dueOn,
+          overdue: t.dueOn < today,
+          action: 'complete',
+          actionUrl: `/tasks?id=${t.gid}`
+        }))
+      };
+    } catch (error) {
+      logger.error('Today focus: tasks error', { error: error.message });
+    }
+
+    // 4. Get whale alerts from governance
+    try {
+      const whaleDir = path.join(process.cwd(), 'memory', 'whale_leads');
+      if (fs.existsSync(whaleDir)) {
+        const whaleFiles = fs.readdirSync(whaleDir).filter(f => f.endsWith('.json'));
+        const whales = whaleFiles
+          .map(f => {
+            try {
+              return JSON.parse(fs.readFileSync(path.join(whaleDir, f), 'utf-8'));
+            } catch { return null; }
+          })
+          .filter(w => w && w.status === 'TIER_A_WHALE')
+          .slice(0, 3);
+
+        focus.whales = {
+          count: whales.length,
+          items: whales.map(w => ({
+            id: w.id,
+            title: w.project?.name || 'Whale Lead',
+            sqft: w.project?.sqft,
+            score: w.whaleScore?.total,
+            tier: w.whaleScore?.tier,
+            value: w.scanOpportunity?.estimatedValue?.mid,
+            action: 'pursue',
+            actionUrl: '/s2p'
+          }))
+        };
+      }
+    } catch (error) {
+      logger.error('Today focus: whales error', { error: error.message });
+    }
+
+    // Calculate total actions needed
+    focus.totalActions = focus.reviews.count + focus.sparks.count + focus.tasks.count + focus.whales.count;
+
+    return focus;
+  },
+
   // Trigger morning briefing
   'POST /api/briefing/trigger': async () => {
     try {

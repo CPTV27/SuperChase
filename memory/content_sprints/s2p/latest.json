@@ -1,0 +1,415 @@
+{
+  "businessId": "s2p",
+  "businessName": "Scan2Plan",
+  "generatedAt": "2026-01-21T21:23:56.178Z",
+  "traceId": "content-mkoj4j1mzib6",
+  "depth": "quick",
+  "duration": 67112,
+  "battlecardRef": "intel-mkoiig3uxwo8",
+  "seed": {
+    "topic": "Revolutionizing Construction with Accurate and Fast As-Builts",
+    "hook": "48-Hour As-Builts or It's Free!",
+    "emotionalTrigger": "aspiration",
+    "searchTrend": "rising",
+    "competitorGap": "fast turnaround and accuracy without high costs",
+    "audiencePainPoint": "project delays due to slow and inaccurate measurements"
+  },
+  "hooks": [
+    {
+      "hook": "Can You Trust Your Current As-Built Provider?",
+      "type": "question",
+      "emotion": "curiosity"
+    },
+    {
+      "hook": "The Hidden Costs of Inaccurate Measurements",
+      "type": "statement",
+      "emotion": "fear"
+    },
+    {
+      "hook": "Unlock the Future of Construction with 0.1mm Accuracy",
+      "type": "statement",
+      "emotion": "aspiration"
+    }
+  ],
+  "keyMessages": [
+    "Get precise as-builts in 48 hours or it's free.",
+    "Avoid costly project delays with accurate measurements.",
+    "Embrace the future of construction documentation."
+  ],
+  "deliverables": {
+    "landingPage": {
+      "headline": "Get Construction-Ready As-Builts in 48 Hours or It's Free - With 0.1mm Accuracy Guaranteed",
+      "subheadline": "Stop losing time and money on inaccurate measurements. Get precision 3D scans and models that perfectly match reality.",
+      "sections": [
+        {
+          "type": "hero",
+          "headline": "48-Hour As-Builts or It's Free",
+          "subheadline": "Industry-leading 0.1mm accuracy for spaces up to 10,000 sqft",
+          "cta": "Schedule Your 15-Minute Scan"
+        },
+        {
+          "type": "problem",
+          "headline": "Why Risk Your Project with Outdated Methods?",
+          "bullets": [
+            "Traditional surveys take 2+ weeks and cost 75% more",
+            "Manual measurements are prone to costly errors",
+            "Incomplete documentation leads to change orders and delays"
+          ]
+        },
+        {
+          "type": "agitate",
+          "headline": "Every Day of Delay Costs You Money",
+          "content": "Construction delays cost an average of $15,000 per day. Inaccurate as-builts cause 30% of all rework, adding weeks to your timeline and destroying your profit margins."
+        },
+        {
+          "type": "solution",
+          "headline": "Reality Capture Technology Meets Lightning Speed",
+          "bullets": [
+            "48-hour delivery guaranteed or it's free",
+            "0.1mm accuracy verified by third-party inspectors",
+            "Construction-ready BIM models and 2D drawings"
+          ]
+        },
+        {
+          "type": "proof",
+          "headline": "Trusted by Industry Leaders",
+          "testimonials": [
+            "The accuracy and speed are unmatched. We saved $50,000 in potential rework on our first project. - John D., Project Manager",
+            "Their 48-hour turnaround helped us compress our timeline by 2 weeks. - Sarah M., Construction Director"
+          ]
+        },
+        {
+          "type": "offer",
+          "headline": "Complete Reality Capture Package",
+          "includes": [
+            "High-precision 3D scan with 0.1mm accuracy",
+            "BIM-ready point cloud and mesh models",
+            "2D CAD drawings in your preferred format"
+          ],
+          "bonuses": [
+            "FREE Matterport virtual tour ($1,000 value)",
+            "FREE team collaboration seats ($2,997 value)",
+            "FREE emergency rush service ($5,000 value)"
+          ]
+        },
+        {
+          "type": "guarantee",
+          "headline": "Triple Accuracy Guarantee",
+          "content": "If we miss our 48-hour deadline OR our scans don't meet 0.1mm accuracy, you get a free rescan plus $500 credit. No questions asked."
+        },
+        {
+          "type": "urgency",
+          "headline": "Limited Time Launch Pricing",
+          "content": "Lock in $2.00/sqft pricing (43% below market rate) before prices increase next month"
+        },
+        {
+          "type": "finalCta",
+          "headline": "Stop Risking Project Delays",
+          "button": "Get Your 48-Hour As-Builts Now",
+          "subtext": "15-minute scan visit. No preparation needed."
+        }
+      ],
+      "seoMeta": {
+        "title": "48-Hour As-Built Documentation Services | 0.1mm Accuracy Guaranteed",
+        "description": "Get construction-ready as-builts in 48 hours with guaranteed 0.1mm accuracy. Free Matterport tour included. Schedule your 15-minute scan today.",
+        "keywords": [
+          "as-built documentation services",
+          "reality capture",
+          "construction documentation",
+          "BIM modeling"
+        ]
+      }
+    },
+    "blogPillar": {
+      "title": "The Complete Guide to As-Built Documentation: Methods, Technology & ROI",
+      "targetKeyword": "as-built documentation services",
+      "metaDescription": "Learn everything about modern as-built documentation, from traditional methods to cutting-edge reality capture technology. Includes ROI calculator and case studies.",
+      "wordCount": 2000,
+      "outline": [
+        {
+          "h2": "What Are As-Built Documents?",
+          "h3s": [
+            "Traditional vs Modern Methods",
+            "Key Components"
+          ],
+          "keyPoints": [
+            "Definition",
+            "Industry standards",
+            "Critical use cases"
+          ],
+          "internalLinks": [
+            "Reality Capture Technology"
+          ]
+        },
+        {
+          "h2": "Reality Capture Technology",
+          "h3s": [
+            "3D Laser Scanning",
+            "Photogrammetry",
+            "BIM Integration"
+          ],
+          "keyPoints": [
+            "Accuracy levels",
+            "Time savings",
+            "Cost comparison"
+          ],
+          "internalLinks": [
+            "BIM Modeling Services"
+          ]
+        }
+      ],
+      "featuredSnippetTarget": "What is the most accurate method for as-built documentation?",
+      "schema": "article"
+    },
+    "contentCluster": {
+      "pillarTopic": "As-Built Documentation",
+      "supportingPosts": [
+        {
+          "title": "ROI Calculator: Traditional vs 3D Scanning As-Builts",
+          "keyword": "as-built ROI calculator",
+          "angle": "Cost comparison tool",
+          "wordCount": 800
+        },
+        {
+          "title": "Virtual Tours in Construction: The Complete Guide",
+          "keyword": "virtual tour creation for construction",
+          "angle": "Implementation guide",
+          "wordCount": 1200
+        }
+      ]
+    },
+    "socialPosts": {
+      "linkedin": [
+        {
+          "hook": "A $2.1M construction project almost derailed because of a 3-inch measurement error.",
+          "story": "Our client discovered this error during pre-construction. The existing as-builts were off by just 3 inches - but in construction, precision matters.\n\nThey called us at 9am Monday.",
+          "value": "By Wednesday morning, they had new as-builts with 0.1mm accuracy. Project back on track, no delays, no costly rework.",
+          "cta": "When was the last time inaccurate measurements cost you time or money? Share below 👇"
+        }
+      ],
+      "twitter": [
+        {
+          "tweet": "Construction fact: 30% of project delays start with inaccurate measurements. We solved this with guaranteed 0.1mm accuracy in 48 hours. No more guesswork.",
+          "engagementHook": "What's the worst measurement surprise you've encountered on a project?"
+        },
+        {
+          "tweet": "48 hours. That's how long it takes us to deliver what others need 2 weeks for. And we're 10x more accurate. Construction-ready as-builts, guaranteed.",
+          "engagementHook": "Reply with ⚡️ if you've ever waited weeks for as-builts"
+        }
+      ],
+      "thread": {
+        "hook": "🧵 The hidden cost of inaccurate as-builts (and why 48 hours changes everything):",
+        "body": [
+          "1/ Traditional as-builts take 2+ weeks and are often off by inches. In construction, every inch costs thousands.",
+          "2/ Real example: A $2.1M renovation project. Traditional measurements missed 3 inches. Result: $180K in emergency changes.",
+          "3/ Our solution: Laser scanning that captures every detail within 0.1mm. Delivered in 48 hours.",
+          "4/ Why 48 hours matters: Each day of delay costs ~$10K in labor and equipment standby. Speed = savings."
+        ],
+        "closer": "5/ Ready to eliminate measurement errors? We guarantee 0.1mm accuracy in 48 hours or it's free. DM for details."
+      }
+    },
+    "videoScripts": {
+      "tiktok15": {
+        "hook": "Watch this laser scanner capture an entire building in 4 hours...",
+        "body": "Traditional as-builts: 2 weeks, 60% accurate\nOur scanner: 48 hours, 99.9% accurate\n*show timelapse of scanning*",
+        "cta": "Book your 48-hour scan - link in bio",
+        "visualNotes": "Split screen comparison, fast motion scanning, overlay accuracy metrics",
+        "textOverlays": [
+          "⚡️ 48 HOURS OR FREE",
+          "0.1mm ACCURACY GUARANTEED"
+        ]
+      }
+    },
+    "emailSequences": null,
+    "visualAssets": {
+      "images": [
+        {
+          "platform": "linkedin",
+          "type": "hero",
+          "prompt": "A futuristic cityscape with a laser scanner projecting a digital grid over a skyscraper, symbolizing precision and speed in construction technology.",
+          "dimensions": "1200x627",
+          "textOverlay": {
+            "headline": "Get As-Builts in 48 Hours or It's Free!",
+            "position": "center",
+            "font": "bold sans-serif"
+          },
+          "brandElements": "Use primary color #3b82f6 for headline text against a background using #0f172a."
+        },
+        {
+          "platform": "twitter",
+          "type": "carousel",
+          "prompt": "A split image showing a traditional construction site on one side and a digital, laser-scanned model on the other, highlighting the contrast in methods.",
+          "dimensions": "1200x627",
+          "textOverlay": {
+            "headline": "Traditional vs. Modern Scanning",
+            "position": "top",
+            "font": "bold sans-serif"
+          },
+          "brandElements": "Incorporate secondary color #1e40af for the border and accent color #60a5fa for the headline."
+        },
+        {
+          "platform": "instagram",
+          "type": "story",
+          "prompt": "A dynamic illustration of a laser scanning device emitting beams that form a highly detailed 3D model of a building.",
+          "dimensions": "1200x627",
+          "textOverlay": {
+            "headline": "99.9% Accuracy - Guaranteed!",
+            "position": "bottom",
+            "font": "bold sans-serif"
+          },
+          "brandElements": "Use accent color #60a5fa for the headline text and primary color #3b82f6 for background elements."
+        }
+      ],
+      "carousels": [
+        {
+          "slideNumber": 1,
+          "headline": "Speed Meets Precision",
+          "body": "Our laser scanners deliver 0.1mm accuracy in just 48 hours.",
+          "visualPrompt": "An image showing a stopwatch next to a 3D building model, symbolizing speed and accuracy.",
+          "brandColor": "#3b82f6"
+        },
+        {
+          "slideNumber": 2,
+          "headline": "Why Settle for Less?",
+          "body": "Traditional methods are slow and inaccurate. Make the switch today.",
+          "visualPrompt": "A side-by-side comparison of a blurry traditional blueprint and a sharp digital model.",
+          "brandColor": "#1e40af"
+        },
+        {
+          "slideNumber": 3,
+          "headline": "Your Satisfaction Guaranteed",
+          "body": "Get your as-builts in 48 hours, or it's free!",
+          "visualPrompt": "A smiling construction manager holding a digital tablet displaying a completed 3D model.",
+          "brandColor": "#60a5fa"
+        }
+      ],
+      "videoScenes": [
+        {
+          "sceneNumber": 1,
+          "duration": "0:00-0:03",
+          "script": "Watch this laser scanner capture an entire building in 4 hours...",
+          "visualType": "b_roll",
+          "bRollSuggestion": "Timelapse footage of a laser scanner in action on a construction site.",
+          "textOverlay": "48 HOURS OR FREE",
+          "transition": "fade",
+          "emotion": "curious"
+        },
+        {
+          "sceneNumber": 2,
+          "duration": "0:03-0:06",
+          "script": "Traditional as-builts: 2 weeks, 60% accurate.",
+          "visualType": "text_animation",
+          "bRollSuggestion": "A slow-moving traditional construction site.",
+          "textOverlay": "Traditional: 2 weeks, 60% accurate",
+          "transition": "cut",
+          "emotion": "serious"
+        },
+        {
+          "sceneNumber": 3,
+          "duration": "0:06-0:09",
+          "script": "Our scanner: 48 hours, 99.9% accurate.",
+          "visualType": "text_animation",
+          "bRollSuggestion": "Close-up of a digital 3D model being rendered.",
+          "textOverlay": "Our Scanner: 48 hours, 99.9% accurate",
+          "transition": "zoom",
+          "emotion": "excited"
+        },
+        {
+          "sceneNumber": 4,
+          "duration": "0:09-0:15",
+          "script": "Book your 48-hour scan - link in bio.",
+          "visualType": "product_shot",
+          "bRollSuggestion": "Overlay of a website booking page on a digital device.",
+          "textOverlay": "Book Now!",
+          "transition": "cut",
+          "emotion": "encouraging"
+        }
+      ],
+      "thumbnails": [
+        {
+          "platform": "youtube",
+          "prompt": "A surprised face of a construction worker as they look at a digital tablet displaying a 3D model.",
+          "textOverlay": "48 Hours or Free!",
+          "emotion": "surprised"
+        },
+        {
+          "platform": "tiktok",
+          "prompt": "A curious face of a young professional examining a laser scanning device in action.",
+          "textOverlay": "Discover the Future of Scanning",
+          "emotion": "curious"
+        }
+      ],
+      "heygenPayload": {
+        "ready": true,
+        "avatar": "professional_male_1",
+        "voice": "en-US-Neural2-D",
+        "background": "modern_office",
+        "aspectRatio": "9:16",
+        "scenes": [
+          {
+            "script": "Get your construction-ready as-builts in 48 hours or it's free, with 0.1mm accuracy guaranteed.",
+            "duration": 5,
+            "gesture": "explaining",
+            "emotion": "serious"
+          }
+        ]
+      }
+    }
+  },
+  "taskItems": [
+    {
+      "task": "Publish landing page",
+      "platform": "website",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "task": "Schedule LinkedIn posts",
+      "platform": "taplio",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "task": "Schedule X.com thread",
+      "platform": "typefully",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "task": "Generate HeyGen video",
+      "platform": "heygen",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "task": "Publish blog pillar",
+      "platform": "wordpress",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "task": "Create social images",
+      "platform": "canva",
+      "priority": "medium",
+      "status": "pending"
+    }
+  ],
+  "analysis": {
+    "trendHunter": {
+      "model": "openai/gpt-4o",
+      "timing": 7510
+    },
+    "scriptwriter": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "timing": 16027
+    },
+    "webArchitect": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "timing": 25733
+    },
+    "visualDirector": {
+      "model": "openai/gpt-4o",
+      "timing": 17838
+    }
+  }
+}

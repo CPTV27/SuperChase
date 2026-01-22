@@ -1,0 +1,33 @@
+{
+  "daily": {
+    "date": "2026-01-21",
+    "totalCost": 0,
+    "sessionCount": 0,
+    "requestCount": 0,
+    "byModel": {}
+  },
+  "monthly": {
+    "month": "2026-01",
+    "totalCost": 0,
+    "sessionCount": 0,
+    "requestCount": 0,
+    "byModel": {}
+  },
+  "limits": {
+    "daily": 10,
+    "monthly": 200,
+    "perSession": 2,
+    "alertThreshold": 0.75
+  },
+  "rateTracking": {
+    "minute": {
+      "timestamp": 1769036981187,
+      "count": 0
+    },
+    "hour": {
+      "timestamp": 1769036981187,
+      "count": 0
+    }
+  },
+  "alerts": []
+}

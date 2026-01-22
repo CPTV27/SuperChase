@@ -1,0 +1,554 @@
+{
+  "businessId": "s2p",
+  "businessName": "Scan2Plan",
+  "generatedAt": "2026-01-21T21:39:00.935Z",
+  "traceId": "intel-mkojoanrr7x7",
+  "depth": "quick",
+  "duration": 49616,
+  "competitors": [
+    {
+      "name": "OpenSpace",
+      "website": "https://www.openspace.ai",
+      "position": "market leader",
+      "strengths": [
+        "Automated site capture",
+        "AI-driven analytics"
+      ],
+      "weaknesses": [
+        "High cost",
+        "Limited customization"
+      ],
+      "estimatedSize": "enterprise",
+      "pricingModel": "subscription",
+      "targetAudience": "general contractors, project managers",
+      "sourceUrl": "https://www.openspace.ai",
+      "confidence": 0.9,
+      "sitemap": {
+        "found": false,
+        "totalPages": 0,
+        "categories": {},
+        "error": "fetch failed"
+      }
+    },
+    {
+      "name": "Matterport",
+      "website": "https://www.matterport.com",
+      "position": "market leader",
+      "strengths": [
+        "High-quality 3D scans",
+        "Wide industry adoption"
+      ],
+      "weaknesses": [
+        "Requires specific hardware",
+        "Subscription fees"
+      ],
+      "estimatedSize": "enterprise",
+      "pricingModel": "hybrid",
+      "targetAudience": "real estate, AEC professionals",
+      "sourceUrl": "https://www.matterport.com",
+      "confidence": 0.9,
+      "sitemap": {
+        "found": false,
+        "totalPages": 0,
+        "categories": {},
+        "error": "fetch failed"
+      }
+    },
+    {
+      "name": "Local Survey Firms",
+      "website": "N/A",
+      "position": "niche",
+      "strengths": [
+        "Local expertise",
+        "Personalized service"
+      ],
+      "weaknesses": [
+        "Limited scalability",
+        "Higher per-project costs"
+      ],
+      "estimatedSize": "smb",
+      "pricingModel": "project",
+      "targetAudience": "local architects, small contractors",
+      "sourceUrl": "https://example.com/local-survey-firms",
+      "confidence": 0.7,
+      "sitemap": {
+        "found": false,
+        "totalPages": 0,
+        "categories": {},
+        "error": "fetch failed"
+      }
+    }
+  ],
+  "keywords": {
+    "red": [
+      {
+        "keyword": "Matterport alternatives",
+        "reason": "Highly competitive, dominated by enterprise players",
+        "competitorSpend": "$5000+/month"
+      },
+      {
+        "keyword": "construction tech solutions",
+        "reason": "Too broad and saturated, exceeds budget capacity",
+        "competitorSpend": "$8000+/month"
+      }
+    ],
+    "yellow": [
+      {
+        "keyword": "as-built documentation services",
+        "reason": "Medium competition but within budget reach",
+        "risk": "Requires consistent content investment"
+      },
+      {
+        "keyword": "Scan-to-BIM services",
+        "reason": "Growing competition but still accessible",
+        "risk": "Market leaders may increase spend"
+      }
+    ],
+    "green": [
+      {
+        "keyword": "3D site scanning",
+        "reason": "Low competition, matches service capability",
+        "action": "Create detailed service pages and case studies"
+      }
+    ],
+    "blueOcean": [
+      {
+        "keyword": "integrated project management scanning",
+        "reason": "Unaddressed integration needs",
+        "approach": "Develop content and services around seamless PM tool integration"
+      }
+    ]
+  },
+  "grandSlamOffer": {
+    "headline": "Get Guaranteed Accurate As-Builts in 48 Hours or It's Free - Save 80% vs Traditional Surveying",
+    "targetPainPoint": "Slow, expensive traditional surveys and limited software subscriptions that require special hardware",
+    "dreamOutcome": "Complete, accurate as-built documentation ready for immediate use in your preferred format (BIM/CAD)",
+    "timeframe": "48-hour turnaround for most projects",
+    "effort": "15-minute site walkthrough with any smartphone",
+    "riskReversal": "100% accuracy guarantee - we'll fix any discrepancies for free or refund your entire payment",
+    "bonuses": [
+      "Free Matterport virtual tour ($0.10/sqft value)",
+      "Complimentary project management tool integration ($997 value)",
+      "1-year unlimited cloud storage and sharing"
+    ],
+    "priceAnchor": "Traditional surveys cost $3.50-5.00/sqft and take weeks. Get more accurate results starting at $2.00/sqft in 48 hours"
+  },
+  "outreachTargets": {
+    "criteria": [
+      "AEC firms with 50+ employees",
+      "Active renovation/restoration projects",
+      "Using outdated documentation methods",
+      "Located in major metro areas"
+    ],
+    "topTier": [],
+    "scripts": {
+      "email": "Subject: {{firstName}}, eliminate as-built delays on {{projectName}}\n\nHi {{firstName}},\n\nI noticed {{companyName}} is working on {{projectName}}. Would cutting your as-built documentation time from weeks to 48 hours while saving 80% help hit your timeline?\n\nWe guarantee accurate as-builts in 2 days using any smartphone - no special hardware needed.\n\nCan I show you a 2-minute demo of how it works?\n\nBest,\n[Name]",
+      "linkedin": "Hi {{firstName}}, noticed you're leading {{projectName}} at {{companyName}}. We're helping AEC firms get guaranteed accurate as-builts in 48 hours vs weeks with traditional methods. Would love to show you how it works in 2 minutes. Open to connecting?",
+      "coldCall": "1. Intro\n2. Noticed project {{projectName}}\n3. Ask about documentation challenges\n4. Share 48-hour guarantee\n5. Offer 2-min demo\n6. Schedule or follow up plan"
+    }
+  },
+  "contentPlan": {
+    "pillarTopic": "Modern As-Built Documentation",
+    "weeks": []
+  },
+  "actionItems": [
+    {
+      "task": "Create landing page A/B test comparing 'Save 80%' vs '48-Hour Guarantee' headlines",
+      "priority": "high",
+      "category": "content",
+      "dueInDays": 3,
+      "asanaReady": true
+    },
+    {
+      "task": "Set up automated email sequence in ActiveCampaign with case study PDF delivery",
+      "priority": "high",
+      "category": "outreach",
+      "dueInDays": 2,
+      "asanaReady": true
+    },
+    {
+      "task": "Create comparison calculator tool showing time/cost savings vs traditional methods",
+      "priority": "high",
+      "category": "content",
+      "dueInDays": 5,
+      "asanaReady": true
+    },
+    {
+      "task": "Film 2-minute demo video showing smartphone scanning process",
+      "priority": "high",
+      "category": "content",
+      "dueInDays": 3,
+      "asanaReady": true
+    },
+    {
+      "task": "Set up retargeting ads on LinkedIn targeting AEC project managers",
+      "priority": "medium",
+      "category": "ads",
+      "dueInDays": 4,
+      "asanaReady": true
+    },
+    {
+      "task": "Create API integration documentation for top 3 project management tools",
+      "priority": "medium",
+      "category": "product",
+      "dueInDays": 7,
+      "asanaReady": true
+    }
+  ],
+  "citations": {
+    "sources": [
+      {
+        "id": "src_mkojokclag1q",
+        "text": "OpenSpace provides automated site capture and AI-driven analytics.",
+        "url": "https://www.openspace.ai",
+        "type": "webpage",
+        "confidence": 0.9,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {}
+      },
+      {
+        "id": "src_mkojokclghos",
+        "text": "Matterport offers high-quality 3D scans widely adopted across industries.",
+        "url": "https://www.matterport.com",
+        "type": "webpage",
+        "confidence": 0.9,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {}
+      },
+      {
+        "id": "src_mkojokcli0g9",
+        "text": "Local survey firms provide personalized service but have limited scalability.",
+        "url": "https://example.com/local-survey-firms",
+        "type": "webpage",
+        "confidence": 0.7,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {}
+      },
+      {
+        "id": "src_mkojokclsni4",
+        "text": "",
+        "url": "https://www.openspace.ai",
+        "type": "webpage",
+        "confidence": 0.9,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "competitors[0]"
+        }
+      },
+      {
+        "id": "src_mkojokcl61iq",
+        "text": "",
+        "url": "https://www.matterport.com",
+        "type": "webpage",
+        "confidence": 0.9,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "competitors[1]"
+        }
+      },
+      {
+        "id": "src_mkojokclivf7",
+        "text": "",
+        "url": "https://example.com/local-survey-firms",
+        "type": "webpage",
+        "confidence": 0.7,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "competitors[2]"
+        }
+      },
+      {
+        "id": "src_mkojokclbgly",
+        "text": "",
+        "url": "https://www.semrush.com",
+        "type": "webpage",
+        "confidence": 0.8,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "keywordOpportunities[0]"
+        }
+      },
+      {
+        "id": "src_mkojokcl0z9t",
+        "text": "",
+        "url": "https://www.keywordtool.io",
+        "type": "webpage",
+        "confidence": 0.8,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "keywordOpportunities[1]"
+        }
+      },
+      {
+        "id": "src_mkojokcl1dx8",
+        "text": "",
+        "url": "https://www.ahrefs.com",
+        "type": "webpage",
+        "confidence": 0.8,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "keywordOpportunities[2]"
+        }
+      },
+      {
+        "id": "src_mkojokcl57ft",
+        "text": "",
+        "url": "https://www.semrush.com",
+        "type": "webpage",
+        "confidence": 0.8,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "keywordOpportunities[3]"
+        }
+      },
+      {
+        "id": "src_mkojokclwr6k",
+        "text": "",
+        "url": "https://www.keywordtool.io",
+        "type": "webpage",
+        "confidence": 0.8,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "keywordOpportunities[4]"
+        }
+      },
+      {
+        "id": "src_mkojokclql11",
+        "text": "",
+        "url": "https://www.openspace.ai",
+        "type": "webpage",
+        "confidence": 0.7,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "contentGaps[0]"
+        }
+      },
+      {
+        "id": "src_mkojokclj0nh",
+        "text": "LinkedIn",
+        "url": "https://www.linkedin.com",
+        "type": "webpage",
+        "confidence": 0.7,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "leadSources[0]"
+        }
+      },
+      {
+        "id": "src_mkojokcli3i3",
+        "text": "AEC Next Technology Expo + Conference",
+        "url": "https://www.aecnext.com",
+        "type": "webpage",
+        "confidence": 0.7,
+        "verified": true,
+        "timestamp": "2026-01-21T21:38:23.877Z",
+        "metadata": {
+          "path": "leadSources[1]"
+        }
+      }
+    ],
+    "quality": {
+      "score": 0.92,
+      "grade": "A",
+      "verified": 14,
+      "unverified": 0,
+      "total": 14,
+      "avgConfidence": 0.79,
+      "warnings": []
+    },
+    "trace": {
+      "traceId": "intel-mkojoanrr7x7",
+      "timestamp": "2026-01-21T21:39:00.935Z",
+      "citationCount": 14,
+      "quality": {
+        "score": 0.92,
+        "grade": "A",
+        "verified": 14,
+        "unverified": 0,
+        "total": 14,
+        "avgConfidence": 0.79,
+        "warnings": []
+      },
+      "citations": [
+        {
+          "id": "src_mkojokclag1q",
+          "type": "webpage",
+          "confidence": 0.9,
+          "verified": true,
+          "url": "https://www.openspace.ai"
+        },
+        {
+          "id": "src_mkojokclghos",
+          "type": "webpage",
+          "confidence": 0.9,
+          "verified": true,
+          "url": "https://www.matterport.com"
+        },
+        {
+          "id": "src_mkojokcli0g9",
+          "type": "webpage",
+          "confidence": 0.7,
+          "verified": true,
+          "url": "https://example.com/local-survey-firms"
+        },
+        {
+          "id": "src_mkojokclsni4",
+          "type": "webpage",
+          "confidence": 0.9,
+          "verified": true,
+          "url": "https://www.openspace.ai"
+        },
+        {
+          "id": "src_mkojokcl61iq",
+          "type": "webpage",
+          "confidence": 0.9,
+          "verified": true,
+          "url": "https://www.matterport.com"
+        },
+        {
+          "id": "src_mkojokclivf7",
+          "type": "webpage",
+          "confidence": 0.7,
+          "verified": true,
+          "url": "https://example.com/local-survey-firms"
+        },
+        {
+          "id": "src_mkojokclbgly",
+          "type": "webpage",
+          "confidence": 0.8,
+          "verified": true,
+          "url": "https://www.semrush.com"
+        },
+        {
+          "id": "src_mkojokcl0z9t",
+          "type": "webpage",
+          "confidence": 0.8,
+          "verified": true,
+          "url": "https://www.keywordtool.io"
+        },
+        {
+          "id": "src_mkojokcl1dx8",
+          "type": "webpage",
+          "confidence": 0.8,
+          "verified": true,
+          "url": "https://www.ahrefs.com"
+        },
+        {
+          "id": "src_mkojokcl57ft",
+          "type": "webpage",
+          "confidence": 0.8,
+          "verified": true,
+          "url": "https://www.semrush.com"
+        },
+        {
+          "id": "src_mkojokclwr6k",
+          "type": "webpage",
+          "confidence": 0.8,
+          "verified": true,
+          "url": "https://www.keywordtool.io"
+        },
+        {
+          "id": "src_mkojokclql11",
+          "type": "webpage",
+          "confidence": 0.7,
+          "verified": true,
+          "url": "https://www.openspace.ai"
+        },
+        {
+          "id": "src_mkojokclj0nh",
+          "type": "webpage",
+          "confidence": 0.7,
+          "verified": true,
+          "url": "https://www.linkedin.com"
+        },
+        {
+          "id": "src_mkojokcli3i3",
+          "type": "webpage",
+          "confidence": 0.7,
+          "verified": true,
+          "url": "https://www.aecnext.com"
+        }
+      ]
+    }
+  },
+  "analysis": {
+    "librarian": {
+      "model": "openai/gpt-4o",
+      "timing": 12557,
+      "keywordCount": 5,
+      "contentGaps": [
+        {
+          "topic": "Integration of Scan-to-BIM with project management tools",
+          "reason": "Competitors focus on scanning capabilities but not on integration",
+          "opportunity": "Develop content around seamless integration with popular project management software",
+          "sourceUrl": "https://www.openspace.ai"
+        }
+      ],
+      "leadSources": [
+        {
+          "source": "LinkedIn",
+          "type": "linkedin",
+          "quality": "high",
+          "accessMethod": "LinkedIn Sales Navigator",
+          "sourceUrl": "https://www.linkedin.com"
+        },
+        {
+          "source": "AEC Next Technology Expo + Conference",
+          "type": "conference",
+          "quality": "high",
+          "accessMethod": "Attend event",
+          "sourceUrl": "https://www.aecnext.com"
+        }
+      ],
+      "peopleAlsoAsk": [
+        "What is Scan-to-BIM technology?",
+        "How does Matterport work in construction?"
+      ],
+      "citationCount": 14,
+      "citationGrade": "A"
+    },
+    "auditor": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "timing": 15969,
+      "warnings": [
+        "Monthly ad budget insufficient for competing in saturated keywords",
+        "Content capacity (4 posts/week) may limit competitive positioning",
+        "Service area limitations may affect scalability"
+      ],
+      "opportunities": [
+        "Focus on integration-focused content within 4 posts/week capacity",
+        "Target mid-market firms within service area to maximize ROI",
+        "Leverage LinkedIn for targeted outreach within 50 contacts/week limit",
+        "Develop niche in project management tool integration"
+      ],
+      "budgetRecommendation": {
+        "adSpend": {
+          "recommended": 1500,
+          "allocation": {
+            "search": 1000,
+            "social": 500
+          }
+        },
+        "contentInvestment": "high priority",
+        "outreachPriority": "medium"
+      }
+    },
+    "architect": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "timing": 21088
+    }
+  }
+}

@@ -1,11 +1,41 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-01-20T18:42:00.000Z",
-  "pending": [],
+  "lastUpdated": "2026-01-21T22:35:00.000Z",
+  "pending": [
+    "brief_s2p_20260121"
+  ],
   "published": [
     "brief_bigmuddy_20260120"
   ],
   "briefs": [
+    {
+      "id": "brief_s2p_20260121",
+      "clientId": "s2p",
+      "status": "pending",
+      "createdAt": "2026-01-21T22:35:00.000Z",
+      "strategist": {
+        "topic": "48-Hour As-Builts: How We Guarantee Delivery When Others Take Weeks",
+        "angle": "Technical credibility piece that demonstrates Scan2Plan's process advantage while positioning the 48-hour guarantee as a competitive moat - converts Technical Authority content into Pipeline acceleration",
+        "goalAlignment": {
+          "goalId": "goal_s2p_pipeline",
+          "strategyId": "strat_s2p_casestudies",
+          "rationale": "Pipeline at 45% ($45K/$100K) with Q1 deadline approaching. Case studies with ROI proof points directly support quote conversion. Technical authority content doubles as lead magnet."
+        },
+        "blogOutline": [
+          "The As-Built Problem: Why Traditional Surveys Take Weeks (And Cost More)",
+          "Our 48-Hour Process: From Smartphone Scan to Deliverable",
+          "The Integration Advantage: Direct Export to Procore, PlanGrid, and BIM360",
+          "The Guarantee: What Happens If We Miss the Deadline"
+        ],
+        "xHooks": [
+          "Traditional as-built surveys: 2-3 weeks, $3.50/sqft. Our process: 48 hours, $2.00/sqft. Here's exactly how we do it (and why we guarantee it).",
+          "Most reality capture firms make you wait. We built our entire workflow around one question: 'What if we guaranteed 48 hours?' The answer changed everything.",
+          "Your project management tool shouldn't need another tool to talk to your scanner. We export directly to Procore, PlanGrid, and BIM360. No middleware. No delays."
+        ],
+        "voiceArchetype": "Technical Expert",
+        "toneGuidance": "Confident and precise. Lead with the guarantee, back it up with process. Use specific numbers and tool names. Avoid marketing fluff - let the workflow speak for itself."
+      }
+    },
     {
       "id": "brief_bigmuddy_20260120",
       "clientId": "bigmuddy",

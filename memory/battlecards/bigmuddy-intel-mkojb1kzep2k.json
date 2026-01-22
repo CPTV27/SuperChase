@@ -1,0 +1,362 @@
+{
+  "businessId": "bigmuddy",
+  "businessName": "Big Muddy Inn & Blues Room",
+  "generatedAt": "2026-01-21T21:29:14.229Z",
+  "traceId": "intel-mkojb1kzep2k",
+  "depth": "standard",
+  "duration": 81202,
+  "competitors": [
+    {
+      "name": "Monmouth Historic Inn",
+      "website": "monmouthhistoricinn.com",
+      "position": "market leader",
+      "strengths": [
+        "Historic charm",
+        "Award-winning gardens"
+      ],
+      "weaknesses": [
+        "Higher price point",
+        "Limited modern amenities"
+      ],
+      "estimatedSize": "smb",
+      "pricingModel": "project",
+      "targetAudience": "luxury travelers, history enthusiasts",
+      "sitemap": {
+        "found": true,
+        "totalPages": 4,
+        "categories": {
+          "blog": 0,
+          "products": 0,
+          "services": 0,
+          "caseStudies": 0,
+          "about": 0,
+          "other": 4
+        },
+        "sampleUrls": [
+          "https://www.monmouthhistoricinn.com/sitemap-post-type-post.xml",
+          "https://www.monmouthhistoricinn.com/sitemap-post-type-page.xml",
+          "https://www.monmouthhistoricinn.com/sitemap-post-type-gallery.xml",
+          "https://www.monmouthhistoricinn.com/sitemap-taxonomy-category.xml"
+        ]
+      }
+    },
+    {
+      "name": "Dunleith Historic Inn",
+      "website": "dunleith.com",
+      "position": "challenger",
+      "strengths": [
+        "Historic estate",
+        "Versatile event spaces"
+      ],
+      "weaknesses": [
+        "Limited room availability",
+        "Seasonal demand fluctuations"
+      ],
+      "estimatedSize": "smb",
+      "pricingModel": "project",
+      "targetAudience": "wedding parties, event planners",
+      "sitemap": {
+        "found": false,
+        "totalPages": 0,
+        "categories": {}
+      }
+    },
+    {
+      "name": "The Guest House",
+      "website": "guesthouseinn.com",
+      "position": "niche",
+      "strengths": [
+        "Cozy atmosphere",
+        "Central location"
+      ],
+      "weaknesses": [
+        "Fewer amenities",
+        "Limited brand recognition"
+      ],
+      "estimatedSize": "smb",
+      "pricingModel": "project",
+      "targetAudience": "budget-conscious travelers, short-stay guests",
+      "sitemap": {
+        "found": false,
+        "totalPages": 0,
+        "categories": {},
+        "error": "The operation was aborted due to timeout"
+      }
+    }
+  ],
+  "keywords": {
+    "red": [
+      {
+        "keyword": "boutique hotels Natchez",
+        "reason": "Saturated market with high competition, exceeds budget to compete",
+        "competitorSpend": "$2000+/month"
+      },
+      {
+        "keyword": "Natchez wedding locations",
+        "reason": "Saturated market, requires significant venue investment",
+        "competitorSpend": "$1500+/month"
+      }
+    ],
+    "yellow": [
+      {
+        "keyword": "historic inns Mississippi",
+        "reason": "Medium competition but broad reach",
+        "risk": "Budget strain for consistent visibility"
+      },
+      {
+        "keyword": "Natchez historical sites",
+        "reason": "Popular but indirect conversion intent",
+        "risk": "Traffic may not convert to bookings"
+      }
+    ],
+    "green": [
+      {
+        "keyword": "Mississippi River music tours",
+        "reason": "Low competition, matches content capacity",
+        "action": "Create targeted content series"
+      },
+      {
+        "keyword": "Natchez culinary experiences",
+        "reason": "Low competition, unique angle",
+        "action": "Develop food-music fusion content"
+      }
+    ],
+    "blueOcean": [
+      {
+        "keyword": "Natchez blues room",
+        "reason": "Unique niche combining accommodation with music culture",
+        "approach": "Create themed rooms with blues history/music experience"
+      },
+      {
+        "keyword": "live blues music Mississippi",
+        "reason": "Untapped market for music tourism packages",
+        "approach": "Develop exclusive blues experience packages"
+      }
+    ]
+  },
+  "grandSlamOffer": {
+    "headline": "Experience the Ultimate Blues Getaway: 2 Nights of Luxury, Live Music & Southern Soul - With Our 'Play the Blues, Live the Dream' Guarantee",
+    "targetPainPoint": "Tired of sterile hotels with no character or authentic cultural experiences",
+    "dreamOutcome": "Immersive blues experience with luxury accommodation, VIP music access, and curated cultural journey",
+    "timeframe": "2 nights/3 days",
+    "effort": "Just pack and arrive - we handle everything else",
+    "riskReversal": "If you don't experience at least 3 'wow moments' during your stay, your second night is free",
+    "bonuses": [
+      "Private blues history tour with local musician ($297 value)",
+      "Exclusive recording session in our Blues Room ($199 value)",
+      "Southern soul food cooking class ($159 value)"
+    ],
+    "priceAnchor": "Compared to $899/night at Monmouth Historic Inn with no entertainment, get our full blues immersion package for $699/night"
+  },
+  "outreachTargets": {
+    "criteria": [
+      "Must have 10k+ following in blues/travel/culture space",
+      "Active content creation in last 30 days",
+      "Engagement rate above 2%",
+      "Located in Southeast US or major music markets"
+    ],
+    "topTier": [
+      {
+        "company": "Blues Foundation",
+        "signal": "Annual Blues Music Awards approaching",
+        "approach": "Offer exclusive accommodation package for nominees",
+        "priority": 1
+      },
+      {
+        "company": "Southern Living Magazine",
+        "signal": "Recent focus on music tourism",
+        "approach": "Pitch unique blues-luxury angle",
+        "priority": 1
+      },
+      {
+        "company": "Garden & Gun",
+        "signal": "Music issue coming up",
+        "approach": "Exclusive first look at Blues Room concept",
+        "priority": 1
+      },
+      {
+        "company": "Blues Travel Network",
+        "signal": "Expanding Mississippi coverage",
+        "approach": "Partner package proposal",
+        "priority": 1
+      },
+      {
+        "company": "Visit Mississippi",
+        "signal": "Blues Trail promotion active",
+        "approach": "Official accommodation partner pitch",
+        "priority": 1
+      }
+    ],
+    "scripts": {
+      "email": "Subject: {{Company}} x Big Muddy Inn: Blues Tourism Innovation\n\nHi {{name}},\n\nNoticed your recent {{specific_content}} about {{topic}}. We're launching something unique in Natchez - luxury accommodation meets authentic blues experience.\n\nWould you be interested in an exclusive first look? We can offer:\n- Custom content angles\n- First access to our Blues Room\n- Exclusive packages for your audience\n\nBest,\n[Name]",
+      "linkedin": "Hi {{name}}, your recent post about {{topic}} caught my eye. We're bringing something new to the Mississippi blues scene. Would love to share our vision for elevating blues tourism through luxury experiences. Can we connect?",
+      "coldCall": "1. Introduce and reference recent content\n2. Share Blues Room concept\n3. Offer exclusive first look\n4. Suggest collaboration options"
+    }
+  },
+  "contentPlan": {
+    "pillarTopic": "Mississippi Blues Tourism Experience Guide",
+    "weeks": [
+      {
+        "week": 1,
+        "pillar": {
+          "title": "The Ultimate Guide to Experiencing Mississippi Blues: Where to Stay, Play & Create Memories",
+          "keyword": "Mississippi blues experience guide",
+          "wordCount": 2000
+        },
+        "supporting": [
+          {
+            "title": "5 Hidden Gems Along the Mississippi Blues Trail",
+            "keyword": "Mississippi blues trail secrets",
+            "wordCount": 800
+          },
+          {
+            "title": "How to Plan the Perfect Blues Weekend in Natchez",
+            "keyword": "Natchez blues weekend",
+            "wordCount": 1000
+          }
+        ]
+      },
+      {
+        "week": 2,
+        "pillar": {
+          "title": "From Robert Johnson to Today: A Musical Journey Through Mississippi's Blues Rooms",
+          "keyword": "Mississippi blues history venues",
+          "wordCount": 2000
+        },
+        "supporting": [
+          {
+            "title": "The Art of Southern Hospitality: Where Luxury Meets Blues Culture",
+            "keyword": "luxury blues accommodation",
+            "wordCount": 800
+          },
+          {
+            "title": "Blues & Bites: The Ultimate Natchez Music-Food Pairing Guide",
+            "keyword": "Natchez blues food culture",
+            "wordCount": 1000
+          }
+        ]
+      }
+    ]
+  },
+  "actionItems": [
+    {
+      "task": "Set up professional photoshoot of Blues Room and themed suites",
+      "priority": "high",
+      "category": "content",
+      "dueInDays": 7,
+      "asanaReady": true
+    },
+    {
+      "task": "Create Blues Room landing page with booking integration",
+      "priority": "high",
+      "category": "product",
+      "dueInDays": 14,
+      "asanaReady": true
+    },
+    {
+      "task": "Launch Facebook Ad campaign targeting blues festival attendees",
+      "priority": "medium",
+      "category": "ads",
+      "dueInDays": 21,
+      "asanaReady": true
+    },
+    {
+      "task": "Record video series showcasing each themed room's unique features",
+      "priority": "high",
+      "category": "content",
+      "dueInDays": 30,
+      "asanaReady": true
+    },
+    {
+      "task": "Set up email automation for post-booking experience enhancement",
+      "priority": "medium",
+      "category": "product",
+      "dueInDays": 14,
+      "asanaReady": true
+    }
+  ],
+  "analysis": {
+    "librarian": {
+      "model": "openai/gpt-4o",
+      "timing": 31262,
+      "keywordCount": 20,
+      "contentGaps": [
+        {
+          "topic": "Blues history tours in Natchez",
+          "reason": "Competitors focus on general history tours",
+          "opportunity": "Develop specialized blues history tours"
+        },
+        {
+          "topic": "Culinary events featuring local musicians",
+          "reason": "Competitors separate dining and music experiences",
+          "opportunity": "Combine culinary events with live music performances"
+        },
+        {
+          "topic": "Interactive blues workshops",
+          "reason": "Competitors offer passive music experiences",
+          "opportunity": "Host interactive workshops with local blues artists"
+        }
+      ],
+      "leadSources": [
+        {
+          "source": "TripAdvisor",
+          "type": "directory",
+          "quality": "high",
+          "accessMethod": "list business and engage with reviews"
+        },
+        {
+          "source": "LinkedIn",
+          "type": "linkedin",
+          "quality": "medium",
+          "accessMethod": "network with event planners and travel agents"
+        },
+        {
+          "source": "Mississippi Blues Marathon",
+          "type": "conference",
+          "quality": "high",
+          "accessMethod": "sponsor or attend event to connect with attendees"
+        },
+        {
+          "source": "Natchez Pilgrimage Tours",
+          "type": "other",
+          "quality": "medium",
+          "accessMethod": "partner for package deals"
+        }
+      ],
+      "peopleAlsoAsk": [
+        "What are the best blues music venues in Natchez?",
+        "How can I experience the local culture in Natchez?"
+      ]
+    },
+    "auditor": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "timing": 19212,
+      "warnings": [
+        "Current ad budget insufficient for competitive wedding/luxury markets",
+        "Content capacity (2 posts/week) limits ability to cover multiple themes",
+        "Single team member may struggle with comprehensive outreach program"
+      ],
+      "opportunities": [
+        "Focus on blues music tourism niche - low competition, high potential",
+        "Develop music-themed accommodation packages",
+        "Create content series about local blues history and culture",
+        "Partner with local musicians for exclusive experiences"
+      ],
+      "budgetRecommendation": {
+        "adSpend": {
+          "recommended": 800,
+          "allocation": {
+            "search": 500,
+            "social": 300
+          }
+        },
+        "contentInvestment": "high priority",
+        "outreachPriority": "medium"
+      }
+    },
+    "architect": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "timing": 30724
+    }
+  }
+}

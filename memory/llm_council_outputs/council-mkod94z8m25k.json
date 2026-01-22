@@ -1,0 +1,116 @@
+{
+  "traceId": "council-mkod94z8m25k",
+  "query": "You are designing an AI agent system called SuperChase OS that manages multiple business units (Scan2Plan, Studio C, Big Muddy Inn, etc.). Before agents can do useful work like strategic analysis, content creation, or pipeline recommendations, they need REAL business data - not hallucinated assumptions.\n\nPROBLEM:\nWhen asked to analyze a business unit, the AI agents currently make up data (invented pricing tiers, fake metrics) because they lack grounded context.\n\nTASK:\nDesign a client/business unit onboarding and data ingestion process that captures all critical information BEFORE agents start working. This should be a repeatable framework that works for any business type.\n\nREQUIREMENTS:\n1. Must capture enough context that agents never need to hallucinate business details\n2. Must be practical to fill out (not a 100-field form)\n3. Must support different business types (service business, product brand, client project, venue)\n4. Must integrate with existing SuperChase structures (GST manifests, portfolio.json, client configs)\n\nEXISTING STRUCTURES TO BUILD ON:\n- config/portfolio.json - business unit definitions (id, name, type, color, contacts)\n- clients/{id}/config.json - detailed client config (branding, SEO, integrations, workflows)\n- clients/{id}/gst.json - Goals, Strategies, Tactics manifest\n- clients/{id}/brand.json - voice, tone, vocabulary\n\nDELIVERABLE:\nDesign a structured onboarding questionnaire/intake form with:\n1. Required fields (minimum viable context)\n2. Optional fields (enhanced context)\n3. Data validation rules\n4. How each field maps to existing SuperChase structures\n5. Suggested intake workflow (who fills what, when)\n\nBe specific and practical. This will be implemented as an actual intake system.",
+  "timestamp": "2026-01-21T18:39:24.803Z",
+  "config": {
+    "models": [
+      "openai/gpt-4o",
+      "anthropic/claude-3.5-sonnet",
+      "google/gemini-2.0-flash-exp"
+    ],
+    "chairmanModel": "anthropic/claude-3.5-sonnet",
+    "temperature": 0.7
+  },
+  "stages": {
+    "stage1": {
+      "responses": [
+        {
+          "model": "openai/gpt-4o",
+          "response": "To create a robust and efficient onboarding process for the SuperChase OS, we need to design a structured intake form that captures essential business information without overwhelming the user. The form should be comprehensive enough to prevent AI agents from fabricating data while being adaptable to various business types. Below is a proposed design for the intake system, mapping fields to existing SuperChase structures and providing a clear workflow.\n\n### Onboarding Questionnaire/Intake Form\n\n#### Section 1: Basic Business Information\n\n**Required Fields:**\n1. **Business Unit ID:** Unique identifier for the business unit.\n   - *Map to:* `config/portfolio.json (id)`\n   - *Validation:* Must be alphanumeric, unique.\n\n2. **Business Name:** Official name of the business unit.\n   - *Map to:* `config/portfolio.json (name)`\n   - *Validation:* Non-empty string, max 100 characters.\n\n3. **Business Type:** Type of business (e.g., service, product brand, client project, venue).\n   - *Map to:* `config/portfolio.json (type)`\n   - *Validation:* Predefined list selection.\n\n4. **Primary Contact:** Name and email of the primary business contact.\n   - *Map to:* `config/portfolio.json (contacts)`\n   - *Validation:* Valid email format, non-empty name.\n\n**Optional Fields:**\n1. **Business Color Scheme:** Primary color for branding.\n   - *Map to:* `config/portfolio.json (color)`\n   - *Validation:* Hex color code.\n\n#### Section 2: Business Details\n\n**Required Fields:**\n1. **Core Offerings:** Brief description of primary products/services.\n   - *Map to:* `clients/{id}/config.json (branding)`\n   - *Validation:* Non-empty string, max 250 characters.\n\n2. **Target Audience:** Description of the target customer base.\n   - *Map to:* `clients/{id}/config.json (SEO)`\n   - *Validation:* Non-empty string.\n\n**Optional Fields:**\n1. **Pricing Tiers:** Description of pricing structure.\n   - *Map to:* `clients/{id}/config.json`\n   - *Validation:* List format, each entry max 100 characters.\n\n#### Section 3: Strategic Information\n\n**Required Fields:**\n1. **Business Goals:** Key goals for the business unit.\n   - *Map to:* `clients/{id}/gst.json (Goals)`\n   - *Validation:* Non-empty list, each goal max 150 characters.\n\n2. **Current Strategies:** Current strategies in place to achieve goals.\n   - *Map to:* `clients/{id}/gst.json (Strategies)`\n   - *Validation:* Non-empty list, each strategy max 150 characters.\n\n**Optional Fields:**\n1. **Key Metrics:** Primary metrics used to measure success.\n   - *Map to:* `clients/{id}/gst.json (Tactics)`\n   - *Validation:* Non-empty list, each metric max 100 characters.\n\n#### Section 4: Brand Identity\n\n**Required Fields:**\n1. **Brand Voice:** Description of the desired brand voice.\n   - *Map to:* `clients/{id}/brand.json (voice)`\n   - *Validation:* Non-empty string, max 150 characters.\n\n**Optional Fields:**\n1. **Tone and Vocabulary:** Specific words and tone to be used.\n   - *Map to:* `clients/{id}/brand.json (tone, vocabulary)`\n   - *Validation:* List format, each entry max 50 characters.\n\n### Intake Workflow\n\n1. **Initial Contact:** Business representative fills out the Basic Business Information section during the initial engagement.\n   - Responsible Party: Business Owner/Manager.\n\n2. **Detailed Information Gathering:** The Business Details and Strategic Information sections are completed by the business's operational manager or marketing lead with assistance from SuperChase's onboarding specialist to ensure accuracy and completeness.\n\n3. **Brand Identity Definition:** The Brand Identity section is preferably filled out by the marketing or branding team of the business to reflect the desired brand persona.\n\n4. **Review and Verification:** SuperChase's team reviews the filled form for completeness and correctness, ensuring all required fields are adequately filled and validated.\n\n5. **Integration and Setup:** Once verified, the data is integrated into the respective SuperChase structures, setting the stage for AI agents to begin their analysis and recommendations without the need for fabricated data.\n\nThis structured intake process ensures that all critical business information is captured efficiently, facilitating seamless integration into the SuperChase OS and empowering AI agents with accurate, real-world data.",
+          "timing": 16614,
+          "tokens": {
+            "input": 368,
+            "output": 928
+          }
+        },
+        {
+          "model": "anthropic/claude-3.5-sonnet",
+          "response": "I'll design a practical business unit onboarding system that captures essential context while remaining manageable. Here's the proposed structure:\n\n## 1. CORE BUSINESS PROFILE (Required Fields)\n```json\n{\n  \"basics\": {\n    \"id\": \"string [slug format]\",\n    \"name\": \"string\",\n    \"type\": \"enum [service|product|venue|project]\",\n    \"status\": \"enum [active|planning|paused]\",\n    \"description\": \"string [200 char max]\"\n  },\n  \"business_model\": {\n    \"revenue_streams\": [\"string[]\"], // Primary ways the business makes money\n    \"target_market\": {\n      \"primary_audience\": \"string\",\n      \"price_point\": \"enum [budget|mid|premium|luxury]\",\n      \"geographic_scope\": \"enum [local|regional|national|global]\"\n    },\n    \"key_offerings\": [{\n      \"name\": \"string\",\n      \"price_range\": {\n        \"min\": \"number\",\n        \"max\": \"number\",\n        \"unit\": \"enum [flat|hourly|monthly]\"\n      },\n      \"description\": \"string [100 char max]\"\n    }]\n  },\n  \"metrics\": {\n    \"current_revenue\": {\n      \"amount\": \"number\",\n      \"frequency\": \"enum [monthly|annual]\"\n    },\n    \"target_revenue\": {\n      \"amount\": \"number\", \n      \"timeframe\": \"string\"\n    }\n  }\n}\n```\n\n## 2. ENHANCED CONTEXT (Optional Fields)\n```json\n{\n  \"market_position\": {\n    \"competitors\": [\"string[]\"],\n    \"differentiators\": [\"string[]\"],\n    \"industry_trends\": [\"string[]\"]\n  },\n  \"operations\": {\n    \"team_size\": \"number\",\n    \"key_tools\": [\"string[]\"],\n    \"processes\": [\"string[]\"]\n  },\n  \"assets\": {\n    \"website\": \"url\",\n    \"social_profiles\": [{\n      \"platform\": \"string\",\n      \"url\": \"string\"\n    }],\n    \"brand_assets\": \"url\" // Link to brand kit\n  }\n}\n```\n\n## 3. DATA VALIDATION RULES\n- All required fields must be non-empty\n- IDs must be URL-safe slugs\n- Prices must be positive numbers\n- URLs must be valid\n- Enums must match defined options\n- Arrays must have at least one item\n- Text fields have specified character limits\n\n## 4. MAPPING TO EXISTING STRUCTURES\n\n```javascript\n// portfolio.json mapping\n{\n  \"id\": \"basics.id\",\n  \"name\": \"basics.name\", \n  \"type\": \"basics.type\",\n  \"status\": \"basics.status\"\n}\n\n// config.json mapping\n{\n  \"business\": {\n    \"model\": \"business_model\",\n    \"metrics\": \"metrics\"\n  },\n  \"market\": \"market_position\",\n  \"operations\": \"operations\"\n}\n\n// gst.json mapping\n{\n  \"goals\": {\n    \"revenue\": \"metrics.target_revenue\",\n    \"market\": \"target_market\"\n  }\n}\n\n// brand.json mapping\n{\n  \"assets\": \"assets\",\n  \"voice\": {\n    \"market_position\": \"market_position.differentiators\"\n  }\n}\n```\n\n## 5. INTAKE WORKFLOW\n\n1. Initial Setup (Business Owner/Manager)\n- Complete Core Business Profile\n- Provide basic metrics and targets\n- Define key offerings and pricing\n\n2. Strategic Review (SuperChase Team)\n- Validate data completeness\n- Add market research insights\n- Map to GST framework\n- Request any missing critical context\n\n3. Technical Setup (SuperChase Dev)\n- Generate config files\n- Set up monitoring\n- Enable relevant integrations\n- Validate data structure\n\n4. Ongoing Maintenance\n- Quarterly metric updates\n- Annual strategic review\n- On-demand updates for major changes\n\n## Implementation Notes:\n\n1. Build as a multi-step form interface with:\n- Progress tracking\n- Save drafts\n- Validation feedback\n- Help text/examples\n\n2. Create import/export tools for:\n- Spreadsheet bulk import\n- API integration\n- Config file generation\n\n3. Include templates for common business types:\n- Service business preset\n- Product brand preset\n- Venue preset\n- Project preset\n\nThis framework provides enough context for agents to work with real data while remaining practical to implement and maintain. The modular structure allows for future expansion while maintaining compatibility with existing SuperChase systems.",
+          "timing": 26614,
+          "tokens": {
+            "input": 411,
+            "output": 1077
+          }
+        },
+        {
+          "model": "google/gemini-2.0-flash-exp",
+          "response": null,
+          "error": "OpenRouter error: google/gemini-2.0-flash-exp query failed: 404 - {\"error\":{\"message\":\"No endpoints found for google/gemini-2.0-flash-exp.\",\"code\":404},\"user_id\":\"user_38YEvTMcYvTjTS1zvercRnjDKzl\"}",
+          "timing": 0
+        }
+      ]
+    },
+    "stage2": {
+      "rankings": [
+        {
+          "reviewer": "openai/gpt-4o",
+          "ranking": [
+            "A",
+            "B"
+          ]
+        },
+        {
+          "reviewer": "anthropic/claude-3.5-sonnet",
+          "ranking": [
+            "B",
+            "A"
+          ]
+        }
+      ],
+      "aggregated": [
+        {
+          "label": "A",
+          "model": "openai/gpt-4o",
+          "score": 1
+        },
+        {
+          "label": "B",
+          "model": "anthropic/claude-3.5-sonnet",
+          "score": 1
+        }
+      ],
+      "labelToModel": {
+        "A": "openai/gpt-4o",
+        "B": "anthropic/claude-3.5-sonnet"
+      },
+      "reviewResults": [
+        {
+          "model": "openai/gpt-4o",
+          "response": "**Evaluation of Response A:**\n\n1. **Accuracy:** The response correctly identifies the need for a structured intake form and maps fields to existing SuperChase structures. It provides a clear mapping of fields to the existing system, which is accurate and aligns with the requirements.\n   \n2. **Completeness:** The response is comprehensive, covering all required sections such as Basic Business Information, Business Details, Strategic Information, and Brand Identity. It also includes a detailed intake workflow, which fully addresses the question.\n   \n3. **Clarity:** The response is well-structured, with clear sections and bullet points that make it easy to follow. Each field is clearly explained with validation rules and mapping to existing structures.\n   \n4. **Usefulness:** This response would be highly useful to someone implementing the intake system, as it provides a detailed and practical framework that aligns with the requirements.\n\n**Evaluation of Response B:**\n\n1. **Accuracy:** The response accurately outlines a structured onboarding system and maps fields to existing SuperChase structures. It includes JSON-like structures, which are precise and align with the requirements.\n   \n2. **Completeness:** The response covers core business profiles, enhanced context, data validation rules, mapping to existing structures, and an intake workflow. It also includes implementation notes, which adds depth to the solution.\n   \n3. **Clarity:** The use of JSON-like structures is clear and provides a technical perspective. However, it might be slightly less accessible to non-technical readers compared to Response A.\n   \n4. **Usefulness:** This response is very useful, especially for technical teams implementing the system, as it provides detailed structures and mapping. The inclusion of implementation notes and templates is a valuable addition.\n\n**Final Ranking:**\n\nBoth responses are strong, but Response A is slightly more accessible and easier to understand for a broader audience, while Response B provides a more technical perspective. Given the task's requirements, Response A is ranked higher for its clarity and comprehensive approach.\n\nFINAL RANKING: [A, B]",
+          "timing": 11057,
+          "tokens": {
+            "input": 2403,
+            "output": 407
+          }
+        },
+        {
+          "model": "anthropic/claude-3.5-sonnet",
+          "response": "Let me evaluate both responses:\n\nResponse A:\n- Accuracy: Good accuracy with clear mapping to existing structures\n- Completeness: Covers required elements but could be more detailed on validation rules\n- Clarity: Well-organized with clear sections and hierarchical structure\n- Usefulness: Practical and implementable, but lacks some technical specificity\n\nResponse B:\n- Accuracy: Excellent accuracy with detailed JSON structures and specific validation rules\n- Completeness: Very comprehensive, covering all requirements plus implementation notes\n- Clarity: Outstanding structure with clear JSON schemas and mappings\n- Usefulness: Highly practical with concrete technical details and implementation guidance\n\nKey Differentiators:\n1. Response B provides actual JSON structures and schemas, making it more immediately implementable\n2. Response B includes more specific validation rules and data types\n3. Response B offers implementation notes and templates for different business types\n4. Response B provides more detailed mapping to existing structures\n5. Response B includes better technical considerations for maintenance and scaling\n\nWhile Response A is solid and well-organized, Response B goes above and beyond with technical specificity and practical implementation details that would make it more immediately useful for development.\n\nFINAL RANKING: [B, A]",
+          "timing": 9836,
+          "tokens": {
+            "input": 2782,
+            "output": 265
+          }
+        }
+      ]
+    },
+    "stage3": {
+      "chairman": "anthropic/claude-3.5-sonnet",
+      "timing": 20678
+    }
+  },
+  "synthesis": "As Chairman, I'll synthesize the council's recommendations for the SuperChase OS business unit onboarding system. Both responses received equal ranking, so I'll incorporate the strongest elements from each.\n\n# Recommended Onboarding Framework\n\n## Core Structure\nThe intake system should be organized into clear sections that progress from basic to detailed information:\n\n1. Basic Business Information\n2. Business Model & Operations\n3. Strategic Information\n4. Brand Identity\n\n## Required Fields (Minimum Viable Context)\n\n### Basic Profile\n- Business Unit ID (validated slug format)\n- Business Name\n- Business Type (service/product/venue/project)\n- Primary Contact Details\n- Core Description (200 char max)\n\n### Business Model\n- Revenue Streams\n- Target Market Definition\n- Key Offerings with Pricing Structure\n- Current & Target Revenue Metrics\n\n### Strategic Elements\n- Business Goals\n- Current Strategies\n- Primary Target Audience\n- Core Value Proposition\n\n## Optional Enhancement Fields\n- Market Position (competitors, differentiators)\n- Operational Details (team size, tools, processes)\n- Digital Assets (website, social profiles)\n- Brand Voice Specifics\n- Detailed Pricing Tiers\n- Key Performance Metrics\n\n## Data Validation Rules\n- Non-empty required fields\n- Format-specific validation (URLs, emails, slugs)\n- Character limits on text fields\n- Numeric validation for financial data\n- Enum validation for categorical fields\n\n## Integration Mapping\n\n```javascript\n// Simplified mapping structure\n{\n  \"portfolio.json\": {\n    \"basic_profile\": [\"id\", \"name\", \"type\", \"status\"],\n    \"contacts\": [\"primary_contact\"]\n  },\n  \"config.json\": {\n    \"business_model\": [\"revenue\", \"offerings\", \"market\"],\n    \"operations\": [\"processes\", \"tools\"]\n  },\n  \"gst.json\": {\n    \"goals\": [\"targets\", \"strategies\"],\n    \"metrics\": [\"kpis\", \"revenue_targets\"]\n  },\n  \"brand.json\": {\n    \"voice\": [\"tone\", \"vocabulary\"],\n    \"assets\": [\"digital_presence\", \"brand_kit\"]\n  }\n}\n```\n\n## Implementation Workflow\n\n1. **Initial Setup** (Business Owner/Manager)\n- Complete core profile\n- Define basic business model\n- Set initial goals\n\n2. **Strategic Review** (SuperChase Team)\n- Validate data completeness\n- Add market insights\n- Map to GST framework\n\n3. **Technical Setup** (SuperChase Dev)\n- Generate config files\n- Enable integrations\n- Validate data structure\n\n4. **Maintenance Protocol**\n- Quarterly metric updates\n- Annual strategic review\n- On-demand updates for major changes\n\n## Practical Implementation Features\n\n1. **User Interface**\n- Multi-step form with progress tracking\n- Save draft capability\n- Real-time validation\n- Contextual help text\n\n2. **Templates**\n- Business-type specific presets\n- Common configuration patterns\n- Guided examples\n\n3. **Integration Tools**\n- Spreadsheet import/export\n- API connectivity\n- Config file generation\n\nThis synthesis maintains practicality while ensuring comprehensive data collection, combining Response A's structured sectioning with Response B's technical specificity. The framework is designed to be both thorough enough to prevent AI hallucination and practical enough for real-world implementation.",
+  "ranking": [
+    {
+      "label": "A",
+      "model": "openai/gpt-4o",
+      "score": 1
+    },
+    {
+      "label": "B",
+      "model": "anthropic/claude-3.5-sonnet",
+      "score": 1
+    }
+  ],
+  "duration": 58383
+}

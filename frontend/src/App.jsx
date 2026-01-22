@@ -38,6 +38,7 @@ import {
 import api, { getLogs, getStrategy, getSpokeStatus, triggerBriefing, getReviewPulse } from './services/api'
 import AgencyPulse from './components/AgencyPulse'
 import BriefingWidget from './components/BriefingWidget'
+import TodaysFocus from './components/TodaysFocus'
 
 // Business Unit Configuration
 const BUSINESS_UNITS = {
@@ -872,6 +873,11 @@ function App() {
       {/* George's Briefing - Top of Dashboard */}
       <div className="mb-8">
         <BriefingWidget />
+      </div>
+
+      {/* Today's Focus - Priority 1 UX: Unified action items */}
+      <div className="mb-8">
+        <TodaysFocus />
       </div>
 
       {/* Stats with Sparklines */}

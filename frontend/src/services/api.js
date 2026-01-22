@@ -358,6 +358,24 @@ export async function commitDiscovery(businessId) {
 }
 
 // ============================================
+// Today's Focus API - Priority 1 UX
+// ============================================
+
+/**
+ * Get unified action items for dashboard "Today's Focus" widget
+ * Aggregates: pending reviews, voice sparks, urgent tasks, whale alerts
+ */
+export async function getTodayFocus() {
+  return apiRequest('/api/today-focus', {}, {
+    reviews: { count: 0, items: [] },
+    sparks: { count: 0, items: [] },
+    tasks: { count: 0, items: [] },
+    whales: { count: 0, items: [] },
+    totalActions: 0
+  });
+}
+
+// ============================================
 // Cost & Memory Management
 // ============================================
 
@@ -407,6 +425,8 @@ export default {
   getDiscoveryQuestions,
   saveDiscoveryAnswers,
   commitDiscovery,
+  // Today's Focus
+  getTodayFocus,
   // Cost & Memory
   getCostStatus,
   getMemoryStatus
