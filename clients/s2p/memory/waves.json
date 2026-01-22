@@ -1,0 +1,152 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-21T00:00:00Z",
+  "source": "P6 ABM Wave - FY2026 Strategy Manual",
+  "waveConfig": {
+    "sprint_weeks": 6,
+    "cohort_size": 25,
+    "persona_beats": 3,
+    "kill_keep_day": "friday"
+  },
+  "kpiTargets": {
+    "meetings_per_wave": 30,
+    "reply_to_meeting_tierA": 0.18,
+    "time_to_meeting_days": 12,
+    "attribution_completeness": 1.0
+  },
+  "activeWave": "wave_q1_01",
+  "waves": [
+    {
+      "id": "wave_q1_01",
+      "name": "Q1 2026 - Northeast Whales",
+      "status": "ACTIVE",
+      "phase": "Week 3",
+      "start_date": "2026-01-06",
+      "end_date": "2026-02-16",
+      "cohort_size": 25,
+      "tier_focus": "A",
+      "markets": ["NYC", "BOS", "DC", "PHL"],
+      "persona_beats": [
+        {
+          "beat": 1,
+          "topic": "Variance Control ROI",
+          "week": 1,
+          "asset": "proof_005"
+        },
+        {
+          "beat": 2,
+          "topic": "Case Study: The Castle",
+          "week": 3,
+          "asset": "proof_001"
+        },
+        {
+          "beat": 3,
+          "topic": "LOD Selection Guide",
+          "week": 5,
+          "asset": null
+        }
+      ],
+      "targets": [
+        {
+          "lead_id": "lead_003",
+          "company": "Perkins Eastman",
+          "status": "meeting_scheduled",
+          "touches": 3,
+          "last_touch": "2026-01-20T14:30:00Z",
+          "meeting_date": "2026-01-24T10:00:00Z"
+        },
+        {
+          "lead_id": "lead_004",
+          "company": "STUDIOS Architecture",
+          "status": "engaged",
+          "touches": 2,
+          "last_touch": "2026-01-18T09:00:00Z",
+          "meeting_date": null
+        },
+        {
+          "lead_id": "lead_006",
+          "company": "Smith Group",
+          "status": "engaged",
+          "touches": 2,
+          "last_touch": "2026-01-19T11:00:00Z",
+          "meeting_date": null
+        }
+      ],
+      "stats": {
+        "total_targets": 25,
+        "touched": 18,
+        "engaged": 8,
+        "meetings_scheduled": 3,
+        "meetings_held": 1,
+        "killed": 4,
+        "reply_rate": 0.44,
+        "reply_to_meeting": 0.38
+      },
+      "kill_keep_log": [
+        {
+          "date": "2026-01-10",
+          "kills": ["lead_x1", "lead_x2"],
+          "keeps": ["lead_003", "lead_004", "lead_006"],
+          "notes": "Removed leads with no response after beat 1"
+        },
+        {
+          "date": "2026-01-17",
+          "kills": ["lead_x3", "lead_x4"],
+          "keeps": ["lead_003", "lead_004"],
+          "notes": "Focus on engaged leads"
+        }
+      ]
+    },
+    {
+      "id": "wave_q1_02",
+      "name": "Q1 2026 - Healthcare Specialty",
+      "status": "PLANNED",
+      "phase": "Pre-Launch",
+      "start_date": "2026-02-17",
+      "end_date": "2026-03-30",
+      "cohort_size": 25,
+      "tier_focus": "A",
+      "markets": ["NYC", "BOS", "PHL"],
+      "persona_beats": [
+        {
+          "beat": 1,
+          "topic": "Healthcare MEP Coordination",
+          "week": 1,
+          "asset": "proof_003"
+        },
+        {
+          "beat": 2,
+          "topic": "Compliance Documentation",
+          "week": 3,
+          "asset": null
+        },
+        {
+          "beat": 3,
+          "topic": "The Castle (Renovation Focus)",
+          "week": 5,
+          "asset": "proof_001"
+        }
+      ],
+      "targets": [],
+      "stats": {
+        "total_targets": 0,
+        "touched": 0,
+        "engaged": 0,
+        "meetings_scheduled": 0,
+        "meetings_held": 0,
+        "killed": 0,
+        "reply_rate": 0,
+        "reply_to_meeting": 0
+      },
+      "kill_keep_log": []
+    }
+  ],
+  "globalStats": {
+    "waves_completed": 0,
+    "waves_active": 1,
+    "total_meetings_ytd": 4,
+    "total_meetings_target": 60,
+    "avg_reply_to_meeting": 0.38,
+    "avg_time_to_meeting_days": 10
+  }
+}

@@ -376,6 +376,153 @@ export async function getTodayFocus() {
 }
 
 // ============================================
+// S2P Command Center API
+// ============================================
+
+/**
+ * Get S2P KPI summary
+ */
+export async function getS2PKPIs() {
+  return apiRequest('/api/s2p/kpi/summary', {}, { kpis: {} });
+}
+
+/**
+ * Get S2P pipeline stages and governance
+ */
+export async function getS2PPipelineStages() {
+  return apiRequest('/api/s2p/pipeline/stages', {}, { stages: [] });
+}
+
+/**
+ * Get S2P pipeline deals
+ */
+export async function getS2PDeals() {
+  return apiRequest('/api/s2p/pipeline/deals', {}, { deals: [] });
+}
+
+/**
+ * Advance deal to next stage
+ */
+export async function advanceS2PDeal(dealId, toStage, auditData) {
+  return apiRequest('/api/s2p/pipeline/advance', {
+    method: 'POST',
+    body: JSON.stringify({ dealId, toStage, auditData })
+  }, { success: false });
+}
+
+/**
+ * Get S2P leads
+ */
+export async function getS2PLeads() {
+  return apiRequest('/api/s2p/leads', {}, { leads: [] });
+}
+
+/**
+ * Get single S2P lead
+ */
+export async function getS2PLead(leadId) {
+  return apiRequest(`/api/s2p/leads/${leadId}`, {}, { lead: null });
+}
+
+/**
+ * Ingest leads from CSV
+ */
+export async function ingestS2PLeads(leads) {
+  return apiRequest('/api/s2p/leads/ingest', {
+    method: 'POST',
+    body: JSON.stringify({ leads })
+  }, { success: false });
+}
+
+/**
+ * Get S2P proof catalog
+ */
+export async function getS2PProofs() {
+  return apiRequest('/api/s2p/proof', {}, { proofs: [] });
+}
+
+/**
+ * Get proof matches for a lead
+ */
+export async function getS2PProofMatch(leadId) {
+  return apiRequest(`/api/s2p/proof/match/${leadId}`, {}, { matches: [] });
+}
+
+/**
+ * Record proof usage
+ */
+export async function recordS2PProofUse(proofId, leadId) {
+  return apiRequest(`/api/s2p/proof/${proofId}/use`, {
+    method: 'POST',
+    body: JSON.stringify({ proofId, leadId })
+  }, { success: false });
+}
+
+/**
+ * Get S2P ABM waves
+ */
+export async function getS2PWaves() {
+  return apiRequest('/api/s2p/waves', {}, { waves: [] });
+}
+
+/**
+ * Kill or keep a wave target
+ */
+export async function s2pWaveTargetAction(waveId, leadId, action) {
+  return apiRequest('/api/s2p/waves/target-action', {
+    method: 'POST',
+    body: JSON.stringify({ waveId, leadId, action })
+  }, { success: false });
+}
+
+/**
+ * Get S2P signal queue
+ */
+export async function getS2PSignals() {
+  return apiRequest('/api/s2p/signals', {}, { signals: [] });
+}
+
+/**
+ * Take action on a signal
+ */
+export async function s2pSignalAction(signalId, action, assignedTo, notes) {
+  return apiRequest('/api/s2p/signals/action', {
+    method: 'POST',
+    body: JSON.stringify({ signalId, action, assignedTo, notes })
+  }, { success: false });
+}
+
+/**
+ * Run Operations Council - full pipeline
+ */
+export async function runS2PCouncil(lead, proposal) {
+  return apiRequest('/api/s2p/council/full', {
+    method: 'POST',
+    body: JSON.stringify({ lead, proposal })
+  }, { success: false });
+}
+
+/**
+ * Score a lead via Operations Council
+ */
+export async function scoreS2PLead(lead) {
+  return apiRequest('/api/s2p/council/score', {
+    method: 'POST',
+    body: JSON.stringify({ lead })
+  }, { success: false });
+}
+
+/**
+ * Generate a sales brief for a lead
+ */
+export async function generateS2PBrief(leadId) {
+  return apiRequest('/api/s2p/brief/generate', {
+    method: 'POST',
+    body: JSON.stringify({ leadId })
+  }, { success: false });
+}
+
+// ============================================
 // Cost & Memory Management
 // ============================================
 
@@ -429,5 +576,23 @@ export default {
   getTodayFocus,
   // Cost & Memory
   getCostStatus,
-  getMemoryStatus
+  getMemoryStatus,
+  // S2P Command Center
+  getS2PKPIs,
+  getS2PPipelineStages,
+  getS2PDeals,
+  advanceS2PDeal,
+  getS2PLeads,
+  getS2PLead,
+  ingestS2PLeads,
+  getS2PProofs,
+  getS2PProofMatch,
+  recordS2PProofUse,
+  getS2PWaves,
+  s2pWaveTargetAction,
+  getS2PSignals,
+  s2pSignalAction,
+  runS2PCouncil,
+  scoreS2PLead,
+  generateS2PBrief
 };

@@ -1,0 +1,134 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-21T00:00:00Z",
+  "source": "FY2026 Sales and Marketing Strategy Manual",
+  "period": "FY2026",
+  "primaryObjective": "$2.2M Revenue | 40%+ GM | 12+ Wins >=50k sqft",
+  "kpis": {
+    "revenue": {
+      "label": "Revenue (Bookings)",
+      "target": 2200000,
+      "current": 45000,
+      "unit": "currency",
+      "alertThreshold": 0.90,
+      "alertMessage": "<90% of plan (4-week trailing)",
+      "format": "$#,###",
+      "icon": "dollar-sign"
+    },
+    "grossMargin": {
+      "label": "Gross Margin",
+      "target": 0.45,
+      "floor": 0.40,
+      "current": 0.43,
+      "unit": "percentage",
+      "alertThreshold": 0.42,
+      "alertMessage": "<42% for 1 month",
+      "format": "##%",
+      "icon": "trending-up"
+    },
+    "meetingsPerWeek": {
+      "label": "Meetings/Week",
+      "target": 4.5,
+      "current": 3.2,
+      "unit": "number",
+      "alertThreshold": 4.0,
+      "alertMessage": "<4.0 for 2 weeks",
+      "format": "#.#",
+      "icon": "calendar"
+    },
+    "pipelineCoverage": {
+      "label": "Pipeline Coverage",
+      "target": 3.0,
+      "current": 2.8,
+      "unit": "multiplier",
+      "alertThreshold": 2.5,
+      "alertMessage": "<2.5x coverage",
+      "format": "#.#x",
+      "icon": "layers"
+    },
+    "tierAMeetings": {
+      "label": "Tier-A Meetings (YTD)",
+      "target": 60,
+      "current": 4,
+      "unit": "number",
+      "alertThreshold": null,
+      "alertMessage": "Pace tracking",
+      "format": "##",
+      "icon": "target"
+    },
+    "winRate": {
+      "label": "Win Rate",
+      "target": 0.30,
+      "current": 0.28,
+      "unit": "percentage",
+      "alertThreshold": 0.25,
+      "alertMessage": "<25% for 2 months",
+      "format": "##%",
+      "icon": "award"
+    },
+    "whaleWins": {
+      "label": "Whale Wins (>=50k sqft)",
+      "target": 12,
+      "current": 0,
+      "unit": "number",
+      "alertThreshold": null,
+      "alertMessage": "Quarterly tracking",
+      "format": "##",
+      "icon": "fish"
+    }
+  },
+  "quarterlyTargets": {
+    "Q1": {
+      "period": "Jan-Mar 2026",
+      "phase": "Build Engines",
+      "revenue": 100000,
+      "meetings": 36,
+      "whaleWins": 1
+    },
+    "Q2": {
+      "period": "Apr-Jun 2026",
+      "phase": "Launch Payloads",
+      "revenue": 400000,
+      "meetings": 54,
+      "whaleWins": 3
+    },
+    "Q3": {
+      "period": "Jul-Sep 2026",
+      "phase": "Scale",
+      "revenue": 700000,
+      "meetings": 54,
+      "whaleWins": 4
+    },
+    "Q4": {
+      "period": "Oct-Dec 2026",
+      "phase": "Compound",
+      "revenue": 1000000,
+      "meetings": 54,
+      "whaleWins": 4
+    }
+  },
+  "currentQuarter": "Q1",
+  "weekNumber": 3,
+  "pipelineStages": [
+    { "id": "lead", "name": "Lead", "order": 1 },
+    { "id": "meeting", "name": "Meeting", "order": 2 },
+    { "id": "opportunity", "name": "Opportunity", "order": 3 },
+    { "id": "proposal", "name": "Proposal", "order": 4, "gmGate": true },
+    { "id": "close", "name": "Close", "order": 5 }
+  ],
+  "stageGovernance": {
+    "proposalGate": {
+      "scopeAuditRequired": true,
+      "gmFloor": 0.40,
+      "vetoBelow": true
+    },
+    "stageCompliance": {
+      "target": 0.95,
+      "current": 0.88
+    },
+    "attributionCompleteness": {
+      "target": 1.0,
+      "current": 0.92
+    }
+  }
+}

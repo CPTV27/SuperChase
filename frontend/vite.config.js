@@ -29,9 +29,9 @@ export default defineConfig({
         secure: true
       },
       '/api': {
-        target: 'https://superchase-production.up.railway.app',
+        target: process.env.VITE_API_URL || 'http://localhost:3849',
         changeOrigin: true,
-        secure: true
+        secure: false
       }
     }
   }

@@ -1,0 +1,136 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-21T12:00:00Z",
+  "source": "P9/P16/P17 Trigger Pods",
+  "slaConfig": {
+    "first_touch_hours": 48,
+    "hot_threshold_hours": 24,
+    "cold_threshold_hours": 72
+  },
+  "pods": {
+    "P9": {
+      "name": "Permit Intelligence",
+      "sources": ["NYC_DOB", "BOS_ISD", "DC_DCRA", "PHL_LI"],
+      "signals": ["building_permit", "alteration_permit", "new_construction"],
+      "sla_hours": 48
+    },
+    "P16": {
+      "name": "Compliance Monitor",
+      "sources": ["LL11", "LL87", "LL97", "BERDO"],
+      "signals": ["filing_due", "inspection_required", "penalty_notice"],
+      "sla_hours": 48
+    },
+    "P17": {
+      "name": "Procurement Watch",
+      "sources": ["DASNY", "PASSPort", "SAM_gov"],
+      "signals": ["bid_posted", "planholder_list", "award_notice"],
+      "sla_hours": 48
+    }
+  },
+  "signals": [
+    {
+      "id": "sig_001",
+      "pod": "P9",
+      "type": "building_permit",
+      "source": "NYC_DOB",
+      "detected_at": "2026-01-21T08:00:00Z",
+      "age_hours": 4,
+      "sla_status": "OK",
+      "heat": "hot",
+      "company": "Gensler",
+      "matched_lead_id": "lead_001",
+      "project_address": "200 Park Avenue, New York, NY",
+      "project_type": "Interior Alteration",
+      "estimated_sqft": 85000,
+      "tier_estimate": "A",
+      "action_status": "pending",
+      "assigned_to": null,
+      "notes": null
+    },
+    {
+      "id": "sig_002",
+      "pod": "P16",
+      "type": "ll87_filing",
+      "source": "LL87",
+      "detected_at": "2026-01-20T14:00:00Z",
+      "age_hours": 22,
+      "sla_status": "OK",
+      "heat": "hot",
+      "company": "Smith Group",
+      "matched_lead_id": "lead_006",
+      "project_address": "450 Lexington Ave, New York, NY",
+      "project_type": "Energy Audit Required",
+      "estimated_sqft": 120000,
+      "tier_estimate": "A",
+      "action_status": "touched",
+      "assigned_to": "Owen",
+      "notes": "Sent LL87 compliance offering"
+    },
+    {
+      "id": "sig_003",
+      "pod": "P9",
+      "type": "alteration_permit",
+      "source": "BOS_ISD",
+      "detected_at": "2026-01-19T10:00:00Z",
+      "age_hours": 50,
+      "sla_status": "BREACH",
+      "heat": "cold",
+      "company": "Unknown - CBT Architects",
+      "matched_lead_id": null,
+      "project_address": "100 Northern Ave, Boston, MA",
+      "project_type": "Major Renovation",
+      "estimated_sqft": 65000,
+      "tier_estimate": "A",
+      "action_status": "pending",
+      "assigned_to": null,
+      "notes": "SLA breach - needs immediate outreach"
+    },
+    {
+      "id": "sig_004",
+      "pod": "P17",
+      "type": "planholder_list",
+      "source": "DASNY",
+      "detected_at": "2026-01-21T06:00:00Z",
+      "age_hours": 6,
+      "sla_status": "OK",
+      "heat": "hot",
+      "company": "Multiple",
+      "matched_lead_id": null,
+      "project_address": "SUNY Buffalo - New Academic Building",
+      "project_type": "New Construction - Education",
+      "estimated_sqft": 180000,
+      "tier_estimate": "A",
+      "action_status": "pending",
+      "assigned_to": null,
+      "notes": "5 planholders on list - check for existing leads",
+      "planholders": ["Perkins Eastman", "HOK", "Cannon Design", "Bohlin Cywinski Jackson", "NBBJ"]
+    },
+    {
+      "id": "sig_005",
+      "pod": "P16",
+      "type": "ll11_filing",
+      "source": "LL11",
+      "detected_at": "2026-01-20T09:00:00Z",
+      "age_hours": 27,
+      "sla_status": "OK",
+      "heat": "warm",
+      "company": "FXCollaborative",
+      "matched_lead_id": "lead_008",
+      "project_address": "22 Cortlandt St, New York, NY",
+      "project_type": "Facade Inspection",
+      "estimated_sqft": 175000,
+      "tier_estimate": "A",
+      "action_status": "pending",
+      "assigned_to": null,
+      "notes": "LL11 filing - facade documentation opportunity"
+    }
+  ],
+  "stats": {
+    "total": 5,
+    "by_pod": { "P9": 2, "P16": 2, "P17": 1 },
+    "by_sla": { "OK": 4, "BREACH": 1 },
+    "by_action": { "pending": 4, "touched": 1 },
+    "avg_age_hours": 21.8,
+    "sla_breach_rate": 0.20
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-22T05:07:25.769Z",
+  "vendors": [
+    {
+      "leadId": "lead_001",
+      "firmName": "Gensler",
+      "status": "applied",
+      "applicationDate": "2026-01-22T05:07:25.769Z",
+      "procurementContact": "John Smith, Procurement Manager",
+      "approvalDate": null,
+      "cycleTimeDays": null,
+      "notes": "ENR Top 2, priority vendor",
+      "history": [
+        {
+          "status": "applied",
+          "date": "2026-01-22T05:07:25.769Z",
+          "action": "Application submitted"
+        }
+      ],
+      "updatedAt": "2026-01-22T05:07:25.769Z"
+    }
+  ]
+}

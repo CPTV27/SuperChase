@@ -1,0 +1,197 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-21T00:00:00Z",
+  "source": "FY2026 Strategy Manual + Clutch.co CSV",
+  "tierRules": {
+    "A": { "sqft": ">=50000", "employees": ">=250", "label": "Whale" },
+    "B": { "sqft": "20000-49999", "employees": "50-249", "label": "Target" },
+    "C": { "sqft": "<20000", "employees": "<50", "label": "Standard" }
+  },
+  "heatLevels": {
+    "hot": { "description": "Meeting scheduled", "color": "#ef4444", "sla_hours": 24 },
+    "warm": { "description": "Engaged, no meeting", "color": "#f59e0b", "sla_hours": 48 },
+    "cold": { "description": "In system, not engaged", "color": "#64748b", "sla_hours": 168 }
+  },
+  "leads": [
+    {
+      "id": "lead_001",
+      "company": "Gensler NYC",
+      "employees": "250-999",
+      "tier": "A",
+      "heat": "warm",
+      "sqft_estimate": 150000,
+      "service_focus": "Architectural Design",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Sarah Mitchell", "title": "Director of Operations", "email": "s.mitchell@gensler.com" }
+      ],
+      "source": "clutch_csv",
+      "source_url": "https://clutch.co/profile/gensler",
+      "wave_id": null,
+      "signals": ["megafirm", "renovation_focus", "multi_office"],
+      "distance_to_meeting": 0.72,
+      "last_touch": null,
+      "created_at": "2026-01-21T00:00:00Z"
+    },
+    {
+      "id": "lead_002",
+      "company": "HKS Architects",
+      "employees": "500-999",
+      "tier": "A",
+      "heat": "cold",
+      "sqft_estimate": 200000,
+      "service_focus": "Healthcare, Sports",
+      "location": "Dallas, TX",
+      "market": "DAL",
+      "contacts": [
+        { "name": "Mark Rodriguez", "title": "VP Technology", "email": "m.rodriguez@hks.com" }
+      ],
+      "source": "clutch_csv",
+      "source_url": "https://clutch.co/profile/hks",
+      "wave_id": null,
+      "signals": ["megafirm", "healthcare_specialty", "national_presence"],
+      "distance_to_meeting": 0.35,
+      "last_touch": null,
+      "created_at": "2026-01-21T00:00:00Z"
+    },
+    {
+      "id": "lead_003",
+      "company": "Perkins Eastman",
+      "employees": "250-499",
+      "tier": "A",
+      "heat": "hot",
+      "sqft_estimate": 85000,
+      "service_focus": "Education, Senior Living",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Jennifer Walsh", "title": "Principal", "email": "j.walsh@perkinseastman.com" }
+      ],
+      "source": "permit_signal",
+      "source_url": null,
+      "wave_id": "wave_q1_01",
+      "signals": ["permit_filed", "education_project", "nyc_dob"],
+      "distance_to_meeting": 0.92,
+      "last_touch": "2026-01-20T14:30:00Z",
+      "meeting_scheduled": "2026-01-24T10:00:00Z",
+      "created_at": "2026-01-15T00:00:00Z"
+    },
+    {
+      "id": "lead_004",
+      "company": "STUDIOS Architecture",
+      "employees": "100-249",
+      "tier": "B",
+      "heat": "warm",
+      "sqft_estimate": 45000,
+      "service_focus": "Commercial Office",
+      "location": "Washington, DC",
+      "market": "DC",
+      "contacts": [
+        { "name": "David Chen", "title": "Project Director", "email": "d.chen@studiosarchitecture.com" }
+      ],
+      "source": "clutch_csv",
+      "source_url": "https://clutch.co/profile/studios",
+      "wave_id": "wave_q1_01",
+      "signals": ["dc_market", "office_renovation", "federal_adjacent"],
+      "distance_to_meeting": 0.65,
+      "last_touch": "2026-01-18T09:00:00Z",
+      "created_at": "2026-01-10T00:00:00Z"
+    },
+    {
+      "id": "lead_005",
+      "company": "Bohlin Cywinski Jackson",
+      "employees": "100-249",
+      "tier": "B",
+      "heat": "cold",
+      "sqft_estimate": 35000,
+      "service_focus": "Cultural, Higher Ed",
+      "location": "Pittsburgh, PA",
+      "market": "PHL",
+      "contacts": [
+        { "name": "Amy Foster", "title": "Associate", "email": "a.foster@bcj.com" }
+      ],
+      "source": "clutch_csv",
+      "source_url": "https://clutch.co/profile/bcj",
+      "wave_id": null,
+      "signals": ["cultural_specialty", "historic_preservation"],
+      "distance_to_meeting": 0.28,
+      "last_touch": null,
+      "created_at": "2026-01-21T00:00:00Z"
+    },
+    {
+      "id": "lead_006",
+      "company": "Smith Group",
+      "employees": "500-999",
+      "tier": "A",
+      "heat": "warm",
+      "sqft_estimate": 120000,
+      "service_focus": "Healthcare, Science",
+      "location": "Detroit, MI",
+      "market": "DET",
+      "contacts": [
+        { "name": "Robert Kim", "title": "Healthcare Practice Leader", "email": "r.kim@smithgroup.com" }
+      ],
+      "source": "compliance_signal",
+      "source_url": null,
+      "wave_id": "wave_q1_01",
+      "signals": ["healthcare_specialty", "ll87_filing", "energy_compliance"],
+      "distance_to_meeting": 0.58,
+      "last_touch": "2026-01-19T11:00:00Z",
+      "created_at": "2026-01-12T00:00:00Z"
+    },
+    {
+      "id": "lead_007",
+      "company": "Voith & Mactavish",
+      "employees": "10-49",
+      "tier": "C",
+      "heat": "hot",
+      "sqft_estimate": 15000,
+      "service_focus": "Historic Preservation",
+      "location": "Philadelphia, PA",
+      "market": "PHL",
+      "contacts": [
+        { "name": "Catherine Voith", "title": "Principal", "email": "c.voith@voithmactavish.com" }
+      ],
+      "source": "referral",
+      "source_url": null,
+      "wave_id": null,
+      "signals": ["historic_specialist", "philly_market", "repeat_potential"],
+      "distance_to_meeting": 0.88,
+      "last_touch": "2026-01-20T16:00:00Z",
+      "meeting_scheduled": "2026-01-23T14:00:00Z",
+      "created_at": "2026-01-17T00:00:00Z"
+    },
+    {
+      "id": "lead_008",
+      "company": "FXCollaborative",
+      "employees": "250-499",
+      "tier": "A",
+      "heat": "cold",
+      "sqft_estimate": 175000,
+      "service_focus": "Mixed-Use, Residential",
+      "location": "New York, NY",
+      "market": "NYC",
+      "contacts": [
+        { "name": "Lisa Park", "title": "Managing Principal", "email": "l.park@fxcollaborative.com" }
+      ],
+      "source": "clutch_csv",
+      "source_url": "https://clutch.co/profile/fxcollaborative",
+      "wave_id": null,
+      "signals": ["megafirm", "mixed_use", "sustainability_focus"],
+      "distance_to_meeting": 0.22,
+      "last_touch": null,
+      "created_at": "2026-01-21T00:00:00Z"
+    }
+  ],
+  "stats": {
+    "total": 8,
+    "by_tier": { "A": 5, "B": 2, "C": 1 },
+    "by_heat": { "hot": 2, "warm": 3, "cold": 3 },
+    "pipeline_value": {
+      "hot": 100000,
+      "warm": 315000,
+      "cold": 425000
+    }
+  }
+}

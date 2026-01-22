@@ -14,7 +14,8 @@ import { URL } from 'url';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import path, { dirname, join } from 'path';
-import fs, { readFileSync, existsSync } from 'fs';
+import fs, { readFileSync, existsSync, writeFileSync, mkdirSync } from 'fs';
+import { createHmac } from 'crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -36,6 +37,9 @@ import agencyReview from './spokes/agency/review.js';
 
 // Discovery spoke
 import discovery from './spokes/discovery/index.js';
+
+// S2P Command Center spoke
+import { handleS2PRoute as handleS2PRouteV2 } from './spokes/s2p/routes.js';
 
 // Library imports for enhanced reliability
 import { createLogger, generateRequestId } from './lib/logger.js';
@@ -1446,6 +1450,146 @@ const routes = {
       competitiveIntel: 'generating', // Signal that battlecard is being generated
       message: `${businessName} has been onboarded successfully`
     };
+  },
+
+  // POST /api/demo/seed - Seed demo data for review queue
+  'POST /api/demo/seed': async () => {
+    // Token generation (must match spokes/agency/review.js logic)
+    const REVIEW_SECRET = process.env.REVIEW_SECRET || 'superchase-review-2026';
+    const genToken = (id, action) => createHmac('sha256', REVIEW_SECRET).update(`${id}:${action}:${REVIEW_SECRET}`).digest('hex').slice(0, 32);
+
+    const demoItems = [
+      {
+        id: 'review-demo-001',
+        clientId: 's2p',
+        type: 'blog',
+        title: 'Why LOD 350 Matters for Renovation Projects',
+        content: 'When it comes to renovation projects, the level of detail in your BIM model can mean the difference between a smooth construction phase and costly change orders...\n\nLOD 350 provides the precision needed for MEP coordination, clash detection, and accurate quantity takeoffs. Our recent project at The Castle demonstrated how ±3mm variance control prevented $280K in potential conflicts.\n\n## Key Benefits\n- Precise MEP routing\n- Accurate clash detection\n- Reliable quantity takeoffs\n- Reduced RFIs during construction',
+        status: 'AGENCY_REVIEW',
+        createdAt: new Date(Date.now() - 3600000).toISOString(),
+        updatedAt: new Date().toISOString(),
+        history: [
+          { status: 'DRAFT', timestamp: new Date(Date.now() - 7200000).toISOString(), actor: 'content-council' },
+          { status: 'AGENCY_REVIEW', timestamp: new Date(Date.now() - 3600000).toISOString(), actor: 'system' }
+        ],
+        approveToken: genToken('review-demo-001', 'approve'),
+        rejectToken: genToken('review-demo-001', 'reject'),
+        metadata: { source: 'Content Council', targetPersona: 'BP1', wordCount: 850 }
+      },
+      {
+        id: 'review-demo-002',
+        clientId: 's2p',
+        type: 'social',
+        title: 'X Thread: Point Cloud Processing Speed',
+        content: 'Thread: How we cut point cloud processing time by 60%\n\n1/ Most scanning firms treat processing as an afterthought. We treat it as a competitive advantage.\n\n2/ The secret? Parallel processing pipelines and automated QC checks that catch issues before they become expensive problems.\n\n3/ Result: 3-5 week delivery instead of 8-12 weeks. Your design team isn\'t waiting on data.\n\n4/ DM for our processing workflow whitepaper.',
+        status: 'AGENCY_REVIEW',
+        createdAt: new Date(Date.now() - 86400000).toISOString(),
+        updatedAt: new Date(Date.now() - 43200000).toISOString(),
+        history: [
+          { status: 'DRAFT', timestamp: new Date(Date.now() - 86400000).toISOString(), actor: 'content-council' },
+          { status: 'AGENCY_REVIEW', timestamp: new Date(Date.now() - 43200000).toISOString(), actor: 'system' }
+        ],
+        approveToken: genToken('review-demo-002', 'approve'),
+        rejectToken: genToken('review-demo-002', 'reject'),
+        metadata: { source: 'Content Council', threadLength: 4, platform: 'x.com' }
+      },
+      {
+        id: 'review-demo-003',
+        clientId: 'bigmuddy',
+        type: 'blog',
+        title: 'Silver Street Stories: The Blues Legacy of Clarksdale',
+        content: 'Long before the crossroads became a tourist destination, Silver Street was where the real magic happened...\n\nThe Big Muddy Inn sits at the heart of this history, where legends like Muddy Waters and John Lee Hooker once played for crowds of cotton workers and travelers passing through the Delta.\n\n## The Golden Era\nIn the 1940s and 50s, Clarksdale was the epicenter of Delta blues...',
+        status: 'CLIENT_REVIEW',
+        createdAt: new Date(Date.now() - 172800000).toISOString(),
+        updatedAt: new Date(Date.now() - 86400000).toISOString(),
+        history: [
+          { status: 'DRAFT', timestamp: new Date(Date.now() - 172800000).toISOString(), actor: 'content-council' },
+          { status: 'AGENCY_REVIEW', timestamp: new Date(Date.now() - 129600000).toISOString(), actor: 'system' },
+          { status: 'CLIENT_REVIEW', timestamp: new Date(Date.now() - 86400000).toISOString(), actor: 'agency', note: 'Approved - great storytelling' }
+        ],
+        approveToken: genToken('review-demo-003', 'approve'),
+        rejectToken: genToken('review-demo-003', 'reject'),
+        metadata: { source: 'Content Council', wordCount: 1200 }
+      },
+      {
+        id: 'review-demo-004',
+        clientId: 'studioc',
+        type: 'blog',
+        title: 'Behind the Scenes: Virtual Production at Utopia Studios',
+        content: 'Virtual production isn\'t just for Hollywood anymore. At Utopia Studios, we\'re bringing LED wall technology to independent creators...\n\nOur recent production for a Hudson Valley tourism campaign demonstrated how virtual backgrounds can transport viewers without the travel budget.\n\n## The Setup\n- 20ft curved LED wall\n- Unreal Engine real-time rendering\n- Motion capture integration',
+        status: 'CLIENT_APPROVED',
+        createdAt: new Date(Date.now() - 259200000).toISOString(),
+        updatedAt: new Date(Date.now() - 43200000).toISOString(),
+        history: [
+          { status: 'DRAFT', timestamp: new Date(Date.now() - 259200000).toISOString(), actor: 'content-council' },
+          { status: 'AGENCY_REVIEW', timestamp: new Date(Date.now() - 216000000).toISOString(), actor: 'system' },
+          { status: 'CLIENT_REVIEW', timestamp: new Date(Date.now() - 172800000).toISOString(), actor: 'agency' },
+          { status: 'CLIENT_APPROVED', timestamp: new Date(Date.now() - 43200000).toISOString(), actor: 'client:studioc', note: 'Approved - ready to publish!' }
+        ],
+        approveToken: genToken('review-demo-004', 'approve'),
+        rejectToken: genToken('review-demo-004', 'reject'),
+        metadata: { source: 'Content Council', wordCount: 950 }
+      },
+      {
+        id: 'review-demo-005',
+        clientId: 's2p',
+        type: 'blog',
+        title: 'Matterport vs Engineering-Grade Scanning: Know the Difference',
+        content: 'Not all 3D scanning is created equal. While Matterport excels at virtual tours, it wasn\'t designed for construction documentation...\n\n## The Accuracy Gap\nMatterport: ±30mm tolerance\nEngineering-grade: ±3mm tolerance\n\nThat 10x difference matters when you\'re coordinating MEP systems or verifying structural dimensions.',
+        status: 'REVISION',
+        createdAt: new Date(Date.now() - 345600000).toISOString(),
+        updatedAt: new Date(Date.now() - 172800000).toISOString(),
+        history: [
+          { status: 'DRAFT', timestamp: new Date(Date.now() - 345600000).toISOString(), actor: 'content-council' },
+          { status: 'AGENCY_REVIEW', timestamp: new Date(Date.now() - 302400000).toISOString(), actor: 'system' },
+          { status: 'REVISION', timestamp: new Date(Date.now() - 172800000).toISOString(), actor: 'agency', feedback: 'Tone is too aggressive toward Matterport. Reframe as "right tool for the job" rather than competitor bashing.' }
+        ],
+        approveToken: genToken('review-demo-005', 'approve'),
+        rejectToken: genToken('review-demo-005', 'reject'),
+        metadata: { source: 'Content Council', wordCount: 750, lastFeedback: 'Tone is too aggressive toward Matterport. Reframe as "right tool for the job" rather than competitor bashing.' }
+      },
+      {
+        id: 'review-demo-006',
+        clientId: 'cptv',
+        type: 'social',
+        title: 'X Thread: Building in Public - Week 3',
+        content: 'Thread: Building SuperChase OS in public - Week 3 update\n\n1/ This week we shipped: Today\'s Focus dashboard widget, S2P Lead Radar API, and fixed the sidebar (finally).\n\n2/ The whale lead system is now live. Already identified a $350K opportunity at CUNY Baruch.\n\n3/ Next up: Review queue integration and mobile quick actions.\n\n4/ Follow along as we build the AI-powered business operating system.',
+        status: 'AGENCY_REVIEW',
+        createdAt: new Date(Date.now() - 1800000).toISOString(),
+        updatedAt: new Date(Date.now() - 900000).toISOString(),
+        history: [
+          { status: 'DRAFT', timestamp: new Date(Date.now() - 1800000).toISOString(), actor: 'content-council' },
+          { status: 'AGENCY_REVIEW', timestamp: new Date(Date.now() - 900000).toISOString(), actor: 'system' }
+        ],
+        approveToken: genToken('review-demo-006', 'approve'),
+        rejectToken: genToken('review-demo-006', 'reject'),
+        metadata: { source: 'Content Council', threadLength: 4, platform: 'x.com', targetPersona: 'Builders' }
+      }
+    ];
+
+    // Write to review queue
+    const queuePath = join(__dirname, 'memory', 'review_queue.json');
+    const memoryDir = join(__dirname, 'memory');
+    if (!fs.existsSync(memoryDir)) {
+      fs.mkdirSync(memoryDir, { recursive: true });
+    }
+    fs.writeFileSync(queuePath, JSON.stringify(demoItems, null, 2));
+
+    return {
+      success: true,
+      seeded: demoItems.length,
+      items: demoItems.map(i => ({ id: i.id, title: i.title, status: i.status, clientId: i.clientId })),
+      message: `Seeded ${demoItems.length} demo review items`
+    };
+  },
+
+  // GET /api/demo/reset - Reset demo data
+  'GET /api/demo/reset': async () => {
+    const queuePath = join(__dirname, 'memory', 'review_queue.json');
+    if (fs.existsSync(queuePath)) {
+      fs.writeFileSync(queuePath, '[]');
+    }
+    return { success: true, message: 'Demo data reset' };
   }
 };
 
@@ -2503,6 +2647,12 @@ async function handleS2PRoute(req, method, pathname) {
     };
   }
 
+  // Fall back to new S2P routes from spokes/s2p/routes.js
+  const v2Result = await handleS2PRouteV2(req, method, pathname);
+  if (v2Result) {
+    return v2Result;
+  }
+
   return { error: `Unknown S2P action: ${action}` };
 }
 
@@ -3020,6 +3170,33 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'CONTEXT_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try S2P Command Center routes
+  if (url.pathname.startsWith('/api/s2p/')) {
+    try {
+      const result = await handleS2PRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        const statusCode = result._status || 200;
+        delete result._status;
+        recordRequest(routeKey, duration, statusCode < 400);
+        reqLogger.debug(`S2P route complete`, { duration });
+        res.writeHead(statusCode, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`S2P error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'S2P_ERROR', message: error.message },
         requestId
       }));
       return;
