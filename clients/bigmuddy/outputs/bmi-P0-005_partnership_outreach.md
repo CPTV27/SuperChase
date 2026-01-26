@@ -1,250 +1,263 @@
----
-task_id: bmi-P0-005
-venture: bigmuddy
-type: outreach
-priority: P0
-created: 2026-01-26T14:40:00.000Z
-author: builder-agent
-status: ready_for_review
----
-
-# Partnership Outreach Templates
-
-## Big Muddy Inn — Local Partnership Campaign
-
-*Goal: 3 confirmed partnerships in 14 days*
+# BIG MUDDY INN — PARTNERSHIP OUTREACH TEMPLATES
+## Ready-to-Send Emails for Local Partners
 
 ---
 
-## Target Partners
+## GOAL
+Secure 3 confirmed cross-post partners within 14 days.
 
-| Partner | Type | Value to Big Muddy | Value to Partner |
-|---------|------|-------------------|------------------|
-| **King's Tavern** | Restaurant/Bar | Dinner recs, haunted history | Lodging referrals, event guests |
-| **Local Shops** | Retail | Photo locations, story content | Exposure, portrait exchange |
-| **Blues Trail** | Tourism | Package listing, credibility | Unique venue, authentic experience |
-| **Festival Organizers** | Events | Room blocks, promotion | Venue partner, local host |
-
----
-
-## Template 1: King's Tavern Cross-Promo
-
-**To:** Owner/Manager, King's Tavern
-**Subject:** Partnership idea — Big Muddy + King's Tavern
+**Target Partners:**
+1. King's Tavern (highest priority — adjacent business, shared audience)
+2. Local shops (2-3 for portrait exchange)
+3. Blues Trail managers
+4. Festival organizers
 
 ---
 
-Hi [Name],
+## TEMPLATE 1: KING'S TAVERN
+### Venue Partnership — Weekend Music + Guest Referrals
 
-I'm Amy Allen — my wife Tracy and I own Big Muddy Inn, just down the street on Commerce.
+**Subject:** A Natchez partnership idea (Big Muddy Inn)
 
-I have an idea that could put guests in both our doors.
+---
 
-**The concept: "Stay at the River, Dine with the Ghosts"**
+Hi [NAME],
 
-Here's what I'm thinking:
-- We recommend King's Tavern to every guest who asks where to eat (which is all of them)
-- You mention Big Muddy when visitors ask where to stay in Under-the-Hill
-- We create a simple "package" we can both promote: stay + dinner, one easy booking
+I'm Amy from Big Muddy Inn — we're just down Silver Street from you.
 
-No money changes hands. No complicated tracking. Just two businesses a few blocks apart sending people to each other.
+I've been sending guests your way for months (the skeleton story alone is worth the walk). But I wanted to see if we could make this more intentional.
 
-We've got 6 rooms, you've got the best food and ghost stories in Natchez. Seems like a natural fit.
+**Here's what I'm thinking:**
 
-Would you be up for grabbing a drink this week to talk it through? I'll come to you — and I promise not to ask Madeline any questions.
+**We send you:**
+- Our guests, primed with a personal recommendation
+- A feature in our "48-Hour Natchez Itinerary" (we share this with every booking)
+- A mention in our Instagram posts when we shoot content on Silver Street
+
+**You send us:**
+- A mention to visitors who need overnight accommodation
+- Maybe a table tent or card at the bar?
+- A tag when you post about Under-the-Hill
+
+**Bonus idea:** We could do a "Dinner + Blues" package — guests book dinner at King's Tavern, then walk back to us for live music in the Blues Room. We split the promo.
+
+No contracts, no nonsense. Just neighbors helping neighbors.
+
+Want to grab a coffee (or something stronger) and talk through it?
 
 **Amy Allen**
-Big Muddy Inn & Blues Room
-[PHONE] | [EMAIL]
+Big Muddy Inn
+[PHONE]
+[EMAIL]
+
+P.S. — I'd love to hear the real story about that skeleton sometime.
 
 ---
 
-**Follow-up (Day 5 if no response):**
+## TEMPLATE 2: LOCAL SHOPS
+### Portrait Exchange — Cross-Post Amplification
 
-Subject: Quick follow-up — Big Muddy partnership
-
-Hi [Name],
-
-Just floating this back up — the cross-promo idea for Big Muddy + King's Tavern.
-
-No pressure at all. If the timing's not right, I completely understand. But if you're interested, I'd love 15 minutes to sketch it out over coffee (or something stronger).
-
-Either way, keep doing what you're doing. That building is magic.
-
-— Amy
+**Subject:** Free professional portrait of your shop (+ a partnership idea)
 
 ---
 
-## Template 2: Local Shop Portrait Exchange
+Hi [NAME],
 
-**To:** Owner, [Local Shop Name]
-**Subject:** Free portrait for your shop — quick idea
+I'm Amy from Big Muddy Inn. I walk past [SHOP NAME] almost every day — your [SPECIFIC THING YOU NOTICED] always catches my eye.
 
----
+We're shooting a content series about the people who make Natchez special. Not the tourist-brochure version — the real version.
 
-Hi [Name],
+**Here's my offer:**
 
-I'm Amy Allen from Big Muddy Inn. I walk past [Shop Name] almost every day and always love what you've got in the window.
+I'll send our photographer to capture:
+- A professional portrait of you at work
+- A few detail shots of your space
+- A quick 2-minute interview about why you love Natchez
 
-Here's a random idea:
+**What you get:**
+- The photos (yours to use however you want)
+- A feature in our "Meet the Makers of Natchez" blog series
+- Tags and mentions when we post
 
-We're doing a photo shoot soon to capture the best of Natchez Under-the-Hill. I'd love to include your shop — exterior shot, maybe a portrait of you in your space.
+**What we'd love:**
+- You share the post when it goes live (tag us)
+- You mention Big Muddy Inn if guests ask about lodging
+- Maybe a card on your counter? (We'll provide them)
 
-**What you get:** Professional photo of your shop, free to use however you want.
+No cost, no catch. Just building a network of Natchez originals.
 
-**What we get:** Permission to feature [Shop Name] in our "Natchez Guide" content and maybe display one of your pieces in our inn (with credit, of course).
-
-No cost, no commitment, no weird strings. Just two local businesses helping each other look good.
-
-Interested? I can stop by this week to chat.
+Interested? Reply with a good day/time for a 20-minute shoot.
 
 **Amy Allen**
-Big Muddy Inn & Blues Room
+Big Muddy Inn
 [PHONE]
 
 ---
 
-## Template 3: Blues Trail Package Listing
+## TEMPLATE 3: BLUES TRAIL / TOURISM ORGANIZATIONS
+### Destination Partnership — Package Promotion
 
-**To:** Mississippi Blues Trail / Visit Natchez Tourism Contact
-**Subject:** Big Muddy Inn — Blues Trail lodging partner?
-
----
-
-Hi [Name],
-
-I'm reaching out about listing Big Muddy Inn as a lodging partner on the Mississippi Blues Trail resources.
-
-**About us:**
-- 6-room boutique inn in Natchez Under-the-Hill
-- On-site 50-seat live music venue (the Blues Room)
-- Weekly performances by regional blues artists
-- I'm a blues singer myself — the inn is built around the music
-
-**Why it fits the Trail:**
-Guests traveling the Blues Trail need places to stay that *feel* like the blues. Not chain hotels. Not generic B&Bs. They want to sleep where the music lives.
-
-That's what we built.
-
-**What we're asking:**
-- Inclusion in "Where to Stay" resources for Natchez
-- Potential package: "Blues Trail Weekend" (stay + Blues Room show + Trail map)
-- Cross-promotion on social media
-
-We're happy to provide photos, copy, whatever you need. And if there's a fee for listing, just let me know.
-
-Would love to connect and explore how we can support Blues Trail travelers together.
-
-**Amy Allen**
-Big Muddy Inn & Blues Room
-Natchez Under-the-Hill, MS
-[PHONE] | [EMAIL]
-thebigmuddyinn.com
+**Subject:** Natchez Stay + Blues Trail package idea
 
 ---
 
-## Template 4: Festival Organizer Partnership
+Hi [NAME],
 
-**To:** Festival Director / Event Coordinator
-**Subject:** Lodging partner for [Festival Name]?
+I'm Amy Allen — singer and co-owner of Big Muddy Inn in Natchez.
 
----
+We're the only boutique inn on the Blues Trail with a live music venue on-site (the Blues Room — no cover, authentic Delta blues).
 
-Hi [Name],
+I'd love to explore a partnership:
 
-I'm Amy Allen, owner of Big Muddy Inn in Natchez Under-the-Hill.
-
-With [Festival Name] coming up, I wanted to reach out about a potential partnership.
+**Package Concept: "Stay on the Trail"**
+- 2-night stay at Big Muddy Inn
+- Live blues both nights
+- Blues Trail map + curated driving route
+- Exclusive pricing for visitors coming through your channels
 
 **What we offer:**
-- 6 boutique rooms, 3 blocks from [venue/downtown]
-- Block rates for festival attendees or performers
-- On-site venue (Blues Room) for afterparties or intimate sets
-- Local hosts who can guide visitors to the best of Natchez
+- Featured accommodation for your website/materials
+- Commission or referral fee on bookings
+- Content (photos, video) you can use
 
-**What we're looking for:**
-- "Official lodging partner" or recommended stay listing
-- Inclusion in festival communications to attendees
-- Cross-promotion opportunity (we'll promote the festival to our guests)
+**What we'd love:**
+- Listing as recommended lodging on the Blues Trail
+- Inclusion in any Natchez/Delta marketing
+- Introduction to festival organizers
 
-We hosted [X guests / performers] for [previous event] and the feedback was incredible. Happy to share testimonials.
+We're building something special here. I think it fits perfectly with what you're doing.
 
-Would you have 15 minutes to chat about how we could work together for this year's festival?
+Worth a conversation?
 
 **Amy Allen**
 Big Muddy Inn & Blues Room
+11 Silver Street, Natchez, MS
+[PHONE] | [EMAIL]
+[WEBSITE]
+
+---
+
+## TEMPLATE 4: FESTIVAL ORGANIZERS
+### Event Partnership — Lodging + Shuttle + Content
+
+**Subject:** Big Muddy Inn — lodging partner for [FESTIVAL NAME]?
+
+---
+
+Hi [NAME],
+
+I'm Amy Allen from Big Muddy Inn in Natchez.
+
+I noticed [FESTIVAL NAME] is coming up on [DATES]. We'd love to be a lodging partner.
+
+**What we offer:**
+- [X] rooms available for festival dates
+- Special festival rate for your attendees
+- Blues Room available for after-parties or artist hangs
+- Shuttle coordination if needed (we're right on the river)
+
+**Partnership Options:**
+1. **Simple referral:** You list us, we offer a discount code, you get [X%] referral fee
+2. **Exclusive partner:** We hold rooms for you, you promote us as "official lodging"
+3. **Content trade:** We capture video/photos of the festival for your use; you feature us in marketing
+
+Let me know if any of these interest you — or if you have a different structure in mind.
+
+**Amy Allen**
+Big Muddy Inn
+[PHONE] | [EMAIL]
+
+P.S. — If any artists need a place to stay, we'd love to host them. The Blues Room might even convince them to play an impromptu set...
+
+---
+
+## TEMPLATE 5: ARDENT STUDIOS / STUDIO C
+### Cross-Regional — Memphis to Natchez Corridor
+
+**Subject:** Memphis → Natchez: Music tourism corridor?
+
+---
+
+Hi [NAME],
+
+I'm Amy Allen — singer and co-owner of Big Muddy Inn in Natchez.
+
+I've been thinking about the natural corridor between Memphis and Natchez for music tourism. Ardent → Blues Trail → Big Muddy.
+
+**Rough Idea:**
+- Artists record at Ardent / Studio C
+- While in the region, they play a set at our Blues Room
+- We document it (video content for both of us)
+- Fans can book the "Memphis to Natchez" music trip
+
+No pressure, just wanted to plant the seed. If you ever have artists looking for a unique show opportunity south of Memphis, we've got a stage and an audience.
+
+Open to a call?
+
+**Amy Allen**
+Big Muddy Inn & Blues Room
+Natchez, MS
 [PHONE] | [EMAIL]
 
 ---
 
-## Outreach Tracker
+## FOLLOW-UP TEMPLATES
 
-| Partner | Contact | Email Sent | Follow-up | Response | Status |
-|---------|---------|------------|-----------|----------|--------|
-| King's Tavern | [Name] | [ ] | [ ] | | |
-| [Local Shop 1] | [Name] | [ ] | [ ] | | |
-| [Local Shop 2] | [Name] | [ ] | [ ] | | |
-| Blues Trail | [Name] | [ ] | [ ] | | |
-| Visit Natchez | [Name] | [ ] | [ ] | | |
-| [Festival 1] | [Name] | [ ] | [ ] | | |
-| [Festival 2] | [Name] | [ ] | [ ] | | |
+### If No Response (7 days)
+
+**Subject:** Quick follow-up — Big Muddy partnership
 
 ---
 
-## Partnership Deal Structure
+Hi [NAME],
 
-### Simple Cross-Referral (King's Tavern, Local Shops)
-- No money changes hands
-- Verbal agreement to recommend each other
-- Optional: printed rack cards at each location
-- Review quarterly
+Just floating this back to the top — I sent a note last week about a partnership between [YOUR BUSINESS] and Big Muddy Inn.
 
-### Formal Listing (Blues Trail, Visit Natchez)
-- Submit listing application if required
-- Provide: photos, description, contact info
-- Ask about package opportunities
-- Renew annually
+No pressure, but I wanted to make sure it didn't get buried.
 
-### Event Partnership (Festivals)
-- Negotiate block rate (10-15% off published)
-- Request "official partner" designation
-- Provide promotional assets (logo, photos, copy)
-- Post-event debrief and rebooking
+Worth a quick chat?
+
+**Amy**
 
 ---
 
-## Follow-Up Cadence
+### After Positive Response
 
-| Day | Action |
-|-----|--------|
-| Day 0 | Send initial email |
-| Day 5 | Follow-up if no response |
-| Day 10 | Final touch: "Just want to close the loop" |
-| Day 14 | Move to "not now" list, revisit in 60 days |
+**Subject:** Great! Next steps for [PARTNERSHIP NAME]
 
 ---
 
-## Success Metrics
+Hi [NAME],
 
-| Metric | Target |
-|--------|--------|
-| Emails sent | 8-10 |
-| Response rate | 50%+ |
-| Meetings booked | 4+ |
-| Partnerships confirmed | 3+ |
-| Timeline | 14 days |
+So glad you're interested!
 
----
+Here's what I'm thinking for next steps:
 
-## Research To-Do (Before Sending)
+1. Quick call or coffee to align on details ([PROPOSE 2-3 TIMES])
+2. I'll draft a simple one-pager summarizing what we agreed
+3. We launch with a joint post / announcement
 
-- [ ] Find King's Tavern owner/manager name
-- [ ] Identify 3-4 local shops for portrait exchange
-- [ ] Find Mississippi Blues Trail contact
-- [ ] Find Visit Natchez tourism contact
-- [ ] Identify 2-3 upcoming Natchez-area festivals
-- [ ] Get correct email addresses for all
+Does [DATE/TIME] work for you?
+
+**Amy**
 
 ---
 
-*3 partners in 14 days. Amy's relationships are the asset—these templates just make it easy to start the conversation.*
+## TRACKING SPREADSHEET
+
+| Partner | Contact | Email Sent | Response | Status | Follow-up Date |
+|---------|---------|------------|----------|--------|----------------|
+| King's Tavern | | | | | |
+| [Shop 1] | | | | | |
+| [Shop 2] | | | | | |
+| [Shop 3] | | | | | |
+| Blues Trail | | | | | |
+| [Festival 1] | | | | | |
+| Studio C / Ardent | | | | | |
+
+**Status Options:** Sent / No Response / Interested / Meeting Scheduled / Confirmed / Declined
+
+---
+
+*Prepared for Big Muddy Inn*
+*January 26, 2026*

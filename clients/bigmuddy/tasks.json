@@ -14,44 +14,7 @@
     "label": "Rescue Mode",
     "timeline": "10-day triage + 30-day stabilize"
   },
-  "features": [
-    {
-      "id": "bmi-001",
-      "task": "GBP Post: River Fog Morning",
-      "description": "Create atmospheric GBP post showcasing morning Mississippi River views. Use Southern Gothic voice. Include location keywords.",
-      "type": "content",
-      "priority": "P2",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
-      "id": "bmi-004",
-      "task": "Local Citation Audit",
-      "description": "Audit and update NAP consistency across top 20 local directories. Flag any incorrect listings for correction.",
-      "type": "seo",
-      "priority": "P2",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
-      "id": "bmi-005",
-      "task": "Blues Room Event Calendar Post",
-      "description": "Create GBP event for upcoming Amy Allen performance. Include atmospheric description, ticket info, and Blues Room ambiance.",
-      "type": "content",
-      "priority": "P2",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    }
-  ],
+  "features": [],
   "completedFeatures": [
     {
       "id": "bmi-002",
@@ -136,6 +99,42 @@
       "completedAt": "2026-01-26T14:45:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/bigmuddy/outputs/bmi-P0-005_partnership_outreach.md"
+    },
+    {
+      "id": "bmi-001",
+      "task": "GBP Post: River Fog Morning",
+      "description": "Create atmospheric GBP post showcasing morning Mississippi River views. Use Southern Gothic voice. Include location keywords.",
+      "type": "content",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T14:50:00.000Z",
+      "completedAt": "2026-01-26T14:52:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/bigmuddy/outputs/bmi-001_gbp_river_fog.md"
+    },
+    {
+      "id": "bmi-004",
+      "task": "Local Citation Audit",
+      "description": "Audit and update NAP consistency across top 20 local directories. Flag any incorrect listings for correction.",
+      "type": "seo",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T14:55:00.000Z",
+      "completedAt": "2026-01-26T14:58:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/bigmuddy/outputs/bmi-004_citation_audit.md"
+    },
+    {
+      "id": "bmi-005",
+      "task": "Blues Room Event Calendar Post",
+      "description": "Create GBP event for upcoming Amy Allen performance. Include atmospheric description, ticket info, and Blues Room ambiance.",
+      "type": "content",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T15:00:00.000Z",
+      "completedAt": "2026-01-26T15:03:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/bigmuddy/outputs/bmi-005_blues_room_event.md"
     }
   ],
   "contacts": [
@@ -170,6 +169,6 @@
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T14:45:00.000Z",
-  "lastAgentRun": "2026-01-26T14:45:00.000Z"
+  "updatedAt": "2026-01-26T15:03:00.000Z",
+  "lastAgentRun": "2026-01-26T15:03:00.000Z"
 }
