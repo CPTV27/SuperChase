@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "s2p-003",
-      "task": "Cold Outreach Campaign Setup",
-      "description": "Create email sequence (3 emails) targeting architects at firms with renovation projects. Include value prop focused on preventing change orders.",
-      "type": "outreach",
-      "priority": "P2",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "s2p-004",
       "task": "Point Cloud Processing Tutorial",
       "description": "Write technical blog post explaining point cloud to BIM workflow. Include screenshots, accuracy specs, and comparison to traditional methods.",
@@ -76,9 +64,21 @@
       "completedAt": "2026-01-26T12:15:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/s2p/outputs/s2p-002_linkedin_week4.md"
+    },
+    {
+      "id": "s2p-003",
+      "task": "Cold Outreach Campaign Setup",
+      "description": "Create email sequence (3 emails) targeting architects at firms with renovation projects. Include value prop focused on preventing change orders.",
+      "type": "outreach",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T12:20:00.000Z",
+      "completedAt": "2026-01-26T12:25:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-003_cold_outreach_sequence.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T12:15:00.000Z",
-  "lastAgentRun": "2026-01-26T12:15:00.000Z"
+  "updatedAt": "2026-01-26T12:25:00.000Z",
+  "lastAgentRun": "2026-01-26T12:25:00.000Z"
 }
