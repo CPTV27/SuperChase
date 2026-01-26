@@ -1,307 +1,267 @@
 # BEARSVILLE STUDIOS DOCUMENTARY — CREATIVE BRIEF
-## A Studio C / Utopia Bearsville Production
+## Utopia Studios / 44 Films Production
 
 ---
 
 ## 🎬 PROJECT OVERVIEW
 
-**Working Title:** "Bearsville" (or "The Cathedral in the Woods")
-**Subject:** Bearsville Studios — the legendary recording studio built by Albert Grossman in Woodstock, NY
+**Working Title:** "Bearsville" (or "The House That Albert Built" / TBD)
+**Subject:** The history and legacy of Bearsville Studios, Woodstock, NY
 **Format:** Feature Documentary (75-90 minutes)
-**Production Entity:** Studio C / Utopia Bearsville
-**Executive Producers:** Chase Pierson, Pete Kagan, Sam Erickson
+**Production Entity:** Utopia Studios
+**Executive Producers:** Pete Kagan (Utopia), Sam Erickson (44 Films)
+**Producer:** Chase Pierson
 
 ---
 
 ## 📋 LOGLINE
 
-> In the woods of Woodstock, Albert Grossman built a cathedral for sound. For five decades, the greatest artists in rock history made their masterpieces here. This is the story of Bearsville Studios — the musicians who shaped it, the magic that happened inside, and the man fighting to keep its legacy alive.
+> The untold story of Bearsville Studios — the legendary Woodstock recording complex built by Albert Grossman that shaped the sound of American music, from The Band to R.E.M. to Sonic Youth — and its resurrection under new ownership determined to honor the legacy while writing the next chapter.
 
 ---
 
-## 🎯 THE HOOK
+## 🎯 THESIS STATEMENT
 
-Bearsville isn't just a studio. It's a time capsule of rock history hidden in the Catskills.
-
-**The Legacy:**
-- Built by Albert Grossman (Bob Dylan's manager, Janis Joplin's manager)
-- Todd Rundgren's home base — where he built Utopia
-- Recording home for: The Band, R.E.M., The Rolling Stones, Patti Smith, Metallica, Jeff Buckley, Phish, Sonic Youth, and dozens more
-- The "cathedral acoustics" that engineers still chase
-
-**The Present:**
-- Pete Kagan — current owner, fighting to preserve and revive the legacy
-- Utopia Bearsville — active studio with modern capabilities
-- The tension: honor the past vs. build the future
-
-**The Story:**
-- How one man's vision created a sanctuary for artists
-- Why Bearsville sounds like nowhere else
-- What happens when a legend passes to new hands
-
----
-
-## 🎤 KEY VOICES
-
-### Primary
-| Name | Role | Access |
-|------|------|--------|
-| **Pete Kagan** | Current owner, Utopia Bearsville | ✅ Confirmed |
-| **Sam Erickson** | EP, former Sony exec, 44 Films | ✅ Confirmed |
-| **Todd Rundgren** | Artist, built Utopia here | Target |
-
-### Secondary (Artists who recorded at Bearsville)
-| Name | Connection | Status |
-|------|------------|--------|
-| R.E.M. members | Recorded here | Target |
-| Patti Smith | Recorded here | Target |
-| Phish members | Recorded here | Target |
-| The Band members/estates | Recorded here | Research |
-
-### Engineers & Staff
-| Name | Role | Status |
-|------|------|--------|
-| [Research needed] | Original engineers | Target |
-| [Research needed] | Session musicians | Target |
-| [Research needed] | Studio managers | Target |
-
-### Historians & Context
-| Name | Role | Status |
-|------|------|--------|
-| [Woodstock historian] | Local context | Target |
-| [Music journalist] | Industry perspective | Target |
-| Albert Grossman estate | Archives, rights | Research |
+Bearsville Studios wasn't just a recording facility — it was a philosophy. Albert Grossman built a creative sanctuary where artists could escape the industry machine and make music on their own terms. This documentary argues that the spirit of Bearsville — artist autonomy, sonic experimentation, and creative community — is more relevant than ever, and that Pete Kagan's Utopia is carrying that torch forward.
 
 ---
 
 ## 📖 THREE-ACT STRUCTURE
 
-### ACT I: THE VISION (20-25 min)
-**"A Cathedral in the Woods"**
+### ACT I: THE VISION (25-30 min)
+**"The House That Albert Built"**
 
-- **Open with:** The studio today — morning light through the windows, dust in the air, the room waiting
-- **Introduce:** Pete Kagan walking the grounds, setting up for a session
-- **The question:** "What makes this place special?"
-- **Flashback:** Albert Grossman's vision — building a sanctuary away from the industry
-- **The Woodstock context:** The scene, the artists, the moment
-- **Key story:** Todd Rundgren discovering the space, building Utopia
-- **End Act I:** First major recording session — the magic is real
+- **Open with:** Aerial of Bearsville complex today, then archival footage of the 1970s glory days
+- **Introduce:** Albert Grossman — who he was, why he mattered, why he built Bearsville
+- **The Woodstock connection:** Dylan, The Band, the myth and reality
+- **Building the dream:** The studios, the restaurant, the theater, the artist compound
+- **Peak era:** The recordings that defined generations (The Band, Todd Rundgren, The Isley Brothers, Meat Loaf)
+- **End Act I:** Albert's death in 1986 — the beginning of uncertainty
 
-### ACT II: THE GOLDEN ERA (35-40 min)
-**"Where the Masters Made Their Masterpieces"**
+### ACT II: THE WILDERNESS (30-35 min)
+**"What Do You Do With a Cathedral?"**
 
-- **The recordings:** Album-by-album journey through the classics made here
-  - The Band sessions
-  - R.E.M.'s breakthrough
-  - The deep cuts and hidden gems
-- **The sound:** Engineers explaining the "Bearsville sound"
-- **The culture:** What it was like to live and work here
-- **The decline:** Grossman's death, the industry changing, the lean years
-- **Midpoint turn:** The studio goes dark
+- **Post-Albert era:** Sally Grossman carries on, but the industry changes
+- **The 90s renaissance:** R.E.M., Sonic Youth, Jeff Buckley, Dave Matthews — proving Bearsville still had magic
+- **The decline:** Digital revolution, studio economics collapse, Bearsville goes quiet
+- **The dark years:** Facility deteriorates, future uncertain
+- **The question:** What happens to sacred spaces when their purpose seems obsolete?
+- **Midpoint turn:** Pete Kagan discovers Bearsville
 
-### ACT III: THE RESURRECTION (20-25 min)
-**"New Masters in an Old Cathedral"**
+### ACT III: RESURRECTION (25-30 min)
+**"Utopia"**
 
-- **Pete's story:** How he came to own it, why he couldn't let it die
-- **The restoration:** Bringing the studio back to life
-- **Modern sessions:** New artists discovering the magic
-- **The tension:** Honoring legacy vs. staying relevant
-- **Sam's perspective:** What Bearsville means to the industry
-- **Resolution:** A new session beginning — the cycle continues
-- **Final image:** Empty studio at golden hour, then the lights come on
+- **Pete's vision:** Why buy a legendary studio in the streaming age?
+- **The restoration:** Bringing the rooms back to life (the API console, the cathedral room)
+- **New philosophy:** Artist residencies, modern technology honoring analog legacy
+- **Current sessions:** Who's recording now, what they're making
+- **The community:** Bearsville Theater, the creative ecosystem
+- **Full circle:** How Utopia embodies Albert's original vision — artist-first, quality obsessed
+- **Final image:** A new band loading in, the next chapter beginning
 
 ---
 
-## 🎨 VISUAL APPROACH
+## 🎤 KEY INTERVIEW SUBJECTS
 
-**Reference Films:**
-- *Sound City* (Dave Grohl) — for studio-as-character approach
-- *Muscle Shoals* — for sense of place and mythology
-- *The Wrecking Crew* — for archival integration
+### Confirmed / High-Access
+| Name | Role | Notes |
+|------|------|-------|
+| Pete Kagan | Owner, Utopia Studios | Primary voice — the resurrection story |
+| Sam Erickson | EP, former Sony exec | Industry context, 44 Films partnership |
 
-**Aesthetic:**
-- Cinematic, reverent, warm
-- The studio as sacred space
-- Natural light through windows
-- Intimate interview setups (not talking-head sterile)
-- Archival treated with care (not Ken Burns overuse)
+### Target — Bearsville Alumni
+| Name | Connection | Access Path |
+|------|------------|-------------|
+| Todd Rundgren | Recorded multiple albums, practically lived there | Sam's network? |
+| Members of The Band (Garth Hudson?) | The Basement Tapes connection | |
+| R.E.M. members | Recorded there in 90s | |
+| Sonic Youth members | Recorded there | |
+| Engineers who worked the rooms | Technical/sonic story | Pete's contacts |
 
-**Studio C Production Stack:**
-- Capture at Utopia with full production capability
-- Remote direction for off-site interviews
-- Same-day rough assembly for review
-- AI-assisted transcription and pull-quote identification
+### Target — Context & History
+| Name | Role | Notes |
+|------|------|-------|
+| Music historians | Woodstock/Grossman experts | |
+| Sally Grossman (if accessible) | Albert's widow | Sensitive — research status |
+| Local Woodstock figures | Community context | |
+
+### Target — Current Artists
+| Name | Notes |
+|------|-------|
+| Artists currently recording at Utopia | The "next chapter" story |
 
 ---
 
-## 🎵 MUSIC STRATEGY
+## 🏛 KEY LOCATIONS
 
-**Clearances Needed:**
-- Clips from recordings made at Bearsville (masters)
-- Performance footage if available
-- Original score for connective tissue
-
-**Sam Erickson's Role:**
-- Music supervision
-- Label relationships for clearances
-- Artist access through industry network
-
-**Approach:**
-- Use actual Bearsville recordings as score where possible
-- Original compositions for transitions/mood
-- Avoid needle-drops that feel disconnected from the space
+| Location | Purpose | Access |
+|----------|---------|--------|
+| Utopia Studios (Bearsville complex) | Primary location — all eras | ✅ Owned |
+| Studio A (the big room) | Cathedral acoustics, hero shots | ✅ |
+| Control room / API console | Technical story | ✅ |
+| Bearsville Theater | Community/live performance | ✅ |
+| Albert Grossman's house (if standing) | Historical context | Research |
+| Woodstock town | Geographic/cultural context | Public |
+| The Band's Big Pink | Basement Tapes connection | Research access |
 
 ---
 
 ## 📚 ARCHIVAL SOURCES
 
-### Priority Archives
-1. **Grossman estate** — Photos, documents, possibly footage
-2. **Getty / music photography archives** — Session photos
-3. **Local Woodstock archives** — Context, community history
-4. **Artist personal archives** — Behind-the-scenes material
+### Primary Sources to Secure
+- **Bearsville Records archives** — album artwork, session photos, contracts
+- **Getty / music photo archives** — Grossman, The Band, studio sessions
+- **Local Woodstock historical society** — town history, development
+- **Personal collections** — engineers, artists who worked there
+- **Sally Grossman estate** — if accessible
 
-### Materials to Find
-- [ ] Construction photos (studio being built)
-- [ ] Session photos (artists at work)
-- [ ] Albert Grossman footage/interviews
-- [ ] Todd Rundgren Utopia-era material
-- [ ] Album artwork and marketing materials
-- [ ] Trade publication coverage
+### Materials Needed
+- [ ] 1970s-80s session photography
+- [ ] Albert Grossman photos and footage
+- [ ] The Band / Big Pink era materials
+- [ ] Album cover art (licensing)
+- [ ] Trade publication coverage (Rolling Stone, etc.)
+- [ ] Any existing documentary footage
+
+### Music Licensing Strategy
+- **Sam Erickson to lead** — his industry relationships are key
+- Priority tracks: The Band, Todd Rundgren, R.E.M., Sonic Youth recordings made at Bearsville
+- Budget consideration: Music rights could be significant — build contingency
+- Alternative: Focus on current Utopia recordings (owned/controlled)
+
+---
+
+## 🎨 VISUAL STYLE
+
+**Reference Films:**
+- *Sound City* (Dave Grohl) — studio as character, legacy + revival
+- *Muscle Shoals* — regional studio mythology
+- *Echo in the Canyon* — Laurel Canyon scene doc
+- *The Wrecking Crew* — musicians' perspective
+
+**Aesthetic Approach:**
+- **Interviews:** Cinematic, 2-camera, shot in the actual spaces (control room, live room)
+- **Archival:** Respectful treatment, Ken Burns-light, let images breathe
+- **Present-day:** Observational vérité of sessions in progress
+- **The building:** Architectural cinematography — the space as character
+
+**Studio C Production Stack:**
+- Remote direction capability (for Chase if not on-site)
+- Multicam capture (validated in tech dry-run)
+- Same-day rough assembly for review
+- AI-assisted transcription
+
+---
+
+## 🎵 MUSIC & SOUND
+
+**Score Approach:**
+- Original score recorded AT Utopia (meta-perfect)
+- Licensed Bearsville recordings for key moments
+- Ambient room tone — let the space speak
+
+**Music Supervision:** Sam Erickson
+- His industry relationships = better licensing terms
+- Potential for artist participation in soundtrack
+
+---
+
+## 📅 PRODUCTION TIMELINE
+
+| Phase | Duration | Target Dates | Deliverable |
+|-------|----------|--------------|-------------|
+| Development | 6-8 weeks | Now – Mar 2026 | Locked brief, key attachments, funding structure |
+| Pre-Production | 4-6 weeks | Mar – Apr 2026 | Interview schedule, archival secured |
+| Production | 8-12 weeks | May – Jul 2026 | Principal photography |
+| Post-Production | 12-16 weeks | Aug – Nov 2026 | Picture lock, mix, color |
+| Festival/Release | 2027 | Q1-Q2 2027 | Festival premiere |
 
 ---
 
 ## 💰 BUDGET FRAMEWORK
 
-| Category | Estimate | Notes |
-|----------|----------|-------|
-| Development | $10K–$20K | Research, archival, travel for pre-interviews |
-| Production | $75K–$150K | Crew, equipment, artist travel/fees |
-| Post-Production | $30K–$60K | Edit, color, mix, graphics |
-| Music Rights | $25K–$75K | Highly variable — Sam to negotiate |
-| Archival Rights | $15K–$40K | Photos, footage |
-| Festival & Marketing | $15K–$30K | Submissions, publicity, premiere |
-| Contingency (15%) | $25K–$55K | |
-| **Total Range** | **$200K–$430K** | |
+| Category | Range | Notes |
+|----------|-------|-------|
+| Development | $10K – $25K | Research, travel, initial interviews |
+| Production | $75K – $150K | Crew, equipment, travel for interviews |
+| Post-Production | $30K – $60K | Edit, color, mix, graphics |
+| Music Rights | $25K – $100K+ | Highly variable — Sam to advise |
+| Archival Rights | $15K – $40K | Photos, footage |
+| Festival & Marketing | $15K – $30K | Submissions, press, premiere |
+| Contingency (15%) | Variable | |
+| **Total Range** | **$175K – $400K** | |
 
 **Funding Strategy:**
-- Utopia/Studio C in-kind (studio, equipment, crew time)
-- Pre-sale to music documentary buyers (Sam's network)
-- Grants (NEA, NEH, NY State arts funding)
-- Music industry sponsors (gear companies, labels with catalog ties)
-- Crowdfunding (built-in audience of Bearsville fans)
+- Utopia in-kind contribution (studio time, facilities, some crew)
+- 44 Films partnership (Sam's involvement)
+- Pre-sales to music/doc streamers
+- Grants (NEA, NEH, NY State film incentives)
+- Music industry partners (labels with Bearsville history?)
+- Equity if needed for larger budget
 
 ---
 
 ## 🎯 DISTRIBUTION TARGETS
 
-### Festivals
-| Festival | Fit | Submission |
-|----------|-----|------------|
-| Tribeca | NYC, music docs | April deadline |
-| SXSW | Music + film crossover | October deadline |
-| DOC NYC | Documentary focus | August deadline |
-| Woodstock Film Festival | Local, obvious fit | TBD |
+### Festivals (Sam to prioritize)
+| Festival | Why |
+|----------|-----|
+| Tribeca | NYC proximity, music doc track record |
+| SXSW | Music + film intersection |
+| Toronto (TIFF) | Prestige, doc section strong |
+| DOC NYC | Home turf, doc-specific |
 
-### Broadcast/Streaming
-| Outlet | Angle |
-|--------|-------|
-| PBS American Masters | Legacy artist focus |
-| Netflix | If we get major artist participation |
-| Criterion Channel | Prestige, catalog fit |
-| Paramount+ / MTV | Music doc history |
+### Broadcast / Streaming
+| Outlet | Pitch Angle |
+|--------|-------------|
+| Netflix | Music doc appetite (Muscle Shoals did well) |
+| Hulu | Documentary acquisitions active |
+| Amazon | MGM catalog has music doc history |
+| PBS / American Masters | If we go prestige route |
+| Criterion Channel | If we go arthouse route |
 
-### Theatrical
-- Limited release in NYC, LA, Woodstock area
-- Special screening at Bearsville Theater
-
-### Feed Farm / Studio C
-- Premiere event with live music
-- Behind-the-scenes series
-- Extended interviews for subscribers
+### Owned Distribution
+- Premiere event at Bearsville Theater
+- Feed Farm / CPTV behind-the-scenes content
+- Studio C channel for extras
 
 ---
 
-## ✅ IMMEDIATE NEXT STEPS
+## ✅ NEXT STEPS
 
 ### This Week
-1. **Lock creative direction** — Call with Pete, Sam, Chase
-   - Confirm three-act structure
-   - Prioritize artist outreach list
-   - Assign archival research
+- [ ] Schedule Pete + Sam + Chase creative alignment call
+- [ ] Confirm Sam's involvement level and 44 Films structure
+- [ ] Begin Albert Grossman / Bearsville history research
+- [ ] Tech dry-run at Utopia (validate production pipeline)
 
-2. **Tech dry run at Utopia** — Validate production capability
-   - Use existing checklist (ut-paris-003)
-   - Shoot test interview with Pete
+### Before Production
+- [ ] Lock interview list and begin outreach
+- [ ] Secure key archival sources
+- [ ] Confirm music licensing strategy with Sam
+- [ ] Finalize budget and funding structure
+- [ ] Create detailed production schedule
 
-3. **Begin artist outreach** — Sam leads
-   - Todd Rundgren (highest priority)
-   - R.E.M. connections
-   - Patti Smith connections
-
-### Next 30 Days
-4. **Archival research** — PK/Pete leads
-   - Grossman estate contact
-   - Woodstock historical society
-   - Getty/music photo archives
-
-5. **Budget refinement** — Based on artist/archival commitments
-
-6. **Funding outreach** — Sam + Chase
-   - Pre-sale conversations
-   - Grant applications
-   - Sponsor identification
+### Creative Call Agenda (Pete + Sam + Chase)
+1. **Confirm the story** — Is this framing right? What's missing?
+2. **Interview targets** — Who can Pete/Sam reach? Priority order?
+3. **Music strategy** — What can we license? What do we own?
+4. **44 Films role** — Production partner? EP credit? Financing?
+5. **Timeline reality** — When can we actually shoot?
+6. **Budget conversation** — What's realistic?
 
 ---
 
-## 📞 CREATIVE CALL AGENDA
+## 📞 KEY CONTACTS
 
-**Attendees:** Chase, Pete Kagan, Sam Erickson
-
-1. **Story validation** (15 min)
-   - Does this three-act structure feel right?
-   - What are we missing?
-   - What's the emotional core?
-
-2. **Access inventory** (15 min)
-   - Who can Pete get directly?
-   - Who does Sam know?
-   - What archives exist at Utopia already?
-
-3. **Artist priority list** (10 min)
-   - Who's the must-have?
-   - Who's the realistic get?
-   - Who's the dream get?
-
-4. **Timeline and budget** (10 min)
-   - When do we want to premiere?
-   - What's the realistic budget range?
-   - What's Pete's in-kind contribution?
-
-5. **Assignments** (5 min)
-   - Who does what by when
+| Name | Role | Contact |
+|------|------|---------|
+| Pete Kagan | Utopia Owner | [ADD] |
+| Sam Erickson | 44 Films / EP | [ADD] |
+| Chase Pierson | Producer | [KNOWN] |
 
 ---
 
-## 🎬 WHY THIS MATTERS
-
-Bearsville isn't just a documentary about a recording studio. It's about:
-
-- **Sanctuary** — Artists need places away from the industry to create
-- **Legacy** — What happens when the founders die and new stewards take over
-- **Magic** — Some places just have it, and we don't fully understand why
-- **Persistence** — Pete's fight to keep this alive when easier paths exist
-
-The audience:
-- Music fans who love the artists who recorded here
-- Gear heads and producers who worship the sound
-- Documentary audiences who love behind-the-scenes access
-- Woodstock/Hudson Valley community with local pride
-
-This is *Sound City* for the East Coast. The untold story of rock's hidden cathedral.
-
----
-
-*Prepared for Utopia Bearsville / Studio C*
+*Prepared for Utopia Studios*
 *January 26, 2026*
-*Version: 1.0*
+*Version: 1.1 — Corrected Subject (Bearsville, not Paris)*

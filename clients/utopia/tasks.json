@@ -3,34 +3,22 @@
   "venture": "utopia",
   "ventureName": "Utopia Bearsville",
   "goal": {
-    "id": "paris_documentary",
-    "title": "Paris History Documentary - Development Phase",
-    "target": "Creative brief locked, budget confirmed, tech validated",
-    "current": "Pre-development",
-    "deadline": "2026-02-15"
+    "id": "bearsville_documentary",
+    "title": "Bearsville Studios Documentary - Development Phase",
+    "target": "Creative brief locked, budget confirmed, artist attachments secured",
+    "current": "Development",
+    "deadline": "2026-03-01"
   },
   "strategy": {
     "intensity": "high",
     "label": "Development Sprint",
-    "timeline": "7-day creative lock, 6-week dev phase"
+    "timeline": "Lock creative this week, artist outreach begins immediately"
   },
   "features": [
     {
-      "id": "ut-paris-001",
-      "task": "1-Page Creative Brief",
-      "description": "Logline + thesis + 3-act outline + runtime target for 'History of Paris' documentary. Define the hook: micro-history, cultural thread, or migration story. Ready for PK/Sam/Pete review call.",
-      "type": "creative",
-      "priority": "P0",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
-      "id": "ut-paris-002",
+      "id": "ut-bville-002",
       "task": "Production Budget Estimate",
-      "description": "1-page budget stub with stages: Development / Production / Post / Festival & Distribution / Contingency. Include in-kind Utopia contributions.",
+      "description": "Detailed budget with stages: Development / Production / Post / Music Rights / Archival / Festival & Distribution / Contingency. Include Utopia in-kind contributions.",
       "type": "operations",
       "priority": "P0",
       "passes": false,
@@ -40,33 +28,9 @@
       "output": null
     },
     {
-      "id": "ut-paris-003",
-      "task": "Tech Dry Run Checklist",
-      "description": "1-day tech validation run-of-show: remote direction <1s latency, Situs/CITUS lighting automation, multicam ingest → Blackmagic → OBS, same-day rough assembly (15-30min cut). Include backup paths.",
-      "type": "production",
-      "priority": "P0",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
-      "id": "ut-paris-004",
-      "task": "Rights & Archives Checklist",
-      "description": "Checklist for: archival photos, music clearances, footage rights, interview releases. Initial list of 3 archives to approach (national, local museums, private collections).",
-      "type": "legal",
-      "priority": "P1",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
-      "id": "ut-paris-005",
-      "task": "Archive & Expert Outreach Emails",
-      "description": "Email templates: (a) archive access request, (b) interview invite for subject matter experts, (c) broadcaster/festival tease with sizzle ask.",
+      "id": "ut-bville-004",
+      "task": "Artist Outreach Strategy",
+      "description": "Priority list for artist participation: Todd Rundgren, R.E.M., Patti Smith, Phish. Include Sam's connections and approach strategy for each.",
       "type": "outreach",
       "priority": "P1",
       "passes": false,
@@ -76,11 +40,35 @@
       "output": null
     },
     {
-      "id": "ut-paris-006",
-      "task": "Festival & Broadcaster Target List",
-      "description": "Sam's input: 3 festivals + 3 broadcasters to target. Include cut length preferences, submission deadlines, contact info.",
-      "type": "distribution",
+      "id": "ut-bville-005",
+      "task": "Archival Research Plan",
+      "description": "Identify and prioritize archives: Grossman estate, Getty, Woodstock Historical Society, artist personal collections. Assign research leads.",
+      "type": "research",
       "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-bville-006",
+      "task": "Funding & Pre-Sale Outreach",
+      "description": "List of potential funders: music doc buyers, grants (NEA, NEH, NY State), sponsors (gear companies, labels). Sam leads pre-sale conversations.",
+      "type": "business",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-003",
+      "task": "Residency One-Pager",
+      "description": "One-page PDF for artist residency program. Include pricing, amenities, sample schedule, booking process.",
+      "type": "sales",
+      "priority": "P2",
       "passes": false,
       "assignedAt": null,
       "completedAt": null,
@@ -110,36 +98,49 @@
       "completedAt": null,
       "completedBy": null,
       "output": null
-    },
-    {
-      "id": "ut-003",
-      "task": "Residency One-Pager",
-      "description": "One-page PDF for artist residency program. Include pricing, amenities, sample schedule, booking process.",
-      "type": "sales",
-      "priority": "P1",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
     }
   ],
-  "completedFeatures": [],
+  "completedFeatures": [
+    {
+      "id": "ut-bville-001",
+      "task": "Creative Brief - Bearsville Documentary",
+      "description": "1-page creative brief with logline, three-act structure, key voices, visual approach, distribution targets.",
+      "type": "creative",
+      "priority": "P0",
+      "passes": true,
+      "assignedAt": "2026-01-26T09:00:00.000Z",
+      "completedAt": "2026-01-26T09:10:00.000Z",
+      "completedBy": "BUILDER",
+      "output": "outputs/ut-bearsville-001_creative_brief.md"
+    },
+    {
+      "id": "ut-bville-003",
+      "task": "Tech Dry Run Checklist",
+      "description": "1-day tech validation: remote direction <1s latency, Situs/CITUS lighting automation, multicam ingest, same-day rough assembly.",
+      "type": "production",
+      "priority": "P0",
+      "passes": true,
+      "assignedAt": "2026-01-26T09:00:00.000Z",
+      "completedAt": "2026-01-26T09:05:00.000Z",
+      "completedBy": "BUILDER",
+      "output": "outputs/ut-paris-003_tech_dryrun_checklist.md"
+    }
+  ],
   "team": [
     {
-      "name": "Chase",
+      "name": "Chase Pierson",
       "role": "Executive Producer",
       "notes": "Creative oversight, tech lead, final approvals"
     },
     {
-      "name": "Sam Erikson",
-      "role": "Co-Producer / Industry",
-      "notes": "Label/TV contacts, festival strategy, music supervision"
+      "name": "Pete Kagan",
+      "role": "Executive Producer / Subject",
+      "notes": "Owner of Utopia Bearsville, primary access, on-screen presence"
     },
     {
-      "name": "PK / Pete",
-      "role": "Producer(s)",
-      "notes": "Logistics, local research, archive licensing liaison"
+      "name": "Sam Erickson",
+      "role": "Executive Producer",
+      "notes": "Former Sony exec, 44 Films, industry connections, music supervision, pre-sales"
     },
     {
       "name": "Elijah",
@@ -152,14 +153,33 @@
       "notes": "Ingest, LUTs, assembly"
     }
   ],
-  "techStack": [
-    "Blackmagic → OBS → Restream",
-    "Situs/CITUS lighting automation",
-    "11Labs voice generation",
-    "Claude agents for shot lists, transcriptions",
-    "Asana + AI project management"
+  "artistTargets": [
+    {
+      "name": "Todd Rundgren",
+      "priority": 1,
+      "connection": "Built Utopia here, essential voice",
+      "status": "target"
+    },
+    {
+      "name": "R.E.M. members",
+      "priority": 2,
+      "connection": "Recorded at Bearsville",
+      "status": "target"
+    },
+    {
+      "name": "Patti Smith",
+      "priority": 3,
+      "connection": "Recorded at Bearsville",
+      "status": "target"
+    },
+    {
+      "name": "Phish members",
+      "priority": 4,
+      "connection": "Recorded at Bearsville",
+      "status": "target"
+    }
   ],
   "createdAt": "2026-01-26T08:50:00.000Z",
-  "updatedAt": "2026-01-26T08:50:00.000Z",
-  "lastAgentRun": null
+  "updatedAt": "2026-01-26T09:15:00.000Z",
+  "lastAgentRun": "2026-01-26T09:10:00.000Z"
 }
