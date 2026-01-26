@@ -1636,6 +1636,71 @@ const routes = {
       fs.writeFileSync(queuePath, '[]');
     }
     return { success: true, message: 'Demo data reset' };
+  },
+
+  // ============================================
+  // Artifact Engine API (MARS Phase 2)
+  // ============================================
+
+  // Generate a new artifact from council output
+  'POST /api/artifacts/generate': async (req) => {
+    const body = await parseBody(req);
+    const artifactEngine = await import('./core/artifact-engine.js');
+
+    const { type, business, title, councilOutput, sections, traceId } = body;
+
+    if (!title) {
+      throw new ValidationError('title is required');
+    }
+
+    const artifact = await artifactEngine.generateArtifact({
+      type: type || 'microsite',
+      business: business || 's2p',
+      title,
+      councilOutput,
+      sections,
+      traceId
+    });
+
+    return {
+      success: true,
+      artifact,
+      previewUrl: `/api/artifacts/${artifact.id}/preview`
+    };
+  },
+
+  // List all artifacts with optional filters
+  'GET /api/artifacts': async (req) => {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const artifactEngine = await import('./core/artifact-engine.js');
+
+    const filters = {
+      business: url.searchParams.get('business'),
+      type: url.searchParams.get('type'),
+      status: url.searchParams.get('status')
+    };
+
+    // Remove null values
+    Object.keys(filters).forEach(k => filters[k] === null && delete filters[k]);
+
+    const artifacts = artifactEngine.listArtifacts(filters);
+
+    return {
+      success: true,
+      artifacts,
+      count: artifacts.length,
+      filters
+    };
+  },
+
+  // Get business template configurations
+  'GET /api/artifacts/templates': async () => {
+    const artifactEngine = await import('./core/artifact-engine.js');
+    return {
+      success: true,
+      templates: artifactEngine.BUSINESS_TEMPLATES,
+      types: ['microsite', 'deck', 'one-pager', 'diagram']
+    };
   }
 };
 
@@ -2871,6 +2936,93 @@ async function handleDiscoveryRoute(req, method, pathname) {
 }
 
 /**
+ * Handle dynamic artifact routes
+ * Pattern: /api/artifacts/:id/:action?
+ */
+async function handleArtifactRoute(req, method, pathname) {
+  const artifactMatch = pathname.match(/^\/api\/artifacts\/([^/]+)(?:\/(.*))?$/);
+  if (!artifactMatch) return null;
+
+  const artifactId = artifactMatch[1];
+  const action = artifactMatch[2] || '';
+
+  // Skip if it's a known static route
+  if (['generate', 'templates'].includes(artifactId)) return null;
+
+  const artifactEngine = await import('./core/artifact-engine.js');
+
+  // GET /api/artifacts/:id - Get artifact metadata
+  if (method === 'GET' && !action) {
+    const artifact = artifactEngine.loadArtifactMeta(artifactId);
+    if (!artifact) {
+      return { success: false, error: `Artifact not found: ${artifactId}`, _httpStatus: 404 };
+    }
+    return { success: true, artifact };
+  }
+
+  // GET /api/artifacts/:id/preview - Get artifact HTML
+  if (method === 'GET' && action === 'preview') {
+    const html = artifactEngine.getArtifactHTML(artifactId);
+    if (!html) {
+      return { success: false, error: `Artifact not found: ${artifactId}`, _httpStatus: 404 };
+    }
+    return {
+      _httpStatus: 200,
+      _contentType: 'text/html; charset=utf-8',
+      _rawBody: html
+    };
+  }
+
+  // PUT /api/artifacts/:id - Update artifact
+  if (method === 'PUT' && !action) {
+    const body = await parseBody(req);
+    try {
+      const artifact = artifactEngine.updateArtifact(artifactId, body);
+      return { success: true, artifact };
+    } catch (error) {
+      return { success: false, error: error.message, _httpStatus: error.message.includes('not found') ? 404 : 400 };
+    }
+  }
+
+  // DELETE /api/artifacts/:id - Delete artifact
+  if (method === 'DELETE' && !action) {
+    try {
+      const result = artifactEngine.deleteArtifact(artifactId);
+      return { success: true, ...result };
+    } catch (error) {
+      return { success: false, error: error.message, _httpStatus: error.message.includes('not found') ? 404 : 400 };
+    }
+  }
+
+  // POST /api/artifacts/:id/publish - Publish artifact
+  if (method === 'POST' && action === 'publish') {
+    try {
+      const artifact = artifactEngine.publishArtifact(artifactId);
+      return {
+        success: true,
+        artifact,
+        publicUrl: `/api/artifacts/${artifactId}/preview`
+      };
+    } catch (error) {
+      return { success: false, error: error.message, _httpStatus: error.message.includes('not found') ? 404 : 400 };
+    }
+  }
+
+  // POST /api/artifacts/:id/feedback - Record feedback
+  if (method === 'POST' && action === 'feedback') {
+    const body = await parseBody(req);
+    try {
+      const artifact = artifactEngine.recordFeedback(artifactId, body);
+      return { success: true, artifact, feedback: artifact.feedback };
+    } catch (error) {
+      return { success: false, error: error.message, _httpStatus: error.message.includes('not found') ? 404 : 400 };
+    }
+  }
+
+  return { success: false, error: `Unknown artifact action: ${action}` };
+}
+
+/**
  * Main request handler with logging and metrics
  */
 async function handleRequest(req, res) {
@@ -3050,6 +3202,45 @@ async function handleRequest(req, res) {
       res.writeHead(500, CORS_HEADERS);
       res.end(JSON.stringify({
         error: { code: 'PORTAL_ERROR', message: error.message },
+        requestId
+      }));
+      return;
+    }
+  }
+
+  // Try dynamic artifact routes
+  if (url.pathname.startsWith('/api/artifacts/')) {
+    try {
+      const result = await handleArtifactRoute(req, req.method, url.pathname);
+      if (result) {
+        const duration = Date.now() - startTime;
+        const statusCode = result._httpStatus || 200;
+        const success = statusCode < 400;
+        recordRequest(routeKey, duration, success);
+
+        // Handle raw body responses (like HTML preview)
+        if (result._rawBody !== undefined) {
+          const contentType = result._contentType || 'text/html';
+          res.writeHead(statusCode, { ...CORS_HEADERS, 'Content-Type': contentType });
+          res.end(result._rawBody);
+          return;
+        }
+
+        reqLogger.debug(`Artifact route complete`, { duration, statusCode });
+        delete result._httpStatus;
+        delete result._contentType;
+        delete result._rawBody;
+        res.writeHead(statusCode, CORS_HEADERS);
+        res.end(JSON.stringify({ ...result, requestId }));
+        return;
+      }
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordRequest(routeKey, duration, false);
+      reqLogger.error(`Artifact error: ${error.message}`, { duration });
+      res.writeHead(500, CORS_HEADERS);
+      res.end(JSON.stringify({
+        error: { code: 'ARTIFACT_ERROR', message: error.message },
         requestId
       }));
       return;
@@ -3460,6 +3651,16 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`  POST /api/citations/verify         - Verify a citation`);
   console.log(`  GET  /api/citations/battlecard/:id - Get battlecard citations`);
   console.log(`  POST /api/citations/quality        - Calculate citation quality`);
+  console.log(`  --- Artifact Engine API (MARS Phase 2) ---`);
+  console.log(`  POST /api/artifacts/generate       - Generate new artifact`);
+  console.log(`  GET  /api/artifacts                - List all artifacts`);
+  console.log(`  GET  /api/artifacts/templates      - Get business templates`);
+  console.log(`  GET  /api/artifacts/:id            - Get artifact metadata`);
+  console.log(`  GET  /api/artifacts/:id/preview    - Preview artifact HTML`);
+  console.log(`  PUT  /api/artifacts/:id            - Update artifact`);
+  console.log(`  POST /api/artifacts/:id/publish    - Publish artifact`);
+  console.log(`  POST /api/artifacts/:id/feedback   - Record feedback`);
+  console.log(`  DELETE /api/artifacts/:id          - Delete artifact`);
   console.log(`  --- Observability API ---`);
   console.log(`  GET  /api/observability/prometheus - Prometheus metrics (scrape)`);
   console.log(`  GET  /api/observability/metrics    - JSON metrics`);

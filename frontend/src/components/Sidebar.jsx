@@ -19,7 +19,8 @@ import {
   History,
   Settings,
   UserPlus,
-  BookOpen
+  BookOpen,
+  Globe
 } from 'lucide-react'
 
 // Client/Portfolio Configuration
@@ -52,6 +53,13 @@ const MAIN_NAV = [
     path: '/orchestrator',
     description: 'AI Council Command Center',
     color: '#a855f7'
+  },
+  {
+    label: 'Gallery',
+    icon: Globe,
+    path: '/gallery',
+    description: 'Artifact microsites & decks',
+    color: '#0891b2'
   },
   {
     label: 'Tasks',

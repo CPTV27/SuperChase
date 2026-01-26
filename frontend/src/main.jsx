@@ -19,6 +19,7 @@ import OnboardingWizard from './components/onboarding/OnboardingWizard.jsx'
 import DiscoveryPortal from './pages/DiscoveryPortal.jsx'
 import NotebooksPage from './components/NotebooksPage.jsx'
 import OrchestratorPanel from './components/OrchestratorPanel.jsx'
+import Gallery from './components/Gallery.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -96,6 +97,11 @@ createRoot(document.getElementById('root')).render(
             <Route path="/orchestrator" element={
               <ErrorBoundary title="Orchestrator Error">
                 <OrchestratorPanel />
+              </ErrorBoundary>
+            } />
+            <Route path="/gallery" element={
+              <ErrorBoundary title="Gallery Error">
+                <Gallery />
               </ErrorBoundary>
             } />
 
