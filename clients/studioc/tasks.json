@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "venture": "studioc",
+  "ventureName": "Studio C",
+  "goal": {
+    "id": "podcast_clients",
+    "title": "Podcast Clients Q2",
+    "target": 5,
+    "current": 2,
+    "deadline": "2026-06-30"
+  },
+  "strategy": {
+    "intensity": "medium",
+    "label": "Active Outreach",
+    "timeline": "Quarterly push"
+  },
+  "features": [
+    {
+      "id": "sc-002",
+      "task": "Podcast Production Case Study",
+      "description": "Document recent podcast launch with before/after audio clips. Include client testimonial and transformation story.",
+      "type": "content",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "sc-003",
+      "task": "Mission-Driven Brand Outreach List",
+      "description": "Research and compile list of 25 mission-driven brands/nonprofits that should have podcasts but don't. Include contact info.",
+      "type": "research",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "sc-004",
+      "task": "Documentary Pitch: Local Nonprofit",
+      "description": "Develop mini-doc pitch for a Woodstock-area nonprofit. Include narrative angle, shooting approach, and pro-bono value prop.",
+      "type": "sales",
+      "priority": "P3",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    }
+  ],
+  "completedFeatures": [
+    {
+      "id": "sc-001",
+      "task": "Behind-the-Scenes Instagram Reel",
+      "description": "Create 60-second reel showing studio session in progress. Raw, authentic feel. Pro Tools visible. Cultural Archivist voice.",
+      "type": "content",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T13:00:00.000Z",
+      "completedAt": "2026-01-26T13:05:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/studioc/outputs/sc-001_instagram_reel_bts.md"
+    }
+  ],
+  "createdAt": "2026-01-26T07:00:00.000Z",
+  "updatedAt": "2026-01-26T13:05:00.000Z",
+  "lastAgentRun": "2026-01-26T13:05:00.000Z"
+}
