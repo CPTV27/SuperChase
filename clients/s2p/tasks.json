@@ -14,7 +14,68 @@
     "label": "Accelerated Push",
     "timeline": "60-day close cycles"
   },
-  "features": [],
+  "features": [
+    {
+      "id": "s2p-006",
+      "task": "Open Quote Follow-Up Sequence",
+      "description": "Create 3-email follow-up sequence for stalled quotes. Include urgency triggers, objection pre-handling, and limited-time incentive option. Add personalization fields for project name, quote amount, and original conversation points.",
+      "type": "outreach",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "s2p-007",
+      "task": "Architect Firm Hit List - Northeast Corridor",
+      "description": "Research and compile list of 25 architecture firms in DC-to-Boston corridor with active renovation or historic preservation projects. Include: firm name, website, key contact (name/title/LinkedIn), recent relevant project, and specific outreach angle based on their work.",
+      "type": "research",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "s2p-008",
+      "task": "GC Partnership Pitch Deck",
+      "description": "Create one-page pitch document for general contractors explaining white-label scanning partnership opportunity. Cover: their markup/margin opportunity, our reliability specs and SLAs, referral fee structure, case study proof point, and clear next steps. Professional but direct tone.",
+      "type": "sales",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "s2p-009",
+      "task": "Cost of Waiting Calculator Content",
+      "description": "Create blog post with downloadable calculator showing cost of field measurement errors vs. scanning investment. Include: industry stats on change order frequency/cost, real ROI timeline examples, comparison scenarios (manual vs. scan), and clear CTA. Technical expert voice.",
+      "type": "content",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "s2p-010",
+      "task": "AIA Chapter Event Outreach",
+      "description": "Create outreach package for local AIA chapter speaking/demo opportunities. Include: email template (educational positioning, not sales), list of 5 target AIA chapters in our market, 3 talk title options with descriptions, and follow-up sequence. Goal: book 2 speaking slots in Q1.",
+      "type": "outreach",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    }
+  ],
   "completedFeatures": [
     {
       "id": "s2p-001",
@@ -78,6 +139,6 @@
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T12:45:00.000Z",
+  "updatedAt": "2026-01-26T09:30:00.000Z",
   "lastAgentRun": "2026-01-26T12:45:00.000Z"
 }
