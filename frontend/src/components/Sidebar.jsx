@@ -282,12 +282,12 @@ export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-zinc-800/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-slate-800 flex items-center justify-center shadow-lg shadow-blue-600/25">
               <Brain className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-white">SuperChase</h1>
-              <p className="text-xs text-zinc-500">Executive OS</p>
+              <h1 className="font-bold text-white">Scan2Plan</h1>
+              <p className="text-xs text-zinc-500">Executive Command Center</p>
             </div>
           </div>
 
@@ -376,7 +376,7 @@ export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
 
         {/* Version */}
         <div className="px-4 py-3 text-xs text-zinc-600 border-t border-zinc-800/50 flex items-center justify-between">
-          <span>v3.0 • Executive Cockpit</span>
+          <span>FY26 • Phase 1: Build & Readiness</span>
           <a
             href="https://railway.app/project/cc5389c6-ab33-4c79-8d52-c96f995b8d27"
             target="_blank"

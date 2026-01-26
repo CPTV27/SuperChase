@@ -14,3 +14,4 @@
 {"timestamp":"2026-01-21T00:58:34.617Z","agent":"S2P_Northeast_Scout","tenant":"s2p","finding":"Permit Filed: 123 Historic Ave (Philadelphia)","type":"BD_SIGNAL","status":"NEW_PROSPECT","distanceToMeeting":85,"source":"Philly L&I"}
 {"timestamp":"2026-01-21T00:58:37.037Z","agent":"S2P_Northeast_Scout","tenant":"s2p","finding":"Permit Filed: 123 Historic Ave (Hartford)","type":"BD_SIGNAL","status":"NEW_PROSPECT","distanceToMeeting":85,"source":"Various"}
 {"timestamp":"2026-01-21T00:58:39.479Z","agent":"S2P_Northeast_Scout","tenant":"s2p","finding":"Project Awarded: Hartman-Cox Architects (Washington DC)","type":"BD_SIGNAL","status":"NEW_PROSPECT","distanceToMeeting":85,"source":"Architect Magazine"}
+{"timestamp":"2026-01-22T15:58:30.544Z","agent":"Publisher","finding":"Published content for s2p: 48-Hour As-Builts: How We Guarantee Delivery When Others Take Weeks","type":"CONTENT_PUBLISHED","status":"Complete","marketing_trigger":false,"clientId":"s2p"}

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-01-21T23:09:44.555Z",
-  "briefing": "You have five top tasks for today, the most pressing being the SuperChase approval gates triaging and fixing the Scan2Plan CPQ/proposal UI. Remember to test the Studio C connector after the deployment ID change, and please don't forget to create an updated PRD and establish the media ingest & storage SOP. I'll ensure refreshments are available as you work.",
+  "generatedAt": "2026-01-22T15:58:19.667Z",
+  "briefing": "You have five top priorities today, including testing the Studio C connector after the deployment ID change and creating an updated PRD envisioning HubSpot capabilities. You also need to establish a media ingest and storage SOP, and make progress on the SuperChase approval gates and Scan2Plan CPQ/proposal UI. I will ensure you are uninterrupted as you focus on these tasks.",
   "urgentEmails": [],
   "topTasks": [
     {
@@ -33,7 +33,5 @@
     "urgentCount": 0,
     "taskCount": 5,
     "overdueCount": 0
-  },
-  "testField": "test_1769036985198",
-  "lastUpdated": "2026-01-21T23:09:45.198Z"
+  }
 }

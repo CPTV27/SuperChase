@@ -11,7 +11,8 @@ import {
   Clock,
   AlertTriangle,
   Sparkles,
-  RefreshCw
+  RefreshCw,
+  Crosshair
 } from 'lucide-react'
 import { getTodayFocus } from '../services/api'
 
@@ -217,6 +218,29 @@ export default function TodaysFocus() {
             })}
           </div>
         )}
+
+        {/* Capacity Gauge - Shows Feb/March gap for whale hunting */}
+        <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-slate-800/30 border border-blue-500/20">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs text-zinc-500 uppercase tracking-wide">Q1 Capacity</span>
+            <span className="text-sm font-bold text-blue-400">80% Booked</span>
+          </div>
+          <div className="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-500"
+              style={{ width: '80%' }}
+            />
+          </div>
+          <div className="flex justify-between mt-2 text-xs">
+            <span className="text-emerald-400">Jan: 95%</span>
+            <span className="text-yellow-400">Feb: 80%</span>
+            <span className="text-orange-400">Mar: 65%</span>
+          </div>
+          <div className="mt-2 text-xs text-zinc-400 flex items-center gap-2">
+            <Target className="w-3 h-3 text-blue-400" />
+            <span>20% capacity gap = <span className="text-blue-400 font-medium">Whale Hunting Mode</span></span>
+          </div>
+        </div>
 
         {/* Refresh indicator */}
         <div className="text-xs text-zinc-600 text-center pt-2 border-t border-zinc-800/30">

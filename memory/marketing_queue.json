@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-01-21T22:35:00.000Z",
+  "lastUpdated": "2026-01-22T15:58:30.544Z",
   "pending": [
     "brief_s2p_20260121"
   ],
@@ -11,7 +11,7 @@
     {
       "id": "brief_s2p_20260121",
       "clientId": "s2p",
-      "status": "pending",
+      "status": "published",
       "createdAt": "2026-01-21T22:35:00.000Z",
       "strategist": {
         "topic": "48-Hour As-Builts: How We Guarantee Delivery When Others Take Weeks",
@@ -34,7 +34,20 @@
         ],
         "voiceArchetype": "Technical Expert",
         "toneGuidance": "Confident and precise. Lead with the guarantee, back it up with process. Use specific numbers and tool names. Avoid marketing fluff - let the workflow speak for itself."
-      }
+      },
+      "draftedAt": "2026-01-22T15:58:28.251Z",
+      "draft": {
+        "blog": {
+          "title": "48-Hour As-Builts: How We Guarantee Delivery When Others Take Weeks",
+          "wordCount": 800,
+          "status": "ready"
+        },
+        "thread": {
+          "posts": 4,
+          "status": "ready"
+        }
+      },
+      "publishedAt": "2026-01-22T15:58:30.544Z"
     },
     {
       "id": "brief_bigmuddy_20260120",

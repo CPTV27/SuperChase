@@ -8,6 +8,7 @@ import App from './App.jsx'
 import ReviewQueue from './components/ReviewQueue.jsx'
 import MarketingHub from './components/MarketingHub.jsx'
 import S2PPortal from './components/S2PPortal.jsx'
+import S2PCommand from './components/s2p/S2PCommand.jsx'
 import LimitlessFeed from './components/LimitlessFeed.jsx'
 import GSTDashboard from './components/GSTDashboard.jsx'
 import ScoutInsights from './components/ScoutInsights.jsx'
@@ -46,6 +47,11 @@ createRoot(document.getElementById('root')).render(
             <Route path="/s2p" element={
               <ErrorBoundary title="S2P Portal Error">
                 <S2PPortal />
+              </ErrorBoundary>
+            } />
+            <Route path="/s2p/command" element={
+              <ErrorBoundary title="S2P Command Error">
+                <S2PCommand />
               </ErrorBoundary>
             } />
 

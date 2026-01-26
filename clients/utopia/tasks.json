@@ -1,0 +1,165 @@
+{
+  "version": "1.0.0",
+  "venture": "utopia",
+  "ventureName": "Utopia Bearsville",
+  "goal": {
+    "id": "paris_documentary",
+    "title": "Paris History Documentary - Development Phase",
+    "target": "Creative brief locked, budget confirmed, tech validated",
+    "current": "Pre-development",
+    "deadline": "2026-02-15"
+  },
+  "strategy": {
+    "intensity": "high",
+    "label": "Development Sprint",
+    "timeline": "7-day creative lock, 6-week dev phase"
+  },
+  "features": [
+    {
+      "id": "ut-paris-001",
+      "task": "1-Page Creative Brief",
+      "description": "Logline + thesis + 3-act outline + runtime target for 'History of Paris' documentary. Define the hook: micro-history, cultural thread, or migration story. Ready for PK/Sam/Pete review call.",
+      "type": "creative",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-paris-002",
+      "task": "Production Budget Estimate",
+      "description": "1-page budget stub with stages: Development / Production / Post / Festival & Distribution / Contingency. Include in-kind Utopia contributions.",
+      "type": "operations",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-paris-003",
+      "task": "Tech Dry Run Checklist",
+      "description": "1-day tech validation run-of-show: remote direction <1s latency, Situs/CITUS lighting automation, multicam ingest → Blackmagic → OBS, same-day rough assembly (15-30min cut). Include backup paths.",
+      "type": "production",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-paris-004",
+      "task": "Rights & Archives Checklist",
+      "description": "Checklist for: archival photos, music clearances, footage rights, interview releases. Initial list of 3 archives to approach (national, local museums, private collections).",
+      "type": "legal",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-paris-005",
+      "task": "Archive & Expert Outreach Emails",
+      "description": "Email templates: (a) archive access request, (b) interview invite for subject matter experts, (c) broadcaster/festival tease with sizzle ask.",
+      "type": "outreach",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-paris-006",
+      "task": "Festival & Broadcaster Target List",
+      "description": "Sam's input: 3 festivals + 3 broadcasters to target. Include cut length preferences, submission deadlines, contact info.",
+      "type": "distribution",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-001",
+      "task": "Heritage Post",
+      "description": "Social post celebrating Utopia/Bearsville heritage. Connect to legendary recordings and current capabilities.",
+      "type": "content",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-002",
+      "task": "Console Video",
+      "description": "Short video showcasing API AXS Legacy console and cathedral acoustics. Heritage meets innovation angle.",
+      "type": "content",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "ut-003",
+      "task": "Residency One-Pager",
+      "description": "One-page PDF for artist residency program. Include pricing, amenities, sample schedule, booking process.",
+      "type": "sales",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    }
+  ],
+  "completedFeatures": [],
+  "team": [
+    {
+      "name": "Chase",
+      "role": "Executive Producer",
+      "notes": "Creative oversight, tech lead, final approvals"
+    },
+    {
+      "name": "Sam Erikson",
+      "role": "Co-Producer / Industry",
+      "notes": "Label/TV contacts, festival strategy, music supervision"
+    },
+    {
+      "name": "PK / Pete",
+      "role": "Producer(s)",
+      "notes": "Logistics, local research, archive licensing liaison"
+    },
+    {
+      "name": "Elijah",
+      "role": "Production Ops",
+      "notes": "On-site run, camera/switcher lead"
+    },
+    {
+      "name": "Miles",
+      "role": "Assist / Edit",
+      "notes": "Ingest, LUTs, assembly"
+    }
+  ],
+  "techStack": [
+    "Blackmagic → OBS → Restream",
+    "Situs/CITUS lighting automation",
+    "11Labs voice generation",
+    "Claude agents for shot lists, transcriptions",
+    "Asana + AI project management"
+  ],
+  "createdAt": "2026-01-26T08:50:00.000Z",
+  "updatedAt": "2026-01-26T08:50:00.000Z",
+  "lastAgentRun": null
+}

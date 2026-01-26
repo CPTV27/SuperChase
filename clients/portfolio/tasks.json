@@ -1,0 +1,128 @@
+{
+  "version": "1.0.0",
+  "venture": "portfolio",
+  "ventureName": "Chase Portfolio OS - Infrastructure",
+  "description": "Cross-venture infrastructure tasks that enable all businesses",
+  "goal": {
+    "id": "operational_infrastructure",
+    "title": "Build Repeatable Systems",
+    "target": "Standardized ops across all ventures",
+    "current": "Ad-hoc, context loss, handoff friction",
+    "deadline": "2026-02-15"
+  },
+  "strategy": {
+    "intensity": "high",
+    "label": "Foundation Sprint",
+    "timeline": "72-hour infrastructure push"
+  },
+  "features": [
+    {
+      "id": "infra-001",
+      "task": "Project Bible Template",
+      "description": "Canonical template for every new project: folder structure, naming conventions, LUTs location, contact list, AI thread kickoff format. Required as first step for all projects.",
+      "type": "systems",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null,
+      "impact": ["all ventures", "AI context", "handoffs"]
+    },
+    {
+      "id": "infra-002",
+      "task": "AI Thread Kickoff Template",
+      "description": "First-message template for every Claude/AI thread: includes Project Bible path, one-line intent, relevant file locations, success criteria. Prevents context drift.",
+      "type": "systems",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null,
+      "impact": ["AI governance", "context preservation"]
+    },
+    {
+      "id": "infra-003",
+      "task": "Equipment Inventory & Booking System",
+      "description": "Full inventory audit (cameras, plates, batteries, V-mounts, tripods). Reorder list for missing items. Shared booking calendar for equipment across venues.",
+      "type": "operations",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null,
+      "impact": ["Studio C", "Utopia", "Big Muddy shoots"]
+    },
+    {
+      "id": "infra-004",
+      "task": "10 Core SOPs for Team",
+      "description": "Checklist SOPs for Elijah/Miles: camera kit prep, LUT application, upload flow, client handoff, backup procedures, equipment return, shoot documentation, asset naming, project closeout, emergency contacts.",
+      "type": "training",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null,
+      "impact": ["delegation", "quality", "scalability"]
+    },
+    {
+      "id": "infra-005",
+      "task": "Email Deliverability Setup",
+      "description": "Warm-up outreach account, configure staggered sends, set up open rate monitoring, prepare backup account. Test deliverability before campaigns.",
+      "type": "operations",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null,
+      "impact": ["all outreach campaigns"]
+    },
+    {
+      "id": "infra-006",
+      "task": "Weekly Content Cadence System",
+      "description": "Template for weekly content production: 1 hero, 2 verticals, 3 BTS clips. Assignment workflow for outsourced editing. Feed Farm integration points.",
+      "type": "content",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null,
+      "impact": ["Feed Farm", "all ventures"]
+    },
+    {
+      "id": "infra-007",
+      "task": "Deep Work Calendar Blocks",
+      "description": "Set up 3 recurring 2-4 hour deep work blocks weekly. Configure Asana/calendar to protect these. Delegate interruptions to assistant.",
+      "type": "productivity",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null,
+      "impact": ["personal sustainability", "strategy time"]
+    },
+    {
+      "id": "infra-008",
+      "task": "Travel Batching Map",
+      "description": "Map upcoming travel (Memphis, Natchez, Hudson Valley, Paris doc locations). Identify multi-stop consolidation opportunities. Create trip templates.",
+      "type": "operations",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null,
+      "impact": ["time savings", "cost reduction"]
+    }
+  ],
+  "completedFeatures": [],
+  "createdAt": "2026-01-26T08:55:00.000Z",
+  "updatedAt": "2026-01-26T08:55:00.000Z",
+  "lastAgentRun": null
+}

@@ -92,9 +92,9 @@ function GeorgeOrb({ onClick, isLoading }) {
       <svg viewBox="0 0 100 100" className="w-full h-full">
         <defs>
           <linearGradient id="orbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3b82f6" />
-            <stop offset="50%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#2563eb" />
+            <stop offset="50%" stopColor="#1e40af" />
+            <stop offset="100%" stopColor="#0f172a" />
           </linearGradient>
           <filter id="glow">
             <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -825,8 +825,8 @@ function App() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Page Title - visible on mobile, hidden on desktop where sidebar shows */}
           <div className="flex items-center gap-3 lg:hidden">
-            <h1 className="text-xl font-bold text-white">Dashboard</h1>
-            <span className="text-sm text-zinc-500">v2.4</span>
+            <h1 className="text-xl font-bold text-white">Command Center</h1>
+            <span className="text-sm text-zinc-500">FY26 Q1</span>
           </div>
 
           {/* Controls */}
@@ -1133,7 +1133,7 @@ function App() {
 
       {/* Footer */}
       <footer className="mt-10 text-center text-xs text-zinc-700">
-        SuperChase Executive OS v2.4 • Railway: superchase-production.up.railway.app
+        Scan2Plan Executive Command Center • FY26 Phase 1: Build & Readiness
       </footer>
     </div>
   )
