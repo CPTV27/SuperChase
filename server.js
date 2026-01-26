@@ -133,6 +133,113 @@ const routes = {
     return queryHub.handleQueryRequest(body);
   },
 
+  // Query notebook content (RAG)
+  'POST /api/notebook/query': async (req) => {
+    const body = await parseBody(req);
+    const { query, notebookId, context } = body;
+
+    if (!query) {
+      return { error: 'query is required', status: 400 };
+    }
+
+    try {
+      // Use notes from context if they have content, otherwise fetch from OpenNotebook
+      let notes = (context?.notes || []).filter(n => n.content);
+      let sources = context?.sources || [];
+
+      // Fetch from OpenNotebook if no notes with content provided
+      if (notebookId && notes.length === 0) {
+        const notesRes = await fetch(`http://localhost:5055/api/notes?notebook_id=${notebookId}`);
+        if (notesRes.ok) {
+          const notesList = await notesRes.json();
+          // Fetch full content for each note (up to 10 to avoid overload)
+          notes = await Promise.all(
+            notesList.slice(0, 10).map(async (n) => {
+              try {
+                const fullRes = await fetch(`http://localhost:5055/api/notes/${n.id}`);
+                if (fullRes.ok) {
+                  return await fullRes.json();
+                }
+              } catch (e) {
+                // Ignore fetch errors for individual notes
+              }
+              return n;
+            })
+          );
+        }
+      }
+
+      // Build context from notes
+      const noteContext = notes.map(n =>
+        `[${n.title || 'Untitled'}]: ${n.content || n.preview || ''}`
+      ).join('\n\n');
+
+      // Simple keyword matching for relevant notes
+      const queryLower = query.toLowerCase();
+      const relevantNotes = notes.filter(n =>
+        (n.title?.toLowerCase().includes(queryLower)) ||
+        (n.content?.toLowerCase().includes(queryLower)) ||
+        (n.preview?.toLowerCase().includes(queryLower))
+      );
+
+      // Use LLM to generate response if OpenRouter is configured
+      if (process.env.OPENROUTER_API_KEY && noteContext.length > 0) {
+        const llmRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'anthropic/claude-3.5-haiku',
+            messages: [
+              {
+                role: 'system',
+                content: `You are a helpful assistant answering questions about a knowledge base. Use ONLY the provided context to answer. Cite sources by mentioning the note title in brackets like [Note Title]. If you cannot find relevant information, say so.`
+              },
+              {
+                role: 'user',
+                content: `Context:\n${noteContext}\n\nQuestion: ${query}`
+              }
+            ],
+            max_tokens: 1000,
+          }),
+        });
+
+        if (llmRes.ok) {
+          const llmData = await llmRes.json();
+          const response = llmData.choices?.[0]?.message?.content || 'No response generated.';
+
+          return {
+            response,
+            sources: relevantNotes.slice(0, 5).map(n => ({
+              type: 'note',
+              id: n.id,
+              title: n.title
+            })),
+            status: 200
+          };
+        }
+      }
+
+      // Fallback: return relevant notes directly
+      return {
+        response: relevantNotes.length > 0
+          ? `Found ${relevantNotes.length} relevant note(s):\n\n${relevantNotes.map(n => `**${n.title}**\n${(n.content || n.preview || '').slice(0, 300)}...`).join('\n\n')}`
+          : 'No relevant information found in this notebook.',
+        sources: relevantNotes.slice(0, 5).map(n => ({
+          type: 'note',
+          id: n.id,
+          title: n.title
+        })),
+        status: 200
+      };
+    } catch (error) {
+      logger.error('Notebook query failed', { error: error.message });
+      return { error: error.message, status: 500 };
+    }
+  },
+
   // Get current tasks
   'GET /tasks': async (req) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
@@ -1642,23 +1749,86 @@ const routes = {
   // Artifact Engine API (MARS Phase 2)
   // ============================================
 
-  // Generate a new artifact from council output
+  // Generate a new artifact from council output or notebook notes
   'POST /api/artifacts/generate': async (req) => {
     const body = await parseBody(req);
     const artifactEngine = await import('./core/artifact-engine.js');
 
-    const { type, business, title, councilOutput, sections, traceId } = body;
+    const { type, business, title, councilOutput, sections, traceId, notes, notebookId } = body;
 
     if (!title) {
       throw new ValidationError('title is required');
+    }
+
+    let finalSections = sections || {};
+    let finalCouncilOutput = councilOutput;
+
+    // If notes are provided and we don't have sections, generate them via LLM
+    if (notes && notes.length > 0 && Object.keys(finalSections).length === 0) {
+      const noteContext = notes
+        .filter(n => n.content)
+        .map(n => `[${n.title}]\n${n.content}`)
+        .join('\n\n---\n\n');
+
+      if (process.env.OPENROUTER_API_KEY && noteContext.length > 0) {
+        try {
+          const llmRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              model: 'anthropic/claude-3.5-haiku',
+              messages: [
+                {
+                  role: 'system',
+                  content: `You are generating content for a ${type || 'microsite'} about "${business}". Based on the provided notes, create compelling marketing content. Return ONLY valid JSON with these exact keys:
+{
+  "hero": "Main headline (5-10 words)",
+  "problem": "What problem does this solve? (1-2 sentences)",
+  "solution": "How does this solve it? (1-2 sentences)",
+  "cta": "Call to action button text (2-4 words)",
+  "specifics": {
+    "deliverables": ["item1", "item2", "item3"]
+  }
+}`
+                },
+                {
+                  role: 'user',
+                  content: `Title: ${title}\n\nNotes from ${business}:\n\n${noteContext.slice(0, 8000)}`
+                }
+              ],
+              max_tokens: 500,
+            }),
+          });
+
+          if (llmRes.ok) {
+            const llmData = await llmRes.json();
+            const content = llmData.choices?.[0]?.message?.content || '';
+            // Extract JSON from response
+            const jsonMatch = content.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+              try {
+                finalSections = JSON.parse(jsonMatch[0]);
+                logger.info('Generated sections from notes', { business, sectionKeys: Object.keys(finalSections) });
+              } catch (e) {
+                logger.warn('Failed to parse LLM sections JSON', { error: e.message });
+              }
+            }
+          }
+        } catch (e) {
+          logger.error('LLM section generation failed', { error: e.message });
+        }
+      }
     }
 
     const artifact = await artifactEngine.generateArtifact({
       type: type || 'microsite',
       business: business || 's2p',
       title,
-      councilOutput,
-      sections,
+      councilOutput: finalCouncilOutput,
+      sections: finalSections,
       traceId
     });
 
@@ -3042,8 +3212,8 @@ async function handleRequest(req, res) {
 
   reqLogger.info(`${routeKey}`);
 
-  // Check API key (skip for health, metrics, and openapi)
-  const skipAuth = ['health', 'openapi', 'metrics'].some(p => url.pathname.includes(p));
+  // Check API key (skip for health, metrics, openapi, notebook queries, and artifacts)
+  const skipAuth = ['health', 'openapi', 'metrics', 'api/notebook', 'api/artifacts'].some(p => url.pathname.includes(p));
   if (!skipAuth) {
     if (!verifyApiKey(req)) {
       reqLogger.warn('Authentication failed');

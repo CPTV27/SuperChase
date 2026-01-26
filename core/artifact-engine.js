@@ -80,6 +80,26 @@ export const BUSINESS_TEMPLATES = {
     logo: '/assets/utopia-logo.svg',
     vibe: 'Creative innovation',
     tagline: 'Where Ideas Come to Life'
+  },
+  feedfarm: {
+    name: 'Feed Farm',
+    primaryColor: '#be123c',
+    secondaryColor: '#881337',
+    accentColor: '#fb7185',
+    font: 'Space Mono',
+    logo: '/assets/feedfarm-logo.svg',
+    vibe: 'Punk zine aesthetic',
+    tagline: 'Multi-Channel Content Curation'
+  },
+  'feed-farm': {
+    name: 'Feed Farm',
+    primaryColor: '#be123c',
+    secondaryColor: '#881337',
+    accentColor: '#fb7185',
+    font: 'Space Mono',
+    logo: '/assets/feedfarm-logo.svg',
+    vibe: 'Punk zine aesthetic',
+    tagline: 'Multi-Channel Content Curation'
   }
 };
 
