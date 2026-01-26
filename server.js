@@ -41,6 +41,9 @@ import discovery from './spokes/discovery/index.js';
 // S2P Command Center spoke
 import { handleS2PRoute as handleS2PRouteV2 } from './spokes/s2p/routes.js';
 
+// Orchestrator API (Chase OS v2)
+import { orchestrate, listSessions, getSession, councilConfig } from './core/orchestrate-api.js';
+
 // Library imports for enhanced reliability
 import { createLogger, generateRequestId } from './lib/logger.js';
 import { AppError, ValidationError, AuthenticationError, withFallback } from './lib/errors.js';
@@ -661,6 +664,49 @@ const routes = {
     const body = await parseBody(req);
     const { estimateCost } = await import('./core/llm_council.js');
     return estimateCost(body);
+  },
+
+  // ============================================
+  // Orchestrator API (Chase OS v2)
+  // ============================================
+
+  // Dispatch question to council (non-streaming)
+  'POST /api/orchestrate': async (req) => {
+    const body = await parseBody(req);
+    const { question, businessId, context } = body;
+
+    if (!question) {
+      return { error: 'question is required', _status: 400 };
+    }
+
+    try {
+      const result = await orchestrate(question, { businessId, context });
+      return { success: true, ...result };
+    } catch (error) {
+      return { error: error.message, _status: error.statusCode || 500 };
+    }
+  },
+
+  // Get council configuration
+  'GET /api/orchestrate/council': async () => {
+    return {
+      success: true,
+      council: councilConfig,
+      models: Object.entries(councilConfig).map(([id, m]) => ({
+        id,
+        name: m.name,
+        color: m.color,
+        strength: m.strength
+      }))
+    };
+  },
+
+  // List recent council sessions
+  'GET /api/orchestrate/sessions': async (req) => {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const limit = parseInt(url.searchParams.get('limit')) || 10;
+    const sessions = await listSessions(limit);
+    return { success: true, sessions, count: sessions.length };
   },
 
   // ============================================
@@ -2923,6 +2969,66 @@ async function handleRequest(req, res) {
       }));
     }
     return;
+  }
+
+  // Try dynamic orchestrate routes
+  if (url.pathname.startsWith('/api/orchestrate/')) {
+    // SSE streaming endpoint
+    if (url.pathname === '/api/orchestrate/stream' && req.method === 'POST') {
+      try {
+        const body = await parseBody(req);
+        const { question, businessId, context } = body;
+
+        if (!question) {
+          res.writeHead(400, CORS_HEADERS);
+          res.end(JSON.stringify({ error: 'question is required' }));
+          return;
+        }
+
+        // Set up SSE headers
+        res.writeHead(200, {
+          ...CORS_HEADERS,
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive'
+        });
+
+        // Send events as they happen
+        const sendEvent = (data) => {
+          res.write(`data: ${JSON.stringify(data)}\n\n`);
+        };
+
+        try {
+          const result = await orchestrate(question, { businessId, context }, sendEvent);
+          sendEvent({ type: 'done', result });
+        } catch (error) {
+          sendEvent({ type: 'error', error: error.message });
+        }
+
+        res.end();
+        return;
+      } catch (error) {
+        reqLogger.error(`Orchestrate stream error: ${error.message}`);
+        res.writeHead(500, CORS_HEADERS);
+        res.end(JSON.stringify({ error: error.message }));
+        return;
+      }
+    }
+
+    // Get session by ID
+    const sessionMatch = url.pathname.match(/^\/api\/orchestrate\/sessions\/([^/]+)$/);
+    if (sessionMatch && req.method === 'GET') {
+      const traceId = sessionMatch[1];
+      const session = await getSession(traceId);
+      if (!session) {
+        res.writeHead(404, CORS_HEADERS);
+        res.end(JSON.stringify({ error: `Session not found: ${traceId}` }));
+        return;
+      }
+      res.writeHead(200, CORS_HEADERS);
+      res.end(JSON.stringify({ success: true, session, requestId }));
+      return;
+    }
   }
 
   // Try dynamic portal routes
