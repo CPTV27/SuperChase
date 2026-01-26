@@ -1,0 +1,177 @@
+{
+  "traceId": "research-brief-mkviut6wgr2a",
+  "workflow": "research-brief",
+  "status": "completed",
+  "progress": {
+    "completed": 2,
+    "failed": 0,
+    "total": 2
+  },
+  "duration": 29885,
+  "costs": {
+    "estimated": 0,
+    "actual": 0.020476,
+    "byAgent": {
+      "research": 0.01,
+      "analysis": 0.010476
+    }
+  },
+  "outputs": {
+    "research": {
+      "businessSummary": "Scan2Plan provides advanced reality capture services for the AEC industry, offering faster and more accurate as-built documentation through innovative technologies like Scan-to-BIM and Matterport Virtual Tours.",
+      "targetAudience": {
+        "primary": "AEC professionals including architects, general contractors, facility managers, and building owners",
+        "painPoints": [
+          "Slow and expensive traditional surveys",
+          "Limited software subscriptions requiring special hardware",
+          "Inaccurate as-built documentation"
+        ],
+        "desires": [
+          "Accurate and fast as-built documentation",
+          "Cost-effective solutions",
+          "Seamless integration with existing tools"
+        ]
+      },
+      "brandVoice": {
+        "tone": "professional",
+        "personality": [
+          "Technical Expert",
+          "Confident"
+        ],
+        "vocabulary": [
+          "reality capture",
+          "point cloud",
+          "BIM"
+        ]
+      },
+      "strategicPriorities": [
+        {
+          "priority": "Enhance technical excellence",
+          "rationale": "To establish authority and trust in the AEC industry by showcasing deep industry knowledge and advanced technology use."
+        },
+        {
+          "priority": "Expand market reach",
+          "rationale": "To capture more of the AEC market by addressing key pain points and offering competitive advantages over traditional methods."
+        }
+      ],
+      "competitiveAdvantages": [
+        "48-hour turnaround for accurate as-builts",
+        "Cost savings compared to traditional surveys"
+      ],
+      "contentOpportunities": [
+        "Create detailed service pages and case studies for 3D site scanning",
+        "Develop content around seamless project management tool integration"
+      ],
+      "keyMessages": [
+        "Get guaranteed accurate as-builts in 48 hours or it's free",
+        "Save 80% versus traditional surveying methods",
+        "15-minute site walkthrough with any smartphone"
+      ],
+      "warnings": [
+        "Ensure clarity in communication of technical terms to avoid alienating less technical stakeholders",
+        "Monitor competitors for new offerings that could impact market position"
+      ],
+      "_meta": {
+        "agent": "research",
+        "model": "openai/gpt-4o",
+        "tokens": {
+          "input": 1456,
+          "output": 435
+        },
+        "cost": 0.00799,
+        "timing": 10298,
+        "traceId": "research-brief-mkviut6wgr2a",
+        "contextLoaded": {
+          "brand": true,
+          "config": true,
+          "gst": true,
+          "battlecard": true
+        }
+      }
+    },
+    "analysis": {
+      "summary": "Scan2Plan offers compelling competitive advantages in the AEC industry through fast, accurate and cost-effective reality capture services. The company's innovative technology solutions directly address key market pain points while maintaining significant cost and time advantages over traditional methods. Strategic positioning emphasizes technical excellence while making advanced technology accessible.",
+      "findings": [
+        {
+          "finding": "Strong value proposition with 48-hour turnaround and 80% cost savings",
+          "evidence": "Competitive advantages and key messages data showing guaranteed 48-hour delivery and 80% cost reduction vs traditional methods",
+          "confidence": "high",
+          "impact": "high"
+        },
+        {
+          "finding": "Technology accessibility may be underutilized as competitive advantage",
+          "evidence": "15-minute smartphone walkthrough capability mentioned in key messages but not emphasized in strategic priorities",
+          "confidence": "medium",
+          "impact": "high"
+        }
+      ],
+      "classification": {
+        "green": [
+          "Technical excellence focus",
+          "Cost and time savings messaging",
+          "Smartphone accessibility feature"
+        ],
+        "yellow": [
+          "Technical communication complexity",
+          "Market expansion pace",
+          "Competitor monitoring"
+        ],
+        "red": [
+          "Over-reliance on technical jargon",
+          "Ignoring less technical stakeholders"
+        ]
+      },
+      "recommendations": [
+        {
+          "action": "Develop tiered communication strategy for technical/non-technical audiences",
+          "rationale": "Address warning about technical term clarity while maintaining expert positioning",
+          "effort": "medium",
+          "impact": "high",
+          "priority": 1
+        },
+        {
+          "action": "Create case study series highlighting smartphone capture capability",
+          "rationale": "Leverage accessibility advantage while supporting market expansion priority",
+          "effort": "medium",
+          "impact": "high",
+          "priority": 2
+        }
+      ],
+      "risks": [
+        {
+          "risk": "Competitor technology catching up",
+          "likelihood": "high",
+          "impact": "high",
+          "mitigation": "Maintain innovation focus and build strong client relationships beyond technology"
+        },
+        {
+          "risk": "Technical messaging alienating decision makers",
+          "likelihood": "medium",
+          "impact": "high",
+          "mitigation": "Implement dual-track communication strategy with ROI focus for executives"
+        }
+      ],
+      "nextSteps": [
+        "Audit current marketing materials for technical complexity",
+        "Develop executive-focused ROI calculator tool",
+        "Begin case study production highlighting smartphone capture success stories"
+      ],
+      "_meta": {
+        "agent": "Analyst Agent",
+        "model": "anthropic/claude-3.5-sonnet",
+        "tokens": {
+          "input": 1123,
+          "output": 630
+        },
+        "cost": 0.012819,
+        "timing": 19437,
+        "traceId": "research-brief-mkviut6wgr2a"
+      }
+    }
+  },
+  "errors": {},
+  "timings": {
+    "research": 10298,
+    "analysis": 19437
+  }
+}
