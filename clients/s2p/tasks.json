@@ -14,20 +14,7 @@
     "label": "Accelerated Push",
     "timeline": "60-day close cycles"
   },
-  "features": [
-    {
-      "id": "s2p-010",
-      "task": "AIA Chapter Event Outreach",
-      "description": "Create outreach package for local AIA chapter speaking/demo opportunities. Include: email template (educational positioning, not sales), list of 5 target AIA chapters in our market, 3 talk title options with descriptions, and follow-up sequence. Goal: book 2 speaking slots in Q1.",
-      "type": "outreach",
-      "priority": "P2",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    }
-  ],
+  "features": [],
   "completedFeatures": [
     {
       "id": "s2p-001",
@@ -136,9 +123,21 @@
       "completedAt": "2026-01-26T10:08:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/s2p/outputs/s2p-009_cost_of_waiting.md"
+    },
+    {
+      "id": "s2p-010",
+      "task": "AIA Chapter Event Outreach",
+      "description": "Create outreach package for local AIA chapter speaking/demo opportunities. Include: email template (educational positioning, not sales), list of 5 target AIA chapters in our market, 3 talk title options with descriptions, and follow-up sequence. Goal: book 2 speaking slots in Q1.",
+      "type": "outreach",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T10:10:00.000Z",
+      "completedAt": "2026-01-26T10:18:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-010_aia_chapter_outreach.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T10:08:00.000Z",
-  "lastAgentRun": "2026-01-26T10:08:00.000Z"
+  "updatedAt": "2026-01-26T10:18:00.000Z",
+  "lastAgentRun": "2026-01-26T10:18:00.000Z"
 }
