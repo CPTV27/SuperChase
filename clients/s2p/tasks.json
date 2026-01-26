@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "s2p-009",
-      "task": "Cost of Waiting Calculator Content",
-      "description": "Create blog post with downloadable calculator showing cost of field measurement errors vs. scanning investment. Include: industry stats on change order frequency/cost, real ROI timeline examples, comparison scenarios (manual vs. scan), and clear CTA. Technical expert voice.",
-      "type": "content",
-      "priority": "P2",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "s2p-010",
       "task": "AIA Chapter Event Outreach",
       "description": "Create outreach package for local AIA chapter speaking/demo opportunities. Include: email template (educational positioning, not sales), list of 5 target AIA chapters in our market, 3 talk title options with descriptions, and follow-up sequence. Goal: book 2 speaking slots in Q1.",
@@ -136,9 +124,21 @@
       "completedAt": "2026-01-26T09:58:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/s2p/outputs/s2p-008_gc_partnership_pitch.md"
+    },
+    {
+      "id": "s2p-009",
+      "task": "Cost of Waiting Calculator Content",
+      "description": "Create blog post with downloadable calculator showing cost of field measurement errors vs. scanning investment. Include: industry stats on change order frequency/cost, real ROI timeline examples, comparison scenarios (manual vs. scan), and clear CTA. Technical expert voice.",
+      "type": "content",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T10:00:00.000Z",
+      "completedAt": "2026-01-26T10:08:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-009_cost_of_waiting.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T09:58:00.000Z",
-  "lastAgentRun": "2026-01-26T09:58:00.000Z"
+  "updatedAt": "2026-01-26T10:08:00.000Z",
+  "lastAgentRun": "2026-01-26T10:08:00.000Z"
 }
