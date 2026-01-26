@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "venture": "tuthill",
+  "ventureName": "Tuthill Design",
+  "goal": {
+    "id": "high_value_inquiries",
+    "title": "High-Value Inquiries",
+    "target": 10,
+    "current": 3,
+    "deadline": "2026-Q2"
+  },
+  "strategy": {
+    "intensity": "medium",
+    "label": "Authority Building",
+    "timeline": "Steady presence"
+  },
+  "features": [],
+  "completedFeatures": [
+    {
+      "id": "th-002",
+      "task": "Portfolio Case Study: Bedford Hills Renovation",
+      "description": "Narrative case study for recent project. Before/after visual narrative structure. Focus on design decisions, material choices, client journey. Sophisticated, evocative tone.",
+      "type": "content",
+      "priority": "P1",
+      "passes": true,
+      "assignedAt": "2026-01-26T08:42:00.000Z",
+      "completedAt": "2026-01-26T08:45:00.000Z",
+      "completedBy": "BUILDER",
+      "output": "outputs/th-002_bedford_hills_case_study.md"
+    },
+    {
+      "id": "th-001",
+      "task": "Design Philosophy Post: The Alchemy of Space",
+      "description": "Create Instagram post + caption exploring how Tuthill approaches spatial transformation. Use 'Visionary Artist' voice. Include vocabulary: intentional, alchemy, texture, light. Cinematic tone.",
+      "type": "content",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T15:10:00.000Z",
+      "completedAt": "2026-01-26T15:12:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/tuthill/outputs/th-001_alchemy_of_space.md"
+    },
+    {
+      "id": "th-003",
+      "task": "Architect Outreach Email Sequence",
+      "description": "Create 2-email introduction sequence for reaching out to architects as potential referral partners. Professional but warm. Emphasize collaboration, not competition.",
+      "type": "outreach",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T15:15:00.000Z",
+      "completedAt": "2026-01-26T15:18:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/tuthill/outputs/th-003_architect_outreach.md"
+    }
+  ],
+  "createdAt": "2026-01-26T08:30:00.000Z",
+  "updatedAt": "2026-01-26T15:18:00.000Z",
+  "lastAgentRun": "2026-01-26T15:18:00.000Z"
+}
