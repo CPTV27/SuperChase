@@ -1,0 +1,68 @@
+{
+  "id": "tiktok-curation",
+  "name": "The Feed - TikTok Curation Engine",
+  "status": "active",
+  "created": "2026-01-26",
+  "gst": {
+    "goal": "Build a monetizable TikTok curation business generating $500+/mo within 90 days",
+    "strategies": [
+      "Weekly Substack newsletter with curated TikTok content",
+      "Spotify playlist building TikTok-discovered sounds",
+      "Twitter threads driving traffic to newsletter"
+    ],
+    "tactics": [
+      "Hire VA for daily capture ($30/week)",
+      "Publish Issue Zero to build initial list",
+      "Cross-post to Twitter for discovery",
+      "Track sound predictions for credibility"
+    ]
+  },
+  "milestones": [
+    {
+      "name": "Launch",
+      "target": "2026-02-02",
+      "tasks": [
+        "Create Substack account",
+        "Create Spotify playlist", 
+        "Create Google Sheet from template",
+        "Hire VA via Elijah",
+        "Publish Issue Zero"
+      ]
+    },
+    {
+      "name": "First Month",
+      "target": "2026-02-28",
+      "tasks": [
+        "4 newsletter issues published",
+        "100+ Substack subscribers",
+        "500+ Spotify playlist followers",
+        "1 viral Twitter thread"
+      ]
+    },
+    {
+      "name": "Monetization", 
+      "target": "2026-04-01",
+      "tasks": [
+        "Launch paid tier ($5/mo)",
+        "First 20 paid subscribers",
+        "First brand inquiry"
+      ]
+    }
+  ],
+  "economics": {
+    "costs": {
+      "va_weekly": 30,
+      "tools": 0,
+      "substack": 0
+    },
+    "revenue_targets": {
+      "month_1": 0,
+      "month_2": 100,
+      "month_3": 500
+    }
+  },
+  "artifacts": [
+    "outputs/tiktok-curation-sheet-template.md",
+    "outputs/the-feed-substack-template.md"
+  ]
+}
