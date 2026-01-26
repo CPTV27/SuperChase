@@ -16,7 +16,7 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
-import { createLogger } from '../lib/logger.js';
+import { createLogger, generateTraceId } from '../lib/logger.js';
 import { ExternalServiceError, ValidationError, withRetry } from '../lib/errors.js';
 import costController from '../lib/cost-controller.js';
 import councilContext from '../lib/council-context.js';
@@ -51,13 +51,7 @@ function isConfigured() {
   return !!OPENROUTER_API_KEY && OPENROUTER_API_KEY !== 'NEEDS_VALUE';
 }
 
-/**
- * Generate a unique trace ID for the council session
- * @returns {string}
- */
-function generateTraceId() {
-  return `council-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
-}
+// Note: generateTraceId is imported from lib/logger.js for consistency
 
 /**
  * Query a single model via OpenRouter
@@ -414,7 +408,7 @@ async function runCouncil(query, options = {}) {
     skipBudgetCheck = false
   } = options;
 
-  const traceId = generateTraceId();
+  const traceId = generateTraceId('council');
   const startTime = Date.now();
 
   // Estimate cost and run pre-flight checks

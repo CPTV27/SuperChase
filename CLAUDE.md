@@ -72,6 +72,47 @@ Citation System:
   - Confidence levels: HIGH (0.9), MEDIUM (0.7), LOW (0.5)
 ```
 
+### 6. Multi-Agent Orchestrator
+```
+// core/orchestrator.js - DAG-based workflow execution
+// core/agents/ - Reusable agent library
+// core/workflows/ - Pre-defined workflow templates
+
+Agents:
+  - Research: Context gathering from brand.json, config.json, gst.json, battlecards
+  - Copywriter: Content generation in brand voice
+  - Editor: Quality review and refinement
+  - Analyst: Data analysis and strategic insights
+  - Architect: Strategy and offer design
+
+Workflows:
+  - microsite: Research → Analyst → Architect → Copywriter → Editor
+  - content: Research → Analyst → Architect → Copywriter → Editor
+  - research: Research → Analyst
+  - competitive: Research → Analyst → Architect
+
+Features:
+  - Parallel execution of independent agents
+  - HITL checkpoints for human approval
+  - Unified cost tracking across all workflows
+```
+
+### 7. Microsite Generation System
+```
+// spokes/sites/ - Static site generation with Vercel deployment
+// chase-os/src/sites/templates/ - Astro + Tailwind templates
+
+Templates:
+  - landing: Campaign pages, lead capture
+  - portfolio: Project galleries, case studies
+  - service: Service descriptions with pricing
+
+Flow:
+  CLI → Content Loader → Template Engine → Astro Build → Vercel Deploy
+              ↓
+  [brand.json, config.json, gst.json, orchestrator outputs]
+```
+
 ## Directory Structure
 ```
 SuperChase/
@@ -83,7 +124,20 @@ SuperChase/
 │   ├── competitive_intel.js # Level 3 Council: Battlecard generation
 │   ├── content_council.js   # AI Content Factory: Sprint generation
 │   ├── portfolio-manager.js # Business unit CRUD
-│   └── analyzer.js       # Strategic insights
+│   ├── analyzer.js       # Strategic insights
+│   ├── orchestrator.js   # Multi-agent workflow engine
+│   ├── orchestrator-cli.js # CLI for running workflows
+│   ├── agents/           # Reusable agent library
+│   │   ├── base.js       # Agent utilities and LLM client
+│   │   ├── research.js   # Context gathering agent
+│   │   ├── copywriter.js # Content generation agent
+│   │   ├── editor.js     # Quality review agent
+│   │   ├── analyst.js    # Data analysis agent
+│   │   └── architect.js  # Strategy design agent
+│   └── workflows/        # Pre-defined workflow templates
+│       ├── microsite.js  # Microsite generation workflow
+│       ├── content.js    # Content sprint workflow
+│       └── index.js      # Workflow registry
 ├── lib/                   # Shared infrastructure
 │   ├── logger.js         # Structured logging + tracing
 │   ├── errors.js         # Custom errors + retries
@@ -103,7 +157,12 @@ SuperChase/
 │   ├── twitter/          # X.com integration
 │   ├── agency/           # Content factory + HITL
 │   ├── limitless/        # Pendant lifelogs
-│   └── sheets/           # Audit logging
+│   ├── sheets/           # Audit logging
+│   └── sites/            # Microsite generation spoke
+│       ├── content-loader.js # Load brand/config/gst
+│       ├── generator.js  # Template + build pipeline
+│       ├── deployer.js   # Vercel deployment
+│       └── cli.js        # Microsite CLI
 ├── memory/               # Persistent state
 │   ├── battlecards/      # Competitive intel outputs
 │   └── content_sprints/  # Content council outputs
@@ -227,6 +286,30 @@ npm run limitless:search <q> # Search lifelogs for topic
 npm run limitless:test       # Test Limitless API connection
 ```
 
+## Multi-Agent Orchestrator Commands
+```bash
+npm run orchestrate list                    # List workflow templates
+npm run orchestrate agents                  # List available agents
+npm run orchestrate run microsite @tuthill  # Run microsite workflow
+npm run orchestrate run content @s2p        # Run content sprint workflow
+npm run orchestrate -- run microsite @tuthill --dry-run  # Dry run
+```
+
+## Microsite Commands
+```bash
+# Via chase CLI (Python)
+chase microsite templates              # List templates
+chase microsite generate @tuthill landing
+chase microsite preview @tuthill landing
+chase microsite deploy @tuthill landing --prod
+
+# Via npm
+npm run site:templates
+npm run site:generate -- @tuthill landing
+npm run site:preview -- @tuthill landing
+npm run site:deploy -- @tuthill landing --prod
+```
+
 
 ## Development Workflow
 1. Local dev: `cd frontend && npm run dev` (proxies to Railway backend)
@@ -307,6 +390,9 @@ Default theme colors by type:
 - Cost tracking and reporting
 
 ## Memory Log
+- 2026-01-26: Multi-Agent Orchestrator deployed (DAG execution, parallel agents, HITL checkpoints)
+- 2026-01-26: Microsite Generation System deployed (Astro + Tailwind templates, Vercel deployment)
+- 2026-01-26: Agent library created (Research, Copywriter, Editor, Analyst, Architect)
 - 2026-01-21: Level 3 Council deployed (Competitive Intelligence + Content Factory + Citation System)
 - 2026-01-21: 227 tests passing after enterprise refactor
 - 2026-01-21: Documentation rewritten for enterprise positioning

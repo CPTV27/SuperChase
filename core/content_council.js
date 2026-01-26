@@ -15,7 +15,7 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
-import { createLogger } from '../lib/logger.js';
+import { createLogger, generateTraceId } from '../lib/logger.js';
 import { ExternalServiceError, ValidationError, withRetry } from '../lib/errors.js';
 import {
   extractCitations,
@@ -51,12 +51,7 @@ const DEPTH_CONFIG = {
   deep: { hooks: 20, videos: 5, socialPosts: 30, images: 20, includeEmail: true }
 };
 
-/**
- * Generate trace ID
- */
-function generateTraceId() {
-  return `content-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
-}
+// Note: generateTraceId is imported from lib/logger.js for consistency
 
 /**
  * Query model via OpenRouter
@@ -591,7 +586,7 @@ async function runContentCouncil(businessId, options = {}) {
     throw new ExternalServiceError('OpenRouter', 'API key not configured');
   }
 
-  const traceId = generateTraceId();
+  const traceId = generateTraceId('content');
   const startTime = Date.now();
 
   logger.info('Content Council starting', { traceId, businessId, depth });
