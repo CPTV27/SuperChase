@@ -18,8 +18,63 @@ import * as costController from '../lib/cost-controller.js';
 import { ValidationError } from '../lib/errors.js';
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const logger = createLogger({ module: 'orchestrate-api' });
+
+// Load notebook registry
+let notebookRegistry = null;
+async function getNotebookRegistry() {
+  if (notebookRegistry) return notebookRegistry;
+
+  try {
+    const registryPath = path.join(__dirname, '..', 'config', 'notebooks.json');
+    const content = await fs.readFile(registryPath, 'utf-8');
+    notebookRegistry = JSON.parse(content);
+    logger.info('Notebook registry loaded', {
+      orchestrator: notebookRegistry.orchestrator.id,
+      businesses: Object.keys(notebookRegistry.businesses)
+    });
+    return notebookRegistry;
+  } catch (error) {
+    logger.warn('Failed to load notebook registry', { error: error.message });
+    return { orchestrator: null, businesses: {} };
+  }
+}
+
+/**
+ * Detect business mentioned in question
+ * Supports @mentions and keyword detection
+ */
+function detectBusiness(question) {
+  const q = question.toLowerCase();
+
+  // Check for @mentions first
+  const mentionMatch = q.match(/@(s2p|scan2plan|studio-?c|studioc|tuthill|bigmuddy|utopia|cptv)/);
+  if (mentionMatch) {
+    const mention = mentionMatch[1].replace('-', '').replace('scan2plan', 's2p');
+    return mention === 'studioc' ? 'studio-c' : mention;
+  }
+
+  // Check for keywords
+  const businessKeywords = {
+    's2p': ['scan2plan', 'scanning', 'matterport', 'reality capture', 'as-built', 'aec'],
+    'studio-c': ['studio c', 'tiktok', 'content curation', 'the feed', 'substack'],
+    'tuthill': ['tuthill', 'photography', 'virtual staging', 'real estate'],
+    'bigmuddy': ['big muddy', 'inn', 'hospitality', 'cabin'],
+    'utopia': ['utopia', 'music', 'studio', 'recording'],
+    'cptv': ['cptv', 'media', 'television', 'production']
+  };
+
+  for (const [business, keywords] of Object.entries(businessKeywords)) {
+    if (keywords.some(kw => q.includes(kw))) {
+      return business;
+    }
+  }
+
+  return null; // No specific business detected
+}
 
 // Council models - each brings different strengths
 const COUNCIL_MODELS = {
@@ -84,9 +139,12 @@ Output as JSON:
     maxTokens: 500
   });
 
+  // Extract content string from response object
+  const responseText = typeof response === 'object' ? (response.content || '') : response;
+
   try {
     // Extract JSON from response
-    const jsonMatch = response.match(/\{[\s\S]*\}/);
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);
     }
@@ -130,7 +188,7 @@ Keep response under 300 words.`;
   const startTime = Date.now();
 
   try {
-    const response = await queryLLM({
+    const llmResponse = await queryLLM({
       model: member.id,
       prompt,
       temperature: 0.7,
@@ -140,6 +198,9 @@ Keep response under 300 words.`;
 
     const timing = Date.now() - startTime;
 
+    // Extract content string from response object
+    const responseText = typeof llmResponse === 'object' ? (llmResponse.content || '') : llmResponse;
+
     // Notify of completion
     if (onChunk) {
       onChunk({
@@ -147,7 +208,7 @@ Keep response under 300 words.`;
         memberId,
         memberName: member.name,
         color: member.color,
-        response,
+        response: responseText,
         timing
       });
     }
@@ -157,7 +218,7 @@ Keep response under 300 words.`;
       memberName: member.name,
       color: member.color,
       strength: member.strength,
-      response,
+      response: responseText,
       timing,
       model: member.id
     };
@@ -237,7 +298,7 @@ Be direct and actionable. This is for a decision-maker who needs to move fast.`;
 
   const startTime = Date.now();
 
-  const response = await queryLLM({
+  const llmResponse = await queryLLM({
     model: SYNTHESIZER_MODEL,
     prompt: synthesisPrompt,
     temperature: 0.5,
@@ -246,16 +307,19 @@ Be direct and actionable. This is for a decision-maker who needs to move fast.`;
 
   const timing = Date.now() - startTime;
 
+  // Extract content string from response object
+  const synthesisText = typeof llmResponse === 'object' ? (llmResponse.content || '') : llmResponse;
+
   if (onChunk) {
     onChunk({
       type: 'synthesis_complete',
-      synthesis: response,
+      synthesis: synthesisText,
       timing
     });
   }
 
   return {
-    synthesis: response,
+    synthesis: synthesisText,
     timing,
     model: SYNTHESIZER_MODEL
   };
@@ -279,9 +343,13 @@ export async function orchestrate(question, options = {}, onEvent = null) {
     throw new ValidationError('Question is required');
   }
 
+  // Detect business from question or options
+  const detectedBusiness = options.businessId || detectBusiness(question);
+  const registry = await getNotebookRegistry();
+
   // Notify: starting
   if (onEvent) {
-    onEvent({ type: 'start', traceId, question });
+    onEvent({ type: 'start', traceId, question, business: detectedBusiness });
   }
 
   // Pre-flight cost check
@@ -292,13 +360,18 @@ export async function orchestrate(question, options = {}, onEvent = null) {
     throw new ValidationError(`Budget exceeded: ${preFlightResult.reason}`);
   }
 
-  // Create OpenNotebook session
-  let notebookId = null;
-  if (opennotebook.isAvailable()) {
-    notebookId = await opennotebook.initWorkflow(traceId, 'Council Session', {
-      question,
-      businessId: options.businessId
-    });
+  // Determine target notebook
+  // If business detected, use business notebook; otherwise use Orchestrator
+  let targetNotebookId = null;
+  let targetNotebookName = 'Orchestrator';
+
+  if (detectedBusiness && registry.businesses[detectedBusiness]) {
+    targetNotebookId = registry.businesses[detectedBusiness].id;
+    targetNotebookName = registry.businesses[detectedBusiness].name;
+    logger.info('Routing to business notebook', { business: detectedBusiness, notebookId: targetNotebookId });
+  } else if (registry.orchestrator) {
+    targetNotebookId = registry.orchestrator.id;
+    logger.info('Routing to Orchestrator notebook', { notebookId: targetNotebookId });
   }
 
   try {
@@ -344,6 +417,8 @@ export async function orchestrate(question, options = {}, onEvent = null) {
     const result = {
       traceId,
       question,
+      business: detectedBusiness,
+      notebook: targetNotebookName,
       brief,
       council: councilResponses,
       synthesis: synthesis.synthesis,
@@ -356,16 +431,19 @@ export async function orchestrate(question, options = {}, onEvent = null) {
       }
     };
 
-    // Store in OpenNotebook
-    if (notebookId) {
-      await opennotebook.storeAgentOutput(notebookId, 'council-session', result, {
-        timing: totalTime,
-        cost: totalCost
-      });
-      await opennotebook.updateWorkflowStatus(notebookId, 'completed', {
-        question,
-        modelsUsed: result.meta.modelsUsed.length
-      });
+    // Store in business-specific notebook (as a note, not a workflow)
+    if (targetNotebookId && opennotebook.isAvailable()) {
+      try {
+        // Store session as a note in the business notebook
+        await storeToNotebook(targetNotebookId, traceId, question, result);
+
+        // Also store summary in Orchestrator if this was a business-specific query
+        if (detectedBusiness && registry.orchestrator) {
+          await storeOrchestratorSummary(registry.orchestrator.id, traceId, question, detectedBusiness, result);
+        }
+      } catch (error) {
+        logger.warn('Failed to store to notebook', { error: error.message });
+      }
     }
 
     // Store locally
@@ -388,12 +466,6 @@ export async function orchestrate(question, options = {}, onEvent = null) {
   } catch (error) {
     logger.error('Orchestration failed', { traceId, error: error.message });
 
-    if (notebookId) {
-      await opennotebook.updateWorkflowStatus(notebookId, 'failed', {
-        error: error.message
-      });
-    }
-
     if (onEvent) {
       onEvent({ type: 'error', error: error.message });
     }
@@ -413,6 +485,113 @@ async function storeResult(traceId, result) {
   await fs.writeFile(filePath, JSON.stringify(result, null, 2));
 
   logger.debug('Result stored', { filePath });
+}
+
+/**
+ * Store council session to business notebook
+ */
+async function storeToNotebook(notebookId, traceId, question, result) {
+  const OPENNOTEBOOK_URL = process.env.OPEN_NOTEBOOK_URL || 'http://localhost:5055';
+
+  try {
+    // Format council responses as readable markdown
+    const councilMarkdown = result.council
+      .filter(c => !c.error)
+      .map(c => `### ${c.memberName}\n${c.response}`)
+      .join('\n\n');
+
+    // Build content as plain text/markdown (OpenNotebook prefers this)
+    const content = `# ${question}
+
+**Trace ID:** ${traceId}
+**Timestamp:** ${new Date().toISOString()}
+**Models:** ${result.meta.successCount}/4 succeeded
+**Cost:** $${result.meta.totalCost?.toFixed(4) || '0'}
+
+---
+
+## Synthesis
+
+${result.synthesis}
+
+---
+
+## Council Responses
+
+${councilMarkdown}
+`;
+
+    const payload = {
+      notebook_id: notebookId,
+      title: `Council: ${question.substring(0, 50)}${question.length > 50 ? '...' : ''}`,
+      content: content,
+      note_type: 'human'
+    };
+
+    logger.info('Sending to notebook', { notebookId, contentLength: content.length, titlePreview: payload.title });
+
+    const response = await fetch(`${OPENNOTEBOOK_URL}/api/notes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      logger.info('Stored to business notebook', { notebookId, traceId });
+    } else {
+      const errorText = await response.text();
+      logger.warn('Business notebook API error', { notebookId, status: response.status, error: errorText, contentPreview: content.substring(0, 100) });
+    }
+  } catch (error) {
+    logger.warn('Failed to store to business notebook', { error: error.message });
+  }
+}
+
+/**
+ * Store summary in Orchestrator notebook for cross-business visibility
+ */
+async function storeOrchestratorSummary(orchestratorId, traceId, question, business, result) {
+  const OPENNOTEBOOK_URL = process.env.OPEN_NOTEBOOK_URL || 'http://localhost:5055';
+
+  try {
+    // Get synthesis as string (might be object with .content)
+    const synthesisText = typeof result.synthesis === 'object'
+      ? (result.synthesis?.content || JSON.stringify(result.synthesis))
+      : (result.synthesis || '');
+
+    // Extract executive summary from synthesis
+    const summaryMatch = synthesisText.match(/\*\*Executive Summary\*\*[:\s]*([\s\S]*?)(?=\n\n|\*\*|$)/i);
+    const summary = summaryMatch ? summaryMatch[1].trim() : synthesisText.substring(0, 300);
+
+    // Build content as plain markdown
+    const content = `# @${business}: ${question}
+
+**Trace ID:** ${traceId}
+**Timestamp:** ${new Date().toISOString()}
+**Duration:** ${result.meta.totalTime}ms
+**Cost:** $${result.meta.totalCost?.toFixed(4) || '0'}
+
+## Executive Summary
+
+${summary}
+`;
+
+    const response = await fetch(`${OPENNOTEBOOK_URL}/api/notes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        notebook_id: orchestratorId,
+        title: `[${business.toUpperCase()}] ${question.substring(0, 40)}...`,
+        content: content
+      })
+    });
+
+    if (response.ok) {
+      logger.info('Stored summary to Orchestrator', { orchestratorId, business, traceId });
+    }
+  } catch (error) {
+    logger.warn('Failed to store Orchestrator summary', { error: error.message });
+  }
 }
 
 /**

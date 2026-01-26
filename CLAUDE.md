@@ -1,4 +1,4 @@
-# SuperChase OS - Development Guidelines
+# MARS OS - Development Guidelines
 
 ## Project Memory & Context
 - This project uses the `episodic-memory` plugin. Review past session summaries before starting new features.
@@ -10,14 +10,14 @@
 - **Documentation:** Update CONSTRUCTION_LOG.md before implementing architectural changes.
 
 ## Deployment & Health (Railway)
-- Dashboard: https://superchase-dashboard-production.up.railway.app
-- Backend: https://superchase-production.up.railway.app
+- Dashboard: https://mars-dashboard-production.up.railway.app
+- Backend: https://mars-production.up.railway.app
 - **Verification:** Always run `npm test` and `npx playwright test` after deployment.
 
 ---
 
 ## Project Overview
-SuperChase OS is an enterprise-grade AI automation platform with provider-agnostic architecture.
+MARS OS is an enterprise-grade AI automation platform with provider-agnostic architecture.
 
 ## Key Architecture Patterns
 
@@ -115,7 +115,7 @@ Flow:
 
 ## Directory Structure
 ```
-SuperChase/
+MARS/
 ├── server.js              # HTTP API server
 ├── core/                  # Business logic
 │   ├── hub.js            # Classification orchestrator
@@ -173,8 +173,8 @@ SuperChase/
 ```
 
 ## Deployment
-- **Backend**: https://superchase-production.up.railway.app
-- **Frontend**: https://superchase-dashboard-production.up.railway.app
+- **Backend**: https://mars-production.up.railway.app
+- **Frontend**: https://mars-dashboard-production.up.railway.app
 - **Railway Project ID**: cc5389c6-ab33-4c79-8d52-c96f995b8d27
 
 ### Railway Service IDs

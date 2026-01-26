@@ -297,12 +297,12 @@ export default function Sidebar({ isOpen, onToggle, spokeStatus }) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-zinc-800/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-slate-800 flex items-center justify-center shadow-lg shadow-blue-600/25">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-slate-800 flex items-center justify-center shadow-lg shadow-purple-600/25">
               <Brain className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-white">Scan2Plan</h1>
-              <p className="text-xs text-zinc-500">Executive Command Center</p>
+              <h1 className="font-bold text-white">Chase OS</h1>
+              <p className="text-xs text-zinc-500">AI Command Center</p>
             </div>
           </div>
 

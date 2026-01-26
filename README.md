@@ -1,4 +1,4 @@
-# SuperChase OS
+# MARS OS
 
 **AI-Powered Executive Command Center**
 
@@ -152,8 +152,8 @@ Deploy to Railway, Render, or any Node.js host:
 railway up
 
 # Or Docker
-docker build -t superchase .
-docker run -p 3849:3849 superchase
+docker build -t mars .
+docker run -p 3849:3849 mars
 ```
 
 ---
@@ -183,7 +183,7 @@ All tests run on CI before deployment.
 ## Directory Structure
 
 ```
-SuperChase/
+MARS/
 ├── server.js              # HTTP API server
 ├── core/                  # Business logic
 │   ├── hub.js            # Classification orchestrator
@@ -220,4 +220,4 @@ Proprietary. All rights reserved.
 
 ---
 
-**SuperChase OS** — Enterprise AI automation with human oversight.
+**MARS OS** — Enterprise AI automation with human oversight.

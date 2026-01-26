@@ -1,0 +1,45 @@
+{
+  "orchestrator": {
+    "id": "notebook:fe5sb11m1u3xdvnd7i9e",
+    "name": "Orchestrator",
+    "description": "Meta-level aggregator for Chase OS",
+    "role": "aggregator"
+  },
+  "businesses": {
+    "s2p": {
+      "id": "notebook:gt36i9e8rhmr1rtyxmtm",
+      "name": "Scan2Plan",
+      "description": "Council sessions and project analysis"
+    },
+    "studio-c": {
+      "id": "notebook:7qq15ou17gen3t62sqh2",
+      "name": "Studio C",
+      "description": "Creative projects and content council"
+    },
+    "studioc": {
+      "id": "notebook:7qq15ou17gen3t62sqh2",
+      "name": "Studio C",
+      "description": "Creative projects and content council"
+    },
+    "tuthill": {
+      "id": "notebook:3dtog35g3xbx1939axhs",
+      "name": "Tuthill Design",
+      "description": "Strategic planning"
+    },
+    "bigmuddy": {
+      "id": "notebook:r4g89x1kh6h4kbcnclhb",
+      "name": "Big Muddy Inn",
+      "description": "Hospitality operations"
+    },
+    "utopia": {
+      "id": "notebook:64zvlpfr8dxp6372l3dx",
+      "name": "Utopia Studios",
+      "description": "Production planning"
+    },
+    "cptv": {
+      "id": "notebook:sweg8cjpfp54kvlbi3yg",
+      "name": "CPTV",
+      "description": "Media content strategy"
+    }
+  }
+}
