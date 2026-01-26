@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "bmi-P0-004",
-      "task": "3-Email Booking Funnel",
-      "description": "3-email sequence: 1) Story (stay with storytellers), 2) Weekend itinerary (blues + ghosts + riverfront), 3) Booking coupon ($50 off, trackable code). Ready to load into email system.",
-      "type": "outreach",
-      "priority": "P0",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "bmi-P0-005",
       "task": "Partnership Outreach Templates",
       "description": "Email templates for: King's Tavern cross-promo, local shop portrait exchange, Blues Trail managers, festival organizers. Goal: 3 partners in 14 days.",
@@ -136,6 +124,18 @@
       "completedAt": "2026-01-26T14:25:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/bigmuddy/outputs/bmi-P0-003_shoot_brief.md"
+    },
+    {
+      "id": "bmi-P0-004",
+      "task": "3-Email Booking Funnel",
+      "description": "3-email sequence: 1) Story (stay with storytellers), 2) Weekend itinerary (blues + ghosts + riverfront), 3) Booking coupon ($50 off, trackable code). Ready to load into email system.",
+      "type": "outreach",
+      "priority": "P0",
+      "passes": true,
+      "assignedAt": "2026-01-26T14:30:00.000Z",
+      "completedAt": "2026-01-26T14:35:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/bigmuddy/outputs/bmi-P0-004_booking_funnel.md"
     }
   ],
   "contacts": [
