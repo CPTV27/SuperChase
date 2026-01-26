@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "s2p-008",
-      "task": "GC Partnership Pitch Deck",
-      "description": "Create one-page pitch document for general contractors explaining white-label scanning partnership opportunity. Cover: their markup/margin opportunity, our reliability specs and SLAs, referral fee structure, case study proof point, and clear next steps. Professional but direct tone.",
-      "type": "sales",
-      "priority": "P1",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "s2p-009",
       "task": "Cost of Waiting Calculator Content",
       "description": "Create blog post with downloadable calculator showing cost of field measurement errors vs. scanning investment. Include: industry stats on change order frequency/cost, real ROI timeline examples, comparison scenarios (manual vs. scan), and clear CTA. Technical expert voice.",
@@ -136,9 +124,21 @@
       "completedAt": "2026-01-26T09:50:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/s2p/outputs/s2p-007_architect_hit_list.md"
+    },
+    {
+      "id": "s2p-008",
+      "task": "GC Partnership Pitch Deck",
+      "description": "Create one-page pitch document for general contractors explaining white-label scanning partnership opportunity. Cover: their markup/margin opportunity, our reliability specs and SLAs, referral fee structure, case study proof point, and clear next steps. Professional but direct tone.",
+      "type": "sales",
+      "priority": "P1",
+      "passes": true,
+      "assignedAt": "2026-01-26T09:52:00.000Z",
+      "completedAt": "2026-01-26T09:58:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-008_gc_partnership_pitch.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T09:50:00.000Z",
-  "lastAgentRun": "2026-01-26T09:50:00.000Z"
+  "updatedAt": "2026-01-26T09:58:00.000Z",
+  "lastAgentRun": "2026-01-26T09:58:00.000Z"
 }
