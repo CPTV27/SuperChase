@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "s2p-002",
-      "task": "LinkedIn Content Week 4",
-      "description": "Create and schedule 4 LinkedIn posts: 1 technical deep-dive, 1 project showcase, 1 industry insight, 1 engagement post. Use technical expert voice.",
-      "type": "content",
-      "priority": "P2",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "s2p-003",
       "task": "Cold Outreach Campaign Setup",
       "description": "Create email sequence (3 emails) targeting architects at firms with renovation projects. Include value prop focused on preventing change orders.",
@@ -76,9 +64,21 @@
       "completedAt": "2026-01-26T12:05:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/s2p/outputs/s2p-001_historic_case_study.md"
+    },
+    {
+      "id": "s2p-002",
+      "task": "LinkedIn Content Week 4",
+      "description": "Create and schedule 4 LinkedIn posts: 1 technical deep-dive, 1 project showcase, 1 industry insight, 1 engagement post. Use technical expert voice.",
+      "type": "content",
+      "priority": "P2",
+      "passes": true,
+      "assignedAt": "2026-01-26T12:10:00.000Z",
+      "completedAt": "2026-01-26T12:15:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-002_linkedin_week4.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T12:05:00.000Z",
-  "lastAgentRun": "2026-01-26T12:05:00.000Z"
+  "updatedAt": "2026-01-26T12:15:00.000Z",
+  "lastAgentRun": "2026-01-26T12:15:00.000Z"
 }
