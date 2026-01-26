@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "venture": "s2p",
+  "ventureName": "Scan2Plan",
+  "goal": {
+    "id": "revenue_q1",
+    "title": "Q1 Revenue Target",
+    "target": 100000,
+    "current": 45000,
+    "deadline": "2026-03-31"
+  },
+  "strategy": {
+    "intensity": "medium",
+    "label": "Accelerated Push",
+    "timeline": "60-day close cycles"
+  },
+  "features": [
+    {
+      "id": "s2p-002",
+      "task": "LinkedIn Content Week 4",
+      "description": "Create and schedule 4 LinkedIn posts: 1 technical deep-dive, 1 project showcase, 1 industry insight, 1 engagement post. Use technical expert voice.",
+      "type": "content",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "s2p-003",
+      "task": "Cold Outreach Campaign Setup",
+      "description": "Create email sequence (3 emails) targeting architects at firms with renovation projects. Include value prop focused on preventing change orders.",
+      "type": "outreach",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "s2p-004",
+      "task": "Point Cloud Processing Tutorial",
+      "description": "Write technical blog post explaining point cloud to BIM workflow. Include screenshots, accuracy specs, and comparison to traditional methods.",
+      "type": "content",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "s2p-005",
+      "task": "Proposal Template Update",
+      "description": "Update proposal template with new 12-Point Reliability Standard messaging. Add variance control specs and depositioning vs Matterport.",
+      "type": "sales",
+      "priority": "P1",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    }
+  ],
+  "completedFeatures": [
+    {
+      "id": "s2p-001",
+      "task": "Publish Historic Building Case Study",
+      "description": "Create detailed case study showing ROI from recent preservation project. Include before/after deliverables, time savings metrics, and client testimonial.",
+      "type": "content",
+      "priority": "P1",
+      "passes": true,
+      "assignedAt": "2026-01-26T12:00:00.000Z",
+      "completedAt": "2026-01-26T12:05:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-001_historic_case_study.md"
+    }
+  ],
+  "createdAt": "2026-01-26T07:00:00.000Z",
+  "updatedAt": "2026-01-26T12:05:00.000Z",
+  "lastAgentRun": "2026-01-26T12:05:00.000Z"
+}
