@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "s2p-007",
-      "task": "Architect Firm Hit List - Northeast Corridor",
-      "description": "Research and compile list of 25 architecture firms in DC-to-Boston corridor with active renovation or historic preservation projects. Include: firm name, website, key contact (name/title/LinkedIn), recent relevant project, and specific outreach angle based on their work.",
-      "type": "research",
-      "priority": "P1",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "s2p-008",
       "task": "GC Partnership Pitch Deck",
       "description": "Create one-page pitch document for general contractors explaining white-label scanning partnership opportunity. Cover: their markup/margin opportunity, our reliability specs and SLAs, referral fee structure, case study proof point, and clear next steps. Professional but direct tone.",
@@ -136,9 +124,21 @@
       "completedAt": "2026-01-26T09:40:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/s2p/outputs/s2p-006_quote_followup_sequence.md"
+    },
+    {
+      "id": "s2p-007",
+      "task": "Architect Firm Hit List - Northeast Corridor",
+      "description": "Research and compile list of 25 architecture firms in DC-to-Boston corridor with active renovation or historic preservation projects. Include: firm name, website, key contact (name/title/LinkedIn), recent relevant project, and specific outreach angle based on their work.",
+      "type": "research",
+      "priority": "P1",
+      "passes": true,
+      "assignedAt": "2026-01-26T09:42:00.000Z",
+      "completedAt": "2026-01-26T09:50:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-007_architect_hit_list.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T09:40:00.000Z",
-  "lastAgentRun": "2026-01-26T09:40:00.000Z"
+  "updatedAt": "2026-01-26T09:50:00.000Z",
+  "lastAgentRun": "2026-01-26T09:50:00.000Z"
 }
