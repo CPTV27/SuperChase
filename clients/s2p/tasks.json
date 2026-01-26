@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "s2p-006",
-      "task": "Open Quote Follow-Up Sequence",
-      "description": "Create 3-email follow-up sequence for stalled quotes. Include urgency triggers, objection pre-handling, and limited-time incentive option. Add personalization fields for project name, quote amount, and original conversation points.",
-      "type": "outreach",
-      "priority": "P1",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "s2p-007",
       "task": "Architect Firm Hit List - Northeast Corridor",
       "description": "Research and compile list of 25 architecture firms in DC-to-Boston corridor with active renovation or historic preservation projects. Include: firm name, website, key contact (name/title/LinkedIn), recent relevant project, and specific outreach angle based on their work.",
@@ -136,9 +124,21 @@
       "completedAt": "2026-01-26T12:45:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/s2p/outputs/s2p-005_proposal_template.md"
+    },
+    {
+      "id": "s2p-006",
+      "task": "Open Quote Follow-Up Sequence",
+      "description": "Create 3-email follow-up sequence for stalled quotes. Include urgency triggers, objection pre-handling, and limited-time incentive option. Add personalization fields for project name, quote amount, and original conversation points.",
+      "type": "outreach",
+      "priority": "P1",
+      "passes": true,
+      "assignedAt": "2026-01-26T09:35:00.000Z",
+      "completedAt": "2026-01-26T09:40:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-006_quote_followup_sequence.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T09:30:00.000Z",
-  "lastAgentRun": "2026-01-26T12:45:00.000Z"
+  "updatedAt": "2026-01-26T09:40:00.000Z",
+  "lastAgentRun": "2026-01-26T09:40:00.000Z"
 }
