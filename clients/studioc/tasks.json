@@ -14,20 +14,7 @@
     "label": "Active Outreach",
     "timeline": "Quarterly push"
   },
-  "features": [
-    {
-      "id": "sc-004",
-      "task": "Documentary Pitch: Local Nonprofit",
-      "description": "Develop mini-doc pitch for a Woodstock-area nonprofit. Include narrative angle, shooting approach, and pro-bono value prop.",
-      "type": "sales",
-      "priority": "P3",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    }
-  ],
+  "features": [],
   "completedFeatures": [
     {
       "id": "sc-001",
@@ -64,9 +51,21 @@
       "completedAt": "2026-01-26T13:25:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/studioc/outputs/sc-003_outreach_prospect_list.md"
+    },
+    {
+      "id": "sc-004",
+      "task": "Documentary Pitch: Local Nonprofit",
+      "description": "Develop mini-doc pitch for a Woodstock-area nonprofit. Include narrative angle, shooting approach, and pro-bono value prop.",
+      "type": "sales",
+      "priority": "P3",
+      "passes": true,
+      "assignedAt": "2026-01-26T13:30:00.000Z",
+      "completedAt": "2026-01-26T13:35:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/studioc/outputs/sc-004_documentary_pitch.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T13:25:00.000Z",
-  "lastAgentRun": "2026-01-26T13:25:00.000Z"
+  "updatedAt": "2026-01-26T13:35:00.000Z",
+  "lastAgentRun": "2026-01-26T13:35:00.000Z"
 }
