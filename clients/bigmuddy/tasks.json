@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "bmi-P0-002",
-      "task": "Monday Rescue Deck (6 Slides)",
-      "description": "6-slide deck: 1) Situation + immediate recommendation, 2) 30-day priority list, 3) Content plan & shoot brief, 4) Revenue forecast/baseline target, 5) Budget ask, 6) Next steps & approvals.",
-      "type": "strategy",
-      "priority": "P0",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "bmi-P0-003",
       "task": "Town Tour Shoot Brief + Shot List",
       "description": "1-page production brief for 1-day shoot: Amy & Tracy Town Tour. Shot list: 10 hero photos, 3 promos (15s/30s/60s), 5 blog post subjects. Include King's Tavern, juke joint, river, cemetery.",
@@ -136,6 +124,18 @@
       "completedAt": "2026-01-26T14:05:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/bigmuddy/outputs/bmi-P0-001_ota_pricing_fixes.md"
+    },
+    {
+      "id": "bmi-P0-002",
+      "task": "Monday Rescue Deck (6 Slides)",
+      "description": "6-slide deck: 1) Situation + immediate recommendation, 2) 30-day priority list, 3) Content plan & shoot brief, 4) Revenue forecast/baseline target, 5) Budget ask, 6) Next steps & approvals.",
+      "type": "strategy",
+      "priority": "P0",
+      "passes": true,
+      "assignedAt": "2026-01-26T14:10:00.000Z",
+      "completedAt": "2026-01-26T14:15:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/bigmuddy/outputs/bmi-P0-002_rescue_deck.md"
     }
   ],
   "contacts": [
