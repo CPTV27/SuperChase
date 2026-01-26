@@ -17,6 +17,8 @@ import AuditLog from './components/AuditLog.jsx'
 import SettingsPage from './components/SettingsPage.jsx'
 import OnboardingWizard from './components/onboarding/OnboardingWizard.jsx'
 import DiscoveryPortal from './pages/DiscoveryPortal.jsx'
+import NotebooksPage from './components/NotebooksPage.jsx'
+import OrchestratorPanel from './components/OrchestratorPanel.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -84,6 +86,16 @@ createRoot(document.getElementById('root')).render(
             <Route path="/discover/:businessId" element={
               <ErrorBoundary title="Discovery Portal Error">
                 <DiscoveryPortal />
+              </ErrorBoundary>
+            } />
+            <Route path="/notebooks" element={
+              <ErrorBoundary title="Notebooks Error">
+                <NotebooksPage />
+              </ErrorBoundary>
+            } />
+            <Route path="/orchestrator" element={
+              <ErrorBoundary title="Orchestrator Error">
+                <OrchestratorPanel />
               </ErrorBoundary>
             } />
 

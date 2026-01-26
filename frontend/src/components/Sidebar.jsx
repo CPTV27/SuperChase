@@ -18,7 +18,8 @@ import {
   ListTodo,
   History,
   Settings,
-  UserPlus
+  UserPlus,
+  BookOpen
 } from 'lucide-react'
 
 // Client/Portfolio Configuration
@@ -44,6 +45,13 @@ const MAIN_NAV = [
     icon: LayoutDashboard,
     path: '/',
     description: 'Executive Command Center'
+  },
+  {
+    label: 'Orchestrator',
+    icon: Brain,
+    path: '/orchestrator',
+    description: 'AI Council Command Center',
+    color: '#a855f7'
   },
   {
     label: 'Tasks',
@@ -79,6 +87,13 @@ const MAIN_NAV = [
     path: '/onboard',
     description: 'Add new business unit',
     color: '#8b5cf6'
+  },
+  {
+    label: 'Notebooks',
+    icon: BookOpen,
+    path: '/notebooks',
+    description: 'NotebookLM knowledge bases',
+    color: '#f97316'
   },
   {
     label: 'Audit Log',
