@@ -16,18 +16,6 @@
   },
   "features": [
     {
-      "id": "bmi-P0-005",
-      "task": "Partnership Outreach Templates",
-      "description": "Email templates for: King's Tavern cross-promo, local shop portrait exchange, Blues Trail managers, festival organizers. Goal: 3 partners in 14 days.",
-      "type": "outreach",
-      "priority": "P0",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    },
-    {
       "id": "bmi-001",
       "task": "GBP Post: River Fog Morning",
       "description": "Create atmospheric GBP post showcasing morning Mississippi River views. Use Southern Gothic voice. Include location keywords.",
@@ -136,6 +124,18 @@
       "completedAt": "2026-01-26T14:35:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/bigmuddy/outputs/bmi-P0-004_booking_funnel.md"
+    },
+    {
+      "id": "bmi-P0-005",
+      "task": "Partnership Outreach Templates",
+      "description": "Email templates for: King's Tavern cross-promo, local shop portrait exchange, Blues Trail managers, festival organizers. Goal: 3 partners in 14 days.",
+      "type": "outreach",
+      "priority": "P0",
+      "passes": true,
+      "assignedAt": "2026-01-26T14:40:00.000Z",
+      "completedAt": "2026-01-26T14:45:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/bigmuddy/outputs/bmi-P0-005_partnership_outreach.md"
     }
   ],
   "contacts": [
@@ -170,6 +170,6 @@
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T14:05:00.000Z",
-  "lastAgentRun": "2026-01-26T14:05:00.000Z"
+  "updatedAt": "2026-01-26T14:45:00.000Z",
+  "lastAgentRun": "2026-01-26T14:45:00.000Z"
 }
