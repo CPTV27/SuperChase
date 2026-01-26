@@ -103,13 +103,17 @@ test.describe('User Journey Tests', () => {
     // Verify Portfolio Washes section exists in sidebar
     await expect(page.locator('text=PORTFOLIO WASHES').first()).toBeVisible();
 
-    // Verify business units are listed
-    await expect(page.locator('text=Scan2Plan').first()).toBeVisible();
+    // Verify business units are listed in sidebar
     await expect(page.locator('text=Big Muddy Inn').first()).toBeVisible();
     await expect(page.locator('text=Studio C').first()).toBeVisible();
 
-    // Click on a business unit in sidebar to navigate to its GST page
-    await page.locator('text=Scan2Plan').first().click();
+    // Click on Big Muddy Inn in sidebar to navigate to its GST page
+    // (Use Big Muddy Inn since "Scan2Plan" appears in sidebar header too)
+    await page.locator('text=Big Muddy Inn').first().click();
+
+    // Wait for navigation to GST page
+    await page.waitForURL(/\/gst\/bigmuddy/, { timeout: 10000 });
+    await page.waitForLoadState('networkidle');
 
     // Should navigate to GST page with Goals section
     await expect(page.locator('text=Goals').first()).toBeVisible({ timeout: 10000 });
@@ -125,7 +129,7 @@ test.describe('User Journey Tests', () => {
     if (await refreshButton.isVisible()) {
       await refreshButton.click();
       // Page should still be functional
-      await expect(page.locator('text=SuperChase').first()).toBeVisible();
+      await expect(page.locator('text=Scan2Plan').first()).toBeVisible();
     }
   });
 
@@ -135,7 +139,7 @@ test.describe('User Journey Tests', () => {
     await page.goto('/');
 
     // Core content should still be visible
-    await expect(page.locator('text=SuperChase').first()).toBeVisible();
+    await expect(page.locator('text=Scan2Plan').first()).toBeVisible();
     await expect(page.locator('text=Dashboard').first()).toBeVisible();
 
     // Cards should be visible

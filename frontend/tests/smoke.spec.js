@@ -5,9 +5,9 @@ test.describe('SuperChase Dashboard Smoke Tests', () => {
   test('dashboard loads and shows online status', async ({ page }) => {
     await page.goto('/');
 
-    // Wait for app to load - check for SuperChase branding in sidebar
-    await expect(page.locator('text=SuperChase').first()).toBeVisible();
-    await expect(page.locator('text=Executive OS').first()).toBeVisible();
+    // Wait for app to load - check for branding in sidebar
+    await expect(page.locator('text=Scan2Plan').first()).toBeVisible();
+    await expect(page.locator('text=Executive Command Center').first()).toBeVisible();
 
     // Check Dashboard nav item is visible
     await expect(page.locator('text=Dashboard').first()).toBeVisible();
