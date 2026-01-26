@@ -14,20 +14,7 @@
     "label": "Accelerated Push",
     "timeline": "60-day close cycles"
   },
-  "features": [
-    {
-      "id": "s2p-005",
-      "task": "Proposal Template Update",
-      "description": "Update proposal template with new 12-Point Reliability Standard messaging. Add variance control specs and depositioning vs Matterport.",
-      "type": "sales",
-      "priority": "P1",
-      "passes": false,
-      "assignedAt": null,
-      "completedAt": null,
-      "completedBy": null,
-      "output": null
-    }
-  ],
+  "features": [],
   "completedFeatures": [
     {
       "id": "s2p-001",
@@ -76,9 +63,21 @@
       "completedAt": "2026-01-26T12:35:00.000Z",
       "completedBy": "builder-agent",
       "output": "clients/s2p/outputs/s2p-004_point_cloud_tutorial.md"
+    },
+    {
+      "id": "s2p-005",
+      "task": "Proposal Template Update",
+      "description": "Update proposal template with new 12-Point Reliability Standard messaging. Add variance control specs and depositioning vs Matterport.",
+      "type": "sales",
+      "priority": "P1",
+      "passes": true,
+      "assignedAt": "2026-01-26T12:40:00.000Z",
+      "completedAt": "2026-01-26T12:45:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/s2p/outputs/s2p-005_proposal_template.md"
     }
   ],
   "createdAt": "2026-01-26T07:00:00.000Z",
-  "updatedAt": "2026-01-26T12:35:00.000Z",
-  "lastAgentRun": "2026-01-26T12:35:00.000Z"
+  "updatedAt": "2026-01-26T12:45:00.000Z",
+  "lastAgentRun": "2026-01-26T12:45:00.000Z"
 }
