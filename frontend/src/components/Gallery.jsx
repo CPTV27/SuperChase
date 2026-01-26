@@ -25,7 +25,9 @@ import {
  */
 
 const API_KEY = import.meta.env.VITE_API_KEY || '';
-const API_BASE = import.meta.env.VITE_API_BASE || 'https://superchase-production.up.railway.app';
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD
+  ? 'https://superchase-production.up.railway.app'
+  : '');
 
 // Artifact type icons
 const TYPE_ICONS = {
