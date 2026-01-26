@@ -1,0 +1,175 @@
+{
+  "version": "1.0.0",
+  "venture": "bigmuddy",
+  "ventureName": "Big Muddy Inn",
+  "goal": {
+    "id": "revenue_rescue",
+    "title": "Stop Cash Bleed - Revenue Turnaround",
+    "target": "Break-even within 90 days",
+    "current": "Bleeding",
+    "deadline": "2026-04-01"
+  },
+  "strategy": {
+    "intensity": "high",
+    "label": "Rescue Mode",
+    "timeline": "10-day triage + 30-day stabilize"
+  },
+  "features": [
+    {
+      "id": "bmi-P0-002",
+      "task": "Monday Rescue Deck (6 Slides)",
+      "description": "6-slide deck: 1) Situation + immediate recommendation, 2) 30-day priority list, 3) Content plan & shoot brief, 4) Revenue forecast/baseline target, 5) Budget ask, 6) Next steps & approvals.",
+      "type": "strategy",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "bmi-P0-003",
+      "task": "Town Tour Shoot Brief + Shot List",
+      "description": "1-page production brief for 1-day shoot: Amy & Tracy Town Tour. Shot list: 10 hero photos, 3 promos (15s/30s/60s), 5 blog post subjects. Include King's Tavern, juke joint, river, cemetery.",
+      "type": "production",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "bmi-P0-004",
+      "task": "3-Email Booking Funnel",
+      "description": "3-email sequence: 1) Story (stay with storytellers), 2) Weekend itinerary (blues + ghosts + riverfront), 3) Booking coupon ($50 off, trackable code). Ready to load into email system.",
+      "type": "outreach",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "bmi-P0-005",
+      "task": "Partnership Outreach Templates",
+      "description": "Email templates for: King's Tavern cross-promo, local shop portrait exchange, Blues Trail managers, festival organizers. Goal: 3 partners in 14 days.",
+      "type": "outreach",
+      "priority": "P0",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "bmi-001",
+      "task": "GBP Post: River Fog Morning",
+      "description": "Create atmospheric GBP post showcasing morning Mississippi River views. Use Southern Gothic voice. Include location keywords.",
+      "type": "content",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "bmi-004",
+      "task": "Local Citation Audit",
+      "description": "Audit and update NAP consistency across top 20 local directories. Flag any incorrect listings for correction.",
+      "type": "seo",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    },
+    {
+      "id": "bmi-005",
+      "task": "Blues Room Event Calendar Post",
+      "description": "Create GBP event for upcoming Amy Allen performance. Include atmospheric description, ticket info, and Blues Room ambiance.",
+      "type": "content",
+      "priority": "P2",
+      "passes": false,
+      "assignedAt": null,
+      "completedAt": null,
+      "completedBy": null,
+      "output": null
+    }
+  ],
+  "completedFeatures": [
+    {
+      "id": "bmi-002",
+      "task": "Blog: Story Behind Silver Street",
+      "description": "Deep-dive blog post on Natchez Under-the-Hill history and its role in blues heritage. Tie to Big Muddy's location and Blues Room.",
+      "type": "content",
+      "priority": "P1",
+      "passes": true,
+      "assignedAt": "2026-01-26T08:35:00.000Z",
+      "completedAt": "2026-01-26T08:40:00.000Z",
+      "completedBy": "BUILDER",
+      "output": "outputs/bmi-002_silver_street_blog.md"
+    },
+    {
+      "id": "bmi-003",
+      "task": "Review Request Email Sequence",
+      "description": "Create 2-email post-stay sequence requesting reviews. Personal tone from Tracy/Amy. Include direct links to Google, TripAdvisor.",
+      "type": "outreach",
+      "priority": "P1",
+      "passes": true,
+      "assignedAt": "2026-01-26T08:46:00.000Z",
+      "completedAt": "2026-01-26T08:48:00.000Z",
+      "completedBy": "BUILDER",
+      "output": "outputs/bmi-003_review_request_emails.md"
+    },
+    {
+      "id": "bmi-P0-001",
+      "task": "OTA Pricing Quick Fixes Sheet",
+      "description": "1-page sheet for owners: optimize Booking.com/AirBnB/VRBO titles, photos, pricing rules. Weekend multiplier, cleaning fees, minimum stays. Paste-ready content.",
+      "type": "operations",
+      "priority": "P0",
+      "passes": true,
+      "assignedAt": "2026-01-26T14:00:00.000Z",
+      "completedAt": "2026-01-26T14:05:00.000Z",
+      "completedBy": "builder-agent",
+      "output": "clients/bigmuddy/outputs/bmi-P0-001_ota_pricing_fixes.md"
+    }
+  ],
+  "contacts": [
+    {
+      "name": "Amy Allen",
+      "role": "Owner / Singer",
+      "notes": "Leads town tours, performs at Blues Room"
+    },
+    {
+      "name": "Tracy",
+      "role": "Owner",
+      "notes": "Operations and guest experience"
+    },
+    {
+      "name": "Terrell",
+      "role": "Local Musician",
+      "notes": "Partnership potential for events"
+    }
+  ],
+  "localPartners": [
+    {
+      "name": "King's Tavern",
+      "type": "Venue",
+      "status": "target",
+      "notes": "Existing venue for partnership events, weekend music nights"
+    },
+    {
+      "name": "Blues Trail",
+      "type": "Tourism",
+      "status": "target",
+      "notes": "Natchez Stay + Blues Package opportunity"
+    }
+  ],
+  "createdAt": "2026-01-26T07:00:00.000Z",
+  "updatedAt": "2026-01-26T14:05:00.000Z",
+  "lastAgentRun": "2026-01-26T14:05:00.000Z"
+}
